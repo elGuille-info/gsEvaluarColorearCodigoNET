@@ -1,0 +1,89 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<!-- Para .NET core 3.1C <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop"> -->
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>gsEvaluarColorearCodigoNET</RootNamespace>
+    <StartupObject>gsEvaluarColorearCodigoNET.Form1</StartupObject>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Description>Abrir ficheros de Visual Basic o C# para:
+Evaluar si tiene fallos, Compilar, Ejecutar y Colorear (el código y para HTML)
+Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
+(para .NET 5.0 RC1 revisión del 30-sep-2020, iniciado el 20-sep)
+</Description>
+    <Copyright>Copyright Guillermo Som (elGuille), 2020</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Company>elGuille</Company>
+    <Authors>Guillermo Som (elGuille)</Authors>
+    <Version>1.0.0.0</Version>
+    <NeutralLanguage>es-ES</NeutralLanguage>
+    <FileVersion>1.0.0.17</FileVersion>
+    <ApplicationIcon>VSProject_genericproject.Office_Deve.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\clases compartidas\Compilar.Partial.vb" Link="Utilidades\Compilar.Partial.vb" />
+    <Compile Include="..\..\clases compartidas\Compilar.vb" Link="Utilidades\Compilar.vb" />
+    <Compile Include="..\..\clases compartidas\Config.vb" Link="Utilidades\Config.vb" />
+    <Compile Include="..\..\clases compartidas\Extensiones.vb" Link="Utilidades\Extensiones.vb" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <!-- 
+  <ItemGroup>
+    <ProjectReference Include="..\gsColorearNET\gsColorearNET.vbproj" />
+    <ProjectReference Include="..\gsCompilarNET\gsCompilarNET.vbproj" />
+  </ItemGroup>
+-->
+  
+  <ItemGroup>
+    <None Include="gsCompilarEjecutarNET.jpg">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="3.8.0-3.final" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+<!--
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="3.8.0-3.final" />
+    incluye estos 3 paquetes:
+    <PackageReference Include="Microsoft.CodeAnalysis.Compilers" Version="3.8.0-3.final" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.8.0-3.final" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="3.8.0-3.final" />
+-->
+
+  <ItemGroup>
+    <Compile Update="My Project\Resources.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Utilidades\" />
+  </ItemGroup>
+
+</Project>
