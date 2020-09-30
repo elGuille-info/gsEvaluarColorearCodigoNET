@@ -26,8 +26,6 @@ Partial Class FormOpciones
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormOpciones))
         Me.tabControl1 = New System.Windows.Forms.TabControl()
         Me.tabPage1 = New System.Windows.Forms.TabPage()
-        Me.txtIndentar = New System.Windows.Forms.TextBox()
-        Me.Label3 = New System.Windows.Forms.Label()
         Me.chkMostrarLineasHTML = New System.Windows.Forms.CheckBox()
         Me.grbAlEvaluar = New System.Windows.Forms.GroupBox()
         Me.chkColorearEvaluar = New System.Windows.Forms.CheckBox()
@@ -44,6 +42,8 @@ Partial Class FormOpciones
         Me.label1 = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.grbColores = New System.Windows.Forms.GroupBox()
+        Me.txtIndentar = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.comboFuenteTamaño = New System.Windows.Forms.ComboBox()
         Me.comboFuenteNombre = New System.Windows.Forms.ComboBox()
         Me.labelTamaño = New System.Windows.Forms.Label()
@@ -61,6 +61,13 @@ Partial Class FormOpciones
         Me.btnQuitarBuscar = New System.Windows.Forms.Button()
         Me.btnOrdenarBuscar = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.TabPage5 = New System.Windows.Forms.TabPage()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.lstRecortes = New System.Windows.Forms.ListBox()
+        Me.btnQuitarRecortes = New System.Windows.Forms.Button()
+        Me.btnOrdenarRecortes = New System.Windows.Forms.Button()
+        Me.Label4 = New System.Windows.Forms.Label()
         Me.btnAceptar = New System.Windows.Forms.Button()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.toolTip1 = New System.Windows.Forms.ToolTip(Me.components)
@@ -75,6 +82,9 @@ Partial Class FormOpciones
         Me.grbBuscarReemplazar.SuspendLayout()
         Me.grbReemplazar.SuspendLayout()
         Me.grbBuscar.SuspendLayout()
+        Me.TabPage5.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'tabControl1
@@ -86,6 +96,7 @@ Partial Class FormOpciones
         Me.tabControl1.Controls.Add(Me.tabPage2)
         Me.tabControl1.Controls.Add(Me.TabPage3)
         Me.tabControl1.Controls.Add(Me.TabPage4)
+        Me.tabControl1.Controls.Add(Me.TabPage5)
         Me.tabControl1.Location = New System.Drawing.Point(12, 12)
         Me.tabControl1.Name = "tabControl1"
         Me.tabControl1.SelectedIndex = 0
@@ -94,8 +105,6 @@ Partial Class FormOpciones
         '
         'tabPage1
         '
-        Me.tabPage1.Controls.Add(Me.txtIndentar)
-        Me.tabPage1.Controls.Add(Me.Label3)
         Me.tabPage1.Controls.Add(Me.chkMostrarLineasHTML)
         Me.tabPage1.Controls.Add(Me.grbAlEvaluar)
         Me.tabPage1.Controls.Add(Me.chkWordWrap)
@@ -108,23 +117,6 @@ Partial Class FormOpciones
         Me.tabPage1.TabIndex = 0
         Me.tabPage1.Text = "Opciones generales"
         Me.tabPage1.UseVisualStyleBackColor = True
-        '
-        'txtIndentar
-        '
-        Me.txtIndentar.Location = New System.Drawing.Point(147, 195)
-        Me.txtIndentar.Name = "txtIndentar"
-        Me.txtIndentar.Size = New System.Drawing.Size(30, 23)
-        Me.txtIndentar.TabIndex = 6
-        Me.txtIndentar.Text = "4"
-        Me.txtIndentar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'Label3
-        '
-        Me.Label3.Location = New System.Drawing.Point(18, 198)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(123, 20)
-        Me.Label3.TabIndex = 5
-        Me.Label3.Text = "Espacios indentar:"
         '
         'chkMostrarLineasHTML
         '
@@ -299,6 +291,8 @@ Partial Class FormOpciones
         '
         'grbColores
         '
+        Me.grbColores.Controls.Add(Me.txtIndentar)
+        Me.grbColores.Controls.Add(Me.Label3)
         Me.grbColores.Controls.Add(Me.comboFuenteTamaño)
         Me.grbColores.Controls.Add(Me.comboFuenteNombre)
         Me.grbColores.Controls.Add(Me.labelTamaño)
@@ -309,6 +303,23 @@ Partial Class FormOpciones
         Me.grbColores.TabIndex = 0
         Me.grbColores.TabStop = False
         Me.grbColores.Text = "Colorear y fuentes"
+        '
+        'txtIndentar
+        '
+        Me.txtIndentar.Location = New System.Drawing.Point(135, 80)
+        Me.txtIndentar.Name = "txtIndentar"
+        Me.txtIndentar.Size = New System.Drawing.Size(30, 23)
+        Me.txtIndentar.TabIndex = 8
+        Me.txtIndentar.Text = "4"
+        Me.txtIndentar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label3
+        '
+        Me.Label3.Location = New System.Drawing.Point(6, 83)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(123, 20)
+        Me.Label3.TabIndex = 7
+        Me.Label3.Text = "Espacios indentar:"
         '
         'comboFuenteTamaño
         '
@@ -504,6 +515,87 @@ Partial Class FormOpciones
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Selecciona lo que quieras borrar o clasifícalos usando los botones"
         '
+        'TabPage5
+        '
+        Me.TabPage5.Controls.Add(Me.GroupBox2)
+        Me.TabPage5.Location = New System.Drawing.Point(4, 24)
+        Me.TabPage5.Name = "TabPage5"
+        Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage5.Size = New System.Drawing.Size(541, 280)
+        Me.TabPage5.TabIndex = 4
+        Me.TabPage5.Text = "Edición"
+        Me.TabPage5.UseVisualStyleBackColor = True
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.GroupBox3)
+        Me.GroupBox2.Controls.Add(Me.Label4)
+        Me.GroupBox2.Location = New System.Drawing.Point(12, 12)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(517, 256)
+        Me.GroupBox2.TabIndex = 0
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Recortes de edición"
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.lstRecortes)
+        Me.GroupBox3.Controls.Add(Me.btnQuitarRecortes)
+        Me.GroupBox3.Controls.Add(Me.btnOrdenarRecortes)
+        Me.GroupBox3.Location = New System.Drawing.Point(6, 45)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(505, 149)
+        Me.GroupBox3.TabIndex = 3
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Recortes"
+        '
+        'lstRecortes
+        '
+        Me.lstRecortes.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.lstRecortes.FormattingEnabled = True
+        Me.lstRecortes.ItemHeight = 14
+        Me.lstRecortes.Location = New System.Drawing.Point(6, 20)
+        Me.lstRecortes.Name = "lstRecortes"
+        Me.lstRecortes.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
+        Me.lstRecortes.Size = New System.Drawing.Size(493, 88)
+        Me.lstRecortes.TabIndex = 0
+        '
+        'btnQuitarRecortes
+        '
+        Me.btnQuitarRecortes.AutoSize = True
+        Me.btnQuitarRecortes.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnQuitarRecortes.Image = CType(resources.GetObject("btnQuitarRecortes.Image"), System.Drawing.Image)
+        Me.btnQuitarRecortes.Location = New System.Drawing.Point(381, 118)
+        Me.btnQuitarRecortes.Name = "btnQuitarRecortes"
+        Me.btnQuitarRecortes.Size = New System.Drawing.Size(118, 25)
+        Me.btnQuitarRecortes.TabIndex = 2
+        Me.btnQuitarRecortes.Text = "Quitar selección"
+        Me.btnQuitarRecortes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.btnQuitarRecortes.UseVisualStyleBackColor = True
+        '
+        'btnOrdenarRecortes
+        '
+        Me.btnOrdenarRecortes.AutoSize = True
+        Me.btnOrdenarRecortes.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.btnOrdenarRecortes.Image = CType(resources.GetObject("btnOrdenarRecortes.Image"), System.Drawing.Image)
+        Me.btnOrdenarRecortes.Location = New System.Drawing.Point(6, 118)
+        Me.btnOrdenarRecortes.Name = "btnOrdenarRecortes"
+        Me.btnOrdenarRecortes.Size = New System.Drawing.Size(76, 25)
+        Me.btnOrdenarRecortes.TabIndex = 1
+        Me.btnOrdenarRecortes.Text = "Ordenar"
+        Me.btnOrdenarRecortes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.btnOrdenarRecortes.UseVisualStyleBackColor = True
+        '
+        'Label4
+        '
+        Me.Label4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label4.Location = New System.Drawing.Point(6, 19)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(505, 23)
+        Me.Label4.TabIndex = 2
+        Me.Label4.Text = "Selecciona lo que quieras borrar o clasifícalos usando los botones"
+        '
         'btnAceptar
         '
         Me.btnAceptar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -550,6 +642,7 @@ Partial Class FormOpciones
         Me.groupBox1.PerformLayout()
         Me.TabPage3.ResumeLayout(False)
         Me.grbColores.ResumeLayout(False)
+        Me.grbColores.PerformLayout()
         Me.TabPage4.ResumeLayout(False)
         Me.grbBuscarReemplazar.ResumeLayout(False)
         Me.grbBuscarReemplazar.PerformLayout()
@@ -557,6 +650,10 @@ Partial Class FormOpciones
         Me.grbReemplazar.PerformLayout()
         Me.grbBuscar.ResumeLayout(False)
         Me.grbBuscar.PerformLayout()
+        Me.TabPage5.ResumeLayout(False)
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -568,9 +665,6 @@ Partial Class FormOpciones
     Friend chkMatchCase As CheckBox
     Friend chkWholeWord As CheckBox
     Friend chkWordWrap As System.Windows.Forms.CheckBox
-    Friend lstBuscar As ListBox
-    Friend lstFics As System.Windows.Forms.ListBox
-    Friend lstReemplazar As ListBox
     Private btnAceptar As System.Windows.Forms.Button
     Private btnCancelar As System.Windows.Forms.Button
     Private btnOrdenar As System.Windows.Forms.Button
@@ -595,10 +689,20 @@ Partial Class FormOpciones
     Private txtFic As System.Windows.Forms.TextBox
     Friend chkMostrarLineasHTML As CheckBox
     Private grbColores As GroupBox
-    Private txtIndentar As TextBox
-    Private Label3 As Label
-    Friend comboFuenteNombre As ComboBox
     Private labelTamaño As Label
     Private labelFuente As Label
-    Friend comboFuenteTamaño As ComboBox
+    Private WithEvents TabPage5 As TabPage
+    Private WithEvents GroupBox2 As GroupBox
+    Private WithEvents GroupBox3 As GroupBox
+    Private WithEvents btnQuitarRecortes As Button
+    Private WithEvents btnOrdenarRecortes As Button
+    Private WithEvents Label4 As Label
+    Private WithEvents txtIndentar As TextBox
+    Private WithEvents Label3 As Label
+    Private WithEvents lstBuscar As ListBox
+    Private WithEvents lstFics As ListBox
+    Private WithEvents lstReemplazar As ListBox
+    Private WithEvents comboFuenteNombre As ComboBox
+    Private WithEvents comboFuenteTamaño As ComboBox
+    Private WithEvents lstRecortes As ListBox
 End Class

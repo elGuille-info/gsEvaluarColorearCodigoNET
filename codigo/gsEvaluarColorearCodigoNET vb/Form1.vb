@@ -51,6 +51,17 @@
 'v1.0.0.15  30/Sep/20   Recortes para lo último copiado y usarlos para pegar (Ctrl+Shift+V)
 'v1.0.0.16              Arreglando el bug al reemplazar siguiente y no hay más coincidencias
 'v1.0.0.17              Arreglando al seleccionar el lenguaje
+'                       Nuevas pestañas en la ventana de opciones y arreglo bug al eliminar/ordenar
+'                       usando los botones.
+'                       A día de hoy estas son las pestañas y opciones:
+'                       General: Cargar al iniciar, colorear al cargar, mostrar líneas al colorear HTML,
+'                                Al evaluar colorear y compilar el código.
+'                       Ficheros recientes (eliminarlos)
+'                       Colores y fuente: Fuente, Tamaño, indentación
+'                       Buscar/reemplazar: textos de buscar y reemplazar, Comprobar Case y palabra completa
+'                       Edición: recortes de edición (eliminarlos)
+'v1.0.0.18              Arreglando que se vaya a otro sitio al escribir, que no quita los comentarios...
+'                       Lo de que no se posicionase bien era al poner los marcadores... cambiaba el SlectionStart
 '
 '
 ' (c) Guillermo (elGuille) Som, 2020
@@ -87,7 +98,7 @@ Public Class Form1
     ''' Colección para los últimos recortes del portapapeles.
     ''' Guardar solo 10 recortes
     ''' </summary>
-    Private ColRecortes As New List(Of String)
+    Friend ColRecortes As New List(Of String)
     ''' <summary>
     ''' El número máximo de recortes.
     ''' </summary>
@@ -339,13 +350,61 @@ Public Class Form1
         End If
     End Sub
 
+    ' Para doble pulsación de teclas
+    Private CtrlK As Integer
+    Private CtrlC As Integer
+    Private CtrlU As Integer
+    Private CtrlL As Integer
+
+
     Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.Control AndAlso e.Shift Then
             If e.KeyCode = Keys.V Then
                 e.Handled = True
                 MostrarRecortes()
             End If
+        ElseIf e.Control AndAlso Not e.Shift AndAlso Not e.Alt Then
+            ' Solo se ha pulsado la tecla Ctrl
+            ' comprobar el resto de combinaciones
+            If e.KeyCode = Keys.K Then
+                CtrlK += 1
+            ElseIf e.KeyCode = Keys.C Then
+                CtrlC += 1
+            ElseIf e.KeyCode = Keys.U Then
+                CtrlU += 1
+            ElseIf e.KeyCode = Keys.L Then
+                CtrlL += 1
+            End If
+            If CtrlK = 1 AndAlso CtrlC = 1 Then
+                ' Ctrl+K, Ctrl+C
+                CtrlK = 0
+                CtrlC = 0
+                PonerComentarios(richTextBoxCodigo)
+
+            ElseIf CtrlK = 1 AndAlso CtrlU = 1 Then
+                ' Ctrl+K, Ctrl+U
+                CtrlK = 0
+                CtrlU = 0
+                QuitarComentarios(richTextBoxCodigo)
+
+            ElseIf CtrlK = 1 AndAlso CtrlL = 1 Then
+                ' Ctrl+K, Ctrl+L
+                CtrlK = 0
+                CtrlL = 0
+                ' preguntar
+                buttonEditorMarcadorQuitarTodos.PerformClick()
+
+            ElseIf CtrlK = 2 Then
+                ' Ctrl+K, Ctrl+K
+                CtrlK = 0
+                MarcadorPonerQuitar()
+
+            End If
         Else
+            CtrlK = 0
+            CtrlC = 0
+            CtrlU = 0
+
             ' Otras pulsaciones
             ' seguramente captura los TAB del editor
             richTextBoxCodigo_KeyUp(sender, e)
@@ -540,38 +599,6 @@ Public Class Form1
                                                          inicializando = False
                                                      End Sub
 
-        'AddHandler comboLenguajes.SelectedIndexChanged, Sub()
-        '                                                    If comboLenguajes.Text = LenguajeVisualBasic Then
-        '                                                        buttonLenguaje.Image = buttonLenguaje.DropDownItems(0).Image
-        '                                                    Else
-        '                                                        buttonLenguaje.Image = buttonLenguaje.DropDownItems(1).Image
-        '                                                    End If
-        '                                                    ' Asignar el lenguaje en el texto           (20/Sep/20)
-        '                                                    buttonLenguaje.Text = comboLenguajes.Text
-        '                                                End Sub
-        'AddHandler menuVB.Click, Sub() comboLenguajes.Text = menuVB.Text
-        'AddHandler menuCS.Click, Sub() comboLenguajes.Text = menuCS.Text
-
-        'Dim lambdaFuente = Sub(s As Object, e As EventArgs)
-        '                       If inicializando Then Return
-        '                       Try
-        '                           menuFuenteAceptar.Font = New Font(comboFuenteNombre.Text, CSng(comboFuenteTamaño.Text))
-        '                       Catch ex As Exception
-        '                       End Try
-        '                   End Sub
-
-        'AddHandler comboFuenteNombre.TextChanged, lambdaFuente
-        'AddHandler comboFuenteTamaño.TextChanged, lambdaFuente
-
-        'AddHandler menuFuenteAceptar.Click,
-        '                                             Sub()
-        '                                                 fuenteNombre = comboFuenteNombre.Text
-        '                                                 fuenteTamaño = comboFuenteTamaño.Text
-        '                                                 richTextBoxCodigo.Font = New Font(fuenteNombre, CSng(fuenteTamaño))
-        '                                                 labelFuente.Text = $"{fuenteNombre}; {fuenteTamaño}"
-        '                                                 If colorearAlCargar Then ColorearCodigo()
-        '                                                 GuardarConfig()
-        '                                             End Sub
 
         ' Buscar y reemplazar                                       (17/Sep/20)
         AddHandler menuEditBuscar.Click, Sub() BuscarReemplazar(True)
@@ -1981,31 +2008,35 @@ Public Class Form1
                 e.Handled = True
                 PonerIndentacion(richTextBoxCodigo)
             ElseIf e.KeyCode = Keys.Enter Then
-                ' ln es el número de línea actual (con base 1)
-                ' Si la línea actual (que es la anterior al intro)
-                ' no está vacía.
-                ' Si ln es menor que 1, salir                   (16/Dic/05) 0.40825
-                ' seguramente el intro ha llegado por otro lado...
-                Dim rtEditor = richTextBoxCodigo
+                '
+                ' Comprobar esto (es para añadir la indentación)
+                '
 
-                Dim ln As Integer = rtEditor.GetLineFromCharIndex(rtEditor.SelectionStart)
-                Dim col As Integer = rtEditor.SelectionStart - rtEditor.GetFirstCharIndexFromLine(ln)
+                '' ln es el número de línea actual (con base 1)
+                '' Si la línea actual (que es la anterior al intro)
+                '' no está vacía.
+                '' Si ln es menor que 1, salir                   (16/Dic/05) 0.40825
+                '' seguramente el intro ha llegado por otro lado...
+                'Dim rtEditor = richTextBoxCodigo
 
-                If ln < 1 Then Return
-                If rtEditor.Lines.Length < 1 Then Return
-                If rtEditor.Lines(ln - 1) <> "" Then
-                    ' Si al quitarle los espacios es una cadena vacía,
-                    ' es que solo hay espacios.
-                    If rtEditor.Lines(ln - 1).TrimStart() = "" Then
-                        col = rtEditor.Lines(ln - 1).Length
-                    Else
-                        ' Averiguar la posición del primer carácter,
-                        ' aunque puede que haya TABs
-                        col = rtEditor.Lines(ln - 1).IndexOf(rtEditor.Lines(ln - 1).TrimStart().Substring(0, 1))
-                    End If
-                    e.Handled = True
-                    SendKeys.SendWait(New String(" "c, col))
-                End If
+                'Dim ln As Integer = rtEditor.GetLineFromCharIndex(rtEditor.SelectionStart)
+                'Dim col As Integer = rtEditor.SelectionStart - rtEditor.GetFirstCharIndexFromLine(ln)
+
+                'If ln < 1 Then Return
+                'If rtEditor.Lines.Length < 1 Then Return
+                'If rtEditor.Lines(ln - 1) <> "" Then
+                '    ' Si al quitarle los espacios es una cadena vacía,
+                '    ' es que solo hay espacios.
+                '    If rtEditor.Lines(ln - 1).TrimStart() = "" Then
+                '        col = rtEditor.Lines(ln - 1).Length
+                '    Else
+                '        ' Averiguar la posición del primer carácter,
+                '        ' aunque puede que haya TABs
+                '        col = rtEditor.Lines(ln - 1).IndexOf(rtEditor.Lines(ln - 1).TrimStart().Substring(0, 1))
+                '    End If
+                '    e.Handled = True
+                '    SendKeys.SendWait(New String(" "c, col))
+                'End If
             End If
         End If
         MostrarPosicion(e)
@@ -2228,7 +2259,16 @@ Public Class Form1
             rtEditor.SelectionLength = sb.ToString().Length - k
         Else
             ' Averiguar en que línea estamos y comprobar si empieza por un comentario
-
+            Dim posA = PosicionActual()
+            Dim selStart As Integer = rtEditor.SelectionStart
+            If rtEditor.Lines(posA.Linea - 1).TrimStart().StartsWith(sSep) Then
+                Dim j = rtEditor.Lines(posA.Linea - 1).IndexOf(sSep)
+                ' Esto no lo cambia, lo cambia, pero no lo muestra ???  (30/Sep/20)
+                ' Lines es de solo lectura
+                'rtEditor.Lines(posA.Linea - 1) = rtEditor.Lines(posA.Linea - 1).Remove(j, sSep.Length)
+                'rtEditor.Lines(posA.Linea - 1) = New String((rtEditor.Lines(posA.Linea - 1).Substring(0, j) & rtEditor.Lines(posA.Linea - 1).Substring(j + sSep.Length)).ToCharArray)
+            End If
+            rtEditor.SelectionStart = selStart
         End If
 
     End Sub
@@ -2264,11 +2304,14 @@ Public Class Form1
             rtEditor.SelectionStart = selStart
             rtEditor.SelectionLength = sb.ToString().Length - k
         Else
+            ' No hay texto seleccionado
             If rtEditor.Text.Length > 0 Then
                 If rtEditor.SelectionStart > 0 Then
                     ' Pierde el valor de SelectionStart al asignar el texto
                     Dim selStart As Integer = rtEditor.SelectionStart
-                    rtEditor.Text = rtEditor.Text.Substring(0, rtEditor.SelectionStart) & sSep & rtEditor.Text.Substring(rtEditor.SelectionStart)
+                    'rtEditor.Text = rtEditor.Text.Substring(0, rtEditor.SelectionStart) & sSep & rtEditor.Text.Substring(rtEditor.SelectionStart)
+                    rtEditor.SelectionLength = sSep.Length
+                    rtEditor.SelectedText = sSep
                     rtEditor.SelectionStart = selStart
                 Else
                     rtEditor.Text = sSep & rtEditor.Text.Substring(0)
@@ -2301,6 +2344,9 @@ Public Class Form1
 
         inicializando = True
 
+        ' Recordar la posición                                      (30/Sep/20)
+        Dim selStart = richTextBoxCodigo.SelectionStart
+
         ColMarcadores.Sort()
         Dim colMarcadorTemp = ColMarcadores.ToList
         ColMarcadores.Clear()
@@ -2309,6 +2355,8 @@ Public Class Form1
             richTextBoxCodigo.SelectionStart = pos '- 1
             MarcadorPonerQuitar()
         Next
+        ' Poner la posición en la que estaba antes
+        richTextBoxCodigo.SelectionStart = selStart
 
         inicializando = False
     End Sub

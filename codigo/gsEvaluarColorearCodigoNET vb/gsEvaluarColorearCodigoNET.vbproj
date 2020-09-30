@@ -18,7 +18,7 @@ Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
     <Authors>Guillermo Som (elGuille)</Authors>
     <Version>1.0.0.0</Version>
     <NeutralLanguage>es-ES</NeutralLanguage>
-    <FileVersion>1.0.0.17</FileVersion>
+    <FileVersion>1.0.0.18</FileVersion>
     <ApplicationIcon>VSProject_genericproject.Office_Deve.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>

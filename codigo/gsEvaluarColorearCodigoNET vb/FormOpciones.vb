@@ -28,7 +28,7 @@ Public Class FormOpciones
         End Set
     End Property
 
-    Private elForm1 As Form1
+    Private elForm As Form1
 
     ''' <summary>
     ''' Crear una nueva instancia usando los valores de <see cref="Form1"/>
@@ -39,7 +39,7 @@ Public Class FormOpciones
         ' This call is required by the designer.
         InitializeComponent()
 
-        elForm1 = elForm
+        Me.elForm = elForm
 
         ' Add any initialization after the InitializeComponent() call.
         lstFics.Items.Clear()
@@ -59,6 +59,8 @@ Public Class FormOpciones
         txtIndentar.Text = elForm.EspaciosIndentar.ToString
         comboFuenteNombre.Text = elForm.fuenteNombre
         comboFuenteTamaño.Text = elForm.fuenteTamaño
+        lstRecortes.Items.Clear()
+        lstRecortes.Items.AddRange(elForm.ColRecortes.ToArray)
 
     End Sub
 
@@ -87,40 +89,45 @@ Public Class FormOpciones
     ''' Crear los métodos de evento del formulario
     ''' </summary>
     Private Sub AñadirEventos()
-        Dim buttonHandlerQuitar = Sub(sender As Object, e As EventArgs) BorrarLosSeleccionados(TryCast(sender, ListBox))
-        Dim buttonHandlerOrdenar = Sub(sender As Object, e As EventArgs) OrdenarLosSeleccionados(TryCast(sender, ListBox))
+        Dim buttonHandlerQuitar = Sub(sender As Object, e As EventArgs) BorrarLosSeleccionados(sender)
+        Dim buttonHandlerOrdenar = Sub(sender As Object, e As EventArgs) OrdenarLosSeleccionados(sender)
 
         AddHandler lstFics.KeyDown, AddressOf lstFics_KeyDown
         AddHandler lstBuscar.KeyDown, AddressOf lstFics_KeyDown
         AddHandler lstReemplazar.KeyDown, AddressOf lstFics_KeyDown
+        AddHandler lstRecortes.KeyDown, AddressOf lstFics_KeyDown
 
         AddHandler btnCancelar.Click, Sub() Me.DialogResult = DialogResult.Cancel
         AddHandler btnAceptar.Click, Sub()
-                                         elForm1.cargarUltimo = chkCargarUltimo.Checked
-                                         elForm1.colorearAlCargar = chkColorearCargar.Checked
-                                         elForm1.buscarMatchCase = chkMatchCase.Checked
-                                         elForm1.buscarWholeWord = chkWholeWord.Checked
-                                         elForm1.comboBoxFileName.Items.Clear()
-                                         elForm1.comboBoxFileName.Items.AddRange(lstFics.ToList().ToArray)
-                                         elForm1.comboBoxBuscar.Items.Clear()
-                                         elForm1.comboBoxBuscar.Items.AddRange(lstBuscar.ToList().ToArray)
-                                         elForm1.comboBoxReemplazar.Items.Clear()
-                                         elForm1.comboBoxReemplazar.Items.AddRange(lstReemplazar.ToList().ToArray)
-                                         elForm1.mostrarLineasHTML = chkMostrarLineasHTML.Checked
-                                         elForm1.EspaciosIndentar = txtIndentar.AsInteger
-                                         elForm1.fuenteNombre = comboFuenteNombre.Text
-                                         elForm1.fuenteTamaño = comboFuenteTamaño.Text
+                                         elForm.cargarUltimo = chkCargarUltimo.Checked
+                                         elForm.colorearAlCargar = chkColorearCargar.Checked
+                                         elForm.buscarMatchCase = chkMatchCase.Checked
+                                         elForm.buscarWholeWord = chkWholeWord.Checked
+                                         elForm.comboBoxFileName.Items.Clear()
+                                         elForm.comboBoxFileName.Items.AddRange(lstFics.ToList().ToArray)
+                                         elForm.comboBoxBuscar.Items.Clear()
+                                         elForm.comboBoxBuscar.Items.AddRange(lstBuscar.ToList().ToArray)
+                                         elForm.comboBoxReemplazar.Items.Clear()
+                                         elForm.comboBoxReemplazar.Items.AddRange(lstReemplazar.ToList().ToArray)
+                                         elForm.mostrarLineasHTML = chkMostrarLineasHTML.Checked
+                                         elForm.EspaciosIndentar = txtIndentar.AsInteger
+                                         elForm.fuenteNombre = comboFuenteNombre.Text
+                                         elForm.fuenteTamaño = comboFuenteTamaño.Text
+                                         elForm.ColRecortes.Clear()
+                                         elForm.ColRecortes.AddRange(lstRecortes.ToList)
 
                                          Me.DialogResult = DialogResult.OK
                                      End Sub
 
-        AddHandler btnQuitar.Click, buttonHandlerQuitar ' Sub(sender As Object, e As EventArgs) BorrarLosSeleccionados(TryCast(sender, ListBox))
+        AddHandler btnQuitar.Click, buttonHandlerQuitar
         AddHandler btnQuitarBuscar.Click, buttonHandlerQuitar
         AddHandler btnQuitarReemplazar.Click, buttonHandlerQuitar
+        AddHandler btnQuitarRecortes.Click, buttonHandlerQuitar
 
         AddHandler btnOrdenar.Click, buttonHandlerOrdenar
         AddHandler btnOrdenarBuscar.Click, buttonHandlerOrdenar
         AddHandler btnOrdenarReemplazar.Click, buttonHandlerOrdenar
+        AddHandler btnOrdenarRecortes.Click, buttonHandlerOrdenar
 
         AddHandler lstFics.SelectedIndexChanged,
                     Sub() txtFic.Text = If(lstFics.SelectedItem Is Nothing,
@@ -139,8 +146,20 @@ Public Class FormOpciones
 
     ''' <summary>
     ''' Borrar los elementos seleccionados de la lista indicada.
+    ''' En realidad el que hace el envío es el botón que se ha pulsado.
     ''' </summary>
-    Private Sub BorrarLosSeleccionados(lista As ListBox)
+    Private Sub BorrarLosSeleccionados(sender As Object)
+        Dim lista As ListBox = Nothing
+        If sender Is btnOrdenar Then
+            lista = lstFics
+        ElseIf sender Is btnOrdenarBuscar Then
+            lista = lstBuscar
+        ElseIf sender Is btnOrdenarRecortes Then
+            lista = lstRecortes
+        ElseIf sender Is btnOrdenarReemplazar Then
+            lista = lstReemplazar
+        End If
+
         If lista Is Nothing Then Return
         If lista.SelectedIndices.Count = 0 Then Return
 
@@ -151,9 +170,20 @@ Public Class FormOpciones
 
     ''' <summary>
     ''' Ordenar los elementos de la lista indicada.
+    ''' En realidad el parámetro es del botón que se ha pulsado
     ''' </summary>
-    ''' <param name="lista"></param>
-    Private Sub OrdenarLosSeleccionados(lista As ListBox)
+    Private Sub OrdenarLosSeleccionados(sender As Object)
+        Dim lista As ListBox = Nothing
+        If sender Is btnOrdenar Then
+            lista = lstFics
+        ElseIf sender Is btnOrdenarBuscar Then
+            lista = lstBuscar
+        ElseIf sender Is btnOrdenarRecortes Then
+            lista = lstRecortes
+        ElseIf sender Is btnOrdenarReemplazar Then
+            lista = lstReemplazar
+        End If
+
         If lista Is Nothing Then Return
         If lista.SelectedIndices.Count = 0 Then Return
 

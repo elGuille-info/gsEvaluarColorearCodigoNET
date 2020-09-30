@@ -1114,7 +1114,7 @@ Partial Class Form1
         Me.buttonEditorPonerComentarios.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.buttonEditorPonerComentarios.Name = "buttonEditorPonerComentarios"
         Me.buttonEditorPonerComentarios.Size = New System.Drawing.Size(23, 22)
-        Me.buttonEditorPonerComentarios.Text = "Poner comentarios"
+        Me.buttonEditorPonerComentarios.Text = "Poner comentarios (Ctrl+K, Ctrl+C)"
         '
         'buttonEditorQuitarComentarios
         '
@@ -1123,7 +1123,7 @@ Partial Class Form1
         Me.buttonEditorQuitarComentarios.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.buttonEditorQuitarComentarios.Name = "buttonEditorQuitarComentarios"
         Me.buttonEditorQuitarComentarios.Size = New System.Drawing.Size(23, 22)
-        Me.buttonEditorQuitarComentarios.Text = "Quitar comentarios"
+        Me.buttonEditorQuitarComentarios.Text = "Quitar comentarios (Ctrl+K, Ctrl+U)"
         '
         'toolStripSeparatorEditor2
         '
@@ -1137,7 +1137,7 @@ Partial Class Form1
         Me.buttonEditorMarcador.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.buttonEditorMarcador.Name = "buttonEditorMarcador"
         Me.buttonEditorMarcador.Size = New System.Drawing.Size(23, 22)
-        Me.buttonEditorMarcador.Text = "Intercambiar marcador (bookmark)"
+        Me.buttonEditorMarcador.Text = "Intercambiar marcador (bookmark) (Ctrl+K, Ctrl+K)"
         '
         'buttonEditorMarcadorAnterior
         '
@@ -1169,7 +1169,7 @@ Partial Class Form1
         Me.buttonEditorMarcadorQuitarTodos.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.buttonEditorMarcadorQuitarTodos.Name = "buttonEditorMarcadorQuitarTodos"
         Me.buttonEditorMarcadorQuitarTodos.Size = New System.Drawing.Size(23, 22)
-        Me.buttonEditorMarcadorQuitarTodos.Text = "Quitar todos los marcadores"
+        Me.buttonEditorMarcadorQuitarTodos.Text = "Quitar todos los marcadores (Ctrl+K, Ctrl+L)"
         '
         'richTextBoxCodigo
         '
