@@ -64,3 +64,5 @@ Este código lo estoy usando con Visual Studio 2019 Preview<br>
 ' (c) Guillermo (elGuille) Som, 2020<br>
 '------------------------------------------------------------------------------<br>
 <br>
+<br>
+Actualizado el 30 de septiembre de 2020 a las 13:20<br>
