@@ -61,7 +61,18 @@
 '                       Buscar/reemplazar: textos de buscar y reemplazar, Comprobar Case y palabra completa
 '                       Edición: recortes de edición (eliminarlos)
 'v1.0.0.18              Arreglando que se vaya a otro sitio al escribir, que no quita los comentarios...
-'                       Lo de que no se posicionase bien era al poner los marcadores... cambiaba el SlectionStart
+'                       Lo de que no se posicionase bien era al poner los marcadores... cambiaba el SelectionStart
+'                       Captura doble pulsaciones de teclas: CtrlK+CtrlK, CtrlK+CtrlL, CtrlK+CtrlC, CtrlK+CtrlU
+'v1.0.0.19  01/Oct/20   Ajustar la altura del panelHerrmientas según se muestre o no el panel de buscar
+'                       por ahora no compruebo el resto de paneles.
+'                       No sé si arreglar las posiciones de los bookmarks si cambia el texto...
+'                       ya que si se quitan o ponen líneas, se ajustan a la posición que tenían antes, no a la nueva
+'v1.0.0.20              Clasificar el texto seleccionado. Captura Shit+AltL, Shit+Alt+S (lo añado al menú Editor)
+'                       Añado el menú Editor (con los mismos comandos que toolStripEditor)
+'v1.0.0.21              El alto del panel de herramientas se ajusta correctamente
+'                       tanto al mostrar/ocultar los paneles como al cambiar el tamaño del Form1
+'v1.0.0.22              Añado las opciones de clasificar al formulario de opciones
+'
 '
 '
 ' (c) Guillermo (elGuille) Som, 2020
@@ -355,13 +366,24 @@ Public Class Form1
     Private CtrlC As Integer
     Private CtrlU As Integer
     Private CtrlL As Integer
-
+    Private ShiftAltL As Integer
+    Private ShiftAltS As Integer
 
     Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.Control AndAlso e.Shift Then
             If e.KeyCode = Keys.V Then
                 e.Handled = True
                 MostrarRecortes()
+            End If
+        ElseIf e.Shift AndAlso e.Alt Then
+            ' si se ha pulsado Shit y Alt
+            If e.KeyValue = Keys.L Then
+                ShiftAltL += 1
+            ElseIf e.KeyCode = Keys.S Then
+                ShiftAltS += 1
+            End If
+            If ShiftAltL = 1 AndAlso ShiftAltS = 1 Then
+                ClasificarSeleccion()
             End If
         ElseIf e.Control AndAlso Not e.Shift AndAlso Not e.Alt Then
             ' Solo se ha pulsado la tecla Ctrl
@@ -404,6 +426,8 @@ Public Class Form1
             CtrlK = 0
             CtrlC = 0
             CtrlU = 0
+            ShiftAltL = 0
+            ShiftAltS = 0
 
             ' Otras pulsaciones
             ' seguramente captura los TAB del editor
@@ -484,15 +508,10 @@ Public Class Form1
         AddHandler richTextBoxCodigo.MouseClick, lambdarichTextBoxCodigoSelection
 
         AddHandler richTextBoxCodigo.TextChanged, AddressOf richTextBoxCodigo_TextChanged
-        'AddHandler richTextBoxCodigo.ModifiedChanged, Sub()
-        '                                                  If inicializando Then Return
-        '                                                  TextoModificado = richTextBoxCodigo.Modified
-        '                                              End Sub
         AddHandler richTextBoxCodigo.VScroll, AddressOf richTextBoxCodigo_VScroll
-        AddHandler richTextBoxCodigo.FontChanged,
-                                                     Sub()
-                                                         richTextBoxtLineas.Font = New Font(richTextBoxCodigo.Font.FontFamily, richTextBoxCodigo.Font.Size)
-                                                     End Sub
+        AddHandler richTextBoxCodigo.FontChanged, Sub()
+                                                      richTextBoxtLineas.Font = New Font(richTextBoxCodigo.Font.FontFamily, richTextBoxCodigo.Font.Size)
+                                                  End Sub
         AddHandler richTextBoxCodigo.DragDrop, AddressOf Form1_DragDrop
         AddHandler richTextBoxCodigo.DragEnter, AddressOf Form1_DragEnter
 
@@ -513,23 +532,21 @@ Public Class Form1
         AddHandler menuFileRecargar.Click, Sub() Recargar()
         AddHandler buttonRecargar.Click, Sub() Recargar()
 
-        AddHandler menuFileRecientes.DropDownOpening,
-                                                     Sub()
-                                                         For i = 0 To menuFileRecientes.DropDownItems.Count - 1
-                                                             If menuFileRecientes.DropDownItems(i).Text.IndexOf(nombreUltimoFichero) > 3 Then
-                                                                 menuFileRecientes.DropDownItems(i).Select()
-                                                                 TryCast(menuFileRecientes.DropDownItems(i), ToolStripMenuItem).Checked = True
-                                                             End If
-                                                         Next
-                                                     End Sub
+        AddHandler menuFileRecientes.DropDownOpening, Sub()
+                                                          For i = 0 To menuFileRecientes.DropDownItems.Count - 1
+                                                              If menuFileRecientes.DropDownItems(i).Text.IndexOf(nombreUltimoFichero) > 3 Then
+                                                                  menuFileRecientes.DropDownItems(i).Select()
+                                                                  TryCast(menuFileRecientes.DropDownItems(i), ToolStripMenuItem).Checked = True
+                                                              End If
+                                                          Next
+                                                      End Sub
 
-        AddHandler menuCopiarPath.Click,
-                                                     Sub()
-                                                         Try
-                                                             Clipboard.SetText(nombreUltimoFichero)
-                                                         Catch ex As Exception
-                                                         End Try
-                                                     End Sub
+        AddHandler menuCopiarPath.Click, Sub()
+                                             Try
+                                                 Clipboard.SetText(nombreUltimoFichero)
+                                             Catch ex As Exception
+                                             End Try
+                                         End Sub
 
         AddHandler comboBoxFileName.Validating, AddressOf comboBoxFileName_Validating
         AddHandler comboBoxFileName.KeyDown, AddressOf comboBoxFileName_KeyDown
@@ -576,28 +593,33 @@ Public Class Form1
         AddHandler chkMostrarLineasHTML.Click, Sub() mostrarLineasHTML = chkMostrarLineasHTML.Checked
 
         ' Herramientas; Opciones, Colorear, lenguajes
-        AddHandler menuOpciones.Click,
-                                                     Sub()
-                                                         ' Mostrar la ventana de opciones
-                                                         ' usando el form actual como parámetro      (27/Sep/20)
-                                                         inicializando = True
-                                                         Dim opFrm As New FormOpciones(Me)
-                                                         With opFrm
-                                                             If .ShowDialog() = DialogResult.OK Then
-                                                                 ' las asignaciones se hacen en el formulario de opciones
-                                                                 AsignarRecientes()
-                                                                 ' Comprobar si ha cambiado la fuente
-                                                                 If labelFuente.Text <> $"{fuenteNombre}; {fuenteTamaño}" Then
-                                                                     richTextBoxCodigo.Font = New Font(fuenteNombre, CSng(fuenteTamaño))
-                                                                     labelFuente.Text = $"{fuenteNombre}; {fuenteTamaño}"
-                                                                     If colorearAlCargar Then ColorearCodigo()
-                                                                 End If
+        AddHandler panelHerramientas.SizeChanged, AddressOf panelHerramientas_SizeChanged
 
-                                                                 GuardarConfig()
-                                                             End If
-                                                         End With
-                                                         inicializando = False
-                                                     End Sub
+        ' Clasificar la selección
+        AddHandler menuEditorClasificarSeleccion.Click, Sub() ClasificarSeleccion()
+        AddHandler buttonEditorClasificarSeleccion.Click, Sub() ClasificarSeleccion()
+
+        AddHandler menuOpciones.Click, Sub()
+                                           ' Mostrar la ventana de opciones
+                                           ' usando el form actual como parámetro      (27/Sep/20)
+                                           inicializando = True
+                                           Dim opFrm As New FormOpciones(Me)
+                                           With opFrm
+                                               If .ShowDialog() = DialogResult.OK Then
+                                                   ' las asignaciones se hacen en el formulario de opciones
+                                                   AsignarRecientes()
+                                                   ' Comprobar si ha cambiado la fuente
+                                                   If labelFuente.Text <> $"{fuenteNombre}; {fuenteTamaño}" Then
+                                                       richTextBoxCodigo.Font = New Font(fuenteNombre, CSng(fuenteTamaño))
+                                                       labelFuente.Text = $"{fuenteNombre}; {fuenteTamaño}"
+                                                       If colorearAlCargar Then ColorearCodigo()
+                                                   End If
+
+                                                   GuardarConfig()
+                                               End If
+                                           End With
+                                           inicializando = False
+                                       End Sub
 
 
         ' Buscar y reemplazar                                       (17/Sep/20)
@@ -635,7 +657,7 @@ Public Class Form1
                                     If sender Is menuMostrar_Ficheros Then
                                         toolStripFicheros.Visible = menuMostrar_Ficheros.Checked
                                     ElseIf sender Is menuMostrar_Buscar Then
-                                        panelBuscar.Visible = menuMostrar_Buscar.Checked
+                                        MostrarPanelBuscar(menuMostrar_Buscar.Checked)
                                     ElseIf sender Is menuMostrar_Compilar Then
                                         toolStripCompilar.Visible = menuMostrar_Compilar.Checked
                                     ElseIf sender Is menuMostrar_Edicion Then
@@ -643,6 +665,8 @@ Public Class Form1
                                     ElseIf sender Is menuMostrar_Editor Then
                                         toolStripEditor.Visible = menuMostrar_Editor.Checked
                                     End If
+
+                                    AjustarAltoPanelHerramientas()
                                 End Sub
 
         AddHandler menuMostrar_Ficheros.Click, lambdaMenuMostrar
@@ -650,26 +674,62 @@ Public Class Form1
         AddHandler menuMostrar_Compilar.Click, lambdaMenuMostrar
         AddHandler menuMostrar_Edicion.Click, lambdaMenuMostrar
         AddHandler menuMostrar_Editor.Click, lambdaMenuMostrar
+        ' usar también la visibilidad de los paneles
+        AddHandler toolStripFicheros.VisibleChanged, Sub() AjustarAltoPanelHerramientas()
+        AddHandler panelBuscar.VisibleChanged, Sub() AjustarAltoPanelHerramientas()
+        AddHandler toolStripCompilar.VisibleChanged, Sub() AjustarAltoPanelHerramientas()
+        AddHandler toolStripEdicion.VisibleChanged, Sub() AjustarAltoPanelHerramientas()
+        AddHandler toolStripEditor.VisibleChanged, Sub() AjustarAltoPanelHerramientas()
 
-        ' Barra de Editor (que no edición)
+        ' Barra y menú de Editor (que no edición)
         AddHandler buttonEditorQuitarIndentacion.Click, Sub() QuitarIndentacion(richTextBoxCodigo)
+        AddHandler menuEditorQuitarIndentacion.Click, Sub() QuitarIndentacion(richTextBoxCodigo)
         AddHandler buttonEditorPonerIndentacion.Click, Sub() PonerIndentacion(richTextBoxCodigo)
+        AddHandler menuEditorPonerIndentacion.Click, Sub() PonerIndentacion(richTextBoxCodigo)
         AddHandler buttonEditorQuitarComentarios.Click, Sub() QuitarComentarios(richTextBoxCodigo)
+        AddHandler menuEditorQuitarComentarios.Click, Sub() QuitarComentarios(richTextBoxCodigo)
         AddHandler buttonEditorPonerComentarios.Click, Sub() PonerComentarios(richTextBoxCodigo)
+        AddHandler menuEditorPonerComentarios.Click, Sub() PonerComentarios(richTextBoxCodigo)
         AddHandler buttonEditorMarcador.Click, Sub() MarcadorPonerQuitar()
+        AddHandler menuEditorMarcador.Click, Sub() MarcadorPonerQuitar()
         AddHandler buttonEditorMarcadorAnterior.Click, Sub() MarcadorAnterior()
+        AddHandler menuEditorMarcadorAnterior.Click, Sub() MarcadorAnterior()
         AddHandler buttonEditorMarcadorSiguiente.Click, Sub() MarcadorSiguiente()
-        AddHandler buttonEditorMarcadorQuitarTodos.Click, Sub()
-                                                              If ColMarcadores.Count = 0 Then Return
-                                                              If MessageBox.Show("¿Seguro que quieres quitar todos los marcadores.",
-                                                                                 "Quitar todos los marcadores",
-                                                                                 MessageBoxButtons.YesNo,
-                                                                                 MessageBoxIcon.Question) = DialogResult.Yes Then
+        AddHandler menuEditorMarcadorSiguiente.Click, Sub() MarcadorSiguiente()
 
-                                                                  MarcadorQuitarTodos()
-                                                              End If
-                                                          End Sub
+        Dim lambdaQuitarMarcadores = Sub(sender As Object, e As EventArgs)
+                                         If ColMarcadores.Count = 0 Then Return
+                                         If MessageBox.Show("¿Seguro que quieres quitar todos los marcadores.",
+                                                            "Quitar todos los marcadores",
+                                                            MessageBoxButtons.YesNo,
+                                                            MessageBoxIcon.Question) = DialogResult.Yes Then
 
+                                             MarcadorQuitarTodos()
+                                         End If
+                                     End Sub
+        AddHandler buttonEditorMarcadorQuitarTodos.Click, lambdaQuitarMarcadores
+        AddHandler menuEditorMarcadorQuitarTodos.Click, lambdaQuitarMarcadores
+
+    End Sub
+
+    Private Sub AjustarAltoPanelHerramientas()
+        'If inicializando Then Return
+
+        ' Ajustar el alto del FlowPanel (01/Oct/20)
+        ' Comprobar si las barras de herramientas el Top es mayor de 10
+        ' en ese caso, el FlowPanel ponerlo a 63, si no será 28
+        Dim esVisible = False
+        For Each c As Control In panelHerramientas.Controls
+            If c.Visible AndAlso c.Top > 10 Then
+                esVisible = True
+                Exit For
+            End If
+        Next
+        If esVisible Then
+            panelHerramientas.Height = 63
+        Else
+            panelHerramientas.Height = 28
+        End If
     End Sub
 
     ''' <summary>
@@ -687,13 +747,15 @@ Public Class Form1
 
         LeerConfig()
 
-        ' No mostrar el panel al iniciar
-        MostrarPanelBuscar(False)
-
         ' Mostrar los 15 primeros en el menú Recientes
         AsignarRecientes()
 
         inicializando = False
+
+        ' No mostrar el panel al iniciar
+        ' Ponerlo después de inicializando = false                  (30/Sep/20)
+        ' para que se ajuste el tamaño de FlowPanel
+        MostrarPanelBuscar(False)
 
         esCtrlF = True
 
@@ -1441,6 +1503,11 @@ Public Class Form1
         buttonEditorQuitarIndentacion.Enabled = b
         buttonEditorPonerComentarios.Enabled = b
         buttonEditorQuitarComentarios.Enabled = b
+        '
+        menuEditorPonerIndentacion.Enabled = b
+        menuEditorQuitarIndentacion.Enabled = b
+        menuEditorPonerComentarios.Enabled = b
+        menuEditorQuitarComentarios.Enabled = b
 
         buttonCompilar.Enabled = b
         buttonEjecutar.Enabled = b
@@ -1469,9 +1536,17 @@ Public Class Form1
         buttonEditorMarcadorAnterior.Enabled = b
         buttonEditorMarcadorSiguiente.Enabled = b
         buttonEditorMarcadorQuitarTodos.Enabled = b
+        '
+        menuEditorMarcadorAnterior.Enabled = b
+        menuEditorMarcadorSiguiente.Enabled = b
+        menuEditorMarcadorQuitarTodos.Enabled = b
 
         b = ColRecortes.Count > 0
         buttonEdicionRecortes.Enabled = b
+
+        b = richTextBoxCodigo.SelectionLength > 0
+        menuEditorClasificarSeleccion.Enabled = b
+        buttonEditorClasificarSeleccion.Enabled = b
 
         inicializando = False
     End Sub
@@ -1512,6 +1587,15 @@ Public Class Form1
         If mostrar Then
             esCtrlF = True
         End If
+        '' Ajustar el alto del FlowPanel                             (01/Oct/20)
+        'If mostrar Then
+        '    panelHerramientas.Height = 63
+        'Else
+        '    ' solo hacerlo menos alto si el toolstripEditor no está arriba
+        '    If toolStripEditor.Visible AndAlso toolStripEditor.Top = 3 Then
+        '        panelHerramientas.Height = 28 '32
+        '    End If
+        'End If
     End Sub
 
     ''' <summary>
@@ -2262,7 +2346,10 @@ Public Class Form1
             Dim posA = PosicionActual()
             Dim selStart As Integer = rtEditor.SelectionStart
             If rtEditor.Lines(posA.Linea - 1).TrimStart().StartsWith(sSep) Then
-                Dim j = rtEditor.Lines(posA.Linea - 1).IndexOf(sSep)
+                Dim j = rtEditor.Text.IndexOf(sSep, selStart - 1)
+                rtEditor.Text = rtEditor.Text.Substring(0, j) & rtEditor.Text.Substring(j + sSep.Length)
+
+                'Dim j = rtEditor.Lines(posA.Linea - 1).IndexOf(sSep)
                 ' Esto no lo cambia, lo cambia, pero no lo muestra ???  (30/Sep/20)
                 ' Lines es de solo lectura
                 'rtEditor.Lines(posA.Linea - 1) = rtEditor.Lines(posA.Linea - 1).Remove(j, sSep.Length)
@@ -2308,15 +2395,13 @@ Public Class Form1
             If rtEditor.Text.Length > 0 Then
                 If rtEditor.SelectionStart > 0 Then
                     ' Pierde el valor de SelectionStart al asignar el texto
-                    Dim selStart As Integer = rtEditor.SelectionStart
-                    'rtEditor.Text = rtEditor.Text.Substring(0, rtEditor.SelectionStart) & sSep & rtEditor.Text.Substring(rtEditor.SelectionStart)
-                    rtEditor.SelectionLength = sSep.Length
+                    Dim selStart As Integer = rtEditor.SelectionStart - 1
                     rtEditor.SelectedText = sSep
-                    rtEditor.SelectionStart = selStart
+                    rtEditor.SelectionStart = selStart + 1
+                    rtEditor.SelectionLength = 0
                 Else
                     rtEditor.Text = sSep & rtEditor.Text.Substring(0)
                 End If
-                rtEditor.SelectionLength = sSep.Length
             End If
         End If
 
@@ -2556,6 +2641,7 @@ Public Class Form1
     '
     ' El spliter
     '
+
     ''' <summary>
     ''' El úlimo ancho del splitContainer2 (28/Sep/20)
     ''' </summary>
@@ -2579,5 +2665,94 @@ Public Class Form1
             splitContainer1.SplitterDistance = splitContainer1.Width
         End If
     End Sub
+
+    '
+    ' Cambio de tamaño del panel de herramientas
+    '
+
+    Private Sub panelHerramientas_SizeChanged(sender As Object, e As EventArgs)
+        'If inicializando Then Return
+
+        Dim iant = inicializando
+
+        inicializando = True
+        Dim tAnt = splitContainer1.Top
+        splitContainer1.Top = panelHerramientas.Top + panelHerramientas.Height + 10
+        splitContainer1.Height += (tAnt - splitContainer1.Top)
+
+        AjustarAltoPanelHerramientas()
+
+        inicializando = iant
+    End Sub
+
+    '
+    ' Clasificar
+    '
+
+    Friend clasif_caseSensitive As Boolean
+    Friend clasif_compareOrdinal As Boolean
+
+    ''' <summary>
+    ''' Clasificar el texto seleccionado
+    ''' </summary>
+    Private Sub ClasificarSeleccion()
+        If richTextBoxCodigo.SelectedText <> "" Then
+            Dim selStart = richTextBoxCodigo.SelectionStart
+            Dim lineas() As String = richTextBoxCodigo.SelectedText.Split(vbCr.ToCharArray)
+            Dim sb As New System.Text.StringBuilder
+            Dim j = lineas.Length - 1
+            If String.IsNullOrWhiteSpace(lineas(j)) Then j -= 1
+            Dim k = 0
+
+            ' Asignar las opciones de clasificación
+            CompararString.IgnoreCase = clasif_caseSensitive
+            CompararString.UsarCompareOrdinal = clasif_compareOrdinal
+
+            ' Clasificar el array usando el comparador de CompararString
+            Array.Sort(lineas, 0, j + 1, New CompararString)
+
+            For i As Integer = 0 To j
+                sb.AppendFormat("{0}{1}", lineas(i), vbCr)
+                k += 1
+            Next
+
+            ' Poner el nuevo texto
+            richTextBoxCodigo.SelectedText = sb.ToString()
+            richTextBoxCodigo.SelectionStart = selStart
+            richTextBoxCodigo.SelectionLength = sb.ToString().Length - k
+        End If
+    End Sub
+
+    '
+    ' Cambiar las mayúsculas y minúsculas
+    '
+
+    'Private Sub mnuHerMayMinMayusculas_Click(sender As System.Object, e As System.EventArgs) Handles mnuHerMayMinMayusculas.Click
+    '    ' convertir el texto seleccionado a mayúsculas
+    '    If rtEditor.SelectedText <> "" Then
+    '        rtEditor.SelectedText = rtEditor.SelectedText.ToUpper()
+    '    End If
+    '    tssLabelInfo.Text = StatusStrip1.Text
+    'End Sub
+    'Private Sub mnuHerMayMinMayusculas_Select(sender As Object, e As System.EventArgs) Handles mnuHerMayMinMayusculas.DropDownOpening
+    '    tssLabelInfo.Text = "Convierte el texto seleccionado en mayúsculas"
+    'End Sub
+    'Private Sub mnuHerMayMinMinusculas_Click(sender As System.Object, e As System.EventArgs) Handles mnuHerMayMinMinusculas.Click
+    '    ' convertir el texto seleccionado a minúsculas
+    '    If rtEditor.SelectedText <> "" Then
+    '        rtEditor.SelectedText = rtEditor.SelectedText.ToLower()
+    '    End If
+    '    tssLabelInfo.Text = StatusStrip1.Text
+    'End Sub
+    'Private Sub mnuHerMayMinMinusculas_Select(sender As Object, e As System.EventArgs) Handles mnuHerMayMinMinusculas.DropDownOpening
+    '    tssLabelInfo.Text = "Convierte el texto seleccionado en minúsculas"
+    'End Sub
+
+    'Private Sub mnuHerMayMinTitulo_Click(sender As System.Object, e As System.EventArgs) Handles mnuHerMayMinTitulo.Click
+    '    If rtEditor.SelectedText <> "" Then
+    '        rtEditor.SelectedText = vb.StrConv(rtEditor.SelectedText, vb.VbStrConv.ProperCase)
+    '    End If
+    '    tssLabelInfo.Text = StatusStrip1.Text
+    'End Sub
 
 End Class

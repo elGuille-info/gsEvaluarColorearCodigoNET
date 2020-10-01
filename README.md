@@ -59,10 +59,31 @@ Este código lo estoy usando con Visual Studio 2019 Preview<br>
 'v1.0.0.15  30/Sep/20   Recortes para lo último copiado y usarlos para pegar (Ctrl+Shift+V)<br>
 'v1.0.0.16              Arreglando el bug al reemplazar siguiente y no hay más coincidencias<br>
 'v1.0.0.17              Arreglando al seleccionar el lenguaje<br>
+'                       Nuevas pestañas en la ventana de opciones y arreglo bug al eliminar/ordenar<br>
+'                       usando los botones.<br>
+'                       A día de hoy estas son las pestañas y opciones:<br>
+'                       General: Cargar al iniciar, colorear al cargar, mostrar líneas al colorear HTML,<br>
+'                                Al evaluar colorear y compilar el código.<br>
+'                       Ficheros recientes (eliminarlos)<br>
+'                       Colores y fuente: Fuente, Tamaño, indentación<br>
+'                       Buscar/reemplazar: textos de buscar y reemplazar, Comprobar Case y palabra completa<br>
+'                       Edición: recortes de edición (eliminarlos)<br>
+'v1.0.0.18              Arreglando que se vaya a otro sitio al escribir, que no quita los comentarios...<br>
+'                       Lo de que no se posicionase bien era al poner los marcadores... cambiaba el SelectionStart<br>
+'                       Captura doble pulsaciones de teclas: CtrlK+CtrlK, CtrlK+CtrlL, CtrlK+CtrlC, CtrlK+CtrlU<br>
+'v1.0.0.19  01/Oct/20   Ajustar la altura del panelHerrmientas según se muestre o no el panel de buscar<br>
+'                       por ahora no compruebo el resto de paneles.<br>
+'                       No sé si arreglar las posiciones de los bookmarks si cambia el texto...<br>
+'                       ya que si se quitan o ponen líneas, se ajustan a la posición que tenían antes, no a la nueva<br>
+'v1.0.0.20              Clasificar el texto seleccionado. Captura Shit+AltL, Shit+Alt+S (lo añado al menú Editor)<br>
+'                       Añado el menú Editor (con los mismos comandos que toolStripEditor)<br>
+'v1.0.0.21              El alto del panel de herramientas se ajusta correctamente<br>
+'                       tanto al mostrar/ocultar los paneles como al cambiar el tamaño del Form1<br>
+'v1.0.0.22              Añado las opciones de clasificar al formulario de opciones<br>
 '<br>
 '<br>
 ' (c) Guillermo (elGuille) Som, 2020<br>
 '------------------------------------------------------------------------------<br>
 <br>
 <br>
-Actualizado el 30 de septiembre de 2020 a las 13:20<br>
+Actualizado el 1 de octubre de 2020 a las 03:38<br>

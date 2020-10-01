@@ -71,6 +71,9 @@ Partial Class FormOpciones
         Me.btnAceptar = New System.Windows.Forms.Button()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.toolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.chkCaseSensitive = New System.Windows.Forms.CheckBox()
+        Me.chkCompareOrdinal = New System.Windows.Forms.CheckBox()
         Me.tabControl1.SuspendLayout()
         Me.tabPage1.SuspendLayout()
         Me.grbAlEvaluar.SuspendLayout()
@@ -85,6 +88,7 @@ Partial Class FormOpciones
         Me.TabPage5.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.SuspendLayout()
         '
         'tabControl1
@@ -100,11 +104,12 @@ Partial Class FormOpciones
         Me.tabControl1.Location = New System.Drawing.Point(12, 12)
         Me.tabControl1.Name = "tabControl1"
         Me.tabControl1.SelectedIndex = 0
-        Me.tabControl1.Size = New System.Drawing.Size(549, 308)
+        Me.tabControl1.Size = New System.Drawing.Size(549, 317)
         Me.tabControl1.TabIndex = 0
         '
         'tabPage1
         '
+        Me.tabPage1.Controls.Add(Me.GroupBox4)
         Me.tabPage1.Controls.Add(Me.chkMostrarLineasHTML)
         Me.tabPage1.Controls.Add(Me.grbAlEvaluar)
         Me.tabPage1.Controls.Add(Me.chkWordWrap)
@@ -113,7 +118,7 @@ Partial Class FormOpciones
         Me.tabPage1.Location = New System.Drawing.Point(4, 24)
         Me.tabPage1.Name = "tabPage1"
         Me.tabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabPage1.Size = New System.Drawing.Size(541, 280)
+        Me.tabPage1.Size = New System.Drawing.Size(541, 289)
         Me.tabPage1.TabIndex = 0
         Me.tabPage1.Text = "Opciones generales"
         Me.tabPage1.UseVisualStyleBackColor = True
@@ -135,7 +140,7 @@ Partial Class FormOpciones
         Me.grbAlEvaluar.Controls.Add(Me.chkCompilarEvaluar)
         Me.grbAlEvaluar.Location = New System.Drawing.Point(12, 112)
         Me.grbAlEvaluar.Name = "grbAlEvaluar"
-        Me.grbAlEvaluar.Size = New System.Drawing.Size(333, 77)
+        Me.grbAlEvaluar.Size = New System.Drawing.Size(511, 77)
         Me.grbAlEvaluar.TabIndex = 4
         Me.grbAlEvaluar.TabStop = False
         Me.grbAlEvaluar.Text = "Al evaluar:"
@@ -205,13 +210,16 @@ Partial Class FormOpciones
         Me.tabPage2.Location = New System.Drawing.Point(4, 24)
         Me.tabPage2.Name = "tabPage2"
         Me.tabPage2.Padding = New System.Windows.Forms.Padding(6)
-        Me.tabPage2.Size = New System.Drawing.Size(541, 280)
+        Me.tabPage2.Size = New System.Drawing.Size(541, 289)
         Me.tabPage2.TabIndex = 1
         Me.tabPage2.Text = "Ficheros recientes"
         Me.tabPage2.UseVisualStyleBackColor = True
         '
         'groupBox1
         '
+        Me.groupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.groupBox1.Controls.Add(Me.txtFic)
         Me.groupBox1.Controls.Add(Me.btnOrdenar)
         Me.groupBox1.Controls.Add(Me.btnQuitar)
@@ -220,7 +228,7 @@ Partial Class FormOpciones
         Me.groupBox1.Location = New System.Drawing.Point(12, 12)
         Me.groupBox1.Margin = New System.Windows.Forms.Padding(12)
         Me.groupBox1.Name = "groupBox1"
-        Me.groupBox1.Size = New System.Drawing.Size(517, 256)
+        Me.groupBox1.Size = New System.Drawing.Size(517, 265)
         Me.groupBox1.TabIndex = 0
         Me.groupBox1.TabStop = False
         Me.groupBox1.Text = "Lista de ficheros abiertos recientemente"
@@ -228,7 +236,7 @@ Partial Class FormOpciones
         'txtFic
         '
         Me.txtFic.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.txtFic.Location = New System.Drawing.Point(6, 227)
+        Me.txtFic.Location = New System.Drawing.Point(6, 236)
         Me.txtFic.Name = "txtFic"
         Me.txtFic.Size = New System.Drawing.Size(266, 23)
         Me.txtFic.TabIndex = 2
@@ -237,7 +245,7 @@ Partial Class FormOpciones
         '
         Me.btnOrdenar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnOrdenar.Image = CType(resources.GetObject("btnOrdenar.Image"), System.Drawing.Image)
-        Me.btnOrdenar.Location = New System.Drawing.Point(303, 226)
+        Me.btnOrdenar.Location = New System.Drawing.Point(303, 235)
         Me.btnOrdenar.Name = "btnOrdenar"
         Me.btnOrdenar.Size = New System.Drawing.Size(75, 23)
         Me.btnOrdenar.TabIndex = 3
@@ -251,7 +259,7 @@ Partial Class FormOpciones
         Me.btnQuitar.AutoSize = True
         Me.btnQuitar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnQuitar.Image = CType(resources.GetObject("btnQuitar.Image"), System.Drawing.Image)
-        Me.btnQuitar.Location = New System.Drawing.Point(393, 225)
+        Me.btnQuitar.Location = New System.Drawing.Point(393, 234)
         Me.btnQuitar.Name = "btnQuitar"
         Me.btnQuitar.Size = New System.Drawing.Size(118, 25)
         Me.btnQuitar.TabIndex = 4
@@ -284,13 +292,16 @@ Partial Class FormOpciones
         Me.TabPage3.Location = New System.Drawing.Point(4, 24)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(541, 280)
+        Me.TabPage3.Size = New System.Drawing.Size(541, 289)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Colores y fuente"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
         'grbColores
         '
+        Me.grbColores.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grbColores.Controls.Add(Me.txtIndentar)
         Me.grbColores.Controls.Add(Me.Label3)
         Me.grbColores.Controls.Add(Me.comboFuenteTamaño)
@@ -299,7 +310,7 @@ Partial Class FormOpciones
         Me.grbColores.Controls.Add(Me.labelFuente)
         Me.grbColores.Location = New System.Drawing.Point(12, 12)
         Me.grbColores.Name = "grbColores"
-        Me.grbColores.Size = New System.Drawing.Size(517, 256)
+        Me.grbColores.Size = New System.Drawing.Size(517, 265)
         Me.grbColores.TabIndex = 0
         Me.grbColores.TabStop = False
         Me.grbColores.Text = "Colorear y fuentes"
@@ -363,13 +374,16 @@ Partial Class FormOpciones
         Me.TabPage4.Location = New System.Drawing.Point(4, 24)
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(541, 280)
+        Me.TabPage4.Size = New System.Drawing.Size(541, 289)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Buscar / Reemplazar"
         Me.TabPage4.UseVisualStyleBackColor = True
         '
         'grbBuscarReemplazar
         '
+        Me.grbBuscarReemplazar.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grbBuscarReemplazar.Controls.Add(Me.chkWholeWord)
         Me.grbBuscarReemplazar.Controls.Add(Me.chkMatchCase)
         Me.grbBuscarReemplazar.Controls.Add(Me.grbReemplazar)
@@ -378,7 +392,7 @@ Partial Class FormOpciones
         Me.grbBuscarReemplazar.Location = New System.Drawing.Point(12, 12)
         Me.grbBuscarReemplazar.Margin = New System.Windows.Forms.Padding(12)
         Me.grbBuscarReemplazar.Name = "grbBuscarReemplazar"
-        Me.grbBuscarReemplazar.Size = New System.Drawing.Size(517, 256)
+        Me.grbBuscarReemplazar.Size = New System.Drawing.Size(517, 265)
         Me.grbBuscarReemplazar.TabIndex = 0
         Me.grbBuscarReemplazar.TabStop = False
         Me.grbBuscarReemplazar.Text = "Opciones de  buscar y reemplazar"
@@ -521,18 +535,21 @@ Partial Class FormOpciones
         Me.TabPage5.Location = New System.Drawing.Point(4, 24)
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(541, 280)
+        Me.TabPage5.Size = New System.Drawing.Size(541, 289)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Edición"
         Me.TabPage5.UseVisualStyleBackColor = True
         '
         'GroupBox2
         '
+        Me.GroupBox2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.Controls.Add(Me.GroupBox3)
         Me.GroupBox2.Controls.Add(Me.Label4)
         Me.GroupBox2.Location = New System.Drawing.Point(12, 12)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(517, 256)
+        Me.GroupBox2.Size = New System.Drawing.Size(517, 265)
         Me.GroupBox2.TabIndex = 0
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Recortes de edición"
@@ -599,7 +616,7 @@ Partial Class FormOpciones
         'btnAceptar
         '
         Me.btnAceptar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnAceptar.Location = New System.Drawing.Point(405, 326)
+        Me.btnAceptar.Location = New System.Drawing.Point(405, 335)
         Me.btnAceptar.Name = "btnAceptar"
         Me.btnAceptar.Size = New System.Drawing.Size(75, 23)
         Me.btnAceptar.TabIndex = 1
@@ -609,12 +626,46 @@ Partial Class FormOpciones
         'btnCancelar
         '
         Me.btnCancelar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnCancelar.Location = New System.Drawing.Point(486, 326)
+        Me.btnCancelar.Location = New System.Drawing.Point(486, 335)
         Me.btnCancelar.Name = "btnCancelar"
         Me.btnCancelar.Size = New System.Drawing.Size(75, 23)
         Me.btnCancelar.TabIndex = 2
         Me.btnCancelar.Text = "Cancelar"
         Me.btnCancelar.UseVisualStyleBackColor = True
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.chkCaseSensitive)
+        Me.GroupBox4.Controls.Add(Me.chkCompareOrdinal)
+        Me.GroupBox4.Location = New System.Drawing.Point(12, 195)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(511, 77)
+        Me.GroupBox4.TabIndex = 5
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Clasificar:"
+        '
+        'chkCaseSensitive
+        '
+        Me.chkCaseSensitive.AutoSize = True
+        Me.chkCaseSensitive.Location = New System.Drawing.Point(6, 22)
+        Me.chkCaseSensitive.Name = "chkCaseSensitive"
+        Me.chkCaseSensitive.Size = New System.Drawing.Size(221, 19)
+        Me.chkCaseSensitive.TabIndex = 0
+        Me.chkCaseSensitive.Text = "Distinguir &mayúsculas de minúsculas"
+        Me.toolTip1.SetToolTip(Me.chkCaseSensitive, "Si al clasificar se distinguen las mayúsculas de las minúsculas.")
+        Me.chkCaseSensitive.UseVisualStyleBackColor = True
+        '
+        'chkCompareOrdinal
+        '
+        Me.chkCompareOrdinal.AutoSize = True
+        Me.chkCompareOrdinal.Location = New System.Drawing.Point(6, 47)
+        Me.chkCompareOrdinal.Name = "chkCompareOrdinal"
+        Me.chkCompareOrdinal.Size = New System.Drawing.Size(422, 19)
+        Me.chkCompareOrdinal.TabIndex = 0
+        Me.chkCompareOrdinal.Text = "&Ordinal: Las mayúsculas antes de las minúsculas (debe distinguir may/min)"
+        Me.toolTip1.SetToolTip(Me.chkCompareOrdinal, "Si al clasificar se ponen las mayúsculas antes de las minúsculas," & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "debe distingui" &
+        "r mayúsculas de minúsculas.")
+        Me.chkCompareOrdinal.UseVisualStyleBackColor = True
         '
         'FormOpciones
         '
@@ -622,7 +673,7 @@ Partial Class FormOpciones
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancelar
-        Me.ClientSize = New System.Drawing.Size(573, 361)
+        Me.ClientSize = New System.Drawing.Size(573, 370)
         Me.Controls.Add(Me.btnAceptar)
         Me.Controls.Add(Me.btnCancelar)
         Me.Controls.Add(Me.tabControl1)
@@ -654,17 +705,12 @@ Partial Class FormOpciones
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
-
-    Friend chkColorearEvaluar As CheckBox
-    Friend chkCompilarEvaluar As CheckBox
     Friend chkCargarUltimo As System.Windows.Forms.CheckBox
-    Friend chkColorearCargar As System.Windows.Forms.CheckBox
-    Friend chkMatchCase As CheckBox
-    Friend chkWholeWord As CheckBox
-    Friend chkWordWrap As System.Windows.Forms.CheckBox
     Private btnAceptar As System.Windows.Forms.Button
     Private btnCancelar As System.Windows.Forms.Button
     Private btnOrdenar As System.Windows.Forms.Button
@@ -687,7 +733,6 @@ Partial Class FormOpciones
     Private TabPage4 As TabPage
     Private toolTip1 As ToolTip
     Private txtFic As System.Windows.Forms.TextBox
-    Friend chkMostrarLineasHTML As CheckBox
     Private grbColores As GroupBox
     Private labelTamaño As Label
     Private labelFuente As Label
@@ -705,4 +750,15 @@ Partial Class FormOpciones
     Private WithEvents comboFuenteNombre As ComboBox
     Private WithEvents comboFuenteTamaño As ComboBox
     Private WithEvents lstRecortes As ListBox
+    Private WithEvents GroupBox4 As GroupBox
+    Friend WithEvents chkIgnoreCase As CheckBox
+    Private WithEvents chkCaseSensitive As CheckBox
+    Private WithEvents chkCompareOrdinal As CheckBox
+    Private WithEvents chkColorearEvaluar As CheckBox
+    Private WithEvents chkCompilarEvaluar As CheckBox
+    Private WithEvents chkColorearCargar As CheckBox
+    Private WithEvents chkMatchCase As CheckBox
+    Private WithEvents chkWholeWord As CheckBox
+    Private WithEvents chkWordWrap As CheckBox
+    Private WithEvents chkMostrarLineasHTML As CheckBox
 End Class

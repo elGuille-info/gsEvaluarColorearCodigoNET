@@ -103,6 +103,19 @@ Partial Class Form1
         Me.menuOpciones = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuRecargarFichero = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.menuEditor = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorQuitarIndentacion = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorPonerIndentacion = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorSeparador1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuEditorPonerComentarios = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorQuitarComentarios = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorSeparador2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuEditorClasificarSeleccion = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorSeparador3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuEditorMarcador = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorMarcadorAnterior = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorMarcadorSiguiente = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorMarcadorQuitarTodos = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuTools = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolSeparatorTools1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEvaluar = New System.Windows.Forms.ToolStripMenuItem()
@@ -139,6 +152,8 @@ Partial Class Form1
         Me.buttonEditorPonerComentarios = New System.Windows.Forms.ToolStripButton()
         Me.buttonEditorQuitarComentarios = New System.Windows.Forms.ToolStripButton()
         Me.toolStripSeparatorEditor2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.buttonEditorClasificarSeleccion = New System.Windows.Forms.ToolStripButton()
+        Me.toolSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.buttonEditorMarcador = New System.Windows.Forms.ToolStripButton()
         Me.buttonEditorMarcadorAnterior = New System.Windows.Forms.ToolStripButton()
         Me.buttonEditorMarcadorSiguiente = New System.Windows.Forms.ToolStripButton()
@@ -153,6 +168,11 @@ Partial Class Form1
         Me.statusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.toolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.ColorearTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.menuEditorCambiarMayúsculas = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuMayúsculas = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuMinúsculas = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuTitulo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuCamelCase = New System.Windows.Forms.ToolStripMenuItem()
         Me.barraHerramientasContext.SuspendLayout()
         Me.menuStrip1.SuspendLayout()
         Me.panelBuscar.SuspendLayout()
@@ -667,6 +687,7 @@ Partial Class Form1
         '
         'menuEditBuscar
         '
+        Me.menuEditBuscar.Image = CType(resources.GetObject("menuEditBuscar.Image"), System.Drawing.Image)
         Me.menuEditBuscar.Name = "menuEditBuscar"
         Me.menuEditBuscar.ShortcutKeyDisplayString = "Ctrl+F"
         Me.menuEditBuscar.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F), System.Windows.Forms.Keys)
@@ -675,6 +696,7 @@ Partial Class Form1
         '
         'menuEditBuscarSiguiente
         '
+        Me.menuEditBuscarSiguiente.Image = CType(resources.GetObject("menuEditBuscarSiguiente.Image"), System.Drawing.Image)
         Me.menuEditBuscarSiguiente.Name = "menuEditBuscarSiguiente"
         Me.menuEditBuscarSiguiente.ShortcutKeyDisplayString = "F3"
         Me.menuEditBuscarSiguiente.ShortcutKeys = System.Windows.Forms.Keys.F3
@@ -691,6 +713,7 @@ Partial Class Form1
         '
         'menuEditReemplazarSiguiente
         '
+        Me.menuEditReemplazarSiguiente.Image = CType(resources.GetObject("menuEditReemplazarSiguiente.Image"), System.Drawing.Image)
         Me.menuEditReemplazarSiguiente.Name = "menuEditReemplazarSiguiente"
         Me.menuEditReemplazarSiguiente.ShortcutKeyDisplayString = "Alt+R"
         Me.menuEditReemplazarSiguiente.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
@@ -699,6 +722,7 @@ Partial Class Form1
         '
         'menuEditReemplazarTodos
         '
+        Me.menuEditReemplazarTodos.Image = CType(resources.GetObject("menuEditReemplazarTodos.Image"), System.Drawing.Image)
         Me.menuEditReemplazarTodos.Name = "menuEditReemplazarTodos"
         Me.menuEditReemplazarTodos.ShortcutKeyDisplayString = "Alt+A"
         Me.menuEditReemplazarTodos.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
@@ -849,12 +873,102 @@ Partial Class Form1
         '
         'menuStrip1
         '
-        Me.menuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuFile, Me.menuEdit, Me.menuTools})
+        Me.menuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuFile, Me.menuEdit, Me.menuEditor, Me.menuTools})
         Me.menuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.menuStrip1.Name = "menuStrip1"
         Me.menuStrip1.Size = New System.Drawing.Size(1185, 24)
         Me.menuStrip1.TabIndex = 0
         Me.menuStrip1.Text = "MenuStrip1"
+        '
+        'menuEditor
+        '
+        Me.menuEditor.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditorQuitarIndentacion, Me.menuEditorPonerIndentacion, Me.menuEditorSeparador1, Me.menuEditorPonerComentarios, Me.menuEditorQuitarComentarios, Me.menuEditorSeparador2, Me.menuEditorClasificarSeleccion, Me.menuEditorCambiarMayúsculas, Me.menuEditorSeparador3, Me.menuEditorMarcador, Me.menuEditorMarcadorAnterior, Me.menuEditorMarcadorSiguiente, Me.menuEditorMarcadorQuitarTodos})
+        Me.menuEditor.Name = "menuEditor"
+        Me.menuEditor.Size = New System.Drawing.Size(50, 20)
+        Me.menuEditor.Text = "Edi&tor"
+        '
+        'menuEditorQuitarIndentacion
+        '
+        Me.menuEditorQuitarIndentacion.Image = CType(resources.GetObject("menuEditorQuitarIndentacion.Image"), System.Drawing.Image)
+        Me.menuEditorQuitarIndentacion.Name = "menuEditorQuitarIndentacion"
+        Me.menuEditorQuitarIndentacion.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorQuitarIndentacion.Text = "Quitar indentación"
+        '
+        'menuEditorPonerIndentacion
+        '
+        Me.menuEditorPonerIndentacion.Image = CType(resources.GetObject("menuEditorPonerIndentacion.Image"), System.Drawing.Image)
+        Me.menuEditorPonerIndentacion.Name = "menuEditorPonerIndentacion"
+        Me.menuEditorPonerIndentacion.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorPonerIndentacion.Text = "Poner indentación"
+        '
+        'menuEditorSeparador1
+        '
+        Me.menuEditorSeparador1.Name = "menuEditorSeparador1"
+        Me.menuEditorSeparador1.Size = New System.Drawing.Size(310, 6)
+        '
+        'menuEditorPonerComentarios
+        '
+        Me.menuEditorPonerComentarios.Image = CType(resources.GetObject("menuEditorPonerComentarios.Image"), System.Drawing.Image)
+        Me.menuEditorPonerComentarios.Name = "menuEditorPonerComentarios"
+        Me.menuEditorPonerComentarios.ShortcutKeyDisplayString = "Ctrl+K, Ctrl+C"
+        Me.menuEditorPonerComentarios.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorPonerComentarios.Text = "Poner comentarios"
+        '
+        'menuEditorQuitarComentarios
+        '
+        Me.menuEditorQuitarComentarios.Image = CType(resources.GetObject("menuEditorQuitarComentarios.Image"), System.Drawing.Image)
+        Me.menuEditorQuitarComentarios.Name = "menuEditorQuitarComentarios"
+        Me.menuEditorQuitarComentarios.ShortcutKeyDisplayString = "Ctrl+K, Ctrl+U"
+        Me.menuEditorQuitarComentarios.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorQuitarComentarios.Text = "Quitar comentarios"
+        '
+        'menuEditorSeparador2
+        '
+        Me.menuEditorSeparador2.Name = "menuEditorSeparador2"
+        Me.menuEditorSeparador2.Size = New System.Drawing.Size(310, 6)
+        '
+        'menuEditorClasificarSeleccion
+        '
+        Me.menuEditorClasificarSeleccion.Image = CType(resources.GetObject("menuEditorClasificarSeleccion.Image"), System.Drawing.Image)
+        Me.menuEditorClasificarSeleccion.Name = "menuEditorClasificarSeleccion"
+        Me.menuEditorClasificarSeleccion.ShortcutKeyDisplayString = "Shit+Alt+L, Shift+Alt+S"
+        Me.menuEditorClasificarSeleccion.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorClasificarSeleccion.Text = "Clasificar selección"
+        '
+        'menuEditorSeparador3
+        '
+        Me.menuEditorSeparador3.Name = "menuEditorSeparador3"
+        Me.menuEditorSeparador3.Size = New System.Drawing.Size(310, 6)
+        '
+        'menuEditorMarcador
+        '
+        Me.menuEditorMarcador.Image = CType(resources.GetObject("menuEditorMarcador.Image"), System.Drawing.Image)
+        Me.menuEditorMarcador.Name = "menuEditorMarcador"
+        Me.menuEditorMarcador.ShortcutKeyDisplayString = "Ctrl+K, Ctrl+K"
+        Me.menuEditorMarcador.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorMarcador.Text = "Alternar marcador"
+        '
+        'menuEditorMarcadorAnterior
+        '
+        Me.menuEditorMarcadorAnterior.Image = CType(resources.GetObject("menuEditorMarcadorAnterior.Image"), System.Drawing.Image)
+        Me.menuEditorMarcadorAnterior.Name = "menuEditorMarcadorAnterior"
+        Me.menuEditorMarcadorAnterior.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorMarcadorAnterior.Text = "Ir al marcador anterior"
+        '
+        'menuEditorMarcadorSiguiente
+        '
+        Me.menuEditorMarcadorSiguiente.Image = CType(resources.GetObject("menuEditorMarcadorSiguiente.Image"), System.Drawing.Image)
+        Me.menuEditorMarcadorSiguiente.Name = "menuEditorMarcadorSiguiente"
+        Me.menuEditorMarcadorSiguiente.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorMarcadorSiguiente.Text = "Ir al marcador siguiente"
+        '
+        'menuEditorMarcadorQuitarTodos
+        '
+        Me.menuEditorMarcadorQuitarTodos.Image = CType(resources.GetObject("menuEditorMarcadorQuitarTodos.Image"), System.Drawing.Image)
+        Me.menuEditorMarcadorQuitarTodos.Name = "menuEditorMarcadorQuitarTodos"
+        Me.menuEditorMarcadorQuitarTodos.ShortcutKeyDisplayString = "Ctrl+K, Ctrl+L"
+        Me.menuEditorMarcadorQuitarTodos.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorMarcadorQuitarTodos.Text = "Eliminar todos los marcadores"
         '
         'menuTools
         '
@@ -1057,7 +1171,6 @@ Partial Class Form1
         '
         Me.panelHerramientas.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.panelHerramientas.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.panelHerramientas.ContextMenuStrip = Me.barraHerramientasContext
         Me.panelHerramientas.Controls.Add(Me.toolStripFicheros)
         Me.panelHerramientas.Controls.Add(Me.toolStripEdicion)
@@ -1074,11 +1187,11 @@ Partial Class Form1
         'toolStripEditor
         '
         Me.toolStripEditor.Dock = System.Windows.Forms.DockStyle.None
-        Me.toolStripEditor.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEditorQuitarIndentacion, Me.buttonEditorPonerIndentacion, Me.toolStripSeparatorEditor1, Me.buttonEditorPonerComentarios, Me.buttonEditorQuitarComentarios, Me.toolStripSeparatorEditor2, Me.buttonEditorMarcador, Me.buttonEditorMarcadorAnterior, Me.buttonEditorMarcadorSiguiente, Me.toolStripSeparatorEditor3, Me.buttonEditorMarcadorQuitarTodos})
+        Me.toolStripEditor.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEditorQuitarIndentacion, Me.buttonEditorPonerIndentacion, Me.toolStripSeparatorEditor1, Me.buttonEditorPonerComentarios, Me.buttonEditorQuitarComentarios, Me.toolStripSeparatorEditor2, Me.buttonEditorClasificarSeleccion, Me.toolSeparator4, Me.buttonEditorMarcador, Me.buttonEditorMarcadorAnterior, Me.buttonEditorMarcadorSiguiente, Me.toolStripSeparatorEditor3, Me.buttonEditorMarcadorQuitarTodos})
         Me.toolStripEditor.Location = New System.Drawing.Point(892, 3)
         Me.toolStripEditor.Margin = New System.Windows.Forms.Padding(3)
         Me.toolStripEditor.Name = "toolStripEditor"
-        Me.toolStripEditor.Size = New System.Drawing.Size(214, 25)
+        Me.toolStripEditor.Size = New System.Drawing.Size(243, 25)
         Me.toolStripEditor.TabIndex = 0
         Me.toolStripEditor.Text = "Editor"
         '
@@ -1129,6 +1242,20 @@ Partial Class Form1
         '
         Me.toolStripSeparatorEditor2.Name = "toolStripSeparatorEditor2"
         Me.toolStripSeparatorEditor2.Size = New System.Drawing.Size(6, 25)
+        '
+        'buttonEditorClasificarSeleccion
+        '
+        Me.buttonEditorClasificarSeleccion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.buttonEditorClasificarSeleccion.Image = CType(resources.GetObject("buttonEditorClasificarSeleccion.Image"), System.Drawing.Image)
+        Me.buttonEditorClasificarSeleccion.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.buttonEditorClasificarSeleccion.Name = "buttonEditorClasificarSeleccion"
+        Me.buttonEditorClasificarSeleccion.Size = New System.Drawing.Size(23, 22)
+        Me.buttonEditorClasificarSeleccion.Text = "Clasificar selección (Shit+Alt+L, Shift+Alt+S)"
+        '
+        'toolSeparator4
+        '
+        Me.toolSeparator4.Name = "toolSeparator4"
+        Me.toolSeparator4.Size = New System.Drawing.Size(6, 25)
         '
         'buttonEditorMarcador
         '
@@ -1266,6 +1393,37 @@ Partial Class Form1
         '
         'ColorearTimer
         '
+        '
+        'menuEditorCambiarMayúsculas
+        '
+        Me.menuEditorCambiarMayúsculas.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuMayúsculas, Me.menuMinúsculas, Me.menuTitulo, Me.menuCamelCase})
+        Me.menuEditorCambiarMayúsculas.Name = "menuEditorCambiarMayúsculas"
+        Me.menuEditorCambiarMayúsculas.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorCambiarMayúsculas.Text = "Cambiar mayúsculas / minúsculas"
+        '
+        'menuMayúsculas
+        '
+        Me.menuMayúsculas.Name = "menuMayúsculas"
+        Me.menuMayúsculas.Size = New System.Drawing.Size(250, 22)
+        Me.menuMayúsculas.Text = "Mayúsculas"
+        '
+        'menuMinúsculas
+        '
+        Me.menuMinúsculas.Name = "menuMinúsculas"
+        Me.menuMinúsculas.Size = New System.Drawing.Size(250, 22)
+        Me.menuMinúsculas.Text = "Minúsculas"
+        '
+        'menuTitulo
+        '
+        Me.menuTitulo.Name = "menuTitulo"
+        Me.menuTitulo.Size = New System.Drawing.Size(250, 22)
+        Me.menuTitulo.Text = "Título"
+        '
+        'menuCamelCase
+        '
+        Me.menuCamelCase.Name = "menuCamelCase"
+        Me.menuCamelCase.Size = New System.Drawing.Size(250, 22)
+        Me.menuCamelCase.Text = "Título con primera en minúsculas"
         '
         'Form1
         '
@@ -1451,9 +1609,29 @@ Partial Class Form1
     Private buttonEdicionRecortes As ToolStripButton
     Private toolStripSeparatorEdicion3 As ToolStripSeparator
     Private WithEvents ColorearTimer As Timer
-    Private WithEvents toolStripLabelFichero As ToolStripLabel
-    Private WithEvents buttonEditorMarcadorQuitarTodos As ToolStripButton
-    Private WithEvents menuColorearHTML As ToolStripMenuItem
-    Private WithEvents menuEvaluar As ToolStripMenuItem
+    Private toolStripLabelFichero As ToolStripLabel
+    Private buttonEditorMarcadorQuitarTodos As ToolStripButton
+    Private menuColorearHTML As ToolStripMenuItem
+    Private menuEvaluar As ToolStripMenuItem
     Private toolSeparatorTools3 As ToolStripSeparator
+    Private menuEditor As ToolStripMenuItem
+    Private menuEditorQuitarIndentacion As ToolStripMenuItem
+    Private menuEditorPonerIndentacion As ToolStripMenuItem
+    Private menuEditorSeparador1 As ToolStripSeparator
+    Private menuEditorPonerComentarios As ToolStripMenuItem
+    Private menuEditorQuitarComentarios As ToolStripMenuItem
+    Private menuEditorSeparador2 As ToolStripSeparator
+    Private menuEditorClasificarSeleccion As ToolStripMenuItem
+    Private menuEditorSeparador3 As ToolStripSeparator
+    Private menuEditorMarcador As ToolStripMenuItem
+    Private menuEditorMarcadorAnterior As ToolStripMenuItem
+    Private menuEditorMarcadorSiguiente As ToolStripMenuItem
+    Private menuEditorMarcadorQuitarTodos As ToolStripMenuItem
+    Private buttonEditorClasificarSeleccion As ToolStripButton
+    Private toolSeparator4 As ToolStripSeparator
+    Private WithEvents menuEditorCambiarMayúsculas As ToolStripMenuItem
+    Private WithEvents menuMayúsculas As ToolStripMenuItem
+    Private WithEvents menuMinúsculas As ToolStripMenuItem
+    Private WithEvents menuTitulo As ToolStripMenuItem
+    Private WithEvents menuCamelCase As ToolStripMenuItem
 End Class

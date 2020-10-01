@@ -61,6 +61,8 @@ Public Class FormOpciones
         comboFuenteTamaño.Text = elForm.fuenteTamaño
         lstRecortes.Items.Clear()
         lstRecortes.Items.AddRange(elForm.ColRecortes.ToArray)
+        chkCaseSensitive.Checked = elForm.clasif_caseSensitive
+        chkCompareOrdinal.Checked = elForm.clasif_compareOrdinal
 
     End Sub
 
@@ -115,6 +117,8 @@ Public Class FormOpciones
                                          elForm.fuenteTamaño = comboFuenteTamaño.Text
                                          elForm.ColRecortes.Clear()
                                          elForm.ColRecortes.AddRange(lstRecortes.ToList)
+                                         elForm.clasif_caseSensitive = chkCaseSensitive.Checked
+                                         elForm.clasif_compareOrdinal = chkCompareOrdinal.Checked
 
                                          Me.DialogResult = DialogResult.OK
                                      End Sub
