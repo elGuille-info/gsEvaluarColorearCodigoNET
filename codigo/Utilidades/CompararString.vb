@@ -17,7 +17,14 @@ Imports Microsoft.VisualBasic
 Imports System
 Imports System.Collections.Generic
 
-
+''' <summary>
+''' Clase para hacer las comparaciones de cadenas.
+''' Se puede usar cuando se necesita un comparador basado en IComparer(Of String).Compare.
+''' </summary>
+''' <example>
+''' Por ejemplo:
+''' Array.Sort(lineas, 0, j + 1, New CompararString)
+''' </example>
 Public Class CompararString
     Implements System.Collections.Generic.IComparer(Of String)
 
