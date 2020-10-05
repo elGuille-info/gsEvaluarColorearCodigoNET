@@ -111,6 +111,16 @@ Partial Class Form1
         Me.menuEditorQuitarComentarios = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorSeparador2 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEditorClasificarSeleccion = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorCambiarMayúsculas = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuMayúsculas = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuMinúsculas = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuTitulo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuPrimeraMinúsculas = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorQuitarEspacios = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuQuitarEspaciosTrim = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuQuitarEspaciosTrimStart = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuQuitarEspaciosTrimEnd = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuQuitarEspaciosTodos = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorSeparador3 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEditorMarcador = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorMarcadorAnterior = New System.Windows.Forms.ToolStripMenuItem()
@@ -119,9 +129,11 @@ Partial Class Form1
         Me.menuTools = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolSeparatorTools1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEvaluar = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolSeparatorTools3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.menuColorearHTML = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolSeparatorTools2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuColorearHTML = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolSeparatorTools3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuOcultarEvaluar = New System.Windows.Forms.ToolStripMenuItem()
+        Me.toolSeparatorTools4 = New System.Windows.Forms.ToolStripSeparator()
         Me.panelBuscar = New System.Windows.Forms.Panel()
         Me.toolStripReemplazar = New System.Windows.Forms.ToolStrip()
         Me.toolStripLabelReemplazar = New System.Windows.Forms.ToolStripLabel()
@@ -161,18 +173,12 @@ Partial Class Form1
         Me.buttonEditorMarcadorQuitarTodos = New System.Windows.Forms.ToolStripButton()
         Me.richTextBoxCodigo = New System.Windows.Forms.RichTextBox()
         Me.rtbCodigoContext = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.richTextBoxSyntax = New System.Windows.Forms.RichTextBox()
         Me.richTextBoxtLineas = New System.Windows.Forms.RichTextBox()
         Me.splitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lstSyntax = New System.Windows.Forms.ListBox()
         Me.statusContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.statusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.toolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.ColorearTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.menuEditorCambiarMayúsculas = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuMayúsculas = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuMinúsculas = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuTitulo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuCamelCase = New System.Windows.Forms.ToolStripMenuItem()
         Me.barraHerramientasContext.SuspendLayout()
         Me.menuStrip1.SuspendLayout()
         Me.panelBuscar.SuspendLayout()
@@ -586,7 +592,7 @@ Partial Class Form1
         Me.menuColorear.Name = "menuColorear"
         Me.menuColorear.ShortcutKeyDisplayString = "F6"
         Me.menuColorear.ShortcutKeys = System.Windows.Forms.Keys.F6
-        Me.menuColorear.Size = New System.Drawing.Size(221, 22)
+        Me.menuColorear.Size = New System.Drawing.Size(243, 22)
         Me.menuColorear.Text = "&Colorear"
         '
         'menuCompilar
@@ -595,7 +601,7 @@ Partial Class Form1
         Me.menuCompilar.Name = "menuCompilar"
         Me.menuCompilar.ShortcutKeyDisplayString = "Ctrl+B"
         Me.menuCompilar.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
-        Me.menuCompilar.Size = New System.Drawing.Size(221, 22)
+        Me.menuCompilar.Size = New System.Drawing.Size(243, 22)
         Me.menuCompilar.Text = "Compilar"
         '
         'menuCopiarPath
@@ -735,7 +741,7 @@ Partial Class Form1
         Me.menuEjecutar.Name = "menuEjecutar"
         Me.menuEjecutar.ShortcutKeyDisplayString = "F5"
         Me.menuEjecutar.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.menuEjecutar.Size = New System.Drawing.Size(221, 22)
+        Me.menuEjecutar.Size = New System.Drawing.Size(243, 22)
         Me.menuEjecutar.Text = "Ejecutar"
         '
         'menuFile
@@ -851,7 +857,7 @@ Partial Class Form1
         Me.menuNoColorear.Name = "menuNoColorear"
         Me.menuNoColorear.ShortcutKeyDisplayString = "F7"
         Me.menuNoColorear.ShortcutKeys = System.Windows.Forms.Keys.F7
-        Me.menuNoColorear.Size = New System.Drawing.Size(221, 22)
+        Me.menuNoColorear.Size = New System.Drawing.Size(243, 22)
         Me.menuNoColorear.Text = "Mostrar sin colorear"
         '
         'menuOpciones
@@ -860,7 +866,7 @@ Partial Class Form1
         Me.menuOpciones.Name = "menuOpciones"
         Me.menuOpciones.ShortcutKeyDisplayString = "F10"
         Me.menuOpciones.ShortcutKeys = System.Windows.Forms.Keys.F10
-        Me.menuOpciones.Size = New System.Drawing.Size(221, 22)
+        Me.menuOpciones.Size = New System.Drawing.Size(243, 22)
         Me.menuOpciones.Text = "Opciones..."
         '
         'menuRecargarFichero
@@ -882,7 +888,7 @@ Partial Class Form1
         '
         'menuEditor
         '
-        Me.menuEditor.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditorQuitarIndentacion, Me.menuEditorPonerIndentacion, Me.menuEditorSeparador1, Me.menuEditorPonerComentarios, Me.menuEditorQuitarComentarios, Me.menuEditorSeparador2, Me.menuEditorClasificarSeleccion, Me.menuEditorCambiarMayúsculas, Me.menuEditorSeparador3, Me.menuEditorMarcador, Me.menuEditorMarcadorAnterior, Me.menuEditorMarcadorSiguiente, Me.menuEditorMarcadorQuitarTodos})
+        Me.menuEditor.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditorQuitarIndentacion, Me.menuEditorPonerIndentacion, Me.menuEditorSeparador1, Me.menuEditorPonerComentarios, Me.menuEditorQuitarComentarios, Me.menuEditorSeparador2, Me.menuEditorClasificarSeleccion, Me.menuEditorCambiarMayúsculas, Me.menuEditorQuitarEspacios, Me.menuEditorSeparador3, Me.menuEditorMarcador, Me.menuEditorMarcadorAnterior, Me.menuEditorMarcadorSiguiente, Me.menuEditorMarcadorQuitarTodos})
         Me.menuEditor.Name = "menuEditor"
         Me.menuEditor.Size = New System.Drawing.Size(50, 20)
         Me.menuEditor.Text = "Edi&tor"
@@ -935,6 +941,78 @@ Partial Class Form1
         Me.menuEditorClasificarSeleccion.Size = New System.Drawing.Size(313, 22)
         Me.menuEditorClasificarSeleccion.Text = "Clasificar selección"
         '
+        'menuEditorCambiarMayúsculas
+        '
+        Me.menuEditorCambiarMayúsculas.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuMayúsculas, Me.menuMinúsculas, Me.menuTitulo, Me.menuPrimeraMinúsculas})
+        Me.menuEditorCambiarMayúsculas.Name = "menuEditorCambiarMayúsculas"
+        Me.menuEditorCambiarMayúsculas.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorCambiarMayúsculas.Text = "Cambiar mayúsculas / minúsculas"
+        '
+        'menuMayúsculas
+        '
+        Me.menuMayúsculas.Name = "menuMayúsculas"
+        Me.menuMayúsculas.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
+            Or System.Windows.Forms.Keys.U), System.Windows.Forms.Keys)
+        Me.menuMayúsculas.Size = New System.Drawing.Size(345, 22)
+        Me.menuMayúsculas.Text = "Mayúsculas"
+        '
+        'menuMinúsculas
+        '
+        Me.menuMinúsculas.Name = "menuMinúsculas"
+        Me.menuMinúsculas.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
+            Or System.Windows.Forms.Keys.L), System.Windows.Forms.Keys)
+        Me.menuMinúsculas.Size = New System.Drawing.Size(345, 22)
+        Me.menuMinúsculas.Text = "Minúsculas"
+        '
+        'menuTitulo
+        '
+        Me.menuTitulo.Name = "menuTitulo"
+        Me.menuTitulo.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
+            Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
+        Me.menuTitulo.Size = New System.Drawing.Size(345, 22)
+        Me.menuTitulo.Text = "Título"
+        '
+        'menuPrimeraMinúsculas
+        '
+        Me.menuPrimeraMinúsculas.Name = "menuPrimeraMinúsculas"
+        Me.menuPrimeraMinúsculas.ShortcutKeyDisplayString = "Ctrl+Alt+Shift+L"
+        Me.menuPrimeraMinúsculas.ShortcutKeys = CType((((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
+            Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.L), System.Windows.Forms.Keys)
+        Me.menuPrimeraMinúsculas.Size = New System.Drawing.Size(345, 22)
+        Me.menuPrimeraMinúsculas.Text = "Título con primera en minúsculas"
+        '
+        'menuEditorQuitarEspacios
+        '
+        Me.menuEditorQuitarEspacios.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuQuitarEspaciosTrim, Me.menuQuitarEspaciosTrimStart, Me.menuQuitarEspaciosTrimEnd, Me.menuQuitarEspaciosTodos})
+        Me.menuEditorQuitarEspacios.Name = "menuEditorQuitarEspacios"
+        Me.menuEditorQuitarEspacios.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorQuitarEspacios.Text = "Quitar espacios"
+        '
+        'menuQuitarEspaciosTrim
+        '
+        Me.menuQuitarEspaciosTrim.Name = "menuQuitarEspaciosTrim"
+        Me.menuQuitarEspaciosTrim.Size = New System.Drawing.Size(259, 22)
+        Me.menuQuitarEspaciosTrim.Text = "Quitar los espacios delante y detrás"
+        '
+        'menuQuitarEspaciosTrimStart
+        '
+        Me.menuQuitarEspaciosTrimStart.Name = "menuQuitarEspaciosTrimStart"
+        Me.menuQuitarEspaciosTrimStart.Size = New System.Drawing.Size(259, 22)
+        Me.menuQuitarEspaciosTrimStart.Text = "Quitar los espacios de delante"
+        '
+        'menuQuitarEspaciosTrimEnd
+        '
+        Me.menuQuitarEspaciosTrimEnd.Name = "menuQuitarEspaciosTrimEnd"
+        Me.menuQuitarEspaciosTrimEnd.Size = New System.Drawing.Size(259, 22)
+        Me.menuQuitarEspaciosTrimEnd.Text = "Quitar los espacios de detrás"
+        '
+        'menuQuitarEspaciosTodos
+        '
+        Me.menuQuitarEspaciosTodos.Name = "menuQuitarEspaciosTodos"
+        Me.menuQuitarEspaciosTodos.Size = New System.Drawing.Size(259, 22)
+        Me.menuQuitarEspaciosTodos.Text = "Quitar todos los espacios"
+        '
         'menuEditorSeparador3
         '
         Me.menuEditorSeparador3.Name = "menuEditorSeparador3"
@@ -972,7 +1050,7 @@ Partial Class Form1
         '
         'menuTools
         '
-        Me.menuTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEjecutar, Me.menuCompilar, Me.toolSeparatorTools1, Me.menuEvaluar, Me.toolSeparatorTools3, Me.menuNoColorear, Me.menuColorear, Me.menuColorearHTML, Me.toolSeparatorTools2, Me.menuOpciones})
+        Me.menuTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEjecutar, Me.menuCompilar, Me.toolSeparatorTools1, Me.menuEvaluar, Me.toolSeparatorTools2, Me.menuNoColorear, Me.menuColorear, Me.menuColorearHTML, Me.toolSeparatorTools3, Me.menuOcultarEvaluar, Me.toolSeparatorTools4, Me.menuOpciones})
         Me.menuTools.Name = "menuTools"
         Me.menuTools.Size = New System.Drawing.Size(90, 20)
         Me.menuTools.Text = "&Herramientas"
@@ -980,7 +1058,7 @@ Partial Class Form1
         'toolSeparatorTools1
         '
         Me.toolSeparatorTools1.Name = "toolSeparatorTools1"
-        Me.toolSeparatorTools1.Size = New System.Drawing.Size(218, 6)
+        Me.toolSeparatorTools1.Size = New System.Drawing.Size(240, 6)
         '
         'menuEvaluar
         '
@@ -989,13 +1067,13 @@ Partial Class Form1
         Me.menuEvaluar.ShortcutKeyDisplayString = "Ctrl+Shift+B"
         Me.menuEvaluar.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
-        Me.menuEvaluar.Size = New System.Drawing.Size(221, 22)
+        Me.menuEvaluar.Size = New System.Drawing.Size(243, 22)
         Me.menuEvaluar.Text = "Evaluar"
         '
-        'toolSeparatorTools3
+        'toolSeparatorTools2
         '
-        Me.toolSeparatorTools3.Name = "toolSeparatorTools3"
-        Me.toolSeparatorTools3.Size = New System.Drawing.Size(218, 6)
+        Me.toolSeparatorTools2.Name = "toolSeparatorTools2"
+        Me.toolSeparatorTools2.Size = New System.Drawing.Size(240, 6)
         '
         'menuColorearHTML
         '
@@ -1003,13 +1081,24 @@ Partial Class Form1
         Me.menuColorearHTML.Name = "menuColorearHTML"
         Me.menuColorearHTML.ShortcutKeyDisplayString = "Shift+F6"
         Me.menuColorearHTML.ShortcutKeys = CType((System.Windows.Forms.Keys.Shift Or System.Windows.Forms.Keys.F6), System.Windows.Forms.Keys)
-        Me.menuColorearHTML.Size = New System.Drawing.Size(221, 22)
+        Me.menuColorearHTML.Size = New System.Drawing.Size(243, 22)
         Me.menuColorearHTML.Text = "Colorear en HTML"
         '
-        'toolSeparatorTools2
+        'toolSeparatorTools3
         '
-        Me.toolSeparatorTools2.Name = "toolSeparatorTools2"
-        Me.toolSeparatorTools2.Size = New System.Drawing.Size(218, 6)
+        Me.toolSeparatorTools3.Name = "toolSeparatorTools3"
+        Me.toolSeparatorTools3.Size = New System.Drawing.Size(240, 6)
+        '
+        'menuOcultarEvaluar
+        '
+        Me.menuOcultarEvaluar.Name = "menuOcultarEvaluar"
+        Me.menuOcultarEvaluar.Size = New System.Drawing.Size(243, 22)
+        Me.menuOcultarEvaluar.Text = "Ocultar lista de evaluación/error"
+        '
+        'toolSeparatorTools4
+        '
+        Me.toolSeparatorTools4.Name = "toolSeparatorTools4"
+        Me.toolSeparatorTools4.Size = New System.Drawing.Size(240, 6)
         '
         'panelBuscar
         '
@@ -1310,7 +1399,7 @@ Partial Class Form1
         Me.richTextBoxCodigo.HideSelection = False
         Me.richTextBoxCodigo.Location = New System.Drawing.Point(60, 0)
         Me.richTextBoxCodigo.Name = "richTextBoxCodigo"
-        Me.richTextBoxCodigo.Size = New System.Drawing.Size(542, 373)
+        Me.richTextBoxCodigo.Size = New System.Drawing.Size(843, 373)
         Me.richTextBoxCodigo.TabIndex = 1
         Me.richTextBoxCodigo.Text = ""
         Me.richTextBoxCodigo.WordWrap = False
@@ -1319,20 +1408,6 @@ Partial Class Form1
         '
         Me.rtbCodigoContext.Name = "rtbCodigoContextMenu"
         Me.rtbCodigoContext.Size = New System.Drawing.Size(61, 4)
-        '
-        'richTextBoxSyntax
-        '
-        Me.richTextBoxSyntax.AcceptsTab = True
-        Me.richTextBoxSyntax.DetectUrls = False
-        Me.richTextBoxSyntax.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.richTextBoxSyntax.EnableAutoDragDrop = True
-        Me.richTextBoxSyntax.Font = New System.Drawing.Font("Consolas", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.richTextBoxSyntax.Location = New System.Drawing.Point(0, 0)
-        Me.richTextBoxSyntax.Name = "richTextBoxSyntax"
-        Me.richTextBoxSyntax.Size = New System.Drawing.Size(582, 373)
-        Me.richTextBoxSyntax.TabIndex = 2
-        Me.richTextBoxSyntax.Text = ""
-        Me.richTextBoxSyntax.WordWrap = False
         '
         'richTextBoxtLineas
         '
@@ -1369,11 +1444,26 @@ Partial Class Form1
         '
         'splitContainer1.Panel2
         '
-        Me.splitContainer1.Panel2.Controls.Add(Me.richTextBoxSyntax)
+        Me.splitContainer1.Panel2.Controls.Add(Me.lstSyntax)
         Me.splitContainer1.Panel2MinSize = 0
         Me.splitContainer1.Size = New System.Drawing.Size(1185, 373)
-        Me.splitContainer1.SplitterDistance = 599
+        Me.splitContainer1.SplitterDistance = 900
         Me.splitContainer1.TabIndex = 8
+        '
+        'lstSyntax
+        '
+        Me.lstSyntax.BackColor = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer))
+        Me.lstSyntax.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.lstSyntax.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lstSyntax.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.lstSyntax.HorizontalScrollbar = True
+        Me.lstSyntax.ItemHeight = 14
+        Me.lstSyntax.Location = New System.Drawing.Point(0, 0)
+        Me.lstSyntax.Name = "lstSyntax"
+        Me.lstSyntax.ScrollAlwaysVisible = True
+        Me.lstSyntax.Size = New System.Drawing.Size(281, 373)
+        Me.lstSyntax.TabIndex = 3
+        Me.lstSyntax.TabStop = False
         '
         'statusContextMenu
         '
@@ -1391,46 +1481,13 @@ Partial Class Form1
         Me.statusStrip1.TabIndex = 2
         Me.statusStrip1.Text = "StatusStrip1"
         '
-        'ColorearTimer
-        '
-        '
-        'menuEditorCambiarMayúsculas
-        '
-        Me.menuEditorCambiarMayúsculas.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuMayúsculas, Me.menuMinúsculas, Me.menuTitulo, Me.menuCamelCase})
-        Me.menuEditorCambiarMayúsculas.Name = "menuEditorCambiarMayúsculas"
-        Me.menuEditorCambiarMayúsculas.Size = New System.Drawing.Size(313, 22)
-        Me.menuEditorCambiarMayúsculas.Text = "Cambiar mayúsculas / minúsculas"
-        '
-        'menuMayúsculas
-        '
-        Me.menuMayúsculas.Name = "menuMayúsculas"
-        Me.menuMayúsculas.Size = New System.Drawing.Size(250, 22)
-        Me.menuMayúsculas.Text = "Mayúsculas"
-        '
-        'menuMinúsculas
-        '
-        Me.menuMinúsculas.Name = "menuMinúsculas"
-        Me.menuMinúsculas.Size = New System.Drawing.Size(250, 22)
-        Me.menuMinúsculas.Text = "Minúsculas"
-        '
-        'menuTitulo
-        '
-        Me.menuTitulo.Name = "menuTitulo"
-        Me.menuTitulo.Size = New System.Drawing.Size(250, 22)
-        Me.menuTitulo.Text = "Título"
-        '
-        'menuCamelCase
-        '
-        Me.menuCamelCase.Name = "menuCamelCase"
-        Me.menuCamelCase.Size = New System.Drawing.Size(250, 22)
-        Me.menuCamelCase.Text = "Título con primera en minúsculas"
-        '
         'Form1
         '
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1185, 500)
+        Me.ContextMenuStrip = Me.barraHerramientasContext
         Me.Controls.Add(Me.menuStrip1)
         Me.Controls.Add(Me.panelHerramientas)
         Me.Controls.Add(Me.statusStrip1)
@@ -1506,7 +1563,6 @@ Partial Class Form1
     Private labelModificado As ToolStripStatusLabel
     Private labelPos As ToolStripStatusLabel
     Private labelTamaño As ToolStripStatusLabel
-    'Private menuEditBuscar As ToolStripMenuItem
     Private menuEditBuscarSiguiente As ToolStripMenuItem
     Private menuColorear As ToolStripMenuItem
     Private menuCompilar As ToolStripMenuItem
@@ -1514,7 +1570,6 @@ Partial Class Form1
     Private menuCS As ToolStripMenuItem
     Private menuEdit As ToolStripMenuItem
     Private menuEditBuscar As ToolStripMenuItem
-    'Private menuEditBuscarSiguiente As ToolStripMenuItem
     Private menuEditCopiar As ToolStripMenuItem
     Private menuEditCortar As ToolStripMenuItem
     Private menuEditDeshacer As ToolStripMenuItem
@@ -1528,7 +1583,6 @@ Partial Class Form1
     Private menuEditSeparator3 As ToolStripSeparator
     Private menuEjecutar As ToolStripMenuItem
     Private menuFile As ToolStripMenuItem
-    'Private menuFileAbrir As ToolStripMenuItem
     Private menuFileAcercaDe As ToolStripMenuItem
     Private menuFileGuardar As ToolStripMenuItem
     Private menuFileGuardarComo As ToolStripMenuItem
@@ -1541,9 +1595,6 @@ Partial Class Form1
     Private menuNoColorear As ToolStripMenuItem
     Private menuOpciones As ToolStripMenuItem
     Private menuRecargarFichero As ToolStripMenuItem
-    'Private menuEditReemplazar As ToolStripMenuItem
-    'Private menuEditReemplazarSiguiente As ToolStripMenuItem
-    'Private menuEditReemplazarTodos As ToolStripMenuItem
     Private menuStrip1 As MenuStrip
     Private menuTools As ToolStripMenuItem
     Private menuVB As ToolStripMenuItem
@@ -1557,12 +1608,9 @@ Partial Class Form1
     Private menuMostrar_Edicion As ToolStripMenuItem
     Private menuMostrar_Editor As ToolStripMenuItem
     Private panelBuscar As Panel
-    'Private panelCompilar As Panel
-    'Private panelEdicion As Panel
-    'Private panelFicheros As Panel
     Private panelHerramientas As FlowLayoutPanel 'Panel
     Private richTextBoxCodigo As RichTextBox
-    Private richTextBoxSyntax As RichTextBox
+    'Private richTextBoxSyntax As RichTextBox
     Private richTextBoxtLineas As RichTextBox
     Private rtbCodigoContext As ContextMenuStrip
     Private splitContainer1 As SplitContainer
@@ -1593,7 +1641,6 @@ Partial Class Form1
     Private toolStripSeparatorReemplazar As ToolStripSeparator
     Private toolTip1 As ToolTip
     Private chkMostrarLineasHTML As ToolStripButton
-    'Private panelEditor As Panel
     Private toolStripEditor As ToolStrip
     Private toolStripSeparatorEditor1 As ToolStripSeparator
     Private toolStripSeparatorEditor2 As ToolStripSeparator
@@ -1608,7 +1655,6 @@ Partial Class Form1
     Private buttonEditorMarcadorSiguiente As ToolStripButton
     Private buttonEdicionRecortes As ToolStripButton
     Private toolStripSeparatorEdicion3 As ToolStripSeparator
-    Private WithEvents ColorearTimer As Timer
     Private toolStripLabelFichero As ToolStripLabel
     Private buttonEditorMarcadorQuitarTodos As ToolStripButton
     Private menuColorearHTML As ToolStripMenuItem
@@ -1629,9 +1675,17 @@ Partial Class Form1
     Private menuEditorMarcadorQuitarTodos As ToolStripMenuItem
     Private buttonEditorClasificarSeleccion As ToolStripButton
     Private toolSeparator4 As ToolStripSeparator
-    Private WithEvents menuEditorCambiarMayúsculas As ToolStripMenuItem
-    Private WithEvents menuMayúsculas As ToolStripMenuItem
-    Private WithEvents menuMinúsculas As ToolStripMenuItem
-    Private WithEvents menuTitulo As ToolStripMenuItem
-    Private WithEvents menuCamelCase As ToolStripMenuItem
+    Private menuEditorCambiarMayúsculas As ToolStripMenuItem
+    Private menuMayúsculas As ToolStripMenuItem
+    Private menuMinúsculas As ToolStripMenuItem
+    Private menuTitulo As ToolStripMenuItem
+    Private menuPrimeraMinúsculas As ToolStripMenuItem
+    Private menuEditorQuitarEspacios As ToolStripMenuItem
+    Private menuQuitarEspaciosTrim As ToolStripMenuItem
+    Private menuQuitarEspaciosTrimStart As ToolStripMenuItem
+    Private menuQuitarEspaciosTrimEnd As ToolStripMenuItem
+    Private menuQuitarEspaciosTodos As ToolStripMenuItem
+    Private WithEvents lstSyntax As ListBox
+    Private menuOcultarEvaluar As ToolStripMenuItem
+    Private toolSeparatorTools4 As ToolStripSeparator
 End Class

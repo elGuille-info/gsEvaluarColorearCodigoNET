@@ -14,19 +14,19 @@ Imports System.Collections.Generic
 Public Class FormOpciones
 
 
-    ''' <summary>
-    ''' Si se deben cambiar de línea si el texto sobrepasa el borde derecho
-    ''' </summary>
-    ''' <returns></returns>
-    ''' <remarks>Por ahora siempre será false (17/Sep/20)</remarks>
-    Private Property WordWrap As Boolean
-        Get
-            Return False 'chkWordWrap.Checked
-        End Get
-        Set(value As Boolean)
-            chkWordWrap.Checked = False ' value
-        End Set
-    End Property
+    '''' <summary>
+    '''' Si se deben cambiar de línea si el texto sobrepasa el borde derecho
+    '''' </summary>
+    '''' <returns></returns>
+    '''' <remarks>Por ahora siempre será false (17/Sep/20)</remarks>
+    'Private Property WordWrap As Boolean
+    '    Get
+    '        Return False 'chkWordWrap.Checked
+    '    End Get
+    '    Set(value As Boolean)
+    '        chkWordWrap.Checked = False ' value
+    '    End Set
+    'End Property
 
     Private elForm As Form1
 
@@ -61,8 +61,9 @@ Public Class FormOpciones
         comboFuenteTamaño.Text = elForm.fuenteTamaño
         lstRecortes.Items.Clear()
         lstRecortes.Items.AddRange(elForm.ColRecortes.ToArray)
-        chkCaseSensitive.Checked = elForm.clasif_caseSensitive
-        chkCompareOrdinal.Checked = elForm.clasif_compareOrdinal
+        chkCaseSensitive.Checked = CompararString.IgnoreCase
+        chkCompareOrdinal.Checked = CompararString.CompareOrdinal
+        chkCambiarTab.Checked = elForm.cambiarTabs
 
     End Sub
 
@@ -117,8 +118,9 @@ Public Class FormOpciones
                                          elForm.fuenteTamaño = comboFuenteTamaño.Text
                                          elForm.ColRecortes.Clear()
                                          elForm.ColRecortes.AddRange(lstRecortes.ToList)
-                                         elForm.clasif_caseSensitive = chkCaseSensitive.Checked
-                                         elForm.clasif_compareOrdinal = chkCompareOrdinal.Checked
+                                         CompararString.IgnoreCase = chkCaseSensitive.Checked
+                                         CompararString.CompareOrdinal = chkCompareOrdinal.Checked
+                                         elForm.cambiarTabs = chkCambiarTab.Checked
 
                                          Me.DialogResult = DialogResult.OK
                                      End Sub

@@ -34,11 +34,11 @@ Public Class Compilar
     ''' <summary>
     ''' El nombre del lenguaje VB (como está definido en Compilation.Language)
     ''' </summary>
-    Private Const LenguajeVisualBasic As String = "Visual Basic"
+    Public Const LenguajeVisualBasic As String = "Visual Basic"
     ''' <summary>
     ''' El nombre del lenguaje C# (como está definido en Compilation.Language)
     ''' </summary>
-    Private Const LenguajeCSharp As String = "C#"
+    Public Const LenguajeCSharp As String = "C#"
 
 
     ''' <summary>
@@ -128,7 +128,7 @@ Public Class Compilar
         End If
 
         Dim lenguaje = If(extension = ".vb", LenguajeVisualBasic, LenguajeCSharp)
-        Dim result = GenerarCompilacion(sourceCode, outputDll, lenguaje).Emit(outputPath)
+        Dim result As EmitResult = GenerarCompilacion(sourceCode, outputDll, lenguaje).Emit(outputPath)
 
         ' para ejecutar una DLL usando dotnet, necesitamos un fichero de configuración
         CrearJson((result, outputPath, EsWinForm))
@@ -326,8 +326,8 @@ Public Class Compilar
     ''' <param name="sourceCode">El código a evaluar</param>
     ''' <param name="lenguaje">El lenguaje a usar (Visual Basic o C#)</param>
     ''' <returns>Una colección del tipo <see cref="Dictionary(Of String, List(Of String))"/> con los elementos del código</returns>
-    Public Shared Function EvaluaCodigo(sourceCode As String,
-                                        lenguaje As String) As Dictionary(Of String, List(Of String))
+    Public Shared Function EvaluaCodigo(sourceCode As String, lenguaje As String) As _
+                                            Dictionary(Of String, Dictionary(Of String, ClassifSpanInfo))
 
         Dim colSpans = GetClasSpans(sourceCode, lenguaje)
         Return EvaluaCodigo(sourceCode, colSpans)
@@ -339,21 +339,36 @@ Public Class Compilar
     ''' <param name="sourceCode">El código a evaluar</param>
     ''' <param name="colSpans">Un enumerador del tipo IEnumerable(Of ClassifiedSpan)</param>
     ''' <returns>Una colección del tipo <see cref="Dictionary(Of String, List(Of String))"/> con los elementos del código</returns>
-    Private Shared Function EvaluaCodigo(sourceCode As String,
-                                         colSpans As IEnumerable(Of ClassifiedSpan)) As Dictionary(Of String, List(Of String))
+    Private Shared Function EvaluaCodigo(sourceCode As String, colSpans As IEnumerable(Of ClassifiedSpan)) As _
+                                                Dictionary(Of String, Dictionary(Of String, ClassifSpanInfo))
 
-        Dim colCodigo As New Dictionary(Of String, List(Of String))
+        Dim colCodigo As New Dictionary(Of String, Dictionary(Of String, ClassifSpanInfo))
 
         Dim source = SourceText.From(sourceCode)
 
+        ClassifSpanInfo.SourceText = source
+
+        ' No distinguir entre mayúsculas/minúsculas al comparar     (05/Oct/20)
+        CompararString.IgnoreCase = True
+        Dim compStr As New CompararString
+
         For Each classifSpan In colSpans
             Dim word = source.ToString(classifSpan.TextSpan)
+            'Dim o = source.ToString() ' classifSpan.ClassificationType)
 
-            If Not colCodigo.Keys.Contains(classifSpan.ClassificationType) Then
-                colCodigo.Add(classifSpan.ClassificationType, New List(Of String))
+            If Not colCodigo.Keys.Contains(classifSpan.ClassificationType, compStr) Then
+                colCodigo.Add(classifSpan.ClassificationType, New Dictionary(Of String, ClassifSpanInfo))
             End If
-            If Not colCodigo(classifSpan.ClassificationType).Contains(word) Then
-                colCodigo(classifSpan.ClassificationType).Add(word)
+            If Not colCodigo(classifSpan.ClassificationType).Keys.Contains(word, compStr) Then
+                Dim csI = New ClassifSpanInfo(classifSpan, word)
+                colCodigo(classifSpan.ClassificationType).Add(word, csI)
+
+                'colCodigo(classifSpan.ClassificationType)(word).Add(csI)
+
+                ' No añadir más, solo una
+                'Else
+                '    Dim dcsI As New ClassifSpanInfo(classifSpan, word)
+                '    colCodigo(classifSpan.ClassificationType)(word).Add(dcsI)
             End If
         Next
 
@@ -388,6 +403,7 @@ Public Class Compilar
         'Dim slang = comp.Language ' "C#" o "Visual Basic"
 
         Dim semantic = comp.GetSemanticModel(tree)
+        'Dim errores = comp.GetDiagnostics
         Dim clasSpans = Classifier.GetClassifiedSpans(semantic, New TextSpan(0, source.Length), workspace)
 
         Return clasSpans
@@ -510,42 +526,43 @@ Public Class Compilar
     Public Shared Function ColoreaHTML(sourceCode As String, lenguaje As String, mostrarLineas As Boolean) As String
         ' Iniciado el 23/Sep/20 y finalizado el 25/Sep/20
 
-        ' El color de fondo y de las letras de los números de línea
-        Const cFondoNum = "#f5f5f5" ' "#eaeaea"
-        Dim cNum = GetStringColorFromName("class name")
+        sourceCode = sourceCode.Replace("<b", "&lt;b").Replace("<s", "&lt;s").Replace("</b", "&lt;/b").Replace("</s", "&lt;/s")
 
         Dim colSpans = GetClasSpans(sourceCode:=sourceCode, lenguaje)
 
         Dim codigoHTML = sourceCode
-
-        Dim colL As New List(Of (lin As Integer, pos As Point, span As String))
-
         Dim source = SourceText.From(sourceCode)
-        Dim selectionStart As Integer
-        Dim selectionLength As Integer
+        'Dim selectionStart As Integer
+        'Dim selectionLength As Integer
 
-        '#Const CAMBIARSTATICSYMBOL = True
-
-
-        '#If CAMBIARSTATICSYMBOL Then
         Dim colCodigo = EvaluaCodigo(sourceCode, colSpans)
-        '#End If
+
+        Dim htmlL = codigoHTML.Split(vbCr)
+
+        ' Usar estos valores para que no ecuentre palabras          (03/Oct/20)
+        ' contenidas en los span
+        ' Es importante que NO contengan palabras o letras          (04/Oct/20)
+        ' y, por supuesto, sean diferentes.
+        Const tagSpanColor = "<$$###+$$###='$$##$$:" ' <span style='color:
+        Const tagSpanEnd = "</$$###-$$###>" '</span>
+        Const tagBold = "<$$##+$$##>" ' <b> {tagBold}
+        Const tagBoldEnd = "</$$##-$$##>" ' </b> {tagBoldEnd}
 
         For Each classifSpan In colSpans
             Dim word = source.ToString(classifSpan.TextSpan)
             Dim linea = source.Lines.GetLinePosition(classifSpan.TextSpan.Start)
+            'Debug.Assert(Not word.Contains("///"))
+            Dim colRGB = GetStringColorFromName(classifSpan.ClassificationType)
 
-            Dim colRGB = GetStringColorFromName(classifSpan.ClassificationType) ' "#------" '
-
-            selectionStart = classifSpan.TextSpan.Start
-            selectionLength = word.Length
-
+            'selectionStart = classifSpan.TextSpan.Start
+            'selectionLength = word.Length
             Dim span = word
-            colL.Add((linea.Line, New Point(selectionStart, selectionLength), span))
-            Dim n = colL.Count - 1
+            Dim csI = New ClassifSpanInfo(classifSpan, word)
+
+            ' Si es el color negro, no añadir los <span
             If colRGB <> "#000000" AndAlso word.Length > 1 Then
 
-                '#If CAMBIARSTATICSYMBOL Then
+                'Debug.Assert(word.Contains("Inherits") = False)
 
                 ' Si la palabra está en static symbol,              (25/Sep/20)
                 ' colorear como static symbol y poner en negrita
@@ -554,216 +571,75 @@ Public Class Compilar
                 ' Si está en property name cambiarlo al color de property name
 
                 ' Comprobaciones por si no existe en la colección
-                Dim esClassName = If(colCodigo.Keys.Contains("class name"), colCodigo("class name").Contains(word), False)
-                Dim esStaticSymbol = If(colCodigo.Keys.Contains("static symbol"), colCodigo("static symbol").Contains(word), False)
-                Dim esPropertyName = If(colCodigo.Keys.Contains("property name"), colCodigo("property name").Contains(word), False)
+                Dim esClassName = If(colCodigo.Keys.Contains("class name"), colCodigo("class name").Keys.Contains(word), False)
+                Dim esStaticSymbol = If(colCodigo.Keys.Contains("static symbol"), colCodigo("static symbol").Keys.Contains(word), False)
+                Dim esPropertyName = If(colCodigo.Keys.Contains("property name"), colCodigo("property name").Keys.Contains(word), False)
                 If esClassName Then
                     ' En C# poner las clases en negrita
                     If lenguaje = "C#" Then
-                        span = $"<b><span style='color:{GetStringColorFromName("class name")}'>{word}</span></b>"
+                        span = $"{tagBold}{tagSpanColor}{GetStringColorFromName("class name")}'>{word}{tagSpanEnd}{tagBoldEnd}"
                     Else
-                        span = $"<span style='color:{GetStringColorFromName("class name")}'>{word}</span>"
+                        span = $"{tagSpanColor}{GetStringColorFromName("class name")}'>{word}{tagSpanEnd}"
                     End If
                 ElseIf esStaticSymbol Then
-                    span = $"<b><span style='color:{GetStringColorFromName("static symbol")}'>{word}</span></b>"
+                    span = $"{tagBold}{tagSpanColor}{GetStringColorFromName("static symbol")}'>{word}{tagSpanEnd}{tagBoldEnd}"
                 ElseIf esPropertyName Then
-                    span = $"<span style='color:{GetStringColorFromName("property name")}'>{word}</span>"
+                    span = $"{tagSpanColor}{GetStringColorFromName("property name")}'>{word}{tagSpanEnd}"
                 ElseIf classifSpan.ClassificationType = "method name" Then
-                    span = $"<b><span style='color:{colRGB}'>{word}</span></b>"
-'#Else
-'                If classifSpan.ClassificationType = "method name" OrElse classifSpan.ClassificationType = "static symbol" Then
-'                    span = $"<b><span style='color:{colRGB}'>{word}</span></b>"
-'#End If
+                    span = $"{tagBold}{tagSpanColor}{colRGB}'>{word}{tagSpanEnd}{tagBoldEnd}"
                 Else
-                    span = $"<span style='color:{colRGB}'>{word}</span>"
+                    span = $"{tagSpanColor}{colRGB}'>{word}{tagSpanEnd}"
                 End If
             End If
-            colL(n) = (colL(n).lin, colL(n).pos, span)
+
+            If word.Contains(vbCr) Then
+                Dim wordL = word.Split(vbCr)
+                For i = 1 To wordL.Length - 1
+                    If htmlL(linea.Line + i) = "" Then htmlL(linea.Line + i) = "<BoRrAr EstO>"
+                    If wordL(i) <> "" Then
+                        htmlL(linea.Line + i) = htmlL(linea.Line + i).Replace(wordL(i), "")
+                    End If
+                    If htmlL(linea.Line + i) = "" Then htmlL(linea.Line + i) = "<BoRrAr EstO>"
+                Next
+                htmlL(linea.Line) = htmlL(linea.Line).ReplaceSiNoEstaPoner(wordL(0), word)
+            End If
+            If word <> span Then
+                'Debug.Assert(word.Contains("lt") = False)
+                htmlL(linea.Line) = htmlL(linea.Line).ReplaceSiNoEstaPoner(word, span)
+            End If
 
             Application.DoEvents()
         Next
 
-        Dim htmlL = codigoHTML.Split(vbCr)
-
-        ' Recorrer las colecciones para añadir los cambios de línea
-        ' y corregir el coloreado y comentarios multilíneas
-        For i = 0 To colL.Count - 1
-            Dim l1 = colL(i).lin
-            Dim s = htmlL(l1)
-            Dim word = sourceCode.Substring(colL(i).pos.X, colL(i).pos.Y)
-            If word.Length = 1 Then
-                ' si son iguales no hacer nada
-                If word <> colL(i).span Then
-                    Dim j = s.LastIndexOf("</span>")
-                    If j = -1 Then j = -6
-                    Dim k = s.IndexOf(word, j + 7)
-                    If k > -1 Then
-                        s = s.Substring(0, k) & colL(i).span & s.Substring(k + 1)
-                    End If
-                End If
-            Else
-                ' Si es un comentario múltiple que no empieza al principio
-                ' se supone que hay código delante de ese comentario: using System; /* comentario */
-                If s.TrimStart().Contains(" /*") AndAlso s.Contains("*/") = True Then
-                    s = s.Replace(word, colL(i).span)
-
-                ElseIf s.TrimStart().Contains(" /*") AndAlso s.Contains("*/") = False Then
-                    ' aunque puede continuar en líneas diferentes:
-                    ' using System; /* comentario
-                    '   que sigue en otra línea */
-                    ' word contendrá el vbCr si es en dos líneas
-                    Dim j1 = word.IndexOf(vbCr)
-                    If j1 > -1 Then
-                        Dim word1 = word.Substring(0, j1)
-                        Dim word2 = word.Substring(j1 + vbCr.Length)
-                        ' borrar las líneas de hmlL que tengan
-                        ' ese código
-                        For i1 = l1 To htmlL.Length - 1
-                            If htmlL(i1).IndexOf(word1) = -1 Then
-                                If htmlL(i1).IndexOf(word2) = -1 Then
-                                    Exit For
-                                End If
-                            End If
-                            ' Cambio de mayúculas y minúsculas
-                            ' para que sea más complicado que sea casualida ;-)
-                            htmlL(i1) = "<BoRrAr EstO>"
-                        Next
-                        If mostrarLineas Then
-                            Dim s1 = colL(i).span.Replace(vbCr & word2, "").Replace("</span>", "")
-                            colL(i) = (colL(i).lin, colL(i).pos, s1)
-                            s = s.Replace(word1, colL(i).span) & $"{vbCr}<span style='color:{cNum}; background:{cFondoNum}'>{(l1 + 2).ToString("0").PadLeft(4)} </span>&nbsp;" & word2 & "</span>"
-                        Else
-                            s = s.Replace(word1, colL(i).span)
-                        End If
-                    Else
-                        s = s.Replace(word, colL(i).span)
-                    End If
-
-                ElseIf s.Contains("/*") Then
-                    ' Los comentarios de varias líneas se devuelven
-                    ' directamente con los retornos de carro, etc.
-
-                    ' Esto va bien si no hay texto delante
-                    s = colL(i).span
-                    Dim l2 = l1 'colL(i).lin
-                    ' Si son distintas, es que word 
-                    ' contiene todo el comentario
-                    If word <> s Then
-                        ' borrar las líneas de hmlL que tengan
-                        ' ese código
-                        For i1 = l1 To htmlL.Length - 1
-                            If word.IndexOf(htmlL(i1)) = -1 Then
-                                Exit For
-                            End If
-                            ' Cambio de mayúculas y minúsculas
-                            ' para que sea más complicado que sea casualida ;-)
-                            htmlL(i1) = "<BoRrAr EstO>"
-                            If i1 > l2 Then l2 = i1
-                        Next
-                    End If
-                    ' ponerle los números de línea
-                    If mostrarLineas Then
-                        Dim j1 = 0
-                        For i1 = l1 To l2
-                            j1 = s.IndexOf(vbCr, j1)
-                            If j1 = -1 Then
-                                s &= $"{vbCr}<span style='color:{cNum}; background:{cFondoNum}'>{(i1 + 2).ToString("0").PadLeft(4)} </span>&nbsp;"
-
-                                Exit For
-                            End If
-                            s = s.Substring(0, j1) & $"{vbCr}<span style='color:{cNum}; background:{cFondoNum}'>{(i1 + 2).ToString("0").PadLeft(4)} </span>&nbsp;" & s.Substring(j1 + 1)
-                        Next
-                    Else
-                        Dim j1 = 0
-                        For i1 = l1 To l2
-                            j1 = s.IndexOf(vbCr, j1)
-                            If j1 = -1 Then
-                                s &= $"{vbCr}"
-
-                                Exit For
-                            End If
-                            s = s.Substring(0, j1) & $"{vbCr}&nbsp;" & s.Substring(j1 + 1)
-                        Next
-                    End If
-
-                ElseIf colL(i).span.Contains($"<span style='color:{GetStringColorFromName("string - verbatim")}'>") OrElse
-                        colL(i).span.Contains($"<span style='color:{GetStringColorFromName("string")}'>") Then
-                    ' Comprobar si la línea siguiente tiene más código
-                    ' de esta línea
-                    Dim l2 = l1
-                    Dim s1 = ""
-                    For i1 = l1 To htmlL.Length - 1
-                        s1 &= htmlL(i1) & vbCr
-                        If s1.Contains(word) Then
-                            For i2 = l1 To i1
-                                htmlL(i2) = "<BoRrAr EstO>"
-                                If i1 > l2 Then l2 = i1
-                            Next
-                            Exit For
-                        End If
-                    Next
-                    If mostrarLineas Then
-                        ' Comprobar si tiene vbCr antes del final
-                        ' cuento lo que hay y si hay más de uno...
-                        Dim cvbCr = s1.Count(Function(c) c = ChrW(13))
-                        If cvbCr > 2 Then
-                            s1 = s1.ReplaceWord(word, colL(i).span)
-
-                            Dim j1 = 0
-                            For i1 = l1 To l2
-                                j1 = s1.IndexOf(vbCr, j1)
-                                If j1 = -1 OrElse j1 = s1.Length - 1 Then
-                                    Exit For
-                                End If
-                                s1 = s1.Substring(0, j1) & $"{vbCr}<span style='color:{cNum}; background:{cFondoNum}'>{(i1 + 2).ToString("0").PadLeft(4)} </span>&nbsp;" & s1.Substring(j1 + 1)
-                            Next
-                            s = s1
-
-                        Else
-                            s = s1.ReplaceWord(word, colL(i).span)
-                        End If
-                    Else
-                        s = s1.ReplaceWord(word, colL(i).span)
-                    End If
-
-                Else
-                    s = s.ReplaceWord(word, colL(i).span)
-                End If
-
-            End If
-
-            htmlL(l1) = s
-        Next
-
         codigoHTML = ""
-        Dim primeraLinea = -1
+        ' El color de fondo y de las letras de los números de línea
+        Const cFondoNum = "#f5f5f5" ' "#eaeaea"
+        Dim cNum = GetStringColorFromName("class name")
+        Dim l1 = 1
         For i = 0 To htmlL.Length - 1
-
             If htmlL(i) = "<BoRrAr EstO>" Then Continue For
             If mostrarLineas Then
-                ' Añadir números de líneas para el webbrowser
-                If primeraLinea = -1 Then
-                    primeraLinea = 0
-                    codigoHTML &= $"<span style='color:{cNum}; background:{cFondoNum}'>{(i + 1).ToString("0").PadLeft(4)} </span>" & htmlL(i) & vbCr '"<br>&nbsp;"
-                Else
-                    codigoHTML &= $"<span style='color:{cNum}; background:{cFondoNum}'>{(i + 1).ToString("0").PadLeft(4)} </span>" & htmlL(i) & vbCr '"<br>&nbsp;"
-                End If
+                codigoHTML &= $"{tagSpanColor}{cNum}; background:{cFondoNum}'>{(l1).ToString("0").PadLeft(4)} {tagSpanEnd}{htmlL(i)}{vbCr}"
+                l1 += 1
             Else
-                If primeraLinea = -1 Then
-                    primeraLinea = 0
-                    codigoHTML = htmlL(i) & vbCr '"<br>&nbsp;"
-                Else
-                    codigoHTML &= htmlL(i) & vbCr '"<br>&nbsp;"
-                End If
-
+                'Debug.Assert(htmlL(i).Contains("Extension") = False)
+                'Debug.Assert(htmlL(i).Contains("&lt;") = False)
+                codigoHTML &= htmlL(i) & vbCr
             End If
-        Next
 
-        'codigoHTML = codigoHTML.Replace(vbCr & vbCr, "")
+        Next
+        ' En la documentación XML se lía un poco...                 (02/Oct/20)
+        ' Cambiar los tags cambiados por los correctos              (03/Oct/20)
+        ' Usando ReplaceSiNoEstaPoner                               (04/Oct/20)
+        codigoHTML = codigoHTML.ReplaceSiNoEstaPoner($"{tagSpanColor}#808080'></{tagSpanEnd}span> ", " &lt;/{tagSpanEnd}").
+                                ReplaceSiNoEstaPoner($"{tagSpanEnd} <{tagSpanColor}#808080'>summary{tagSpanEnd}>", " &lt;summary>{tagSpanEnd}").
+                                ReplaceSiNoEstaPoner(tagSpanColor, "<span style='color:").
+                                ReplaceSiNoEstaPoner(tagSpanEnd, "</span>").
+                                ReplaceSiNoEstaPoner(tagBold, "<b>").
+                                ReplaceSiNoEstaPoner(tagBoldEnd, "</b>")
 
         Return "<pre style='font-family:Consolas; font-size: 11pt; font-weight:semi-bold'>" & codigoHTML & "</pre>"
     End Function
-
 
     ''' <summary>
     ''' Colorea el contenido del texto del richTextBox (<paramref name="richtb"/>) y 
@@ -773,8 +649,8 @@ Public Class Compilar
     ''' <param name="lenguaje">El lenguaje a usar (Visual Basic o C#)</param>
     ''' <returns>Una colección del tipo <see cref="Dictionary(Of String, List(Of String))"/> con los elementos del código
     ''' sacados de la evaluación de <see cref="ClassifiedSpan"/>.</returns>
-    Public Shared Function ColoreaRichTextBox(richtb As RichTextBox,
-                                              lenguaje As String) As Dictionary(Of String, List(Of String))
+    Public Shared Function ColoreaRichTextBox(richtb As RichTextBox, lenguaje As String) As _
+                                                    Dictionary(Of String, Dictionary(Of String, ClassifSpanInfo))
 
         Dim colSpans = GetClasSpans(sourceCode:=richtb.Text, lenguaje)
 
@@ -786,6 +662,7 @@ Public Class Compilar
             Dim source = SourceText.From(.Text)
             For Each classifSpan In colSpans
                 Dim word = source.ToString(classifSpan.TextSpan)
+                Dim csI = New ClassifSpanInfo(classifSpan, word)
 
                 ' No todas las clasificaciones están marcdas como "static symbol"
                 ' por eso solo pone en negrita algunas
@@ -807,9 +684,9 @@ Public Class Compilar
                     ' solo se pone en negrita si ses C#
 
                     ' Comprobaciones por si no existe en la colección
-                    Dim esClassName = If(colCodigo.Keys.Contains("class name"), colCodigo("class name").Contains(word), False)
-                    Dim esStaticSymbol = If(colCodigo.Keys.Contains("static symbol"), colCodigo("static symbol").Contains(word), False)
-                    Dim esPropertyName = If(colCodigo.Keys.Contains("property name"), colCodigo("property name").Contains(word), False)
+                    Dim esClassName = If(colCodigo.Keys.Contains("class name"), colCodigo("class name").Keys.Contains(word), False)
+                    Dim esStaticSymbol = If(colCodigo.Keys.Contains("static symbol"), colCodigo("static symbol").Keys.Contains(word), False)
+                    Dim esPropertyName = If(colCodigo.Keys.Contains("property name"), colCodigo("property name").Keys.Contains(word), False)
                     If esClassName Then
                         .SelectionColor = GetColorFromName("class name")
                         ' En C# poner las clases en negrita
@@ -836,6 +713,87 @@ Public Class Compilar
 
         Return colCodigo
     End Function
+
+
+    ''' <summary>
+    ''' Colorea el texto seleccionado del richTextBox (<paramref name="richtb"/>) y 
+    ''' asigna el resultado nuevamente en el mismo control,
+    ''' </summary>
+    ''' <param name="richtb">Un RichTextBox al que se asignará el código coloreado</param>
+    ''' <param name="lenguaje">El lenguaje a usar (Visual Basic o C#)</param>
+    ''' <returns>Una colección del tipo <see cref="Dictionary(Of String, List(Of String))"/> con los elementos del código
+    ''' sacados de la evaluación de <see cref="ClassifiedSpan"/>.</returns>
+    Public Shared Function ColoreaSeleccionRichTextBox(richtb As RichTextBox, lenguaje As String) As _
+                                                            Dictionary(Of String, Dictionary(Of String, ClassifSpanInfo))
+
+        With richtb
+            Dim selStart = richtb.SelectionStart
+            Dim selStartFin = selStart + .SelectionLength
+
+            Dim colSpans = GetClasSpans(sourceCode:= .Text, lenguaje)
+            Dim colCodigo = EvaluaCodigo(.Text, colSpans)
+            Dim selectionStartAnt = 0
+
+            Dim source = SourceText.From(.Text)
+
+            For Each classifSpan In colSpans
+                If Not (classifSpan.TextSpan.Start >= selStart AndAlso classifSpan.TextSpan.End <= selStartFin) Then
+                    Continue For
+                End If
+
+                Dim word = source.ToString(classifSpan.TextSpan)
+                Dim csI = New ClassifSpanInfo(classifSpan, word)
+
+                ' No todas las clasificaciones están marcdas como "static symbol"
+                ' por eso solo pone en negrita algunas
+                ' Esta colección solo tiene "static symbol" (a día de hoy 23/Sep/2020)
+                ' NOTA: No siempre marca correctamente los static symbol
+                If ClassificationTypeNames.AdditiveTypeNames.Contains(classifSpan.ClassificationType) Then
+                    .SelectionStart = selectionStartAnt
+                    .SelectionLength = word.Length
+                    .SelectionFont = New Font(.SelectionFont, FontStyle.Bold)
+                Else
+                    .SelectionStart = classifSpan.TextSpan.Start
+                    selectionStartAnt = .SelectionStart
+                    .SelectionLength = word.Length
+
+                    ' Si la palabra está en static symbol,          (25/Sep/20)      
+                    ' colorear como static symbol y poner en negrita
+                    ' Si está en class name, ídem, pero teniendo en cuenta que
+                    ' solo se pone en negrita si ses C#
+
+                    ' Comprobaciones por si no existe en la colección
+                    Dim esClassName = If(colCodigo.Keys.Contains("class name"), colCodigo("class name").Keys.Contains(word), False)
+                    Dim esStaticSymbol = If(colCodigo.Keys.Contains("static symbol"), colCodigo("static symbol").Keys.Contains(word), False)
+                    Dim esPropertyName = If(colCodigo.Keys.Contains("property name"), colCodigo("property name").Keys.Contains(word), False)
+                    If esClassName Then
+                        .SelectionColor = GetColorFromName("class name")
+                        ' En C# poner las clases en negrita
+                        If lenguaje = "C#" Then
+                            .SelectionFont = New Font(.SelectionFont, FontStyle.Bold)
+                        End If
+                    ElseIf esStaticSymbol Then
+                        .SelectionColor = GetColorFromName("static symbol")
+                        .SelectionFont = New Font(.SelectionFont, FontStyle.Bold)
+                    ElseIf esPropertyName Then
+                        .SelectionColor = GetColorFromName("property name")
+                    Else
+                        .SelectionColor = GetColorFromName(classifSpan.ClassificationType)
+                    End If
+
+                    .SelectedText = word
+
+                End If
+
+                Application.DoEvents()
+
+            Next
+
+            Return colCodigo
+        End With
+
+    End Function
+
 
     '
     ' El resto de funciones está en Compilar.Partial

@@ -7,6 +7,7 @@
 '   CompararString.UsarCompareOrdinal = clasif_compareOrdinal
 '   Array.Sort(lineas, 0, j + 1, New CompararString)
 '
+' Añado la implementación de IEqualityComparer(Of String)           (05/Oct/20)
 '
 ' (c) Guillermo (elGuille) Som, 2005, 2020
 '------------------------------------------------------------------------------
@@ -16,23 +17,59 @@ Option Infer On
 Imports Microsoft.VisualBasic
 Imports System
 Imports System.Collections.Generic
+Imports System.Diagnostics.CodeAnalysis
+Imports System.Reflection.Metadata
 
-
+''' <summary>
+''' Clase para hacer las comparaciones de cadenas.
+''' Se puede usar cuando se necesita un comparador basado en IComparer(Of String).Compare o
+''' del tipo IEqualityComparer(Of String).
+''' </summary>
+''' <example>
+''' Por ejemplo:
+''' Array.Sort(lineas, 0, j + 1, New CompararString)
+''' </example>
 Public Class CompararString
-    Implements System.Collections.Generic.IComparer(Of String)
+    Implements IComparer(Of String)
+    Implements IEqualityComparer(Of String)
 
-    Public Shared IgnoreCase As Boolean
+    ''' <summary>
+    ''' Distinguir mayúsculas de minúsculas.
+    ''' True si no se hace distinción entre mayúsculas y minúsculas.
+    ''' </summary>
+    Public Shared Property IgnoreCase As Boolean
 
-    Public Shared UsarCompareOrdinal As Boolean
+    ''' <summary>
+    ''' Si se ponen las mayúsculas antes de las minúsculas, 
+    ''' debe distinguir mayúsculas de minúsculas (<see cref="IgnoreCase"/> debe ser True).
+    ''' True si en la comparación se ponen antes las minúsculas que las mayúsculas.
+    ''' </summary>
+    Public Shared Property CompareOrdinal As Boolean
 
-    Public Function Compare(x As String, y As String) As Integer _
-                        Implements System.Collections.Generic.IComparer(Of String).Compare
+    ''' <summary>
+    ''' Función que devuelve un valor según el resultado de la comparación.
+    ''' Una valor menor de cero si x es menor que y.
+    ''' Un valor cero si ambos son iguales.
+    ''' Un valor mayor de cero si x es mayor que y.
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="y"></param>
+    ''' <returns></returns>
+    Public Function Compare(x As String, y As String) As Integer Implements IComparer(Of String).Compare
 
-        If UsarCompareOrdinal AndAlso IgnoreCase = False Then
+        If CompareOrdinal AndAlso IgnoreCase = False Then
             Return String.CompareOrdinal(x, y)
         End If
+
         Return String.Compare(x, y, IgnoreCase)
     End Function
 
+    Public Overloads Function Equals(x As String, y As String) As Boolean Implements IEqualityComparer(Of String).Equals
+        Return Me.Compare(x, y) = 0
+    End Function
+
+    Public Overloads Function GetHashCode(<DisallowNull> obj As String) As Integer Implements IEqualityComparer(Of String).GetHashCode
+        Return MyBase.GetHashCode
+    End Function
 End Class
 

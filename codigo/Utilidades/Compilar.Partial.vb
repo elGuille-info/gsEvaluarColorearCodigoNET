@@ -42,7 +42,7 @@ Partial Public Class Compilar
          {"error", Color.Red},
          {"excluded code", Color.FromArgb(128, 128, 128)},
          {"event name", Color.Black},
-         {"extension method name", Color.Black},
+         {"extension method name", Color.FromArgb(160, 80, 40)}, '.Black}, 03/Oct
          {"field name", Color.Black},
          {"identifier", Color.FromArgb(64, 48, 160)}, 'Color.Black}, ' 24/Sep/20: (64, 48, 160) 25/Sep: (73, 172, 205)
          {"interface name", Color.FromArgb(0, 128, 128)},
@@ -62,7 +62,7 @@ Partial Public Class Compilar
          {"property name", Color.Black},
          {"punctuation", Color.Black},
          {"static symbol", Color.FromArgb(118, 85, 40)}, ' Color.Black}, ' 23/Sep/20
-         {"string - escape character", Color.Yellow},
+         {"string - escape character", Color.FromArgb(143, 8, 196)},' Color.Yellow}, ' 01/Oct/20
          {"string - verbatim", Color.FromArgb(128, 0, 0)}, ' texto entre comillas de múltiples líneas en C#
          {"string", Color.FromArgb(163, 21, 21)}, ' texto entre comillas
          {"struct name", Color.FromArgb(43, 145, 175)},
@@ -78,12 +78,12 @@ Partial Public Class Compilar
          {"xml doc comment - name", Color.FromArgb(128, 128, 128)},
          {"xml doc comment - processing instruction", Color.FromArgb(128, 128, 128)},
          {"xml doc comment - text", Color.FromArgb(0, 128, 0)},
-         {"xml literal - attribute name", Color.FromArgb(128, 128, 128)},
+         {"xml literal - attribute name", Color.FromArgb(1, 115, 254)}, ' 03/Oct antes 128, 128, 128 
          {"xml literal - attribute quotes", Color.FromArgb(128, 128, 128)},
-         {"xml literal - attribute value", Color.FromArgb(128, 128, 128)},
+         {"xml literal - attribute value", Color.FromArgb(1, 115, 254)}, ' 03/Oct antes 128, 128, 128 
          {"xml literal - cdata section", Color.FromArgb(128, 128, 128)},
          {"xml literal - comment", Color.FromArgb(128, 128, 128)},
-         {"xml literal - delimiter", Color.FromArgb(100, 100, 185)},
+         {"xml literal - delimiter", Color.FromArgb(1, 115, 254)}, ' 03/Oct antes 100, 100, 185
          {"xml literal - embedded expression", Color.FromArgb(128, 128, 128)},
          {"xml literal - entity reference", Color.FromArgb(185, 100, 100)},
          {"xml literal - name", Color.FromArgb(132, 70, 70)},
@@ -97,7 +97,7 @@ Partial Public Class Compilar
     ''' </summary>
     ''' <param name="classificationTypeName">Texto del ClassificationType</param>
     ''' <returns>Un objeto de tipo <see cref="System.Drawing.Color"/> con el color correspondiente</returns>
-    Private Shared Function GetColorFromName(classificationTypeName As String) As Color
+    Public Shared Function GetColorFromName(classificationTypeName As String) As Color
         If String.IsNullOrWhiteSpace(classificationTypeName) Then
             Return colorMapping("default")
         End If
@@ -114,7 +114,7 @@ Partial Public Class Compilar
     ''' </summary>
     ''' <param name="classificationTypeName">Texto del ClassificationType</param>
     ''' <returns>El formato será #RGB en hexadecimal</returns>
-    Private Shared Function GetStringColorFromName(classificationTypeName As String) As String
+    Public Shared Function GetStringColorFromName(classificationTypeName As String) As String
         If String.IsNullOrWhiteSpace(classificationTypeName) Then
             Return stringForColor(colorMapping("default"))
         End If

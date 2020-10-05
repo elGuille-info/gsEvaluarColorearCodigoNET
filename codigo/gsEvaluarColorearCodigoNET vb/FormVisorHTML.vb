@@ -21,8 +21,7 @@ Public Class FormVisorHTML
     ''' </summary>
     ''' <param name="titulo">Título a poner en la ventana del navegador</param>
     ''' <param name="codigoHTML">El código HTML a mostrar en el navegador</param>
-    ''' <remarks>Se crea un fichero temporal llamado HTMLTemp.html.
-    ''' Si no se indica en el &lt;pre> la fuente o el tamaño, se usará Consolas a 11 puntos</remarks>
+    ''' <remarks>Se crea un fichero temporal llamado HTMLTemp.html.</remarks>
     Sub New(titulo As String, codigoHTML As String)
 
         ' This call is required by the designer.
@@ -35,7 +34,7 @@ Public Class FormVisorHTML
 
         Using sw As New StreamWriter(ficTmp, False, System.Text.Encoding.UTF8)
             ' Aquí si incluir el style
-            sw.WriteLine("<style>pre{{font-family:{0}; font-size:{1}.0pt;}}</style>", "Consolas", "11")
+            'sw.WriteLine("<style>pre{{font-family:{0}; font-size:{1}.0pt;}}</style>", "Consolas", "11")
             sw.WriteLine(codigoHTML)
             sw.Close()
         End Using

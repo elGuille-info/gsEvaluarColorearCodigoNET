@@ -26,11 +26,13 @@ Partial Class FormOpciones
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormOpciones))
         Me.tabControl1 = New System.Windows.Forms.TabControl()
         Me.tabPage1 = New System.Windows.Forms.TabPage()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.chkCaseSensitive = New System.Windows.Forms.CheckBox()
+        Me.chkCompareOrdinal = New System.Windows.Forms.CheckBox()
         Me.chkMostrarLineasHTML = New System.Windows.Forms.CheckBox()
         Me.grbAlEvaluar = New System.Windows.Forms.GroupBox()
         Me.chkColorearEvaluar = New System.Windows.Forms.CheckBox()
         Me.chkCompilarEvaluar = New System.Windows.Forms.CheckBox()
-        Me.chkWordWrap = New System.Windows.Forms.CheckBox()
         Me.chkColorearCargar = New System.Windows.Forms.CheckBox()
         Me.chkCargarUltimo = New System.Windows.Forms.CheckBox()
         Me.tabPage2 = New System.Windows.Forms.TabPage()
@@ -71,11 +73,10 @@ Partial Class FormOpciones
         Me.btnAceptar = New System.Windows.Forms.Button()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.toolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
-        Me.chkCaseSensitive = New System.Windows.Forms.CheckBox()
-        Me.chkCompareOrdinal = New System.Windows.Forms.CheckBox()
+        Me.chkCambiarTab = New System.Windows.Forms.CheckBox()
         Me.tabControl1.SuspendLayout()
         Me.tabPage1.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.grbAlEvaluar.SuspendLayout()
         Me.tabPage2.SuspendLayout()
         Me.groupBox1.SuspendLayout()
@@ -88,7 +89,6 @@ Partial Class FormOpciones
         Me.TabPage5.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
-        Me.GroupBox4.SuspendLayout()
         Me.SuspendLayout()
         '
         'tabControl1
@@ -109,10 +109,10 @@ Partial Class FormOpciones
         '
         'tabPage1
         '
+        Me.tabPage1.Controls.Add(Me.chkCambiarTab)
         Me.tabPage1.Controls.Add(Me.GroupBox4)
         Me.tabPage1.Controls.Add(Me.chkMostrarLineasHTML)
         Me.tabPage1.Controls.Add(Me.grbAlEvaluar)
-        Me.tabPage1.Controls.Add(Me.chkWordWrap)
         Me.tabPage1.Controls.Add(Me.chkColorearCargar)
         Me.tabPage1.Controls.Add(Me.chkCargarUltimo)
         Me.tabPage1.Location = New System.Drawing.Point(4, 24)
@@ -122,6 +122,40 @@ Partial Class FormOpciones
         Me.tabPage1.TabIndex = 0
         Me.tabPage1.Text = "Opciones generales"
         Me.tabPage1.UseVisualStyleBackColor = True
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.chkCaseSensitive)
+        Me.GroupBox4.Controls.Add(Me.chkCompareOrdinal)
+        Me.GroupBox4.Location = New System.Drawing.Point(12, 195)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(511, 77)
+        Me.GroupBox4.TabIndex = 5
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Clasificar:"
+        '
+        'chkCaseSensitive
+        '
+        Me.chkCaseSensitive.AutoSize = True
+        Me.chkCaseSensitive.Location = New System.Drawing.Point(6, 22)
+        Me.chkCaseSensitive.Name = "chkCaseSensitive"
+        Me.chkCaseSensitive.Size = New System.Drawing.Size(221, 19)
+        Me.chkCaseSensitive.TabIndex = 0
+        Me.chkCaseSensitive.Text = "Distinguir &mayúsculas de minúsculas"
+        Me.toolTip1.SetToolTip(Me.chkCaseSensitive, "Si al clasificar se distinguen las mayúsculas de las minúsculas.")
+        Me.chkCaseSensitive.UseVisualStyleBackColor = True
+        '
+        'chkCompareOrdinal
+        '
+        Me.chkCompareOrdinal.AutoSize = True
+        Me.chkCompareOrdinal.Location = New System.Drawing.Point(6, 47)
+        Me.chkCompareOrdinal.Name = "chkCompareOrdinal"
+        Me.chkCompareOrdinal.Size = New System.Drawing.Size(422, 19)
+        Me.chkCompareOrdinal.TabIndex = 0
+        Me.chkCompareOrdinal.Text = "&Ordinal: Las mayúsculas antes de las minúsculas (debe distinguir may/min)"
+        Me.toolTip1.SetToolTip(Me.chkCompareOrdinal, "Si al clasificar se ponen las mayúsculas antes de las minúsculas," & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "debe distingui" &
+        "r mayúsculas de minúsculas.")
+        Me.chkCompareOrdinal.UseVisualStyleBackColor = True
         '
         'chkMostrarLineasHTML
         '
@@ -167,18 +201,6 @@ Partial Class FormOpciones
         Me.toolTip1.SetToolTip(Me.chkCompilarEvaluar, "Si se comprueban errores al Evaluar" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(se pre-compilará el código para saber los e" &
         "rrores producidos)")
         Me.chkCompilarEvaluar.UseVisualStyleBackColor = True
-        '
-        'chkWordWrap
-        '
-        Me.chkWordWrap.AutoSize = True
-        Me.chkWordWrap.Enabled = False
-        Me.chkWordWrap.Location = New System.Drawing.Point(18, 62)
-        Me.chkWordWrap.Name = "chkWordWrap"
-        Me.chkWordWrap.Size = New System.Drawing.Size(195, 19)
-        Me.chkWordWrap.TabIndex = 2
-        Me.chkWordWrap.Text = "Dividir líneas largas (Word&Wrap)"
-        Me.chkWordWrap.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage
-        Me.chkWordWrap.UseVisualStyleBackColor = True
         '
         'chkColorearCargar
         '
@@ -633,39 +655,18 @@ Partial Class FormOpciones
         Me.btnCancelar.Text = "Cancelar"
         Me.btnCancelar.UseVisualStyleBackColor = True
         '
-        'GroupBox4
+        'chkCambiarTab
         '
-        Me.GroupBox4.Controls.Add(Me.chkCaseSensitive)
-        Me.GroupBox4.Controls.Add(Me.chkCompareOrdinal)
-        Me.GroupBox4.Location = New System.Drawing.Point(12, 195)
-        Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(511, 77)
-        Me.GroupBox4.TabIndex = 5
-        Me.GroupBox4.TabStop = False
-        Me.GroupBox4.Text = "Clasificar:"
-        '
-        'chkCaseSensitive
-        '
-        Me.chkCaseSensitive.AutoSize = True
-        Me.chkCaseSensitive.Location = New System.Drawing.Point(6, 22)
-        Me.chkCaseSensitive.Name = "chkCaseSensitive"
-        Me.chkCaseSensitive.Size = New System.Drawing.Size(221, 19)
-        Me.chkCaseSensitive.TabIndex = 0
-        Me.chkCaseSensitive.Text = "Distinguir &mayúsculas de minúsculas"
-        Me.toolTip1.SetToolTip(Me.chkCaseSensitive, "Si al clasificar se distinguen las mayúsculas de las minúsculas.")
-        Me.chkCaseSensitive.UseVisualStyleBackColor = True
-        '
-        'chkCompareOrdinal
-        '
-        Me.chkCompareOrdinal.AutoSize = True
-        Me.chkCompareOrdinal.Location = New System.Drawing.Point(6, 47)
-        Me.chkCompareOrdinal.Name = "chkCompareOrdinal"
-        Me.chkCompareOrdinal.Size = New System.Drawing.Size(422, 19)
-        Me.chkCompareOrdinal.TabIndex = 0
-        Me.chkCompareOrdinal.Text = "&Ordinal: Las mayúsculas antes de las minúsculas (debe distinguir may/min)"
-        Me.toolTip1.SetToolTip(Me.chkCompareOrdinal, "Si al clasificar se ponen las mayúsculas antes de las minúsculas," & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "debe distingui" &
-        "r mayúsculas de minúsculas.")
-        Me.chkCompareOrdinal.UseVisualStyleBackColor = True
+        Me.chkCambiarTab.AutoSize = True
+        Me.chkCambiarTab.Location = New System.Drawing.Point(18, 62)
+        Me.chkCambiarTab.Name = "chkCambiarTab"
+        Me.chkCambiarTab.Size = New System.Drawing.Size(277, 19)
+        Me.chkCambiarTab.TabIndex = 2
+        Me.chkCambiarTab.Text = "Al cargar o guardar, cambiar TAB por 8 espacios"
+        Me.chkCambiarTab.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage
+        Me.toolTip1.SetToolTip(Me.chkCambiarTab, "Si al abrir un fichero se deben cambiar los TAB por espacios." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Si está selecciona" &
+        "da, también se quitarán al guardar." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
+        Me.chkCambiarTab.UseVisualStyleBackColor = True
         '
         'FormOpciones
         '
@@ -686,6 +687,8 @@ Partial Class FormOpciones
         Me.tabControl1.ResumeLayout(False)
         Me.tabPage1.ResumeLayout(False)
         Me.tabPage1.PerformLayout()
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
         Me.grbAlEvaluar.ResumeLayout(False)
         Me.grbAlEvaluar.PerformLayout()
         Me.tabPage2.ResumeLayout(False)
@@ -705,8 +708,6 @@ Partial Class FormOpciones
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
-        Me.GroupBox4.ResumeLayout(False)
-        Me.GroupBox4.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -759,6 +760,6 @@ Partial Class FormOpciones
     Private WithEvents chkColorearCargar As CheckBox
     Private WithEvents chkMatchCase As CheckBox
     Private WithEvents chkWholeWord As CheckBox
-    Private WithEvents chkWordWrap As CheckBox
     Private WithEvents chkMostrarLineasHTML As CheckBox
+    Private chkCambiarTab As CheckBox
 End Class
