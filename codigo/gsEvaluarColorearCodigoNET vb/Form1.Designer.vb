@@ -47,6 +47,7 @@ Partial Class Form1
         Me.buttonLenguaje = New System.Windows.Forms.ToolStripSplitButton()
         Me.menuVB = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuCS = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuTxt = New System.Windows.Forms.ToolStripMenuItem()
         Me.buttonMatchCase = New System.Windows.Forms.ToolStripButton()
         Me.buttonNoColorear = New System.Windows.Forms.ToolStripButton()
         Me.buttonNuevo = New System.Windows.Forms.ToolStripButton()
@@ -121,6 +122,10 @@ Partial Class Form1
         Me.menuQuitarEspaciosTrimStart = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuQuitarEspaciosTrimEnd = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuQuitarEspaciosTodos = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorPonerTexto = New System.Windows.Forms.ToolStripMenuItem()
+        Me.txtPonerTexto = New System.Windows.Forms.ToolStripTextBox()
+        Me.menuEditorPonerTextoAlFinal = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorQuitarTextoDelfinal = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorSeparador3 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEditorMarcador = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorMarcadorAnterior = New System.Windows.Forms.ToolStripMenuItem()
@@ -390,7 +395,7 @@ Partial Class Form1
         '
         Me.buttonLenguaje.AutoToolTip = False
         Me.buttonLenguaje.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.buttonLenguaje.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuVB, Me.menuCS})
+        Me.buttonLenguaje.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuVB, Me.menuCS, Me.menuTxt})
         Me.buttonLenguaje.Image = CType(resources.GetObject("buttonLenguaje.Image"), System.Drawing.Image)
         Me.buttonLenguaje.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.buttonLenguaje.Name = "buttonLenguaje"
@@ -413,6 +418,13 @@ Partial Class Form1
         Me.menuCS.Name = "menuCS"
         Me.menuCS.Size = New System.Drawing.Size(89, 22)
         Me.menuCS.Text = "C#"
+        '
+        'menuTxt
+        '
+        Me.menuTxt.Image = CType(resources.GetObject("menuTxt.Image"), System.Drawing.Image)
+        Me.menuTxt.Name = "menuTxt"
+        Me.menuTxt.Size = New System.Drawing.Size(89, 22)
+        Me.menuTxt.Text = "txt"
         '
         'buttonMatchCase
         '
@@ -888,7 +900,7 @@ Partial Class Form1
         '
         'menuEditor
         '
-        Me.menuEditor.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditorQuitarIndentacion, Me.menuEditorPonerIndentacion, Me.menuEditorSeparador1, Me.menuEditorPonerComentarios, Me.menuEditorQuitarComentarios, Me.menuEditorSeparador2, Me.menuEditorClasificarSeleccion, Me.menuEditorCambiarMayúsculas, Me.menuEditorQuitarEspacios, Me.menuEditorSeparador3, Me.menuEditorMarcador, Me.menuEditorMarcadorAnterior, Me.menuEditorMarcadorSiguiente, Me.menuEditorMarcadorQuitarTodos})
+        Me.menuEditor.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditorQuitarIndentacion, Me.menuEditorPonerIndentacion, Me.menuEditorSeparador1, Me.menuEditorPonerComentarios, Me.menuEditorQuitarComentarios, Me.menuEditorSeparador2, Me.menuEditorClasificarSeleccion, Me.menuEditorCambiarMayúsculas, Me.menuEditorQuitarEspacios, Me.menuEditorPonerTexto, Me.menuEditorSeparador3, Me.menuEditorMarcador, Me.menuEditorMarcadorAnterior, Me.menuEditorMarcadorSiguiente, Me.menuEditorMarcadorQuitarTodos})
         Me.menuEditor.Name = "menuEditor"
         Me.menuEditor.Size = New System.Drawing.Size(50, 20)
         Me.menuEditor.Text = "Edi&tor"
@@ -1012,6 +1024,30 @@ Partial Class Form1
         Me.menuQuitarEspaciosTodos.Name = "menuQuitarEspaciosTodos"
         Me.menuQuitarEspaciosTodos.Size = New System.Drawing.Size(259, 22)
         Me.menuQuitarEspaciosTodos.Text = "Quitar todos los espacios"
+        '
+        'menuEditorPonerTexto
+        '
+        Me.menuEditorPonerTexto.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.txtPonerTexto, Me.menuEditorPonerTextoAlFinal, Me.menuEditorQuitarTextoDelfinal})
+        Me.menuEditorPonerTexto.Name = "menuEditorPonerTexto"
+        Me.menuEditorPonerTexto.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorPonerTexto.Text = "Poner/quitar texto al final de la línea"
+        '
+        'txtPonerTexto
+        '
+        Me.txtPonerTexto.Name = "txtPonerTexto"
+        Me.txtPonerTexto.Size = New System.Drawing.Size(100, 23)
+        '
+        'menuEditorPonerTextoAlFinal
+        '
+        Me.menuEditorPonerTextoAlFinal.Name = "menuEditorPonerTextoAlFinal"
+        Me.menuEditorPonerTextoAlFinal.Size = New System.Drawing.Size(250, 22)
+        Me.menuEditorPonerTextoAlFinal.Text = "Poner el texto al final de la línea"
+        '
+        'menuEditorQuitarTextoDelfinal
+        '
+        Me.menuEditorQuitarTextoDelfinal.Name = "menuEditorQuitarTextoDelfinal"
+        Me.menuEditorQuitarTextoDelfinal.Size = New System.Drawing.Size(250, 22)
+        Me.menuEditorQuitarTextoDelfinal.Text = "Quitar el texto del final de la línea"
         '
         'menuEditorSeparador3
         '
@@ -1688,4 +1724,9 @@ Partial Class Form1
     Private WithEvents lstSyntax As ListBox
     Private menuOcultarEvaluar As ToolStripMenuItem
     Private toolSeparatorTools4 As ToolStripSeparator
+    Private WithEvents menuTxt As ToolStripMenuItem
+    Private WithEvents menuEditorPonerTexto As ToolStripMenuItem
+    Friend WithEvents txtPonerTexto As ToolStripTextBox
+    Private WithEvents menuEditorPonerTextoAlFinal As ToolStripMenuItem
+    Private menuEditorQuitarTextoDelfinal As ToolStripMenuItem
 End Class

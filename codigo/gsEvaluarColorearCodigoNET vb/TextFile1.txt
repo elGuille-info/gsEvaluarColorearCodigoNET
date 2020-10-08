@@ -1,89 +1,30 @@
-﻿         "class name","comment","constant name","default","delegate name","enum name"
-         "enum member name","error","excluded code","event name","extension method name",
-         "field name","identifier","interface name","keyword","keyword - control",
-         {"label name", Color.Black},
-         {"local name", Color.Black},
-         {"method name", Color.FromArgb(118, 85, 40)}, 'Color.Black},
-         {"module name", Color.FromArgb(0, 128, 128)},
-         {"namespace name", Color.Black},
-         {"number", Color.Black},
-         {"operator", Color.Black},
-         {"operator - overloaded", Color.Black},
-         {"parameter name", Color.Black},
-         {"preprocessor keyword", Color.Gray},
-         {"preprocessor text", Color.Black},
-         {"property name", Color.Black},
-         {"punctuation", Color.Black},
-         {"static symbol", Color.FromArgb(118, 85, 40)}, ' Color.Black}, ' 23/Sep/20
-         {"string - escape character", Color.Yellow},
-         {"string - verbatim", Color.FromArgb(128, 0, 0)},
-         {"string", Color.FromArgb(163, 21, 21)},
-         {"struct name", Color.FromArgb(43, 145, 175)},
-         {"text", Color.Black},
-         {"type parameter name", Color.DarkGray},
-         {"xml doc comment - attribute name", Color.FromArgb(128, 128, 128)},
-         {"xml doc comment - attribute quotes", Color.FromArgb(128, 128, 128)},
-         {"xml doc comment - attribute value", Color.FromArgb(128, 128, 128)},
-         {"xml doc comment - cdata section", Color.FromArgb(128, 128, 128)},
-         {"xml doc comment - comment", Color.FromArgb(128, 128, 128)},
-         {"xml doc comment - delimiter", Color.FromArgb(128, 128, 128)},
-         {"xml doc comment - entity reference", Color.FromArgb(0, 128, 0)},
-         {"xml doc comment - name", Color.FromArgb(128, 128, 128)},
-         {"xml doc comment - processing instruction", Color.FromArgb(128, 128, 128)},
-         {"xml doc comment - text", Color.FromArgb(0, 128, 0)},
-         {"xml literal - attribute name", Color.FromArgb(128, 128, 128)},
-         {"xml literal - attribute quotes", Color.FromArgb(128, 128, 128)},
-         {"xml literal - attribute value", Color.FromArgb(128, 128, 128)},
-         {"xml literal - cdata section", Color.FromArgb(128, 128, 128)},
-         {"xml literal - comment", Color.FromArgb(128, 128, 128)},
-         {"xml literal - delimiter", Color.FromArgb(100, 100, 185)},
-         {"xml literal - embedded expression", Color.FromArgb(128, 128, 128)},
-         {"xml literal - entity reference", Color.FromArgb(185, 100, 100)},
-         {"xml literal - name", Color.FromArgb(132, 70, 70)},
-         {"xml literal - processing instruction", Color.FromArgb(128, 128, 128)},
-         {"xml literal - text", Color.FromArgb(85, 85, 85)}
+﻿Varios ficheros abiertos al mismo tiempo        (08/Oct/20)
+¿Hacerlo con MDI? (sería lo más fácil)
+    poniendo los menús y barras de herramientas en el formulario MDI
+    y abriendo un Form1 para cada fichero.
+
+Sin MDI (sería más laborioso, al menos para mostrar las ventanas abiertas)
+    el primer Form1 asignaría el valor a una variable compartida (al estilo de Current)
+    con idea de que el resto sepa quién es el principal que sería el que gestionaría
+    el menú Ventanas con los demás formularios cargados.
+    La ventaja es que serían independientes y no se mostarían todos dentro del MDI,
+    si no como ventanas sueltas.
+    Cuando se cierre el primero que se abrió se cierran todos.
+    O incluso poder cerrar el resto y dejar solo el primero.
+    Esto vendría bien por si se abre un proyecto.
+
+    Otra opción es abrir cada formulario en TABS dentro del primero.
+    Pero usando valores independientes para el nombre del fichero, los bookmarks, etc.
+    En realidad no se abrirían los formularios si no el editor y los números de líneas.
+    Ya que la lista de sintaxis podría valer para todos... por si se compila el proyecto.
+
+    De esa forma se podrían tener varias instancias con proyectos separados...
+
+    La idea es poder abrir también una solución con varios proyectos.
+
+RESUMIENDO:
 
 
 
-C:\Users\Guille\AppData\Local\SourceServer\3e51ba5dc08e0615a652779847e73f4d62c1121499a86cb2e251ac61456f4bb6
-        \src\System.Windows.Forms\src\System\Windows\Forms
 
-    Public Function EvaluarCodigo(source As String) As (Classes As Integer, Keywords As Integer)
-        Dim tree = VisualBasicSyntaxTree.ParseText(source)
 
-        Dim root = tree.GetRoot()
-        Dim classes = 0 ' root.DescendantNodes.OfType(Of Syntax.ClassBlockSyntax).Count
-        Dim keywords = 0 'root.DescendantNodes.OfType(Of SyntaxFacts) 'root.DescendantNodes.OfType(Of Syntax.GlobalNameSyntax).Count
-        'root.DescendantNodes.OfType(Of ParameterSyntax)
-
-        For Each ke In root.DescendantNodes '.OfType(Of VisualBasic.SyntaxFactory) '.OfType(Of VisualBasic.SyntaxKind)
-
-            'Dim clSt = TryCast(ke, VisualBasic.SyntaxFactory)
-            Dim s = ke.GetType().ToString()
-            If s.Contains("Class") Then
-                classes += 1
-            End If
-            'If ke.IsKind(VisualBasic.SyntaxKind.ClassKeyword) Then
-            '    classes += 1
-            'End If
-            ''If ke = VisualBasic.SyntaxKind.ClassKeyword Then
-            ''    classes += 1
-            ''End If
-
-            'If IsReservedKeyword(ke.RawKind) Then
-            '    keywords += 1
-            'End If
-        Next
-
-        'keywords = root.DescendantNodes.OfType(Of VisualBasic.SyntaxKind).Count
-
-        'For Each cl In root.DescendantNodes.OfType(Of Syntax.ClassBlockSyntax) 'Syntax.ClassBlockSyntax
-        '    classes += 1
-        'Next
-
-        Return (classes, keywords)
-    End Function
-
-    Public Function IsReservedKeyword(kind As Integer) As Boolean
-        Return kind >= VisualBasic.SyntaxKind.AddHandlerKeyword AndAlso kind <= VisualBasic.SyntaxKind.YieldKeyword
-    End Function

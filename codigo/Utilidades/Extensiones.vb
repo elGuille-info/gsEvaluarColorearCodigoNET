@@ -482,7 +482,7 @@ Public Module Extensiones
 
     ''' <summary>
     ''' Función para la equivalencia en C# de:
-    ''' while (j &lt; text.Length &amp;& (j = unvalor)>=0 )
+    ''' while (j &lt; text.Length &amp;&amp; (j = unvalor)>=0 )
     ''' </summary>
     ''' <typeparam name="T">El tipo de datos</typeparam>
     ''' <param name="target">La variable a la que se le asignará el valor de la expresión de value</param>

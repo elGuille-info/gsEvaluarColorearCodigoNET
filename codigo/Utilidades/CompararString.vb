@@ -22,13 +22,20 @@ Imports System.Reflection.Metadata
 
 ''' <summary>
 ''' Clase para hacer las comparaciones de cadenas.
-''' Se puede usar cuando se necesita un comparador basado en IComparer(Of String).Compare o
-''' del tipo IEqualityComparer(Of String).
+''' Se puede usar cuando se necesita un comparador basado en IComparer(Of String).Compare.
 ''' </summary>
-''' <example>
+''' <remarks>
 ''' Por ejemplo:
 ''' Array.Sort(lineas, 0, j + 1, New CompararString)
-''' </example>
+''' 
+''' CompararString.IgnoreCase = True
+''' Dim compStr As New CompararString
+''' 
+'''     If Not colCodigo.Keys.Contains(classifSpan.ClassificationType, compStr) Then
+'''         colCodigo.Add(classifSpan.ClassificationType, New Dictionary(Of String, ClassifSpanInfo))
+'''     End If
+'''
+''' </remarks>
 Public Class CompararString
     Implements IComparer(Of String)
     Implements IEqualityComparer(Of String)
