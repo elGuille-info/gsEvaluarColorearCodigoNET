@@ -3,7 +3,7 @@ Evaluar si tiene fallos, Compilar, Ejecutar y Colorear (el código y para HTML) 
 <br>
 <br>
 <h3>Sobre gsEvaluarColorearCodigoNET</h3>
-Este código lo estoy usando con Visual Studio 2019 Preview<br>
+Este código lo estoy usando con Visual Studio 2019 Preview y .NET 5.0 RC2<br>
 <br>
 <h4>Descripción con los cambios</h4>
 '------------------------------------------------------------------------------<br>
