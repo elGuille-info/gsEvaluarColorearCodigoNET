@@ -12,6 +12,7 @@ Imports System
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports System.Text
+Imports System.Windows.Forms
 
 Public Module Extensiones
 

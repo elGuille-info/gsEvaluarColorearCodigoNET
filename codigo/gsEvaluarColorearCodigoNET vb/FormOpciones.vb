@@ -28,42 +28,42 @@ Public Class FormOpciones
     '    End Set
     'End Property
 
-    Private elForm As Form1
+    'Private elForm As Form1
 
     ''' <summary>
     ''' Crear una nueva instancia usando los valores de <see cref="Form1"/>
     ''' </summary>
     ''' <param name="elForm">Un objeto del tipo <see cref="Form1"/> para editar los cambios</param>
-    Public Sub New(elForm As Form1)
+    Public Sub New()
 
         ' This call is required by the designer.
         InitializeComponent()
 
-        Me.elForm = elForm
+        'Me.elForm = elForm
 
         ' Add any initialization after the InitializeComponent() call.
         lstFics.Items.Clear()
-        lstFics.Items.AddRange(elForm.comboBoxFileName.ToList().ToArray)
+        lstFics.Items.AddRange(comboBoxFileName.ToList().ToArray)
         lstBuscar.Items.Clear()
-        lstBuscar.Items.AddRange(elForm.comboBoxBuscar.ToList().ToArray)
+        lstBuscar.Items.AddRange(comboBoxBuscar.ToList().ToArray)
         lstReemplazar.Items.Clear()
-        lstReemplazar.Items.AddRange(elForm.comboBoxReemplazar.ToList().ToArray)
+        lstReemplazar.Items.AddRange(comboBoxReemplazar.ToList().ToArray)
 
-        chkCargarUltimo.Checked = elForm.cargarUltimo
-        chkColorearCargar.Checked = elForm.colorearAlCargar
-        chkColorearEvaluar.Checked = elForm.buttonColorearAlEvaluar.Checked
-        chkCompilarEvaluar.Checked = elForm.buttonCompilarAlEvaluar.Checked
-        chkMatchCase.Checked = elForm.buscarMatchCase
-        chkWholeWord.Checked = elForm.buscarWholeWord
-        chkMostrarLineasHTML.Checked = elForm.mostrarLineasHTML
-        txtIndentar.Text = elForm.EspaciosIndentar.ToString
-        comboFuenteNombre.Text = elForm.fuenteNombre
-        comboFuenteTamaño.Text = elForm.fuenteTamaño
+        chkCargarUltimo.Checked = cargarUltimo
+        chkColorearCargar.Checked = colorearAlCargar
+        chkColorearEvaluar.Checked = buttonColorearAlEvaluar.Checked
+        chkCompilarEvaluar.Checked = buttonCompilarAlEvaluar.Checked
+        chkMatchCase.Checked = buscarMatchCase
+        chkWholeWord.Checked = buscarWholeWord
+        chkMostrarLineasHTML.Checked = MostrarLineasHTML
+        txtIndentar.Text = EspaciosIndentar.ToString
+        comboFuenteNombre.Text = fuenteNombre
+        comboFuenteTamaño.Text = fuenteTamaño
         lstRecortes.Items.Clear()
-        lstRecortes.Items.AddRange(elForm.ColRecortes.ToArray)
+        lstRecortes.Items.AddRange(ColRecortes.ToArray)
         chkCaseSensitive.Checked = CompararString.IgnoreCase
         chkCompareOrdinal.Checked = CompararString.CompareOrdinal
-        chkCambiarTab.Checked = elForm.cambiarTabs
+        chkCambiarTab.Checked = CambiarTabs
 
     End Sub
 
@@ -102,25 +102,25 @@ Public Class FormOpciones
 
         AddHandler btnCancelar.Click, Sub() Me.DialogResult = DialogResult.Cancel
         AddHandler btnAceptar.Click, Sub()
-                                         elForm.cargarUltimo = chkCargarUltimo.Checked
-                                         elForm.colorearAlCargar = chkColorearCargar.Checked
-                                         elForm.buscarMatchCase = chkMatchCase.Checked
-                                         elForm.buscarWholeWord = chkWholeWord.Checked
-                                         elForm.comboBoxFileName.Items.Clear()
-                                         elForm.comboBoxFileName.Items.AddRange(lstFics.ToList().ToArray)
-                                         elForm.comboBoxBuscar.Items.Clear()
-                                         elForm.comboBoxBuscar.Items.AddRange(lstBuscar.ToList().ToArray)
-                                         elForm.comboBoxReemplazar.Items.Clear()
-                                         elForm.comboBoxReemplazar.Items.AddRange(lstReemplazar.ToList().ToArray)
-                                         elForm.mostrarLineasHTML = chkMostrarLineasHTML.Checked
-                                         elForm.EspaciosIndentar = txtIndentar.AsInteger
-                                         elForm.fuenteNombre = comboFuenteNombre.Text
-                                         elForm.fuenteTamaño = comboFuenteTamaño.Text
-                                         elForm.ColRecortes.Clear()
-                                         elForm.ColRecortes.AddRange(lstRecortes.ToList)
+                                         cargarUltimo = chkCargarUltimo.Checked
+                                         colorearAlCargar = chkColorearCargar.Checked
+                                         buscarMatchCase = chkMatchCase.Checked
+                                         buscarWholeWord = chkWholeWord.Checked
+                                         comboBoxFileName.Items.Clear()
+                                         comboBoxFileName.Items.AddRange(lstFics.ToList().ToArray)
+                                         comboBoxBuscar.Items.Clear()
+                                         comboBoxBuscar.Items.AddRange(lstBuscar.ToList().ToArray)
+                                         comboBoxReemplazar.Items.Clear()
+                                         comboBoxReemplazar.Items.AddRange(lstReemplazar.ToList().ToArray)
+                                         MostrarLineasHTML = chkMostrarLineasHTML.Checked
+                                         EspaciosIndentar = txtIndentar.AsInteger
+                                         fuenteNombre = comboFuenteNombre.Text
+                                         fuenteTamaño = comboFuenteTamaño.Text
+                                         ColRecortes.Clear()
+                                         ColRecortes.AddRange(lstRecortes.ToList)
                                          CompararString.IgnoreCase = chkCaseSensitive.Checked
                                          CompararString.CompareOrdinal = chkCompareOrdinal.Checked
-                                         elForm.cambiarTabs = chkCambiarTab.Checked
+                                         CambiarTabs = chkCambiarTab.Checked
 
                                          Me.DialogResult = DialogResult.OK
                                      End Sub

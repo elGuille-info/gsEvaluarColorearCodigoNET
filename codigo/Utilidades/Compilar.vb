@@ -28,6 +28,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports System.Drawing.Text
 Imports System.ComponentModel
 Imports System.Security.Cryptography
+Imports System.CodeDom.Compiler
 
 Public Class Compilar
 
@@ -83,19 +84,48 @@ Public Class Compilar
                                       Optional run As Boolean = True) As (Result As EmitResult, OutputPath As String)
 
         Dim res = CompileFile(file)
-        If res.Result.Success = False Then Return (res.Result, "")
+        If res.Result Is Nothing OrElse res.Result.Success = False Then Return (res.Result, "")
 
         If run Then
             Try
                 ' Algunas veces no se ejecuta,                      (17/Sep/20)
                 ' porque el path contiene espacios.
-                Process.Start("dotnet", $"{ChrW(34)}{res.OutputPath}{ChrW(34)}")
-            Catch
+                Dim p = Process.Start("dotnet", $"{ChrW(34)}{res.OutputPath}{ChrW(34)}")
+
+                '' Intentar posicionar y mostrar la ventana          (17/Oct/20)
+                'Dim psi = New ProcessStartInfo
+                'psi.WindowStyle = ProcessWindowStyle.Normal
+                'psi.FileName = "dotnet"
+                'psi.Arguments = $"{ChrW(34)}{res.OutputPath}{ChrW(34)}"
+                'Dim p = Process.Start(psi)
+
+                '' Posicionar la ventana en el centro de la pantalla (17/Oct/20)
+                '' Es que al NO usar el monitor externo,
+                '' no se ve porque le asigné la posición manualmente (supongo)
+                '' Pero esto no hace nada... :-(
+                'Dim h = p.MainWindowHandle
+                'Dim ret As (Left As Integer, Top As Integer, Width As Integer, Height As Integer)
+                'h = p.Handle
+                'Dim estado = GetWindowState(h)
+                'Dim posN = PosicionNormal
+                'posN.Bottom = 400
+                'posN.Right = 500
+                'SetWindowState(h, FormWindowState.Normal)
+                'ret = GetWindowPosition(h)
+                ''ret.Width = 400
+                ''ret.Height = 200
+                'ret.Left = Screen.PrimaryScreen.WorkingArea.Width \ 2 - ret.Width \ 2
+                'ret.Top = Screen.PrimaryScreen.WorkingArea.Height \ 2 - ret.Height \ 2
+                'SetWindowPosition(h, ret.Left, ret.Top, ret.Width, ret.Height)
+                'BringToTop(h)
+            Catch ex As Exception
+                Debug.WriteLine(ex.Message)
             End Try
         End If
 
         Return (res.Result, res.OutputPath)
     End Function
+
 
     ''' <summary>
     ''' Compila el fichero indicado y devuelve el path de la DLL generada
@@ -124,14 +154,25 @@ Public Class Compilar
 
         ' Si existe la DLL de salida, eliminarla
         If File.Exists(outputPath) Then
-            File.Delete(outputPath)
+            Try
+                File.Delete(outputPath)
+            Catch ex As Exception
+                Debug.WriteLine(ex.Message)
+                Debug.Assert(False, "No se puede eliminar " & outputPath)
+            End Try
         End If
 
         Dim lenguaje = If(extension = ".vb", LenguajeVisualBasic, LenguajeCSharp)
-        Dim result As EmitResult = GenerarCompilacion(sourceCode, outputDll, lenguaje).Emit(outputPath)
+        Dim result As EmitResult = Nothing
+        Try
+            result = GenerarCompilacion(sourceCode, outputDll, lenguaje).Emit(outputPath)
 
-        ' para ejecutar una DLL usando dotnet, necesitamos un fichero de configuración
-        CrearJson((result, outputPath, EsWinForm))
+            ' para ejecutar una DLL usando dotnet, necesitamos un fichero de configuración
+            CrearJson((result, outputPath, EsWinForm))
+        Catch ex As Exception
+
+        End Try
+
 
         Return (result, outputPath, EsWinForm)
     End Function
