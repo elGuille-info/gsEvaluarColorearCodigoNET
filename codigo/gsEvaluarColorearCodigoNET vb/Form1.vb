@@ -280,7 +280,35 @@
 'v1.0.0.152             Al seleccionar del menú Ficheros>Recientes abrirlo en nueva ventana
 '                       si ya está abierto en una de las ventanas, mostrarla.
 'v1.0.0.153             El título y el nombre del último fichero de Form1 siempre con el path completo
+'v1.0.0.154             Efecto del texto en gris para Buscar y Reemplazar
+'v1.0.0.155             Arreglado BUG al buscar, cuando no se encuentra lo buscado
+'v1.0.0.156             Se muestra un mensaje de no hallado al buscar o reemplazar
+'v1.0.0.157             Se leen y guardan los nombres de los últimos ficheros si no están en blanco
+'v1.0.0.158 18/Oct/20   Ajustes en el color del texto de buscar y reemplazar
+'                       se muestra Buscar... o Reemplazar... cuando no hay texto, aunque esté en foco
+'v1.0.0.159             Al cargar los ficheros, cambia el número del total en la barra de títulos
+'                       de la barra de progreso de carga... ¡y no sé porqué!
+'v1.0.0.160             Al usar una variable en vez de nombresUltimos.Count va bien
+'v1.0.0.161             Pero todos menos el último tienen el mismo nombre (antes también pasaba)
+'v1.0.0.162             Cambio la ubicación el fichero de configuración de las ventanas
+'                       ahora están en <Ventanas> antes en <Ficheros> y se ve que se liaba con tantos datos
+'v1.0.0.163             GuardarConfig lo pongo al cerraqr el MDI (antes estaba al cerrar el Form1)
+'v1.0.0.164             Mejora al escribir donde hay texto predeterminado (grisáceo)
+'v1.0.0.165             Mostrar por sepado el toolStrip de buscar, no mostrar Reemplazar cuando sea Buscar
+'                       Al Reemplazar, mostrar buscar y reemplazar.
+'v1.0.0.166 19/Oct/20   Al quitar los comentarios en varias líneas, solo quita a la primera
+'                       Es porque ahora en vez de vbCr pone como cambio de línea vbLf
+'v1.0.0.167             Creo la función ComprobarFinLinea para saber qué carácter se ha usado.
+'v1.0.0.168             Al cerrar una ventana quitar de nombresUltimos el de esa ventana
+'v1.0.0.169             Cambio solo seleccionable al comboBoxFileName
+'                       Al pulsar ENTER se abre el fichero seleccionado en nueva ventana
+'v1.0.0.170             Al pulsar ENTER en Reemplazar, se reemplazará la siguiente
+'v1.0.0.171             Quito el comboBoxFileName y uso la colección UltimosFicherosAbiertos
+'                       para tener la lista de los últimos ficheros abiertos
 '
+' POR HACER:
+'                       Solucionar lo del pitido al pulsar ENTER
+
 '
 '
 '
@@ -426,14 +454,26 @@ Public Class Form1
         ' Asignar los valores de la ventana
         'Form1_Resize(Nothing, Nothing)
 
-        GuardarConfig()
+        'GuardarConfig()
+
+        ' quitar el fichero que tenía abierto esta ventana          (19/Oct/20)
+        ' de la lista nombresUltimos
+        ' Pero solo si el MDI no se está cerrando
+        If Not e.CloseReason = CloseReason.MdiFormClosing Then
+            For i = UltimasVentanasAbiertas.Count - 1 To 0 Step -1
+                If UltimasVentanasAbiertas(i) = Me.nombreFichero Then
+                    UltimasVentanasAbiertas.RemoveAt(i)
+                    Exit For
+                End If
+            Next
+        End If
 
     End Sub
 
     Private Sub Form1_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         ' Asignar cuál es el Form1 activo
         Form1Activo = Me
-        CurrentMDI.comboBoxFileName.Text = nombreFichero
+        'CurrentMDI.comboBoxFileName.Text = nombreFichero
         If Not String.IsNullOrWhiteSpace(nombreFichero) Then
             Me.Text = nombreFichero
         End If

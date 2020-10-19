@@ -50,26 +50,9 @@ Public Class MDIPrincipal
         timerClipBoard.Interval = 15 * 1000
         timerClipBoard.Enabled = True
 
-
-        'NuevaVentana()
-        'Me.LayoutMdi(MdiLayout.TileHorizontal)
-
         timerInicio.Interval = 100
         timerInicio.Start()
 
-        'AsignaMetodosDeEventos()
-
-        'Inicializar()
-
-        '' Abrir una nueva ventana si no se han abierto
-        '' los anteriores
-        'If Me.MdiChildren.Count = 0 Then
-        '    NuevaVentana()
-        'End If
-
-        'Me.Text = $"{MDIPrincipal.TituloMDI} [{Form1Activo.Text}]"
-
-        'labelInfo.Text = $"MDIPrincipal: Ancho: {Me.Width}, Alto: {Me.Height} / ClientSize: Ancho: {Me.ClientSize.Width}, Alto: {Me.ClientSize.Height} - ChildForm: Ancho: {Form1Activo.Width}, Alto: {Form1Activo.Height}, Top: {Form1Activo.Top} "
     End Sub
 
     Private Sub timerInicio_Tick(sender As Object, e As EventArgs) Handles timerInicio.Tick
@@ -108,6 +91,8 @@ Public Class MDIPrincipal
                                          e As FormClosingEventArgs) Handles Me.FormClosing
         timerClipBoard.Stop()
 
+        ' Antes estaba en el Form1                                  (18/Oct/20)
+        GuardarConfig()
     End Sub
 
     ''' <summary>
@@ -123,7 +108,7 @@ Public Class MDIPrincipal
         AddHandler menuFileSalir.Click, Sub() CurrentMDI.Close()
         AddHandler menuFileSeleccionarAbrir.Click, Sub() Abrir()
         AddHandler buttonSeleccionar.Click, Sub() Abrir()
-        AddHandler buttonAbrir.Click, Sub() Abrir(comboBoxFileName.Text)
+        AddHandler buttonAbrir.Click, Sub() Abrir()
         AddHandler menuFileGuardar.Click, Sub() Guardar()
         AddHandler buttonGuardar.Click, Sub() Guardar()
         AddHandler menuFileGuardarComo.Click, Sub() GuardarComo()
@@ -134,8 +119,6 @@ Public Class MDIPrincipal
         AddHandler menuFileRecargar.Click, Sub() Recargar()
         AddHandler buttonRecargar.Click, Sub() Recargar()
 
-        'AddHandler menuFileRecientes.DropDownOpening, AddressOf menuFileRecientes_DropDownOpening
-
         AddHandler menuRecargarFichero.Click, Sub() Recargar()
         AddHandler menuCopiarPath.Click, Sub()
                                              Try
@@ -143,9 +126,6 @@ Public Class MDIPrincipal
                                              Catch ex As Exception
                                              End Try
                                          End Sub
-
-        AddHandler comboBoxFileName.Validating, AddressOf comboBoxFileName_Validating
-        AddHandler comboBoxFileName.KeyDown, AddressOf comboBoxFileName_KeyDown
 
         ' Edición: menús y botones de la barra de edición
         AddHandler menuEdit.DropDownOpening, Sub() menuEditDropDownOpening()
@@ -163,7 +143,6 @@ Public Class MDIPrincipal
         AddHandler buttonSeleccionarTodo.Click, lambdaSelectAll
         ' Recortes
         AddHandler buttonEdicionRecortes.Click, AddressOf menuEditPegarRecorte_Click
-
 
         ' Compilar, evaluar, ejecutar 
         AddHandler menuTools.DropDownOpening, Sub()
@@ -263,7 +242,7 @@ Public Class MDIPrincipal
 
 
         ' Buscar y reemplazar                                       (17/Sep/20)
-        AddHandler menuEditBuscar.Click, Sub() BuscarReemplazar(True)
+        AddHandler menuEditBuscar.Click, Sub() BuscarReemplazar(esBuscar:=True)
         AddHandler menuEditReemplazar.Click, Sub() BuscarReemplazar(esBuscar:=False)
         AddHandler buttonBuscarSiguiente.Click, Sub() BuscarSiguiente(esReemplazar:=False)
         AddHandler menuEditBuscarSiguiente.Click, Sub() BuscarSiguiente(esReemplazar:=False)
@@ -282,13 +261,16 @@ Public Class MDIPrincipal
                                                  BuscarSiguiente(esReemplazar:=False)
                                              End If
                                          End Sub
+        AddHandler comboBoxReemplazar.KeyUp, Sub(sender As Object, e As KeyEventArgs)
+                                                 If e.KeyCode = Keys.Enter Then
+                                                     e.Handled = True
+                                                     BuscarSiguiente(esReemplazar:=True)
+                                                 End If
+                                             End Sub
 
         ' Para palabras completas y case sensitive                  (17/Sep/20)
         AddHandler buttonMatchCase.Click, Sub() buscarMatchCase = buttonMatchCase.Checked
         AddHandler buttonWholeWord.Click, Sub() buscarWholeWord = buttonWholeWord.Checked
-
-        ' Contenedor
-        'AddHandler splitContainer1.Resize, AddressOf splitContainer1_Resize
 
         ' Crear un context menú para el richTextBox del código      (18/Sep/20)
         If richTextBoxCodigo.ContextMenuStrip Is Nothing Then
@@ -305,7 +287,7 @@ Public Class MDIPrincipal
                                     If sender Is menuMostrar_Ficheros Then
                                         toolStripFicheros.Visible = menuMostrar_Ficheros.Checked
                                     ElseIf sender Is menuMostrar_Buscar Then
-                                        MostrarPanelBuscar(menuMostrar_Buscar.Checked)
+                                        MostrarPanelBuscar(menuMostrar_Buscar.Checked, esReemplazar:=False)
                                     ElseIf sender Is menuMostrar_Compilar Then
                                         toolStripCompilar.Visible = menuMostrar_Compilar.Checked
                                     ElseIf sender Is menuMostrar_Edicion Then
@@ -331,25 +313,6 @@ Public Class MDIPrincipal
         AddHandler toolStripEditor.VisibleChanged, Sub() AjustarAltoPanelHerramientas()
 
         ' Barra y menú de Editor (que no edición)
-        AddHandler menuEditor.DropDownOpening, Sub()
-                                                   Dim b = richTextBoxCodigo.SelectionLength > 0
-                                                   menuEditorQuitarIndentacion.Enabled = b
-                                                   menuEditorPonerIndentacion.Enabled = b
-                                                   menuEditorQuitarComentarios.Enabled = b
-                                                   menuEditorPonerComentarios.Enabled = b
-
-                                                   menuEditorClasificarSeleccion.Enabled = b
-
-                                                   menuEditorPonerTexto.Enabled = richTextBoxCodigo.TextLength > 0
-
-                                                   b = ColMarcadores.Count > 0
-                                                   menuEditorMarcador.Enabled = b
-                                                   menuEditorMarcadorAnterior.Enabled = b
-                                                   menuEditorMarcadorSiguiente.Enabled = b
-                                                   menuEditorMarcadorQuitarTodos.Enabled = b
-
-                                               End Sub
-
         AddHandler buttonEditorQuitarIndentacion.Click, Sub() QuitarIndentacion(richTextBoxCodigo)
         AddHandler menuEditorQuitarIndentacion.Click, Sub() QuitarIndentacion(richTextBoxCodigo)
         AddHandler buttonEditorPonerIndentacion.Click, Sub() PonerIndentacion(richTextBoxCodigo)
@@ -366,26 +329,12 @@ Public Class MDIPrincipal
         AddHandler menuEditorMarcadorSiguiente.Click, Sub() MarcadorSiguiente()
 
         ' opciones para clasificar (solo en el menú Editor)
-        AddHandler menuEditorCambiarMayúsculas.DropDownOpening, Sub()
-                                                                    Dim b = richTextBoxCodigo.SelectionLength > 0
-                                                                    menuMayúsculas.Enabled = b
-                                                                    menuMinúsculas.Enabled = b
-                                                                    menuTitulo.Enabled = b
-                                                                    menuPrimeraMinúsculas.Enabled = b
-                                                                End Sub
         AddHandler menuMayúsculas.Click, Sub() CambiarMayúsculasMinúsculas(CasingValues.Upper)
         AddHandler menuMinúsculas.Click, Sub() CambiarMayúsculasMinúsculas(CasingValues.Lower)
         AddHandler menuTitulo.Click, Sub() CambiarMayúsculasMinúsculas(CasingValues.Title)
         AddHandler menuPrimeraMinúsculas.Click, Sub() CambiarMayúsculasMinúsculas(CasingValues.FirstToLower)
 
         ' quitar los espacios de delante, detrás o ambos            (02/Oct/20)
-        AddHandler menuEditorQuitarEspacios.DropDownOpening, Sub()
-                                                                 Dim b = richTextBoxCodigo.SelectionLength > 0
-                                                                 menuQuitarEspaciosTrim.Enabled = b
-                                                                 menuQuitarEspaciosTrimStart.Enabled = b
-                                                                 menuQuitarEspaciosTrimEnd.Enabled = b
-                                                                 menuQuitarEspaciosTodos.Enabled = b
-                                                             End Sub
         AddHandler menuQuitarEspaciosTrim.Click, Sub() QuitarEspacios()
         AddHandler menuQuitarEspaciosTrimStart.Click, Sub() QuitarEspacios(delante:=True, detras:=False)
         AddHandler menuQuitarEspaciosTrimEnd.Click, Sub() QuitarEspacios(delante:=False, detras:=True)
@@ -441,7 +390,7 @@ Public Class MDIPrincipal
         ' No mostrar el panel al iniciar
         ' Ponerlo después de inicializando = false                  (30/Sep/20)
         ' para que se ajuste el tamaño de FlowPanel
-        MostrarPanelBuscar(False)
+        MostrarPanelBuscar(False, esReemplazar:=False)
 
         esCtrlF = True
 
@@ -731,5 +680,147 @@ Public Class MDIPrincipal
                 yaSeleccionado = True
             End If
         Next
+    End Sub
+
+    '
+    ' Para poner en gris el texto de Buscar y Reemplazar            (17/Oct/20)
+    ' cuando están vacios
+    ' Truco copiado del proyecto CSharpToVB
+    '
+
+    Private Sub comboBoxBuscar_Enter(sender As Object, e As EventArgs) Handles comboBoxBuscar.Enter
+        If comboBoxBuscar.Text <> BuscarVacio Then
+            'comboBoxBuscar.Text = ""
+            comboBoxBuscar.ForeColor = SystemColors.ControlText
+        End If
+    End Sub
+
+    Private Sub comboBoxBuscar_Leave(sender As Object, e As EventArgs) Handles comboBoxBuscar.Leave
+        ' Esto hace lo mismo que comprobar si está en blanco... :-P
+        'If Not Me.comboBoxBuscar.Text.Any Then
+        If String.IsNullOrEmpty(Me.comboBoxBuscar.Text) Then '
+            Me.comboBoxBuscar.ForeColor = SystemColors.GrayText
+            Me.comboBoxBuscar.Text = BuscarVacio
+        End If
+    End Sub
+
+    Private Sub comboBoxReemplazar_Enter(sender As Object, e As EventArgs) Handles comboBoxReemplazar.Enter
+        If comboBoxReemplazar.Text <> ReemplazarVacio Then
+            'comboBoxReemplazar.Text = ""
+            comboBoxReemplazar.ForeColor = SystemColors.ControlText
+        End If
+    End Sub
+
+    Private Sub comboBoxReemplazar_Leave(sender As Object, e As EventArgs) Handles comboBoxReemplazar.Leave
+        'If Not Me.comboBoxReemplazar.Text.Any Then
+        If String.IsNullOrEmpty(Me.comboBoxReemplazar.Text) Then
+            Me.comboBoxReemplazar.ForeColor = SystemColors.GrayText
+            Me.comboBoxReemplazar.Text = ReemplazarVacio
+        End If
+    End Sub
+
+    Private buscarBoxAnt As String = BuscarVacio
+    Private reemplazarBoxAnt As String = ReemplazarVacio
+
+    Private Sub comboBoxBuscar_TextChanged(sender As Object,
+                                           e As EventArgs) Handles comboBoxBuscar.TextChanged
+        If inicializando Then Return
+        If comboBoxBuscar.Text = "" OrElse comboBoxBuscar.Text = BuscarVacio Then
+            comboBoxBuscar.ForeColor = SystemColors.GrayText
+            inicializando = True
+            comboBoxBuscar.Text = BuscarVacio
+            inicializando = False
+        Else
+            If buscarBoxAnt = BuscarVacio Then
+                inicializando = True
+                comboBoxBuscar.Text = comboBoxBuscar.Text.QuitarPredeterminado(BuscarVacio)
+                inicializando = False
+
+                comboBoxBuscar.SelectionStart = comboBoxBuscar.Text.Length
+
+            End If
+            comboBoxBuscar.ForeColor = SystemColors.ControlText
+        End If
+        buscarBoxAnt = comboBoxBuscar.Text
+    End Sub
+
+    Private Sub comboBoxReemplazar_TextChanged(sender As Object,
+                                               e As EventArgs) Handles comboBoxReemplazar.TextChanged
+        If inicializando Then Return
+        If comboBoxReemplazar.Text = "" OrElse comboBoxReemplazar.Text = ReemplazarVacio Then
+            comboBoxReemplazar.ForeColor = SystemColors.GrayText
+            inicializando = True
+            comboBoxReemplazar.Text = ReemplazarVacio
+            inicializando = False
+        Else
+            If reemplazarBoxAnt = ReemplazarVacio Then
+                inicializando = True
+                comboBoxReemplazar.Text = comboBoxReemplazar.Text.QuitarPredeterminado(ReemplazarVacio)
+                inicializando = False
+
+                comboBoxReemplazar.SelectionStart = comboBoxReemplazar.Text.Length
+
+            End If
+            comboBoxReemplazar.ForeColor = SystemColors.ControlText
+        End If
+        reemplazarBoxAnt = comboBoxReemplazar.Text
+    End Sub
+
+    'Public Sub comboBoxFileName_KeyDown(sender As Object,
+    '                                    e As KeyEventArgs)
+    '    If e.KeyCode = Keys.Enter Then
+    '        e.Handled = True
+    '        ' Abrir en nueva ventana                                (19/Oct/20)
+    '        Nuevo()
+    '        Form1Activo.nombreFichero = comboBoxFileName.Text
+    '        Abrir(comboBoxFileName.Text)
+    '    End If
+    'End Sub
+
+    'Public Sub comboBoxFileName_Validating(sender As Object,
+    '                                       e As ComponentModel.CancelEventArgs)
+    '    If inicializando Then Return
+
+    '    Dim fic = comboBoxFileName.Text
+    '    If String.IsNullOrWhiteSpace(fic) Then Return
+
+    '    AñadirAlComboBoxFileName(fic)
+    'End Sub
+
+    Private Sub menuEditor_DropDownOpening(sender As Object,
+                                           e As EventArgs) Handles menuEditor.DropDownOpening
+        Dim b = richTextBoxCodigo.SelectionLength > 0
+        menuEditorQuitarIndentacion.Enabled = b
+        menuEditorPonerIndentacion.Enabled = b
+        menuEditorQuitarComentarios.Enabled = b
+        menuEditorPonerComentarios.Enabled = b
+
+        menuEditorClasificarSeleccion.Enabled = b
+
+        menuEditorPonerTexto.Enabled = richTextBoxCodigo.TextLength > 0
+
+        b = ColMarcadores.Count > 0
+        menuEditorMarcador.Enabled = b
+        menuEditorMarcadorAnterior.Enabled = b
+        menuEditorMarcadorSiguiente.Enabled = b
+        menuEditorMarcadorQuitarTodos.Enabled = b
+    End Sub
+
+    Private Sub menuEditorCambiarMayúsculas_DropDownOpening(sender As Object,
+                                                            e As EventArgs) Handles menuEditorCambiarMayúsculas.DropDownOpening
+        Dim b = richTextBoxCodigo.SelectionLength > 0
+        menuMayúsculas.Enabled = b
+        menuMinúsculas.Enabled = b
+        menuTitulo.Enabled = b
+        menuPrimeraMinúsculas.Enabled = b
+    End Sub
+
+    Private Sub menuEditorQuitarEspacios_DropDownOpening(sender As Object,
+                                                         e As EventArgs) Handles menuEditorQuitarEspacios.DropDownOpening
+        Dim b = richTextBoxCodigo.SelectionLength > 0
+        menuQuitarEspaciosTrim.Enabled = b
+        menuQuitarEspaciosTrimStart.Enabled = b
+        menuQuitarEspaciosTrimEnd.Enabled = b
+        menuQuitarEspaciosTodos.Enabled = b
     End Sub
 End Class

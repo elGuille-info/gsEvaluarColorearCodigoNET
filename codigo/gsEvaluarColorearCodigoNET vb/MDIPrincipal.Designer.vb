@@ -143,7 +143,6 @@ Partial Class MDIPrincipal
         Me.buttonWholeWord = New System.Windows.Forms.ToolStripButton()
         Me.chkMostrarLineasHTML = New System.Windows.Forms.ToolStripButton()
         Me.comboBoxBuscar = New System.Windows.Forms.ToolStripComboBox()
-        Me.comboBoxFileName = New System.Windows.Forms.ToolStripComboBox()
         Me.comboBoxReemplazar = New System.Windows.Forms.ToolStripComboBox()
         Me.panelBuscar = New System.Windows.Forms.Panel()
         Me.toolStripReemplazar = New System.Windows.Forms.ToolStrip()
@@ -163,11 +162,9 @@ Partial Class MDIPrincipal
         Me.buttonEdicionRecortes = New System.Windows.Forms.ToolStripButton()
         Me.toolStripSeparatorEdicion3 = New System.Windows.Forms.ToolStripSeparator()
         Me.toolStripFicheros = New System.Windows.Forms.ToolStrip()
-        Me.toolStripLabelFichero = New System.Windows.Forms.ToolStripLabel()
         Me.toolStripSeparatorFichero0 = New System.Windows.Forms.ToolStripSeparator()
         Me.toolStripSeparatorFichero1 = New System.Windows.Forms.ToolStripSeparator()
         Me.buttonGuardarTodo = New System.Windows.Forms.ToolStripButton()
-        Me.toolStripSeparatorFichero = New System.Windows.Forms.ToolStripSeparator()
         Me.panelHerramientas = New System.Windows.Forms.FlowLayoutPanel()
         Me.toolStripEditor = New System.Windows.Forms.ToolStrip()
         Me.buttonEditorQuitarIndentacion = New System.Windows.Forms.ToolStripButton()
@@ -1133,20 +1130,19 @@ Partial Class MDIPrincipal
         '
         Me.comboBoxBuscar.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
         Me.comboBoxBuscar.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
+        Me.comboBoxBuscar.ForeColor = System.Drawing.SystemColors.GrayText
         Me.comboBoxBuscar.Name = "comboBoxBuscar"
         Me.comboBoxBuscar.Size = New System.Drawing.Size(186, 25)
-        '
-        'comboBoxFileName
-        '
-        Me.comboBoxFileName.Name = "comboBoxFileName"
-        Me.comboBoxFileName.Size = New System.Drawing.Size(279, 25)
+        Me.comboBoxBuscar.Text = "Buscar..."
         '
         'comboBoxReemplazar
         '
         Me.comboBoxReemplazar.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
         Me.comboBoxReemplazar.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
+        Me.comboBoxReemplazar.ForeColor = System.Drawing.SystemColors.GrayText
         Me.comboBoxReemplazar.Name = "comboBoxReemplazar"
         Me.comboBoxReemplazar.Size = New System.Drawing.Size(186, 25)
+        Me.comboBoxReemplazar.Text = "Reemplazar..."
         '
         'panelBuscar
         '
@@ -1208,7 +1204,7 @@ Partial Class MDIPrincipal
         '
         Me.toolStripCompilar.Dock = System.Windows.Forms.DockStyle.None
         Me.toolStripCompilar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEjecutar, Me.buttonCompilar, Me.toolStripSeparatorCompilar1, Me.buttonEvaluar, Me.buttonCompilarAlEvaluar, Me.buttonColorearAlEvaluar, Me.toolStripSeparatorCompilar2, Me.buttonNoColorear, Me.buttonColorear, Me.toolStripSeparatorCompilar3, Me.buttonColorearHTML, Me.chkMostrarLineasHTML, Me.toolStripSeparatorCompilar4})
-        Me.toolStripCompilar.Location = New System.Drawing.Point(741, 3)
+        Me.toolStripCompilar.Location = New System.Drawing.Point(400, 3)
         Me.toolStripCompilar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripCompilar.Name = "toolStripCompilar"
         Me.toolStripCompilar.Size = New System.Drawing.Size(243, 25)
@@ -1241,7 +1237,7 @@ Partial Class MDIPrincipal
         Me.toolStripEdicion.Dock = System.Windows.Forms.DockStyle.None
         Me.toolStripEdicion.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonCortar, Me.buttonCopiar, Me.buttonPegar, Me.buttonDeshacer, Me.buttonRehacer, Me.toolStripSeparatorEdicion, Me.buttonSeleccionarTodo, Me.toolStripSeparatorEdicion2, Me.buttonEdicionRecortes, Me.toolStripSeparatorEdicion3})
         Me.toolStripEdicion.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow
-        Me.toolStripEdicion.Location = New System.Drawing.Point(542, 3)
+        Me.toolStripEdicion.Location = New System.Drawing.Point(201, 3)
         Me.toolStripEdicion.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripEdicion.Name = "toolStripEdicion"
         Me.toolStripEdicion.Size = New System.Drawing.Size(191, 25)
@@ -1276,19 +1272,13 @@ Partial Class MDIPrincipal
         'toolStripFicheros
         '
         Me.toolStripFicheros.Dock = System.Windows.Forms.DockStyle.None
-        Me.toolStripFicheros.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripLabelFichero, Me.comboBoxFileName, Me.toolStripSeparatorFichero0, Me.buttonNuevo, Me.buttonSeleccionar, Me.buttonAbrir, Me.buttonRecargar, Me.toolStripSeparatorFichero1, Me.buttonGuardar, Me.buttonGuardarComo, Me.buttonGuardarTodo, Me.toolStripSeparatorFichero})
+        Me.toolStripFicheros.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonNuevo, Me.buttonSeleccionar, Me.buttonAbrir, Me.buttonRecargar, Me.toolStripSeparatorFichero0, Me.buttonGuardar, Me.buttonGuardarComo, Me.buttonGuardarTodo, Me.toolStripSeparatorFichero1})
         Me.toolStripFicheros.Location = New System.Drawing.Point(8, 3)
         Me.toolStripFicheros.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripFicheros.Name = "toolStripFicheros"
-        Me.toolStripFicheros.Size = New System.Drawing.Size(526, 25)
+        Me.toolStripFicheros.Size = New System.Drawing.Size(185, 25)
         Me.toolStripFicheros.TabIndex = 0
         Me.toolStripFicheros.Text = "Ficheros"
-        '
-        'toolStripLabelFichero
-        '
-        Me.toolStripLabelFichero.Name = "toolStripLabelFichero"
-        Me.toolStripLabelFichero.Size = New System.Drawing.Size(54, 22)
-        Me.toolStripLabelFichero.Text = "Ficheros "
         '
         'toolStripSeparatorFichero0
         '
@@ -1308,11 +1298,6 @@ Partial Class MDIPrincipal
         Me.buttonGuardarTodo.Name = "buttonGuardarTodo"
         Me.buttonGuardarTodo.Size = New System.Drawing.Size(23, 22)
         Me.buttonGuardarTodo.Text = "Guardar todo"
-        '
-        'toolStripSeparatorFichero
-        '
-        Me.toolStripSeparatorFichero.Name = "toolStripSeparatorFichero"
-        Me.toolStripSeparatorFichero.Size = New System.Drawing.Size(6, 25)
         '
         'panelHerramientas
         '
@@ -1334,7 +1319,7 @@ Partial Class MDIPrincipal
         '
         Me.toolStripEditor.Dock = System.Windows.Forms.DockStyle.None
         Me.toolStripEditor.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEditorQuitarIndentacion, Me.buttonEditorPonerIndentacion, Me.toolStripSeparatorEditor1, Me.buttonEditorPonerComentarios, Me.buttonEditorQuitarComentarios, Me.toolStripSeparatorEditor2, Me.buttonEditorClasificarSeleccion, Me.toolSeparator4, Me.buttonEditorMarcador, Me.buttonEditorMarcadorAnterior, Me.buttonEditorMarcadorSiguiente, Me.toolStripSeparatorEditor3, Me.buttonEditorMarcadorQuitarTodos})
-        Me.toolStripEditor.Location = New System.Drawing.Point(992, 3)
+        Me.toolStripEditor.Location = New System.Drawing.Point(651, 3)
         Me.toolStripEditor.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripEditor.Name = "toolStripEditor"
         Me.toolStripEditor.Size = New System.Drawing.Size(243, 25)
@@ -1453,6 +1438,9 @@ Partial Class MDIPrincipal
         '
         Me.timerClipBoard.Interval = 30000
         '
+        'timerInicio
+        '
+        '
         'MDIPrincipal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -1532,8 +1520,8 @@ Partial Class MDIPrincipal
     Friend toolEditSeparator2 As ToolStripSeparator
     Friend toolEditSeparator3 As ToolStripSeparator
     '
-    Friend menuEditor As ToolStripMenuItem
-    Friend menuEditorCambiarMayúsculas As ToolStripMenuItem
+    Friend WithEvents menuEditor As ToolStripMenuItem
+    Friend WithEvents menuEditorCambiarMayúsculas As ToolStripMenuItem
     Friend menuEditorClasificarSeleccion As ToolStripMenuItem
     Friend menuEditorMarcador As ToolStripMenuItem
     Friend menuEditorMarcadorAnterior As ToolStripMenuItem
@@ -1544,7 +1532,7 @@ Partial Class MDIPrincipal
     Friend menuEditorPonerTexto As ToolStripMenuItem
     Friend menuEditorPonerTextoAlFinal As ToolStripMenuItem
     Friend menuEditorQuitarComentarios As ToolStripMenuItem
-    Friend menuEditorQuitarEspacios As ToolStripMenuItem
+    Friend WithEvents menuEditorQuitarEspacios As ToolStripMenuItem
     Friend menuEditorQuitarIndentacion As ToolStripMenuItem
     Friend menuEditorQuitarTextoDelfinal As ToolStripMenuItem
     Friend menuEditorSeparador1 As ToolStripSeparator
@@ -1605,9 +1593,8 @@ Partial Class MDIPrincipal
     Friend buttonSeleccionarTodo As ToolStripButton
     Friend buttonWholeWord As ToolStripButton
     Friend chkMostrarLineasHTML As ToolStripButton
-    Friend comboBoxBuscar As ToolStripComboBox
-    Friend comboBoxFileName As ToolStripComboBox
-    Friend comboBoxReemplazar As ToolStripComboBox
+    Friend WithEvents comboBoxBuscar As ToolStripComboBox
+    Friend WithEvents comboBoxReemplazar As ToolStripComboBox
     Friend menuColorear As ToolStripMenuItem
     Friend menuColorearHTML As ToolStripMenuItem
     Friend menuCompilar As ToolStripMenuItem
@@ -1645,7 +1632,6 @@ Partial Class MDIPrincipal
     Friend toolStripEditor As ToolStrip
     Friend toolStripFicheros As ToolStrip
     Friend toolStripLabelBuscar As ToolStripLabel
-    Friend toolStripLabelFichero As ToolStripLabel
     Friend toolStripLabelReemplazar As ToolStripLabel
     Friend toolStripReemplazar As ToolStrip
     Friend toolStripSeparatorBuscar1 As ToolStripSeparator
@@ -1659,7 +1645,6 @@ Partial Class MDIPrincipal
     Friend toolStripSeparatorEditor1 As ToolStripSeparator
     Friend toolStripSeparatorEditor2 As ToolStripSeparator
     Friend toolStripSeparatorEditor3 As ToolStripSeparator
-    Friend toolStripSeparatorFichero As ToolStripSeparator
     Friend toolStripSeparatorFichero0 As ToolStripSeparator
     Friend toolStripSeparatorFichero1 As ToolStripSeparator
     Friend toolStripSeparatorReemplazar As ToolStripSeparator

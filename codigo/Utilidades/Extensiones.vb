@@ -16,6 +16,66 @@ Imports System.Windows.Forms
 
 Public Module Extensiones
 
+    ''' <summary>
+    ''' Quitar de una cadena un texto indicado (que será el predeterminado cuando está vacío).
+    ''' Por ejemplo si el texto grisáceo es Buscar... y
+    ''' se empezó a escribir en medio del texto (o en cualquier parte)
+    ''' BuscarL... se quitará Buscar... y se dejará L.
+    ''' </summary>
+    ''' <param name="texto">El texto en el que se hará la sustitución.</param>
+    ''' <param name="predeterminado">El texto a quitar.</param>
+    ''' <returns>Una cadena con el texto predeterminado quitado.</returns>
+    ''' <remarks>18/Oct/2020</remarks>
+    <Extension>
+    Public Function QuitarPredeterminado(texto As String, predeterminado As String) As String
+        For i = 0 To predeterminado.Length - 1
+            Dim j = texto.IndexOf(predeterminado(i))
+            If j = -1 Then Continue For
+            If j = 0 Then
+                texto = texto.Substring(j + 1)
+            Else
+                texto = texto.Substring(0, j) & texto.Substring(j + 1)
+            End If
+        Next
+        Return texto
+    End Function
+
+    ''' <summary>
+    ''' Devuelve true si el texto indicado contiene alguna letra del alfabeto.
+    ''' Incluída la Ñ y vocales con tilde.
+    ''' </summary>
+    ''' <param name="texto"></param>
+    ''' <returns></returns>
+    ''' <remaks>14/Oct/2020</remaks>
+    <Extension>
+    Public Function ContieneLetras(texto As String) As Boolean
+        Dim letras = "abcdefghijklmnñopqurstuvwxyzáéíóúü"
+        Return texto.ToLower().IndexOfAny(letras.ToCharArray) > -1
+    End Function
+
+    ''' <summary>
+    ''' Quitar las tildes y diéresis de una cadena.
+    ''' </summary>
+    ''' <param name="s">La cadena a extender</param>
+    ''' <remarks>03/Ago/2020</remarks>
+    <Extension>
+    Public Function QuitarTildes(ByVal s As String) As String
+        Dim tildes1 = "ÁÉÍÓÚÜáéíóúü"
+        Dim tildes0 = "AEIOUUaeiouu"
+        Dim res = ""
+
+        For i = 0 To s.Length - 1
+            Dim j = tildes1.IndexOf(s(i))
+            If j > -1 Then
+                res &= tildes0.Substring(j, 1)
+            Else
+                res &= s(i)
+            End If
+        Next
+        Return res
+    End Function
+
+
     '
     ' Extensiones reemplazar si no está lo que se va a reemplazar   (04/Oct/20)
     '

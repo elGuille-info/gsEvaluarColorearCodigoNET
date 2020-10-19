@@ -43,7 +43,7 @@ Public Class FormOpciones
 
         ' Add any initialization after the InitializeComponent() call.
         lstFics.Items.Clear()
-        lstFics.Items.AddRange(comboBoxFileName.ToList().ToArray)
+        lstFics.Items.AddRange(UltimosFicherosAbiertos.ToArray)
         lstBuscar.Items.Clear()
         lstBuscar.Items.AddRange(comboBoxBuscar.ToList().ToArray)
         lstReemplazar.Items.Clear()
@@ -106,8 +106,8 @@ Public Class FormOpciones
                                          colorearAlCargar = chkColorearCargar.Checked
                                          buscarMatchCase = chkMatchCase.Checked
                                          buscarWholeWord = chkWholeWord.Checked
-                                         comboBoxFileName.Items.Clear()
-                                         comboBoxFileName.Items.AddRange(lstFics.ToList().ToArray)
+                                         UltimosFicherosAbiertos.Clear()
+                                         UltimosFicherosAbiertos.AddRange(lstFics.ToList().ToArray)
                                          comboBoxBuscar.Items.Clear()
                                          comboBoxBuscar.Items.AddRange(lstBuscar.ToList().ToArray)
                                          comboBoxReemplazar.Items.Clear()

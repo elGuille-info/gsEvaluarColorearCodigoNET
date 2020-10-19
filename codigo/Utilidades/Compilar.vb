@@ -578,7 +578,15 @@ Public Class Compilar
 
         Dim colCodigo = EvaluaCodigo(sourceCode, colSpans)
 
+        ' Se ve que el texto no siempre tiene los mismos retornos   (18/Oct/20)
+        ' hasta ahora (18-oct) siempre eran vbCr (en el RichTextBox)
+        ' pero hoy son vbLf.
+        Dim elCambioLinea = vbCr
         Dim htmlL = codigoHTML.Split(vbCr)
+        If htmlL.Length < 2 Then
+            htmlL = codigoHTML.Split(vbLf)
+            elCambioLinea = vbLf
+        End If
 
         ' Usar estos valores para que no ecuentre palabras          (03/Oct/20)
         ' contenidas en los span
@@ -633,8 +641,8 @@ Public Class Compilar
                 End If
             End If
 
-            If word.Contains(vbCr) Then
-                Dim wordL = word.Split(vbCr)
+            If word.Contains(elCambioLinea) Then
+                Dim wordL = word.Split(elCambioLinea)
                 For i = 1 To wordL.Length - 1
                     If htmlL(linea.Line + i) = "" Then htmlL(linea.Line + i) = "<BoRrAr EstO>"
                     If wordL(i) <> "" Then
@@ -660,12 +668,12 @@ Public Class Compilar
         For i = 0 To htmlL.Length - 1
             If htmlL(i) = "<BoRrAr EstO>" Then Continue For
             If mostrarLineas Then
-                codigoHTML &= $"{tagSpanColor}{cNum}; background:{cFondoNum}'>{(l1).ToString("0").PadLeft(4)} {tagSpanEnd}{htmlL(i)}{vbCr}"
+                codigoHTML &= $"{tagSpanColor}{cNum}; background:{cFondoNum}'>{(l1).ToString("0").PadLeft(4)} {tagSpanEnd}{htmlL(i)}{elCambioLinea}"
                 l1 += 1
             Else
                 'Debug.Assert(htmlL(i).Contains("Extension") = False)
                 'Debug.Assert(htmlL(i).Contains("&lt;") = False)
-                codigoHTML &= htmlL(i) & vbCr
+                codigoHTML &= htmlL(i) & elCambioLinea
             End If
 
         Next
