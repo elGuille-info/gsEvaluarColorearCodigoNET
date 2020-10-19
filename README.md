@@ -10,5 +10,5 @@ Este código lo estoy usando con Visual Studio 2019 Preview y .NET 5.0 RC2<br>
 <i>Ver los comentarios al inicio del fichero Form1 del código del proyecto.</i><br>
 <br>
 <br>
-Actualizado el 17 de octubre de 2020 a las 18:11<br>
+Actualizado el 19 de octubre de 2020 a eso de las 13:30<br>
 
