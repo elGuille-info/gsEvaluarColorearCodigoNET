@@ -17,6 +17,32 @@ Imports System.Windows.Forms
 Public Module Extensiones
 
     ''' <summary>
+    ''' Comporueba cómo terminan las líneas.
+    ''' Primero se comprueba con el valor de <see cref="vbCr"/>
+    ''' si no la tiene se comprueba <see cref="vbLf"/>,  
+    ''' si tampoco se comprueba con <see cref="vbCrLf"/> y
+    ''' finalmente con el valor de <see cref="Environment.NewLine"/>
+    ''' </summary>
+    ''' <param name="selT">El texto seleccionado a comprobar</param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function ComprobarFinLinea(selT As String) As String
+        Dim finLinea = vbCr
+        If selT.IndexOf(finLinea) = -1 Then
+            finLinea = vbLf
+            If selT.IndexOf(finLinea) = -1 Then
+                finLinea = vbCrLf
+                If selT.IndexOf(finLinea) = -1 Then
+                    finLinea = Environment.NewLine
+                End If
+            End If
+        End If
+
+        Return finLinea
+    End Function
+
+
+    ''' <summary>
     ''' Quitar de una cadena un texto indicado (que será el predeterminado cuando está vacío).
     ''' Por ejemplo si el texto grisáceo es Buscar... y
     ''' se empezó a escribir en medio del texto (o en cualquier parte)

@@ -116,7 +116,6 @@ Partial Class MDIPrincipal
         Me.menuMostrar_Compilar = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuMostrar_Editor = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuMostrar_Buscar = New System.Windows.Forms.ToolStripMenuItem()
-        Me.buttonAbrir = New System.Windows.Forms.ToolStripButton()
         Me.buttonBuscarSiguiente = New System.Windows.Forms.ToolStripButton()
         Me.buttonColorear = New System.Windows.Forms.ToolStripButton()
         Me.buttonColorearAlEvaluar = New System.Windows.Forms.ToolStripButton()
@@ -163,8 +162,8 @@ Partial Class MDIPrincipal
         Me.toolStripSeparatorEdicion3 = New System.Windows.Forms.ToolStripSeparator()
         Me.toolStripFicheros = New System.Windows.Forms.ToolStrip()
         Me.toolStripSeparatorFichero0 = New System.Windows.Forms.ToolStripSeparator()
-        Me.toolStripSeparatorFichero1 = New System.Windows.Forms.ToolStripSeparator()
         Me.buttonGuardarTodo = New System.Windows.Forms.ToolStripButton()
+        Me.toolStripSeparatorFichero1 = New System.Windows.Forms.ToolStripSeparator()
         Me.panelHerramientas = New System.Windows.Forms.FlowLayoutPanel()
         Me.toolStripEditor = New System.Windows.Forms.ToolStrip()
         Me.buttonEditorQuitarIndentacion = New System.Windows.Forms.ToolStripButton()
@@ -245,8 +244,6 @@ Partial Class MDIPrincipal
             Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
         Me.menuFileRecargar.Size = New System.Drawing.Size(233, 22)
         Me.menuFileRecargar.Text = "Recargar fichero"
-        Me.menuFileRecargar.ToolTipText = "Recargar el fichero actual, si se ha modificado, se perderán los cambios (Ctrl+Sh" &
-    "ift+R)"
         '
         'mnuFileSeparator1
         '
@@ -322,7 +319,6 @@ Partial Class MDIPrincipal
         Me.menuFileSalir.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
         Me.menuFileSalir.Size = New System.Drawing.Size(233, 22)
         Me.menuFileSalir.Text = "Salir"
-        Me.menuFileSalir.ToolTipText = "Cerrar y salir de la aplicación (Alt+F4)"
         '
         'menuEdit
         '
@@ -882,15 +878,6 @@ Partial Class MDIPrincipal
         Me.menuMostrar_Buscar.Text = "Buscar"
         Me.menuMostrar_Buscar.ToolTipText = "Mostrar u ocultar la barra de herramientas de Buscar / Reemplazar"
         '
-        'buttonAbrir
-        '
-        Me.buttonAbrir.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.buttonAbrir.Image = CType(resources.GetObject("buttonAbrir.Image"), System.Drawing.Image)
-        Me.buttonAbrir.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.buttonAbrir.Name = "buttonAbrir"
-        Me.buttonAbrir.Size = New System.Drawing.Size(23, 22)
-        Me.buttonAbrir.Text = "Abrir (Ctrl+O)"
-        '
         'buttonBuscarSiguiente
         '
         Me.buttonBuscarSiguiente.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -1013,6 +1000,7 @@ Partial Class MDIPrincipal
         Me.buttonGuardarComo.Name = "buttonGuardarComo"
         Me.buttonGuardarComo.Size = New System.Drawing.Size(23, 22)
         Me.buttonGuardarComo.Text = "Guardar como"
+        Me.buttonGuardarComo.ToolTipText = "Guardar el contenido actual con otro nombre de fichero"
         '
         'buttonMatchCase
         '
@@ -1041,6 +1029,7 @@ Partial Class MDIPrincipal
         Me.buttonNuevo.Name = "buttonNuevo"
         Me.buttonNuevo.Size = New System.Drawing.Size(23, 22)
         Me.buttonNuevo.Text = "Nuevo (Ctrl+N)"
+        Me.buttonNuevo.ToolTipText = "Crear una nueva ventana en blanco (Ctrl+N)"
         '
         'buttonPegar
         '
@@ -1059,6 +1048,8 @@ Partial Class MDIPrincipal
         Me.buttonRecargar.Name = "buttonRecargar"
         Me.buttonRecargar.Size = New System.Drawing.Size(23, 22)
         Me.buttonRecargar.Text = "Recargar (Ctrl+Shift+R)"
+        Me.buttonRecargar.ToolTipText = "Recargar el fichero actual, si se ha modificado se perderán los cambios (Ctrl+Shi" &
+    "ft+R)"
         '
         'buttonReemplazarSiguiente
         '
@@ -1095,6 +1086,7 @@ Partial Class MDIPrincipal
         Me.buttonSeleccionar.Name = "buttonSeleccionar"
         Me.buttonSeleccionar.Size = New System.Drawing.Size(23, 22)
         Me.buttonSeleccionar.Text = "Seleccionar fichero (Ctrl+Shift+O)"
+        Me.buttonSeleccionar.ToolTipText = "Seleccionar y abrir un fichero en una nueva ventana (Ctrl+Shift+O)"
         '
         'buttonSeleccionarTodo
         '
@@ -1204,7 +1196,7 @@ Partial Class MDIPrincipal
         '
         Me.toolStripCompilar.Dock = System.Windows.Forms.DockStyle.None
         Me.toolStripCompilar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEjecutar, Me.buttonCompilar, Me.toolStripSeparatorCompilar1, Me.buttonEvaluar, Me.buttonCompilarAlEvaluar, Me.buttonColorearAlEvaluar, Me.toolStripSeparatorCompilar2, Me.buttonNoColorear, Me.buttonColorear, Me.toolStripSeparatorCompilar3, Me.buttonColorearHTML, Me.chkMostrarLineasHTML, Me.toolStripSeparatorCompilar4})
-        Me.toolStripCompilar.Location = New System.Drawing.Point(400, 3)
+        Me.toolStripCompilar.Location = New System.Drawing.Point(377, 3)
         Me.toolStripCompilar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripCompilar.Name = "toolStripCompilar"
         Me.toolStripCompilar.Size = New System.Drawing.Size(243, 25)
@@ -1237,7 +1229,7 @@ Partial Class MDIPrincipal
         Me.toolStripEdicion.Dock = System.Windows.Forms.DockStyle.None
         Me.toolStripEdicion.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonCortar, Me.buttonCopiar, Me.buttonPegar, Me.buttonDeshacer, Me.buttonRehacer, Me.toolStripSeparatorEdicion, Me.buttonSeleccionarTodo, Me.toolStripSeparatorEdicion2, Me.buttonEdicionRecortes, Me.toolStripSeparatorEdicion3})
         Me.toolStripEdicion.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow
-        Me.toolStripEdicion.Location = New System.Drawing.Point(201, 3)
+        Me.toolStripEdicion.Location = New System.Drawing.Point(178, 3)
         Me.toolStripEdicion.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripEdicion.Name = "toolStripEdicion"
         Me.toolStripEdicion.Size = New System.Drawing.Size(191, 25)
@@ -1272,11 +1264,11 @@ Partial Class MDIPrincipal
         'toolStripFicheros
         '
         Me.toolStripFicheros.Dock = System.Windows.Forms.DockStyle.None
-        Me.toolStripFicheros.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonNuevo, Me.buttonSeleccionar, Me.buttonAbrir, Me.buttonRecargar, Me.toolStripSeparatorFichero0, Me.buttonGuardar, Me.buttonGuardarComo, Me.buttonGuardarTodo, Me.toolStripSeparatorFichero1})
+        Me.toolStripFicheros.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonNuevo, Me.buttonSeleccionar, Me.buttonRecargar, Me.toolStripSeparatorFichero0, Me.buttonGuardar, Me.buttonGuardarComo, Me.buttonGuardarTodo, Me.toolStripSeparatorFichero1})
         Me.toolStripFicheros.Location = New System.Drawing.Point(8, 3)
         Me.toolStripFicheros.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripFicheros.Name = "toolStripFicheros"
-        Me.toolStripFicheros.Size = New System.Drawing.Size(185, 25)
+        Me.toolStripFicheros.Size = New System.Drawing.Size(162, 25)
         Me.toolStripFicheros.TabIndex = 0
         Me.toolStripFicheros.Text = "Ficheros"
         '
@@ -1284,11 +1276,6 @@ Partial Class MDIPrincipal
         '
         Me.toolStripSeparatorFichero0.Name = "toolStripSeparatorFichero0"
         Me.toolStripSeparatorFichero0.Size = New System.Drawing.Size(6, 25)
-        '
-        'toolStripSeparatorFichero1
-        '
-        Me.toolStripSeparatorFichero1.Name = "toolStripSeparatorFichero1"
-        Me.toolStripSeparatorFichero1.Size = New System.Drawing.Size(6, 25)
         '
         'buttonGuardarTodo
         '
@@ -1298,6 +1285,12 @@ Partial Class MDIPrincipal
         Me.buttonGuardarTodo.Name = "buttonGuardarTodo"
         Me.buttonGuardarTodo.Size = New System.Drawing.Size(23, 22)
         Me.buttonGuardarTodo.Text = "Guardar todo"
+        Me.buttonGuardarTodo.ToolTipText = "Guardar todos los ficheros abiertos (Ctrl+Shift+S)"
+        '
+        'toolStripSeparatorFichero1
+        '
+        Me.toolStripSeparatorFichero1.Name = "toolStripSeparatorFichero1"
+        Me.toolStripSeparatorFichero1.Size = New System.Drawing.Size(6, 25)
         '
         'panelHerramientas
         '
@@ -1319,7 +1312,7 @@ Partial Class MDIPrincipal
         '
         Me.toolStripEditor.Dock = System.Windows.Forms.DockStyle.None
         Me.toolStripEditor.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEditorQuitarIndentacion, Me.buttonEditorPonerIndentacion, Me.toolStripSeparatorEditor1, Me.buttonEditorPonerComentarios, Me.buttonEditorQuitarComentarios, Me.toolStripSeparatorEditor2, Me.buttonEditorClasificarSeleccion, Me.toolSeparator4, Me.buttonEditorMarcador, Me.buttonEditorMarcadorAnterior, Me.buttonEditorMarcadorSiguiente, Me.toolStripSeparatorEditor3, Me.buttonEditorMarcadorQuitarTodos})
-        Me.toolStripEditor.Location = New System.Drawing.Point(651, 3)
+        Me.toolStripEditor.Location = New System.Drawing.Point(628, 3)
         Me.toolStripEditor.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripEditor.Name = "toolStripEditor"
         Me.toolStripEditor.Size = New System.Drawing.Size(243, 25)
@@ -1501,7 +1494,7 @@ Partial Class MDIPrincipal
     Friend mnuFileSeparator3 As ToolStripSeparator
     Friend mnuFileSeparator4 As ToolStripSeparator
     '
-    Friend menuEdit As ToolStripMenuItem
+    Friend WithEvents menuEdit As ToolStripMenuItem
     Friend menuEditBuscar As ToolStripMenuItem
     Friend menuEditBuscarSiguiente As ToolStripMenuItem
     Friend menuEditCopiar As ToolStripMenuItem
@@ -1557,7 +1550,6 @@ Partial Class MDIPrincipal
     Friend menuRecargarFichero As ToolStripMenuItem
     '
     Friend barraHerramientasContext As ContextMenuStrip
-    Friend buttonAbrir As ToolStripButton
     Friend buttonBuscarSiguiente As ToolStripButton
     Friend buttonColorear As ToolStripButton
     Friend buttonColorearAlEvaluar As ToolStripButton
@@ -1619,7 +1611,7 @@ Partial Class MDIPrincipal
     Friend menuTools As ToolStripMenuItem
     Friend panelBuscar As Panel
     Friend panelHerramientas As FlowLayoutPanel
-    Friend rtbCodigoContext As ContextMenuStrip
+    Friend WithEvents rtbCodigoContext As ContextMenuStrip
     Friend toolSeparator4 As ToolStripSeparator
     Friend toolSeparatorTools1 As ToolStripSeparator
     Friend toolSeparatorTools2 As ToolStripSeparator

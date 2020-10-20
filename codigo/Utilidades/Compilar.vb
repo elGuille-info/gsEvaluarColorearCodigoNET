@@ -581,12 +581,12 @@ Public Class Compilar
         ' Se ve que el texto no siempre tiene los mismos retornos   (18/Oct/20)
         ' hasta ahora (18-oct) siempre eran vbCr (en el RichTextBox)
         ' pero hoy son vbLf.
-        Dim elCambioLinea = vbCr
-        Dim htmlL = codigoHTML.Split(vbCr)
-        If htmlL.Length < 2 Then
-            htmlL = codigoHTML.Split(vbLf)
-            elCambioLinea = vbLf
-        End If
+        Dim elCambioLinea = codigoHTML.ComprobarFinLinea
+        Dim htmlL = codigoHTML.Split(elCambioLinea)
+        'If htmlL.Length < 2 Then
+        '    htmlL = codigoHTML.Split(vbLf)
+        '    elCambioLinea = vbLf
+        'End If
 
         ' Usar estos valores para que no ecuentre palabras          (03/Oct/20)
         ' contenidas en los span

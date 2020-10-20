@@ -305,18 +305,30 @@
 'v1.0.0.170             Al pulsar ENTER en Reemplazar, se reemplazará la siguiente
 'v1.0.0.171             Quito el comboBoxFileName y uso la colección UltimosFicherosAbiertos
 '                       para tener la lista de los últimos ficheros abiertos
+'v1.0.0.172             Quito los argumentos (que se pueden quitar) de los métodos de evento
+'                       de Form1 y MDIPrincipal
+'v1.0.0.173             Pongo ComprobarFinLinea en ColorearHTML
+'v1.0.0.174             Al cargar el fichero en la ventana, asignar a Text el nombre sin path
+'v1.0.0.175             Al abrir (seleccionando) cargar en nueva ventana, no en la activa
+'v1.0.0.176 20/Oct/20   Añado texto más descriptivos a los botones de los ficheros
+'v1.0.0.177             Le quito el Tooltip a los menús de ficheros
+'v1.0.0.178             Al abrir seleccionando que lo añada a las últimas ventanas
+'v1.0.0.179             Ahora añade el path completo al título del Form1 ???
+'                       Se ve que es el comportamiento normal del menú automático de las ventanas
+'v1.0.0.180             En el menú DropDownOpening le asigno el texto adecuado
+'                       pero al activar una de las ventanas le asigna el nombre completo ???
+'v1.0.0.181             Asignaba el nombre completo en Form1_Activate... en fin...
+'v1.0.0.182             Poner bien el texto del menú mostrar/ocultar panel de evaluación
+'                       Al abrir el fichero, se oculta y se limpia el listSyntax
+'v1.0.0.183             UltimasVentanasAbiertas debe tener siempre el path completo
+'v1.0.0.184             Al guardar las últimas ventanas, guardaba 1 menos
 '
 ' POR HACER:
 '                       Solucionar lo del pitido al pulsar ENTER
-
 '
 '
 '
 'TODO:
-'   17-oct  Usar el combo de los ficheros recientes para mostrar los que están abiertos
-'           Al seleccionar uno, se muestra la ventana correspondiente.
-'           Para abrir uno nuevo, se usará el menú Ficheros recientes
-'
 '   16-oct  Arreglar los marcadores, para que cada fichero tenga los suyos.
 '   04-oct  Usar plantillas y crearlas para usar con Nuevo...
 '           Poder cargar un proyecto o solución con todos los ficheros relacionados
@@ -344,8 +356,6 @@ Imports Microsoft.CodeAnalysis.VisualBasic
 Imports Microsoft.VisualBasic.CompilerServices
 Imports System.Reflection
 Imports Microsoft.CodeAnalysis.Text
-
-'Imports gsEvaluarColorearCodigoNET
 
 Public Class Form1
 
@@ -388,7 +398,7 @@ Public Class Form1
     ' Los métodos de evento del formulario
     '
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
+    Private Sub Form1_Load() Handles Me.Load
         ' Asignaciones al richTextBox                               (28/Sep/20)
         ' (por si las cambio por error en el diseñador)
         richTextBoxCodigo.EnableAutoDragDrop = False
@@ -470,12 +480,13 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Form1_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+    Private Sub Form1_Activated() Handles Me.Activated
         ' Asignar cuál es el Form1 activo
         Form1Activo = Me
         'CurrentMDI.comboBoxFileName.Text = nombreFichero
         If Not String.IsNullOrWhiteSpace(nombreFichero) Then
-            Me.Text = nombreFichero
+            ' Aquí se asignaba el path completo!!!                  (20/Oct/20)
+            Me.Text = Path.GetFileName(nombreFichero)
         End If
 
         If Me.WindowState = FormWindowState.Normal Then
@@ -483,7 +494,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Form1_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+    Private Sub Form1_Resize() Handles Me.Resize
         If inicializando Then Return
 
         'If Me.WindowState = FormWindowState.Normal Then
@@ -493,7 +504,7 @@ Public Class Form1
         '               Me.RestoreBounds.Height, Me.RestoreBounds.Width)
         'End If
 
-        UtilFormEditor.LabelInfo.Text = $"MDIPrincipal: Ancho: {CurrentMDI.Width}, Alto: {CurrentMDI.Height} / ClientSize: Ancho: {CurrentMDI.ClientSize.Width}, Alto: {CurrentMDI.ClientSize.Height} - Form1: Ancho: {Me.Width}, Alto: {Me.Height}"
+        UtilFormEditor.labelInfo.Text = $"MDIPrincipal: Ancho: {CurrentMDI.Width}, Alto: {CurrentMDI.Height} / ClientSize: Ancho: {CurrentMDI.ClientSize.Width}, Alto: {CurrentMDI.ClientSize.Height} - Form1: Ancho: {Me.Width}, Alto: {Me.Height}"
     End Sub
 
     ' Para doble pulsación de teclas
@@ -759,14 +770,13 @@ Public Class Form1
     ''' </summary>
     Public splitPanel2 As Integer
 
-    Public Sub splitContainer1_Resize(sender As Object, e As EventArgs) Handles splitContainer1.Resize
+    Public Sub splitContainer1_Resize() Handles splitContainer1.Resize
         If CurrentMDI.WindowState = FormWindowState.Minimized Then Return
 
         If splitContainer1.Panel2.Visible Then
             If splitPanel2 < 100 Then
-                splitPanel2 = CInt(splitContainer1.Width * 0.25) 'CInt(splitContainer1.Width * 0.3)
+                splitPanel2 = CInt(splitContainer1.Width * 0.25)
             End If
-            'splitPanel2 = CInt(splitContainer1.Width * 0.3)
             splitContainer1.SplitterDistance = splitContainer1.Width - splitPanel2
             splitPanel2 = 0
         Else
@@ -785,8 +795,7 @@ Public Class Form1
     ''' <summary>
     ''' Sincroniza los scrollbar de richTextBoxCodigo y richTextBoxLineas.
     ''' </summary>
-    Public Sub richTextBoxCodigo_VScroll(sender As Object,
-                                         e As EventArgs) Handles richTextBoxCodigo.VScroll
+    Public Sub richTextBoxCodigo_VScroll() Handles richTextBoxCodigo.VScroll
         If inicializando Then Return
         If String.IsNullOrEmpty(richTextBoxCodigo.Text) Then Return
 
@@ -868,8 +877,7 @@ Public Class Form1
 
     End Sub
 
-    Public Sub richTextBoxCodigo_TextChanged(sender As Object,
-                                             e As EventArgs) Handles richTextBoxCodigo.TextChanged
+    Public Sub richTextBoxCodigo_TextChanged() Handles richTextBoxCodigo.TextChanged
         If inicializando Then Return
 
         labelTamaño.Text = $"{richTextBoxCodigo.Text.Length:#,##0} car. ({richTextBoxCodigo.Text.CuantasPalabras:#,##0} palab.)"
@@ -896,16 +904,14 @@ Public Class Form1
         TextoModificado = (codigoAnterior <> codigoNuevo)
     End Sub
 
-    Private Sub richTextBoxCodigo_SelectionChanged(sender As Object,
-                                                   e As EventArgs) Handles richTextBoxCodigo.SelectionChanged, richTextBoxCodigo.MouseClick
+    Private Sub richTextBoxCodigo_SelectionChanged() Handles richTextBoxCodigo.SelectionChanged, richTextBoxCodigo.MouseClick
         If inicializando Then Return
         'menuEditDropDownOpenning()
         CurrentMDI.HabilitarBotones()
         MostrarPosicion(Nothing)
     End Sub
 
-    Private Sub richTextBoxCodigo_FontChanged(sender As Object,
-                                              e As EventArgs) Handles richTextBoxCodigo.FontChanged
+    Private Sub richTextBoxCodigo_FontChanged() Handles richTextBoxCodigo.FontChanged
         richTextBoxLineas.Font = New Font(richTextBoxCodigo.Font.FontFamily, richTextBoxCodigo.Font.Size)
     End Sub
 End Class

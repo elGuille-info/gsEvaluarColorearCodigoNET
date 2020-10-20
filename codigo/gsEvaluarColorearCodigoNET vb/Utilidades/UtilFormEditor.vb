@@ -242,6 +242,8 @@ Friend Module UtilFormEditor
     ''' <summary>
     ''' Nombre del último fichero asignado al código.
     ''' Se usará el NombreFichero del formulario activo.
+    ''' Al asignarlo, si no está en la colección <see cref="UltimasVentanasAbiertas"/>
+    ''' se añadirá.
     ''' </summary>
     Public Property nombreUltimoFichero As String
         Get
@@ -318,11 +320,11 @@ Friend Module UtilFormEditor
 
         ' Si cargarUltimo es falso no guardar el último fichero     (16/Sep/20)
         cfg.SetValue("Ficheros", "CargarUltimo", cargarUltimo)
-        If cargarUltimo Then
-            cfg.SetValue("Ficheros", "Ultimo", nombreUltimoFichero)
-        Else
-            cfg.SetValue("Ficheros", "Ultimo", "")
-        End If
+        'If cargarUltimo Then
+        '    cfg.SetValue("Ficheros", "Ultimo", nombreUltimoFichero)
+        'Else
+        '    cfg.SetValue("Ficheros", "Ultimo", "")
+        'End If
 
         ' Guardar los últimos ficheros abiertos                     (16/Oct/20)
         ' No guardar si está en blanco el nombre del fichero
@@ -333,7 +335,7 @@ Friend Module UtilFormEditor
             cuantos += 1
             cfg.SetKeyValue("Ventanas", $"Fichero{cuantos}", s)
         Next
-        cfg.SetValue("Ventanas", "Cuantas", cuantos)
+        cfg.SetValue("Ventanas", "Cuantas", cuantos + 1)
 
         cfg.SetValue("Herramientas", "Lenguaje", buttonLenguaje.Text)
         cfg.SetValue("Herramientas", "Colorear", colorearAlCargar)
@@ -431,11 +433,12 @@ Friend Module UtilFormEditor
 
         ' Si cargarUltimo es falso no asignar el último fichero     (16/Sep/20)
         cargarUltimo = cfg.GetValue("Ficheros", "CargarUltimo", False)
-        If cargarUltimo Then
-            nombreUltimoFichero = cfg.GetValue("Ficheros", "Ultimo", "")
-        Else
-            nombreUltimoFichero = ""
-        End If
+        ' No asignar a nombreUltimoFichero                          (20/Oct/20)
+        'If cargarUltimo Then
+        '    nombreUltimoFichero = cfg.GetValue("Ficheros", "Ultimo", "")
+        '    'Else
+        '    '    nombreUltimoFichero = ""
+        'End If
 
         buttonLenguaje.Text = cfg.GetValue("Herramientas", "Lenguaje", Compilar.LenguajeVisualBasic)
         If buttonLenguaje.Text = Compilar.LenguajeVisualBasic Then
@@ -577,6 +580,8 @@ Friend Module UtilFormEditor
             'If s = "-1" Then Exit For
             ' Si está el nombre en blanco, continuar                (17/Oct/20)
             If String.IsNullOrWhiteSpace(s) Then Continue For
+            ' UltimasVentanasAbiertas debe tener el path completo   (20/Oct/20)
+            's = Path.GetFileName(s)
             UltimasVentanasAbiertas.Add(s)
         Next
         ' Si se indica cargarUltimo, abrirlos todos                 (16/Oct/20)
@@ -596,9 +601,7 @@ Friend Module UtilFormEditor
                 If i = UltimasVentanasAbiertas.Count - 1 Then
                     m_fProcesando.ValorActual = m_fProcesando.Maximo - 1
                 End If
-                Nuevo()
-                Form1Activo.nombreFichero = UltimasVentanasAbiertas(i)
-                Abrir(Form1Activo.nombreFichero)
+                AbrirEnNuevaVentana(UltimasVentanasAbiertas(i))
                 Application.DoEvents()
             Next
             m_fProcesando.Close()
@@ -816,14 +819,14 @@ Friend Module UtilFormEditor
     Public Sub AñadirNumerosDeLinea()
         If inicializando Then Return
         If String.IsNullOrEmpty(richTextBoxCodigo.Text) Then Return
-        Dim finlinea = ComprobarFinLinea(richTextBoxCodigo.Text)
+        Dim finlinea = richTextBoxCodigo.Text.ComprobarFinLinea
         Dim lineas = richTextBoxCodigo.Lines.Length
         richTextBoxLineas.Text = ""
         For i = 1 To lineas
             richTextBoxLineas.Text &= $" {i.ToString("0").PadLeft(4)}{finlinea}"
         Next
         ' Sincronizar los scrolls
-        Form1Activo.richTextBoxCodigo_VScroll(Nothing, Nothing)
+        Form1Activo.richTextBoxCodigo_VScroll()
 
         PonerLosMarcadores()
     End Sub
@@ -887,7 +890,7 @@ Friend Module UtilFormEditor
             ' No tomar el texto rtf, sino el normal, que colorearemos
             ' El texto que está seleccionado antes de indentar      (05/Oct/20)
             Dim selAnt = rtEditor.SelectedText
-            Dim finlinea = ComprobarFinLinea(selAnt)
+            Dim finlinea = selAnt.ComprobarFinLinea
             Dim lineas() As String = selAnt.Split(finlinea.ToCharArray)
             sIndent = New String(" "c, EspaciosIndentar)
             Dim sb As New System.Text.StringBuilder
@@ -946,7 +949,7 @@ Friend Module UtilFormEditor
         If rtEditor.SelectionLength > 0 Then
             Dim selStart As Integer = rtEditor.SelectionStart
             Dim sIndent As String = New String(" "c, EspaciosIndentar)
-            Dim finlinea = ComprobarFinLinea(rtEditor.SelectedText)
+            Dim finlinea = rtEditor.SelectedText.ComprobarFinLinea
             Dim lineas() As String = rtEditor.SelectedText.Split(finlinea.ToCharArray)
             Dim sb As New System.Text.StringBuilder
             Dim j As Integer = lineas.Length - 1
@@ -1039,7 +1042,7 @@ Friend Module UtilFormEditor
 
         If rtEditor.SelectionLength > 0 Then
             Dim selStart As Integer = rtEditor.SelectionStart
-            Dim finLinea = ComprobarFinLinea(rtEditor.SelectedText)
+            Dim finLinea = rtEditor.SelectedText.ComprobarFinLinea
             Dim lineas() As String = rtEditor.SelectedText.Split(finLinea.ToCharArray)
             Dim sb As New System.Text.StringBuilder
             Dim j As Integer = lineas.Length - 1
@@ -1112,7 +1115,7 @@ Friend Module UtilFormEditor
 
         If rtEditor.SelectionLength > 0 Then
             Dim selStart As Integer = rtEditor.SelectionStart
-            Dim finLinea = ComprobarFinLinea(rtEditor.SelectedText)
+            Dim finLinea = rtEditor.SelectedText.ComprobarFinLinea
             Dim lineas() As String = rtEditor.SelectedText.Split(finLinea.ToCharArray)
             Dim sb As New System.Text.StringBuilder
             Dim j As Integer = lineas.Length - 1
@@ -1173,30 +1176,6 @@ Friend Module UtilFormEditor
         End If
 
     End Sub
-
-    ''' <summary>
-    ''' Comporueba cómo terminan las líneas.
-    ''' Primero se comprueba con el valor de <see cref="vbCr"/>
-    ''' si no la tiene se comprueba <see cref="vbLf"/>,  
-    ''' si tampoco se comprueba con <see cref="vbCrLf"/> y
-    ''' finalmente con el valor de <see cref="Environment.NewLine"/>
-    ''' </summary>
-    ''' <param name="selT">El texto seleccionado a comprobar</param>
-    ''' <returns></returns>
-    Public Function ComprobarFinLinea(selT As String) As String
-        Dim finLinea = vbCr
-        If selT.IndexOf(finLinea) = -1 Then
-            finLinea = vbLf
-            If selT.IndexOf(finLinea) = -1 Then
-                finLinea = vbCrLf
-                If selT.IndexOf(finLinea) = -1 Then
-                    finLinea = Environment.NewLine
-                End If
-            End If
-        End If
-
-        Return finLinea
-    End Function
 
 #End Region
 
@@ -1342,7 +1321,7 @@ Friend Module UtilFormEditor
             Form1Activo.lstSyntax.Items.Add(s)
             labelInfo.Text = s
             Form1Activo.splitContainer1.Panel2.Visible = True
-            Form1Activo.splitContainer1_Resize(Nothing, Nothing)
+            Form1Activo.splitContainer1_Resize()
 
             Return
         End If
@@ -1351,7 +1330,7 @@ Friend Module UtilFormEditor
 
             Form1Activo.lstSyntax.Items.Clear()
             Form1Activo.splitContainer1.Panel2.Visible = False
-            Form1Activo.splitContainer1_Resize(Nothing, Nothing)
+            Form1Activo.splitContainer1_Resize()
         Else
             ' Mostrar los errores
             MostrarErrores(res.Result)
@@ -1387,7 +1366,7 @@ Friend Module UtilFormEditor
             Form1Activo.lstSyntax.Items.Add(s)
             labelInfo.Text = s
             Form1Activo.splitContainer1.Panel2.Visible = True
-            Form1Activo.splitContainer1_Resize(Nothing, Nothing)
+            Form1Activo.splitContainer1_Resize()
 
             Return
         End If
@@ -1418,7 +1397,7 @@ Friend Module UtilFormEditor
 
         If compilarAlEvaluar Then
             Form1Activo.splitContainer1.Panel2.Visible = False
-            Form1Activo.splitContainer1_Resize(Nothing, Nothing)
+            Form1Activo.splitContainer1_Resize()
             Form1Activo.lstSyntax.Items.Clear()
 
             labelInfo.Text = $"Compilando para {buttonLenguaje.Text}..."
@@ -1484,7 +1463,7 @@ Friend Module UtilFormEditor
         labelInfo.Text = $"Compilado con {errors} error{If(errors = 1, "", "es")} y {warnings} advertencia{If(warnings = 1, "", "s")}."
 
         Form1Activo.splitContainer1.Panel2.Visible = True
-        Form1Activo.splitContainer1_Resize(Nothing, Nothing)
+        Form1Activo.splitContainer1_Resize()
     End Sub
 
     ''' <summary>
@@ -1527,7 +1506,7 @@ Friend Module UtilFormEditor
 
         If mostrarSyntax Then
             Form1Activo.splitContainer1.Panel2.Visible = True
-            Form1Activo.splitContainer1_Resize(Nothing, Nothing)
+            Form1Activo.splitContainer1_Resize()
         End If
     End Sub
 
@@ -1546,7 +1525,7 @@ Friend Module UtilFormEditor
         If richTextBoxCodigo.SelectionLength = 0 Then Return
 
         Dim selStart = richTextBoxCodigo.SelectionStart
-        Dim finlinea = ComprobarFinLinea(richTextBoxCodigo.SelectedText)
+        Dim finlinea = richTextBoxCodigo.SelectedText.ComprobarFinLinea
         Dim lineas() As String = richTextBoxCodigo.SelectedText.Split(finlinea.ToCharArray)
         Dim sb As New System.Text.StringBuilder
         Dim j = lineas.Length - 1
@@ -1657,7 +1636,7 @@ Friend Module UtilFormEditor
         If richTextBoxCodigo.SelectionLength = 0 Then Return
 
         Dim selStart As Integer = richTextBoxCodigo.SelectionStart
-        Dim finlinea = ComprobarFinLinea(richTextBoxCodigo.SelectedText)
+        Dim finlinea = richTextBoxCodigo.SelectedText.ComprobarFinLinea
         Dim lineas() As String = richTextBoxCodigo.SelectedText.Split(finlinea.ToCharArray)
         Dim sb As New System.Text.StringBuilder
         Dim j As Integer = lineas.Length - 1
@@ -1711,7 +1690,7 @@ Friend Module UtilFormEditor
 
         If richTextBoxCodigo.SelectionLength > 0 Then
             Dim selStart As Integer = richTextBoxCodigo.SelectionStart
-            Dim finlinea = ComprobarFinLinea(richTextBoxCodigo.SelectedText)
+            Dim finlinea = richTextBoxCodigo.SelectedText.ComprobarFinLinea
             Dim lineas() As String = richTextBoxCodigo.SelectedText.TrimEnd(ChrW(13)).Split(finlinea.ToCharArray)
             Dim sb As New System.Text.StringBuilder
             Dim j As Integer = lineas.Length - 1
@@ -1763,7 +1742,7 @@ Friend Module UtilFormEditor
 
         If richTextBoxCodigo.SelectionLength > 0 Then
             Dim selStart As Integer = richTextBoxCodigo.SelectionStart
-            Dim finlinea = ComprobarFinLinea(richTextBoxCodigo.SelectedText)
+            Dim finlinea = richTextBoxCodigo.SelectedText.ComprobarFinLinea
             Dim lineas() As String = richTextBoxCodigo.SelectedText.TrimEnd(ChrW(13)).Split(finlinea.ToCharArray)
             Dim sb As New System.Text.StringBuilder
             Dim j As Integer = lineas.Length - 1
@@ -1987,21 +1966,6 @@ Friend Module UtilFormEditor
         Form1Activo.nombreFichero = ficT
         Abrir(Form1Activo.nombreFichero)
 
-
-        '' Si es el que está abierto, salir
-        '' Solo si el texto no está modificado                       (14/Sep/20)
-        '' por si se quiere re-abrir
-        'If ficT = nombreUltimoFichero AndAlso Form1Activo.TextoModificado = False Then Return
-
-        '' Si está modificado, preguntar si se quiere guardar
-        'If Form1Activo.TextoModificado Then
-        '    GuardarComo()
-        'End If
-
-        '' pero no abrir ese...
-        '' en nombreUltimoFichero se asigna el seleccionado del menú recientes
-        'nombreUltimoFichero = ficT
-        'Abrir(nombreUltimoFichero)
     End Sub
 
 
@@ -2021,9 +1985,7 @@ Friend Module UtilFormEditor
             oFD.Multiselect = False
             oFD.RestoreDirectory = True
             If oFD.ShowDialog() = DialogResult.OK Then
-
-                ' Abrir el fichero
-                Abrir(oFD.FileName)
+                AbrirEnNuevaVentana(oFD.FileName)
             End If
         End Using
     End Sub
@@ -2035,6 +1997,18 @@ Friend Module UtilFormEditor
     Public Sub Recargar()
         If nombreUltimoFichero <> "" Then _
             Abrir(nombreUltimoFichero)
+    End Sub
+
+    ''' <summary>
+    ''' Abrir el fichero indicado en una nueva ventana.
+    ''' </summary>
+    ''' <param name="fic">El path completo del fichero a abrir.</param>
+    ''' <remarks>19/Oct/2020</remarks>
+    Public Sub AbrirEnNuevaVentana(fic As String)
+        Nuevo()
+        nombreUltimoFichero = fic
+        'Form1Activo.nombreFichero = fic
+        Abrir(fic)
     End Sub
 
     ''' <summary>
@@ -2069,12 +2043,12 @@ Friend Module UtilFormEditor
         OnProgreso(labelInfo.Text)
 
         ' solo ocultarlo si no es el mismo fichero                  (25/Sep/20)
-        If fic <> Form1Activo.nombreFichero Then
-            Form1Activo.splitContainer1.Panel2.Visible = False
-            Form1Activo.splitContainer1_Resize(Nothing, Nothing)
-            'richTextBoxSyntax.Text = ""
-            Form1Activo.lstSyntax.Items.Clear()
-        End If
+        ' Siempre ocultarlo al abrir el fichero                     (20/Oct/20)
+        'If fic <> Form1Activo.nombreFichero Then
+        Form1Activo.splitContainer1.Panel2.Visible = False
+        Form1Activo.splitContainer1_Resize()
+        Form1Activo.lstSyntax.Items.Clear()
+        'End If
 
         Dim sCodigo = ""
         Using sr As New StreamReader(fic, detectEncodingFromByteOrderMarks:=True, encoding:=Encoding.UTF8)
@@ -2095,17 +2069,21 @@ Friend Module UtilFormEditor
         MostrarPosicion(Nothing)
 
         ' El nombre del fichero con el path completo                (17/Oct/20)
-        Form1Activo.nombreFichero = fic
-        Form1Activo.Text = fic
-
-        ' Comprobar si hay que añadir el fichero a la lista de recientes
-        sDirFic = Path.GetDirectoryName(fic)
-        If sDirFic = DirDocumentos Then
-            fic = Path.GetFileName(fic)
-        End If
         nombreUltimoFichero = fic
+        ' Al asignar a nombreUltimoFichero se asigna a nombreFichero del Form1
+        'Form1Activo.nombreFichero = fic
+
+        ' En la ventana mostrar solo el nombre del fichero          (19/Oct/20)
+        ' independientemente del path
+        Form1Activo.Text = Path.GetFileName(fic)
 
         AñadirAUltimosFicherosAbiertos(fic)
+
+        '' Comprobar si hay que añadir el fichero a la lista de recientes
+        'sDirFic = Path.GetDirectoryName(fic)
+        'If sDirFic = DirDocumentos Then
+        '    fic = Path.GetFileName(fic)
+        'End If
 
         If MarcadorFichero <> fic Then
             MarcadorQuitarTodos()
@@ -2180,9 +2158,12 @@ Friend Module UtilFormEditor
         Form1Activo.codigoAnterior = sCodigo
 
         labelInfo.Text = $"{Path.GetFileName(fic)} ({Path.GetDirectoryName(fic)})"
-        Form1Activo.nombreFichero = fic ' labelInfo.Text
+        nombreUltimoFichero = fic
+        'Form1Activo.nombreFichero = fic ' labelInfo.Text
 
-        Form1Activo.Text = fic ' labelInfo.Text
+        ' En la ventana mostrar solo el nombre del fichero          (19/Oct/20)
+        ' independientemente del path
+        Form1Activo.Text = Path.GetFileName(fic)
         Application.DoEvents()
         CurrentMDI.Text = $"{MDIPrincipal.TituloMDI} [{Form1Activo.Text}]"
 
@@ -2191,14 +2172,13 @@ Friend Module UtilFormEditor
 
         Form1Activo.TextoModificado = False
 
-        'richTextBoxCodigo.Modified = False
-        'labelModificado.Text = " "
-        Dim fic2 = fic
-        If Path.GetDirectoryName(fic) = DirDocumentos Then
-            fic2 = Path.GetFileName(fic)
-        End If
+        'Dim fic2 = fic
+        'If Path.GetDirectoryName(fic) = DirDocumentos Then
+        '    fic2 = Path.GetFileName(fic)
+        'End If
         ' para que se muestre solo el nombre, si está en documentos (02/Oct/20)
-        nombreUltimoFichero = fic2
+        'nombreUltimoFichero = fic2
+
         AñadirAUltimosFicherosAbiertos(fic)
 
         ' Si es texto, deshabilitar los botones que correspondan    (08/Oct/20)
@@ -2383,60 +2363,6 @@ Friend Module UtilFormEditor
 
         End If
     End Sub
-
-    ''' <summary>
-    ''' Cuando se abre el menú de edición o se cambia la selección del código
-    ''' asignar si están o no habilitados el menú en sí, el contextual y las barras de herramientas.
-    ''' </summary>
-    Public Sub menuEditDropDownOpening()
-        If inicializando Then Return
-
-        inicializando = True
-
-        ' para saber si hay texto en el control
-        Dim b = richTextBoxCodigo.TextLength > 0
-
-        CurrentMDI.menuEditDeshacer.Enabled = richTextBoxCodigo.CanUndo
-        CurrentMDI.menuEditRehacer.Enabled = richTextBoxCodigo.CanRedo
-        CurrentMDI.menuEditCopiar.Enabled = richTextBoxCodigo.SelectionLength > 0
-        CurrentMDI.menuEditCortar.Enabled = CurrentMDI.menuEditCopiar.Enabled
-        CurrentMDI.menuEditSeleccionarTodo.Enabled = b
-        CurrentMDI.menuEditPegar.Enabled = richTextBoxCodigo.CanPaste(DataFormats.GetFormat("Text"))
-
-        'If Clipboard.GetDataObject.GetDataPresent(DataFormats.Text) Then
-        '    menuEditPegar.Enabled = richTextBoxCodigo.CanPaste(DataFormats.GetFormat(DataFormats.Text))
-        'ElseIf Clipboard.GetDataObject.GetDataPresent(DataFormats.StringFormat) Then
-        '    ' StringFormat                                          (30/Oct/04)
-        '    menuEditPegar.Enabled = richTextBoxCodigo.CanPaste(DataFormats.GetFormat(DataFormats.StringFormat))
-        'ElseIf Clipboard.GetDataObject.GetDataPresent(DataFormats.Html) Then
-        '    menuEditPegar.Enabled = richTextBoxCodigo.CanPaste(DataFormats.GetFormat(DataFormats.Html))
-        'ElseIf Clipboard.GetDataObject.GetDataPresent(DataFormats.OemText) Then
-        '    menuEditPegar.Enabled = richTextBoxCodigo.CanPaste(DataFormats.GetFormat(DataFormats.OemText))
-        'ElseIf Clipboard.GetDataObject.GetDataPresent(DataFormats.UnicodeText) Then
-        '    menuEditPegar.Enabled = richTextBoxCodigo.CanPaste(DataFormats.GetFormat(DataFormats.UnicodeText))
-        'ElseIf Clipboard.GetDataObject.GetDataPresent(DataFormats.Rtf) Then
-        '    menuEditPegar.Enabled = richTextBoxCodigo.CanPaste(DataFormats.GetFormat(DataFormats.Rtf))
-        'End If
-
-        ' También he puesto como menú pegar recorte                 (11/Oct/20)
-        CurrentMDI.menuEditPegarRecorte.Enabled = ColRecortes.Count > 0
-
-        CurrentMDI.menuEditBuscar.Enabled = b
-        CurrentMDI.menuEditReemplazar.Enabled = b
-
-        ' Actualizar también los del menú contextual
-        For j = 0 To CurrentMDI.rtbCodigoContext.Items.Count - 1
-            For i = 0 To CurrentMDI.menuEdit.DropDownItems.Count - 1
-                If CurrentMDI.rtbCodigoContext.Items(j).Name = CurrentMDI.menuEdit.DropDownItems(i).Name Then
-                    CurrentMDI.rtbCodigoContext.Items(j).Enabled = CurrentMDI.menuEdit.DropDownItems(i).Enabled
-                    Exit For
-                End If
-            Next
-        Next
-
-        inicializando = False
-    End Sub
-
 
 #End Region
 
