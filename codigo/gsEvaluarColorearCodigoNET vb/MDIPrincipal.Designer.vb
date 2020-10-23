@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class MDIPrincipal
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -21,7 +21,7 @@ Partial Class MDIPrincipal
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MDIPrincipal))
@@ -30,27 +30,27 @@ Partial Class MDIPrincipal
         Me.menuFileNuevo = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileSeleccionarAbrir = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileRecargar = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuFileSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuSepFile1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuFileGuardar = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileGuardarComo = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileGuardarTodo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuFileSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuSepFile2 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuFileRecientes = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuFileSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuSepFile3 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuFileAcercaDe = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuFileSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuSepFile4 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuFileSalir = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEdit = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditDeshacer = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditRehacer = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolEditSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepEdit1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEditCortar = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditCopiar = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditPegar = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditPegarRecorte = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolEditSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepEdit2 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEditSeleccionarTodo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolEditSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepEdit3 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEditBuscar = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditBuscarSiguiente = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditReemplazar = New System.Windows.Forms.ToolStripMenuItem()
@@ -59,23 +59,23 @@ Partial Class MDIPrincipal
         Me.menuTools = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEjecutar = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuCompilar = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolSeparatorTools1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepTools1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEvaluar = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolSeparatorTools2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepTools2 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuNoColorear = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuColorear = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuColorearHTML = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolSeparatorTools3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepTools3 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuOcultarEvaluar = New System.Windows.Forms.ToolStripMenuItem()
-        Me.toolSeparatorTools4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepTools4 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuOpciones = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditor = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorQuitarIndentacion = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorPonerIndentacion = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditorSeparador1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuSepEditor1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEditorPonerComentarios = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorQuitarComentarios = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditorSeparador2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuSepEditor2 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEditorClasificarSeleccion = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorCambiarMayúsculas = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuMayúsculas = New System.Windows.Forms.ToolStripMenuItem()
@@ -91,7 +91,7 @@ Partial Class MDIPrincipal
         Me.txtPonerTexto = New System.Windows.Forms.ToolStripTextBox()
         Me.menuEditorPonerTextoAlFinal = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorQuitarTextoDelfinal = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuEditorSeparador3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuSepEditor3 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEditorMarcador = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorMarcadorAnterior = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorMarcadorSiguiente = New System.Windows.Forms.ToolStripMenuItem()
@@ -146,38 +146,45 @@ Partial Class MDIPrincipal
         Me.panelBuscar = New System.Windows.Forms.Panel()
         Me.toolStripReemplazar = New System.Windows.Forms.ToolStrip()
         Me.toolStripLabelReemplazar = New System.Windows.Forms.ToolStripLabel()
-        Me.toolStripSeparatorReemplazar = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepReemplazar = New System.Windows.Forms.ToolStripSeparator()
         Me.toolStripBuscar = New System.Windows.Forms.ToolStrip()
         Me.toolStripLabelBuscar = New System.Windows.Forms.ToolStripLabel()
-        Me.toolStripSeparatorBuscar1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepBuscar1 = New System.Windows.Forms.ToolStripSeparator()
         Me.toolStripCompilar = New System.Windows.Forms.ToolStrip()
-        Me.toolStripSeparatorCompilar1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.toolStripSeparatorCompilar2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.toolStripSeparatorCompilar3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.toolStripSeparatorCompilar4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepCompilar1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepCompilar2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepCompilar3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepCompilar4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.buttonMostrarEvaluacion = New System.Windows.Forms.ToolStripButton()
+        Me.tsSepCompilar5 = New System.Windows.Forms.ToolStripSeparator()
         Me.toolStripEdicion = New System.Windows.Forms.ToolStrip()
-        Me.toolStripSeparatorEdicion = New System.Windows.Forms.ToolStripSeparator()
-        Me.toolStripSeparatorEdicion2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepEdicion = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepEdicion2 = New System.Windows.Forms.ToolStripSeparator()
         Me.buttonEdicionRecortes = New System.Windows.Forms.ToolStripButton()
-        Me.toolStripSeparatorEdicion3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepEdicion3 = New System.Windows.Forms.ToolStripSeparator()
         Me.toolStripFicheros = New System.Windows.Forms.ToolStrip()
-        Me.toolStripSeparatorFichero0 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepFichero0 = New System.Windows.Forms.ToolStripSeparator()
         Me.buttonGuardarTodo = New System.Windows.Forms.ToolStripButton()
-        Me.toolStripSeparatorFichero1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepFichero1 = New System.Windows.Forms.ToolStripSeparator()
         Me.panelHerramientas = New System.Windows.Forms.FlowLayoutPanel()
+        Me.toolStripNavegar = New System.Windows.Forms.ToolStrip()
+        Me.buttonNavegarAnterior = New System.Windows.Forms.ToolStripButton()
+        Me.buttonNavegarMenu = New System.Windows.Forms.ToolStripDropDownButton()
+        Me.buttonNavegarSiguiente = New System.Windows.Forms.ToolStripButton()
+        Me.tsSepNavegar1 = New System.Windows.Forms.ToolStripSeparator()
         Me.toolStripEditor = New System.Windows.Forms.ToolStrip()
         Me.buttonEditorQuitarIndentacion = New System.Windows.Forms.ToolStripButton()
         Me.buttonEditorPonerIndentacion = New System.Windows.Forms.ToolStripButton()
-        Me.toolStripSeparatorEditor1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepEditor1 = New System.Windows.Forms.ToolStripSeparator()
         Me.buttonEditorPonerComentarios = New System.Windows.Forms.ToolStripButton()
         Me.buttonEditorQuitarComentarios = New System.Windows.Forms.ToolStripButton()
-        Me.toolStripSeparatorEditor2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepEditor2 = New System.Windows.Forms.ToolStripSeparator()
         Me.buttonEditorClasificarSeleccion = New System.Windows.Forms.ToolStripButton()
-        Me.toolSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepEditor4 = New System.Windows.Forms.ToolStripSeparator()
         Me.buttonEditorMarcador = New System.Windows.Forms.ToolStripButton()
         Me.buttonEditorMarcadorAnterior = New System.Windows.Forms.ToolStripButton()
         Me.buttonEditorMarcadorSiguiente = New System.Windows.Forms.ToolStripButton()
-        Me.toolStripSeparatorEditor3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepEditor3 = New System.Windows.Forms.ToolStripSeparator()
         Me.buttonEditorMarcadorQuitarTodos = New System.Windows.Forms.ToolStripButton()
         Me.rtbCodigoContext = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.timerClipBoard = New System.Windows.Forms.Timer(Me.components)
@@ -192,6 +199,7 @@ Partial Class MDIPrincipal
         Me.toolStripEdicion.SuspendLayout()
         Me.toolStripFicheros.SuspendLayout()
         Me.panelHerramientas.SuspendLayout()
+        Me.toolStripNavegar.SuspendLayout()
         Me.toolStripEditor.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -208,7 +216,7 @@ Partial Class MDIPrincipal
         '
         'menuFile
         '
-        Me.menuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuFileNuevo, Me.menuFileSeleccionarAbrir, Me.menuFileRecargar, Me.mnuFileSeparator1, Me.menuFileGuardar, Me.menuFileGuardarComo, Me.menuFileGuardarTodo, Me.mnuFileSeparator2, Me.menuFileRecientes, Me.mnuFileSeparator3, Me.menuFileAcercaDe, Me.mnuFileSeparator4, Me.menuFileSalir})
+        Me.menuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuFileNuevo, Me.menuFileSeleccionarAbrir, Me.menuFileRecargar, Me.mnuSepFile1, Me.menuFileGuardar, Me.menuFileGuardarComo, Me.menuFileGuardarTodo, Me.mnuSepFile2, Me.menuFileRecientes, Me.mnuSepFile3, Me.menuFileAcercaDe, Me.mnuSepFile4, Me.menuFileSalir})
         Me.menuFile.Name = "menuFile"
         Me.menuFile.Size = New System.Drawing.Size(63, 20)
         Me.menuFile.Text = "&Ficheros"
@@ -245,10 +253,10 @@ Partial Class MDIPrincipal
         Me.menuFileRecargar.Size = New System.Drawing.Size(233, 22)
         Me.menuFileRecargar.Text = "Recargar fichero"
         '
-        'mnuFileSeparator1
+        'mnuSepFile1
         '
-        Me.mnuFileSeparator1.Name = "mnuFileSeparator1"
-        Me.mnuFileSeparator1.Size = New System.Drawing.Size(230, 6)
+        Me.mnuSepFile1.Name = "mnuSepFile1"
+        Me.mnuSepFile1.Size = New System.Drawing.Size(230, 6)
         '
         'menuFileGuardar
         '
@@ -278,10 +286,10 @@ Partial Class MDIPrincipal
         Me.menuFileGuardarTodo.Size = New System.Drawing.Size(233, 22)
         Me.menuFileGuardarTodo.Text = "Guardar todo"
         '
-        'mnuFileSeparator2
+        'mnuSepFile2
         '
-        Me.mnuFileSeparator2.Name = "mnuFileSeparator2"
-        Me.mnuFileSeparator2.Size = New System.Drawing.Size(230, 6)
+        Me.mnuSepFile2.Name = "mnuSepFile2"
+        Me.mnuSepFile2.Size = New System.Drawing.Size(230, 6)
         '
         'menuFileRecientes
         '
@@ -291,10 +299,10 @@ Partial Class MDIPrincipal
         Me.menuFileRecientes.Size = New System.Drawing.Size(233, 22)
         Me.menuFileRecientes.Text = "Recientes..."
         '
-        'mnuFileSeparator3
+        'mnuSepFile3
         '
-        Me.mnuFileSeparator3.Name = "mnuFileSeparator3"
-        Me.mnuFileSeparator3.Size = New System.Drawing.Size(230, 6)
+        Me.mnuSepFile3.Name = "mnuSepFile3"
+        Me.mnuSepFile3.Size = New System.Drawing.Size(230, 6)
         '
         'menuFileAcercaDe
         '
@@ -306,10 +314,10 @@ Partial Class MDIPrincipal
         Me.menuFileAcercaDe.Size = New System.Drawing.Size(233, 22)
         Me.menuFileAcercaDe.Text = "&Acerca de..."
         '
-        'mnuFileSeparator4
+        'mnuSepFile4
         '
-        Me.mnuFileSeparator4.Name = "mnuFileSeparator4"
-        Me.mnuFileSeparator4.Size = New System.Drawing.Size(230, 6)
+        Me.mnuSepFile4.Name = "mnuSepFile4"
+        Me.mnuSepFile4.Size = New System.Drawing.Size(230, 6)
         '
         'menuFileSalir
         '
@@ -322,7 +330,7 @@ Partial Class MDIPrincipal
         '
         'menuEdit
         '
-        Me.menuEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditDeshacer, Me.menuEditRehacer, Me.toolEditSeparator1, Me.menuEditCortar, Me.menuEditCopiar, Me.menuEditPegar, Me.menuEditPegarRecorte, Me.toolEditSeparator2, Me.menuEditSeleccionarTodo, Me.toolEditSeparator3, Me.menuEditBuscar, Me.menuEditBuscarSiguiente, Me.menuEditReemplazar, Me.menuEditReemplazarSiguiente, Me.menuEditReemplazarTodos})
+        Me.menuEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditDeshacer, Me.menuEditRehacer, Me.tsSepEdit1, Me.menuEditCortar, Me.menuEditCopiar, Me.menuEditPegar, Me.menuEditPegarRecorte, Me.tsSepEdit2, Me.menuEditSeleccionarTodo, Me.tsSepEdit3, Me.menuEditBuscar, Me.menuEditBuscarSiguiente, Me.menuEditReemplazar, Me.menuEditReemplazarSiguiente, Me.menuEditReemplazarTodos})
         Me.menuEdit.Name = "menuEdit"
         Me.menuEdit.Size = New System.Drawing.Size(49, 20)
         Me.menuEdit.Text = "&Editar"
@@ -345,10 +353,10 @@ Partial Class MDIPrincipal
         Me.menuEditRehacer.Size = New System.Drawing.Size(297, 22)
         Me.menuEditRehacer.Text = "&Rehacer"
         '
-        'toolEditSeparator1
+        'tsSepEdit1
         '
-        Me.toolEditSeparator1.Name = "toolEditSeparator1"
-        Me.toolEditSeparator1.Size = New System.Drawing.Size(294, 6)
+        Me.tsSepEdit1.Name = "tsSepEdit1"
+        Me.tsSepEdit1.Size = New System.Drawing.Size(294, 6)
         '
         'menuEditCortar
         '
@@ -390,10 +398,10 @@ Partial Class MDIPrincipal
         Me.menuEditPegarRecorte.Size = New System.Drawing.Size(297, 22)
         Me.menuEditPegarRecorte.Text = "Pegar recorte portapapeles..."
         '
-        'toolEditSeparator2
+        'tsSepEdit2
         '
-        Me.toolEditSeparator2.Name = "toolEditSeparator2"
-        Me.toolEditSeparator2.Size = New System.Drawing.Size(294, 6)
+        Me.tsSepEdit2.Name = "tsSepEdit2"
+        Me.tsSepEdit2.Size = New System.Drawing.Size(294, 6)
         '
         'menuEditSeleccionarTodo
         '
@@ -404,10 +412,10 @@ Partial Class MDIPrincipal
         Me.menuEditSeleccionarTodo.Size = New System.Drawing.Size(297, 22)
         Me.menuEditSeleccionarTodo.Text = "Seleccion&ar todo"
         '
-        'toolEditSeparator3
+        'tsSepEdit3
         '
-        Me.toolEditSeparator3.Name = "toolEditSeparator3"
-        Me.toolEditSeparator3.Size = New System.Drawing.Size(294, 6)
+        Me.tsSepEdit3.Name = "tsSepEdit3"
+        Me.tsSepEdit3.Size = New System.Drawing.Size(294, 6)
         '
         'menuEditBuscar
         '
@@ -455,7 +463,7 @@ Partial Class MDIPrincipal
         '
         'menuTools
         '
-        Me.menuTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEjecutar, Me.menuCompilar, Me.toolSeparatorTools1, Me.menuEvaluar, Me.toolSeparatorTools2, Me.menuNoColorear, Me.menuColorear, Me.menuColorearHTML, Me.toolSeparatorTools3, Me.menuOcultarEvaluar, Me.toolSeparatorTools4, Me.menuOpciones})
+        Me.menuTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEjecutar, Me.menuCompilar, Me.tsSepTools1, Me.menuEvaluar, Me.tsSepTools2, Me.menuNoColorear, Me.menuColorear, Me.menuColorearHTML, Me.tsSepTools3, Me.menuOcultarEvaluar, Me.tsSepTools4, Me.menuOpciones})
         Me.menuTools.Name = "menuTools"
         Me.menuTools.Size = New System.Drawing.Size(90, 20)
         Me.menuTools.Text = "&Herramientas"
@@ -478,10 +486,10 @@ Partial Class MDIPrincipal
         Me.menuCompilar.Size = New System.Drawing.Size(243, 22)
         Me.menuCompilar.Text = "Compilar"
         '
-        'toolSeparatorTools1
+        'tsSepTools1
         '
-        Me.toolSeparatorTools1.Name = "toolSeparatorTools1"
-        Me.toolSeparatorTools1.Size = New System.Drawing.Size(240, 6)
+        Me.tsSepTools1.Name = "tsSepTools1"
+        Me.tsSepTools1.Size = New System.Drawing.Size(240, 6)
         '
         'menuEvaluar
         '
@@ -493,10 +501,10 @@ Partial Class MDIPrincipal
         Me.menuEvaluar.Size = New System.Drawing.Size(243, 22)
         Me.menuEvaluar.Text = "Evaluar"
         '
-        'toolSeparatorTools2
+        'tsSepTools2
         '
-        Me.toolSeparatorTools2.Name = "toolSeparatorTools2"
-        Me.toolSeparatorTools2.Size = New System.Drawing.Size(240, 6)
+        Me.tsSepTools2.Name = "tsSepTools2"
+        Me.tsSepTools2.Size = New System.Drawing.Size(240, 6)
         '
         'menuNoColorear
         '
@@ -525,21 +533,22 @@ Partial Class MDIPrincipal
         Me.menuColorearHTML.Size = New System.Drawing.Size(243, 22)
         Me.menuColorearHTML.Text = "Colorear en HTML"
         '
-        'toolSeparatorTools3
+        'tsSepTools3
         '
-        Me.toolSeparatorTools3.Name = "toolSeparatorTools3"
-        Me.toolSeparatorTools3.Size = New System.Drawing.Size(240, 6)
+        Me.tsSepTools3.Name = "tsSepTools3"
+        Me.tsSepTools3.Size = New System.Drawing.Size(240, 6)
         '
         'menuOcultarEvaluar
         '
+        Me.menuOcultarEvaluar.Image = CType(resources.GetObject("menuOcultarEvaluar.Image"), System.Drawing.Image)
         Me.menuOcultarEvaluar.Name = "menuOcultarEvaluar"
         Me.menuOcultarEvaluar.Size = New System.Drawing.Size(243, 22)
         Me.menuOcultarEvaluar.Text = "Ocultar lista de evaluación/error"
         '
-        'toolSeparatorTools4
+        'tsSepTools4
         '
-        Me.toolSeparatorTools4.Name = "toolSeparatorTools4"
-        Me.toolSeparatorTools4.Size = New System.Drawing.Size(240, 6)
+        Me.tsSepTools4.Name = "tsSepTools4"
+        Me.tsSepTools4.Size = New System.Drawing.Size(240, 6)
         '
         'menuOpciones
         '
@@ -552,7 +561,7 @@ Partial Class MDIPrincipal
         '
         'menuEditor
         '
-        Me.menuEditor.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditorQuitarIndentacion, Me.menuEditorPonerIndentacion, Me.menuEditorSeparador1, Me.menuEditorPonerComentarios, Me.menuEditorQuitarComentarios, Me.menuEditorSeparador2, Me.menuEditorClasificarSeleccion, Me.menuEditorCambiarMayúsculas, Me.menuEditorQuitarEspacios, Me.menuEditorPonerTexto, Me.menuEditorSeparador3, Me.menuEditorMarcador, Me.menuEditorMarcadorAnterior, Me.menuEditorMarcadorSiguiente, Me.menuEditorMarcadorQuitarTodos})
+        Me.menuEditor.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditorQuitarIndentacion, Me.menuEditorPonerIndentacion, Me.mnuSepEditor1, Me.menuEditorPonerComentarios, Me.menuEditorQuitarComentarios, Me.mnuSepEditor2, Me.menuEditorClasificarSeleccion, Me.menuEditorCambiarMayúsculas, Me.menuEditorQuitarEspacios, Me.menuEditorPonerTexto, Me.mnuSepEditor3, Me.menuEditorMarcador, Me.menuEditorMarcadorAnterior, Me.menuEditorMarcadorSiguiente, Me.menuEditorMarcadorQuitarTodos})
         Me.menuEditor.Name = "menuEditor"
         Me.menuEditor.Size = New System.Drawing.Size(50, 20)
         Me.menuEditor.Text = "Edi&tor"
@@ -571,10 +580,10 @@ Partial Class MDIPrincipal
         Me.menuEditorPonerIndentacion.Size = New System.Drawing.Size(313, 22)
         Me.menuEditorPonerIndentacion.Text = "Poner indentación"
         '
-        'menuEditorSeparador1
+        'mnuSepEditor1
         '
-        Me.menuEditorSeparador1.Name = "menuEditorSeparador1"
-        Me.menuEditorSeparador1.Size = New System.Drawing.Size(310, 6)
+        Me.mnuSepEditor1.Name = "mnuSepEditor1"
+        Me.mnuSepEditor1.Size = New System.Drawing.Size(310, 6)
         '
         'menuEditorPonerComentarios
         '
@@ -592,10 +601,10 @@ Partial Class MDIPrincipal
         Me.menuEditorQuitarComentarios.Size = New System.Drawing.Size(313, 22)
         Me.menuEditorQuitarComentarios.Text = "Quitar comentarios"
         '
-        'menuEditorSeparador2
+        'mnuSepEditor2
         '
-        Me.menuEditorSeparador2.Name = "menuEditorSeparador2"
-        Me.menuEditorSeparador2.Size = New System.Drawing.Size(310, 6)
+        Me.mnuSepEditor2.Name = "mnuSepEditor2"
+        Me.mnuSepEditor2.Size = New System.Drawing.Size(310, 6)
         '
         'menuEditorClasificarSeleccion
         '
@@ -701,10 +710,10 @@ Partial Class MDIPrincipal
         Me.menuEditorQuitarTextoDelfinal.Size = New System.Drawing.Size(250, 22)
         Me.menuEditorQuitarTextoDelfinal.Text = "Quitar el texto del final de la línea"
         '
-        'menuEditorSeparador3
+        'mnuSepEditor3
         '
-        Me.menuEditorSeparador3.Name = "menuEditorSeparador3"
-        Me.menuEditorSeparador3.Size = New System.Drawing.Size(310, 6)
+        Me.mnuSepEditor3.Name = "mnuSepEditor3"
+        Me.mnuSepEditor3.Size = New System.Drawing.Size(310, 6)
         '
         'menuEditorMarcador
         '
@@ -1149,7 +1158,7 @@ Partial Class MDIPrincipal
         'toolStripReemplazar
         '
         Me.toolStripReemplazar.Dock = System.Windows.Forms.DockStyle.None
-        Me.toolStripReemplazar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripLabelReemplazar, Me.comboBoxReemplazar, Me.buttonReemplazarSiguiente, Me.buttonReemplazarTodo, Me.toolStripSeparatorReemplazar})
+        Me.toolStripReemplazar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripLabelReemplazar, Me.comboBoxReemplazar, Me.buttonReemplazarSiguiente, Me.buttonReemplazarTodo, Me.tsSepReemplazar})
         Me.toolStripReemplazar.Location = New System.Drawing.Point(351, 0)
         Me.toolStripReemplazar.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.toolStripReemplazar.Name = "toolStripReemplazar"
@@ -1164,15 +1173,15 @@ Partial Class MDIPrincipal
         Me.toolStripLabelReemplazar.Text = "Reemplazar "
         Me.toolStripLabelReemplazar.ToolTipText = "Puedes inidicar \t para reemplazar TAB y \r para reemplazar RETURN"
         '
-        'toolStripSeparatorReemplazar
+        'tsSepReemplazar
         '
-        Me.toolStripSeparatorReemplazar.Name = "toolStripSeparatorReemplazar"
-        Me.toolStripSeparatorReemplazar.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepReemplazar.Name = "tsSepReemplazar"
+        Me.tsSepReemplazar.Size = New System.Drawing.Size(6, 25)
         '
         'toolStripBuscar
         '
         Me.toolStripBuscar.Dock = System.Windows.Forms.DockStyle.None
-        Me.toolStripBuscar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripLabelBuscar, Me.comboBoxBuscar, Me.buttonMatchCase, Me.buttonWholeWord, Me.toolStripSeparatorBuscar1, Me.buttonBuscarSiguiente})
+        Me.toolStripBuscar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolStripLabelBuscar, Me.comboBoxBuscar, Me.buttonMatchCase, Me.buttonWholeWord, Me.tsSepBuscar1, Me.buttonBuscarSiguiente})
         Me.toolStripBuscar.Location = New System.Drawing.Point(0, 0)
         Me.toolStripBuscar.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.toolStripBuscar.Name = "toolStripBuscar"
@@ -1187,64 +1196,78 @@ Partial Class MDIPrincipal
         Me.toolStripLabelBuscar.Text = "Buscar "
         Me.toolStripLabelBuscar.ToolTipText = "Puedes inidicar \t para buscar TAB y \r para buscar RETURN"
         '
-        'toolStripSeparatorBuscar1
+        'tsSepBuscar1
         '
-        Me.toolStripSeparatorBuscar1.Name = "toolStripSeparatorBuscar1"
-        Me.toolStripSeparatorBuscar1.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepBuscar1.Name = "tsSepBuscar1"
+        Me.tsSepBuscar1.Size = New System.Drawing.Size(6, 25)
         '
         'toolStripCompilar
         '
         Me.toolStripCompilar.Dock = System.Windows.Forms.DockStyle.None
-        Me.toolStripCompilar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEjecutar, Me.buttonCompilar, Me.toolStripSeparatorCompilar1, Me.buttonEvaluar, Me.buttonCompilarAlEvaluar, Me.buttonColorearAlEvaluar, Me.toolStripSeparatorCompilar2, Me.buttonNoColorear, Me.buttonColorear, Me.toolStripSeparatorCompilar3, Me.buttonColorearHTML, Me.chkMostrarLineasHTML, Me.toolStripSeparatorCompilar4})
-        Me.toolStripCompilar.Location = New System.Drawing.Point(377, 3)
+        Me.toolStripCompilar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEjecutar, Me.buttonCompilar, Me.tsSepCompilar1, Me.buttonEvaluar, Me.buttonCompilarAlEvaluar, Me.buttonColorearAlEvaluar, Me.tsSepCompilar2, Me.buttonNoColorear, Me.buttonColorear, Me.tsSepCompilar3, Me.buttonColorearHTML, Me.chkMostrarLineasHTML, Me.tsSepCompilar4, Me.buttonMostrarEvaluacion, Me.tsSepCompilar5})
+        Me.toolStripCompilar.Location = New System.Drawing.Point(462, 3)
         Me.toolStripCompilar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripCompilar.Name = "toolStripCompilar"
-        Me.toolStripCompilar.Size = New System.Drawing.Size(243, 25)
+        Me.toolStripCompilar.Size = New System.Drawing.Size(272, 25)
         Me.toolStripCompilar.TabIndex = 14
         Me.toolStripCompilar.Text = "Compilar"
         '
-        'toolStripSeparatorCompilar1
+        'tsSepCompilar1
         '
-        Me.toolStripSeparatorCompilar1.Name = "toolStripSeparatorCompilar1"
-        Me.toolStripSeparatorCompilar1.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepCompilar1.Name = "tsSepCompilar1"
+        Me.tsSepCompilar1.Size = New System.Drawing.Size(6, 25)
         '
-        'toolStripSeparatorCompilar2
+        'tsSepCompilar2
         '
-        Me.toolStripSeparatorCompilar2.Name = "toolStripSeparatorCompilar2"
-        Me.toolStripSeparatorCompilar2.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepCompilar2.Name = "tsSepCompilar2"
+        Me.tsSepCompilar2.Size = New System.Drawing.Size(6, 25)
         '
-        'toolStripSeparatorCompilar3
+        'tsSepCompilar3
         '
-        Me.toolStripSeparatorCompilar3.Name = "toolStripSeparatorCompilar3"
-        Me.toolStripSeparatorCompilar3.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepCompilar3.Name = "tsSepCompilar3"
+        Me.tsSepCompilar3.Size = New System.Drawing.Size(6, 25)
         '
-        'toolStripSeparatorCompilar4
+        'tsSepCompilar4
         '
-        Me.toolStripSeparatorCompilar4.Name = "toolStripSeparatorCompilar4"
-        Me.toolStripSeparatorCompilar4.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepCompilar4.Name = "tsSepCompilar4"
+        Me.tsSepCompilar4.Size = New System.Drawing.Size(6, 25)
+        '
+        'buttonMostrarEvaluacion
+        '
+        Me.buttonMostrarEvaluacion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.buttonMostrarEvaluacion.Image = CType(resources.GetObject("buttonMostrarEvaluacion.Image"), System.Drawing.Image)
+        Me.buttonMostrarEvaluacion.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.buttonMostrarEvaluacion.Name = "buttonMostrarEvaluacion"
+        Me.buttonMostrarEvaluacion.Size = New System.Drawing.Size(23, 22)
+        Me.buttonMostrarEvaluacion.Text = "Ocultar lista de evaluación/error"
+        '
+        'tsSepCompilar5
+        '
+        Me.tsSepCompilar5.Name = "tsSepCompilar5"
+        Me.tsSepCompilar5.Size = New System.Drawing.Size(6, 25)
         '
         'toolStripEdicion
         '
         Me.toolStripEdicion.ContextMenuStrip = Me.barraHerramientasContext
         Me.toolStripEdicion.Dock = System.Windows.Forms.DockStyle.None
-        Me.toolStripEdicion.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonCortar, Me.buttonCopiar, Me.buttonPegar, Me.buttonDeshacer, Me.buttonRehacer, Me.toolStripSeparatorEdicion, Me.buttonSeleccionarTodo, Me.toolStripSeparatorEdicion2, Me.buttonEdicionRecortes, Me.toolStripSeparatorEdicion3})
+        Me.toolStripEdicion.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonCortar, Me.buttonCopiar, Me.buttonPegar, Me.buttonDeshacer, Me.buttonRehacer, Me.tsSepEdicion, Me.buttonSeleccionarTodo, Me.tsSepEdicion2, Me.buttonEdicionRecortes, Me.tsSepEdicion3})
         Me.toolStripEdicion.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow
-        Me.toolStripEdicion.Location = New System.Drawing.Point(178, 3)
+        Me.toolStripEdicion.Location = New System.Drawing.Point(263, 3)
         Me.toolStripEdicion.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripEdicion.Name = "toolStripEdicion"
         Me.toolStripEdicion.Size = New System.Drawing.Size(191, 25)
         Me.toolStripEdicion.TabIndex = 1
         Me.toolStripEdicion.Text = "Edición"
         '
-        'toolStripSeparatorEdicion
+        'tsSepEdicion
         '
-        Me.toolStripSeparatorEdicion.Name = "toolStripSeparatorEdicion"
-        Me.toolStripSeparatorEdicion.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepEdicion.Name = "tsSepEdicion"
+        Me.tsSepEdicion.Size = New System.Drawing.Size(6, 25)
         '
-        'toolStripSeparatorEdicion2
+        'tsSepEdicion2
         '
-        Me.toolStripSeparatorEdicion2.Name = "toolStripSeparatorEdicion2"
-        Me.toolStripSeparatorEdicion2.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepEdicion2.Name = "tsSepEdicion2"
+        Me.tsSepEdicion2.Size = New System.Drawing.Size(6, 25)
         '
         'buttonEdicionRecortes
         '
@@ -1256,26 +1279,26 @@ Partial Class MDIPrincipal
         Me.buttonEdicionRecortes.Text = "Recortes portapapeles"
         Me.buttonEdicionRecortes.ToolTipText = "Usar para pegar los 10 últimos textos copiados o cortado (Ctrl+Shift+V)"
         '
-        'toolStripSeparatorEdicion3
+        'tsSepEdicion3
         '
-        Me.toolStripSeparatorEdicion3.Name = "toolStripSeparatorEdicion3"
-        Me.toolStripSeparatorEdicion3.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepEdicion3.Name = "tsSepEdicion3"
+        Me.tsSepEdicion3.Size = New System.Drawing.Size(6, 25)
         '
         'toolStripFicheros
         '
         Me.toolStripFicheros.Dock = System.Windows.Forms.DockStyle.None
-        Me.toolStripFicheros.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonNuevo, Me.buttonSeleccionar, Me.buttonRecargar, Me.toolStripSeparatorFichero0, Me.buttonGuardar, Me.buttonGuardarComo, Me.buttonGuardarTodo, Me.toolStripSeparatorFichero1})
-        Me.toolStripFicheros.Location = New System.Drawing.Point(8, 3)
+        Me.toolStripFicheros.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonNuevo, Me.buttonSeleccionar, Me.buttonRecargar, Me.tsSepFichero0, Me.buttonGuardar, Me.buttonGuardarComo, Me.buttonGuardarTodo, Me.tsSepFichero1})
+        Me.toolStripFicheros.Location = New System.Drawing.Point(93, 3)
         Me.toolStripFicheros.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripFicheros.Name = "toolStripFicheros"
         Me.toolStripFicheros.Size = New System.Drawing.Size(162, 25)
         Me.toolStripFicheros.TabIndex = 0
         Me.toolStripFicheros.Text = "Ficheros"
         '
-        'toolStripSeparatorFichero0
+        'tsSepFichero0
         '
-        Me.toolStripSeparatorFichero0.Name = "toolStripSeparatorFichero0"
-        Me.toolStripSeparatorFichero0.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepFichero0.Name = "tsSepFichero0"
+        Me.tsSepFichero0.Size = New System.Drawing.Size(6, 25)
         '
         'buttonGuardarTodo
         '
@@ -1287,14 +1310,15 @@ Partial Class MDIPrincipal
         Me.buttonGuardarTodo.Text = "Guardar todo"
         Me.buttonGuardarTodo.ToolTipText = "Guardar todos los ficheros abiertos (Ctrl+Shift+S)"
         '
-        'toolStripSeparatorFichero1
+        'tsSepFichero1
         '
-        Me.toolStripSeparatorFichero1.Name = "toolStripSeparatorFichero1"
-        Me.toolStripSeparatorFichero1.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepFichero1.Name = "tsSepFichero1"
+        Me.tsSepFichero1.Size = New System.Drawing.Size(6, 25)
         '
         'panelHerramientas
         '
         Me.panelHerramientas.ContextMenuStrip = Me.barraHerramientasContext
+        Me.panelHerramientas.Controls.Add(Me.toolStripNavegar)
         Me.panelHerramientas.Controls.Add(Me.toolStripFicheros)
         Me.panelHerramientas.Controls.Add(Me.toolStripEdicion)
         Me.panelHerramientas.Controls.Add(Me.toolStripCompilar)
@@ -1308,11 +1332,53 @@ Partial Class MDIPrincipal
         Me.panelHerramientas.Size = New System.Drawing.Size(1428, 73)
         Me.panelHerramientas.TabIndex = 1
         '
+        'toolStripNavegar
+        '
+        Me.toolStripNavegar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonNavegarAnterior, Me.buttonNavegarMenu, Me.buttonNavegarSiguiente, Me.tsSepNavegar1})
+        Me.toolStripNavegar.Location = New System.Drawing.Point(8, 3)
+        Me.toolStripNavegar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.toolStripNavegar.Name = "toolStripNavegar"
+        Me.toolStripNavegar.Size = New System.Drawing.Size(77, 25)
+        Me.toolStripNavegar.TabIndex = 15
+        Me.toolStripNavegar.Text = "ToolStrip1"
+        '
+        'buttonNavegarAnterior
+        '
+        Me.buttonNavegarAnterior.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.buttonNavegarAnterior.Enabled = False
+        Me.buttonNavegarAnterior.Image = CType(resources.GetObject("buttonNavegarAnterior.Image"), System.Drawing.Image)
+        Me.buttonNavegarAnterior.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.buttonNavegarAnterior.Name = "buttonNavegarAnterior"
+        Me.buttonNavegarAnterior.Size = New System.Drawing.Size(23, 22)
+        Me.buttonNavegarAnterior.Text = "ToolStripButton1"
+        '
+        'buttonNavegarMenu
+        '
+        Me.buttonNavegarMenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.buttonNavegarMenu.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.buttonNavegarMenu.Name = "buttonNavegarMenu"
+        Me.buttonNavegarMenu.Size = New System.Drawing.Size(13, 22)
+        '
+        'buttonNavegarSiguiente
+        '
+        Me.buttonNavegarSiguiente.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.buttonNavegarSiguiente.Enabled = False
+        Me.buttonNavegarSiguiente.Image = CType(resources.GetObject("buttonNavegarSiguiente.Image"), System.Drawing.Image)
+        Me.buttonNavegarSiguiente.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.buttonNavegarSiguiente.Name = "buttonNavegarSiguiente"
+        Me.buttonNavegarSiguiente.Size = New System.Drawing.Size(23, 22)
+        Me.buttonNavegarSiguiente.Text = "Siguiente"
+        '
+        'tsSepNavegar1
+        '
+        Me.tsSepNavegar1.Name = "tsSepNavegar1"
+        Me.tsSepNavegar1.Size = New System.Drawing.Size(6, 25)
+        '
         'toolStripEditor
         '
         Me.toolStripEditor.Dock = System.Windows.Forms.DockStyle.None
-        Me.toolStripEditor.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEditorQuitarIndentacion, Me.buttonEditorPonerIndentacion, Me.toolStripSeparatorEditor1, Me.buttonEditorPonerComentarios, Me.buttonEditorQuitarComentarios, Me.toolStripSeparatorEditor2, Me.buttonEditorClasificarSeleccion, Me.toolSeparator4, Me.buttonEditorMarcador, Me.buttonEditorMarcadorAnterior, Me.buttonEditorMarcadorSiguiente, Me.toolStripSeparatorEditor3, Me.buttonEditorMarcadorQuitarTodos})
-        Me.toolStripEditor.Location = New System.Drawing.Point(628, 3)
+        Me.toolStripEditor.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEditorQuitarIndentacion, Me.buttonEditorPonerIndentacion, Me.tsSepEditor1, Me.buttonEditorPonerComentarios, Me.buttonEditorQuitarComentarios, Me.tsSepEditor2, Me.buttonEditorClasificarSeleccion, Me.tsSepEditor4, Me.buttonEditorMarcador, Me.buttonEditorMarcadorAnterior, Me.buttonEditorMarcadorSiguiente, Me.tsSepEditor3, Me.buttonEditorMarcadorQuitarTodos})
+        Me.toolStripEditor.Location = New System.Drawing.Point(742, 3)
         Me.toolStripEditor.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripEditor.Name = "toolStripEditor"
         Me.toolStripEditor.Size = New System.Drawing.Size(243, 25)
@@ -1339,10 +1405,10 @@ Partial Class MDIPrincipal
         Me.buttonEditorPonerIndentacion.Text = "Poner indentación (Tab)"
         Me.buttonEditorPonerIndentacion.ToolTipText = "Poner indentación (Tab)"
         '
-        'toolStripSeparatorEditor1
+        'tsSepEditor1
         '
-        Me.toolStripSeparatorEditor1.Name = "toolStripSeparatorEditor1"
-        Me.toolStripSeparatorEditor1.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepEditor1.Name = "tsSepEditor1"
+        Me.tsSepEditor1.Size = New System.Drawing.Size(6, 25)
         '
         'buttonEditorPonerComentarios
         '
@@ -1362,10 +1428,10 @@ Partial Class MDIPrincipal
         Me.buttonEditorQuitarComentarios.Size = New System.Drawing.Size(23, 22)
         Me.buttonEditorQuitarComentarios.Text = "Quitar comentarios (Ctrl+K, Ctrl+U)"
         '
-        'toolStripSeparatorEditor2
+        'tsSepEditor2
         '
-        Me.toolStripSeparatorEditor2.Name = "toolStripSeparatorEditor2"
-        Me.toolStripSeparatorEditor2.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepEditor2.Name = "tsSepEditor2"
+        Me.tsSepEditor2.Size = New System.Drawing.Size(6, 25)
         '
         'buttonEditorClasificarSeleccion
         '
@@ -1376,10 +1442,10 @@ Partial Class MDIPrincipal
         Me.buttonEditorClasificarSeleccion.Size = New System.Drawing.Size(23, 22)
         Me.buttonEditorClasificarSeleccion.Text = "Clasificar selección (Shit+Alt+L, Shift+Alt+S)"
         '
-        'toolSeparator4
+        'tsSepEditor4
         '
-        Me.toolSeparator4.Name = "toolSeparator4"
-        Me.toolSeparator4.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepEditor4.Name = "tsSepEditor4"
+        Me.tsSepEditor4.Size = New System.Drawing.Size(6, 25)
         '
         'buttonEditorMarcador
         '
@@ -1408,10 +1474,10 @@ Partial Class MDIPrincipal
         Me.buttonEditorMarcadorSiguiente.Size = New System.Drawing.Size(23, 22)
         Me.buttonEditorMarcadorSiguiente.Text = "Ir al siguiente marcador (bookmark)"
         '
-        'toolStripSeparatorEditor3
+        'tsSepEditor3
         '
-        Me.toolStripSeparatorEditor3.Name = "toolStripSeparatorEditor3"
-        Me.toolStripSeparatorEditor3.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepEditor3.Name = "tsSepEditor3"
+        Me.tsSepEditor3.Size = New System.Drawing.Size(6, 25)
         '
         'buttonEditorMarcadorQuitarTodos
         '
@@ -1466,6 +1532,8 @@ Partial Class MDIPrincipal
         Me.toolStripFicheros.PerformLayout()
         Me.panelHerramientas.ResumeLayout(False)
         Me.panelHerramientas.PerformLayout()
+        Me.toolStripNavegar.ResumeLayout(False)
+        Me.toolStripNavegar.PerformLayout()
         Me.toolStripEditor.ResumeLayout(False)
         Me.toolStripEditor.PerformLayout()
         Me.ResumeLayout(False)
@@ -1477,178 +1545,169 @@ Partial Class MDIPrincipal
     ' La definición de los controles
     '
 
-    Friend WithEvents menuStrip1 As System.Windows.Forms.MenuStrip
-    '
-    Friend menuFile As ToolStripMenuItem
-    Friend menuFileAcercaDe As ToolStripMenuItem
-    Friend menuFileGuardar As ToolStripMenuItem
-    Friend menuFileGuardarComo As ToolStripMenuItem
-    Friend menuFileNuevo As ToolStripMenuItem
-    Friend menuFileRecargar As ToolStripMenuItem
-    Friend WithEvents menuFileRecientes As ToolStripMenuItem
-    Friend menuFileSalir As ToolStripMenuItem
-    Friend menuFileSeleccionarAbrir As ToolStripMenuItem
-    Friend mnuEditSeparator1 As ToolStripSeparator
-    Friend mnuFileSeparator1 As ToolStripSeparator
-    Friend mnuFileSeparator2 As ToolStripSeparator
-    Friend mnuFileSeparator3 As ToolStripSeparator
-    Friend mnuFileSeparator4 As ToolStripSeparator
-    '
-    Friend WithEvents menuEdit As ToolStripMenuItem
-    Friend menuEditBuscar As ToolStripMenuItem
-    Friend menuEditBuscarSiguiente As ToolStripMenuItem
-    Friend menuEditCopiar As ToolStripMenuItem
-    Friend menuEditCortar As ToolStripMenuItem
-    Friend menuEditDeshacer As ToolStripMenuItem
-    Friend menuEditPegar As ToolStripMenuItem
-    Friend WithEvents menuEditPegarRecorte As ToolStripMenuItem
-    Friend menuEditReemplazar As ToolStripMenuItem
-    Friend menuEditReemplazarSiguiente As ToolStripMenuItem
-    Friend menuEditReemplazarTodos As ToolStripMenuItem
-    Friend menuEditRehacer As ToolStripMenuItem
-    Friend menuEditSeleccionarTodo As ToolStripMenuItem
-    Friend menuEditSeparator2 As ToolStripSeparator
-    Friend menuEditSeparator3 As ToolStripSeparator
-    Friend toolEditSeparator1 As ToolStripSeparator
-    Friend toolEditSeparator2 As ToolStripSeparator
-    Friend toolEditSeparator3 As ToolStripSeparator
-    '
-    Friend WithEvents menuEditor As ToolStripMenuItem
-    Friend WithEvents menuEditorCambiarMayúsculas As ToolStripMenuItem
-    Friend menuEditorClasificarSeleccion As ToolStripMenuItem
-    Friend menuEditorMarcador As ToolStripMenuItem
-    Friend menuEditorMarcadorAnterior As ToolStripMenuItem
-    Friend menuEditorMarcadorQuitarTodos As ToolStripMenuItem
-    Friend menuEditorMarcadorSiguiente As ToolStripMenuItem
-    Friend menuEditorPonerComentarios As ToolStripMenuItem
-    Friend menuEditorPonerIndentacion As ToolStripMenuItem
-    Friend menuEditorPonerTexto As ToolStripMenuItem
-    Friend menuEditorPonerTextoAlFinal As ToolStripMenuItem
-    Friend menuEditorQuitarComentarios As ToolStripMenuItem
-    Friend WithEvents menuEditorQuitarEspacios As ToolStripMenuItem
-    Friend menuEditorQuitarIndentacion As ToolStripMenuItem
-    Friend menuEditorQuitarTextoDelfinal As ToolStripMenuItem
-    Friend menuEditorSeparador1 As ToolStripSeparator
-    Friend menuEditorSeparador2 As ToolStripSeparator
-    Friend menuEditorSeparador3 As ToolStripSeparator
-    '
-    Friend WithEvents menuVentana As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuVentanaArrangeAll As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuVentanaCloseAll As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuVentanaNueva As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuVentanaCascade As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuVentanaTileVertical As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuVentanaTileHorizontal As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuVentanaMaximizarTodas As ToolStripMenuItem
-    Friend WithEvents menuVentanaRestaurarTodas As ToolStripMenuItem
-
-    '
-    ' Los controles del statusBar
-    '
-    Private statusContextMenu As ContextMenuStrip
-    Friend menuCopiarPath As ToolStripMenuItem
-    Friend menuRecargarFichero As ToolStripMenuItem
-    '
-    Friend barraHerramientasContext As ContextMenuStrip
-    Friend buttonBuscarSiguiente As ToolStripButton
-    Friend buttonColorear As ToolStripButton
-    Friend buttonColorearAlEvaluar As ToolStripButton
-    Friend buttonColorearHTML As ToolStripButton
-    Friend buttonCompilar As ToolStripButton
-    Friend buttonCompilarAlEvaluar As ToolStripButton
-    Friend buttonCopiar As ToolStripButton
-    Friend buttonCortar As ToolStripButton
-    Friend buttonDeshacer As ToolStripButton
-    Friend buttonEdicionRecortes As ToolStripButton
-    Friend buttonEditorClasificarSeleccion As ToolStripButton
-    Friend buttonEditorMarcador As ToolStripButton
-    Friend buttonEditorMarcadorAnterior As ToolStripButton
-    Friend buttonEditorMarcadorQuitarTodos As ToolStripButton
-    Friend buttonEditorMarcadorSiguiente As ToolStripButton
-    Friend buttonEditorPonerComentarios As ToolStripButton
-    Friend buttonEditorPonerIndentacion As ToolStripButton
-    Friend buttonEditorQuitarComentarios As ToolStripButton
-    Friend buttonEditorQuitarIndentacion As ToolStripButton
-    Friend buttonEjecutar As ToolStripButton
-    Friend buttonEvaluar As ToolStripButton
-    Friend buttonGuardar As ToolStripButton
-    Friend buttonGuardarComo As ToolStripButton
-    Friend buttonMatchCase As ToolStripButton
-    Friend buttonNoColorear As ToolStripButton
-    Friend buttonNuevo As ToolStripButton
-    Friend buttonPegar As ToolStripButton
-    Friend buttonRecargar As ToolStripButton
-    Friend buttonReemplazarSiguiente As ToolStripButton
-    Friend buttonReemplazarTodo As ToolStripButton
-    Friend buttonRehacer As ToolStripButton
-    Friend buttonSeleccionar As ToolStripButton
-    Friend buttonSeleccionarTodo As ToolStripButton
-    Friend buttonWholeWord As ToolStripButton
-    Friend chkMostrarLineasHTML As ToolStripButton
+    Friend WithEvents barraHerramientasContext As ContextMenuStrip
+    Friend WithEvents buttonBuscarSiguiente As ToolStripButton
+    Friend WithEvents buttonColorear As ToolStripButton
+    Friend WithEvents buttonColorearAlEvaluar As ToolStripButton
+    Friend WithEvents buttonColorearHTML As ToolStripButton
+    Friend WithEvents buttonCompilar As ToolStripButton
+    Friend WithEvents buttonCompilarAlEvaluar As ToolStripButton
+    Friend WithEvents buttonCopiar As ToolStripButton
+    Friend WithEvents buttonCortar As ToolStripButton
+    Friend WithEvents buttonDeshacer As ToolStripButton
+    Friend WithEvents buttonEdicionRecortes As ToolStripButton
+    Friend WithEvents buttonEditorClasificarSeleccion As ToolStripButton
+    Friend WithEvents buttonEditorMarcador As ToolStripButton
+    Friend WithEvents buttonEditorMarcadorAnterior As ToolStripButton
+    Friend WithEvents buttonEditorMarcadorQuitarTodos As ToolStripButton
+    Friend WithEvents buttonEditorMarcadorSiguiente As ToolStripButton
+    Friend WithEvents buttonEditorPonerComentarios As ToolStripButton
+    Friend WithEvents buttonEditorPonerIndentacion As ToolStripButton
+    Friend WithEvents buttonEditorQuitarComentarios As ToolStripButton
+    Friend WithEvents buttonEditorQuitarIndentacion As ToolStripButton
+    Friend WithEvents buttonEjecutar As ToolStripButton
+    Friend WithEvents buttonEvaluar As ToolStripButton
+    Friend WithEvents buttonGuardar As ToolStripButton
+    Friend WithEvents buttonGuardarComo As ToolStripButton
+    Friend WithEvents buttonMatchCase As ToolStripButton
+    Friend WithEvents buttonMostrarEvaluacion As ToolStripButton
+    Friend WithEvents buttonNavegarMenu As ToolStripDropDownButton
+    Friend WithEvents buttonNavegarSiguiente As ToolStripButton
+    Friend WithEvents buttonNoColorear As ToolStripButton
+    Friend WithEvents buttonNuevo As ToolStripButton
+    Friend WithEvents buttonPegar As ToolStripButton
+    Friend WithEvents buttonRecargar As ToolStripButton
+    Friend WithEvents buttonReemplazarSiguiente As ToolStripButton
+    Friend WithEvents buttonReemplazarTodo As ToolStripButton
+    Friend WithEvents buttonRehacer As ToolStripButton
+    Friend WithEvents buttonSeleccionar As ToolStripButton
+    Friend WithEvents buttonSeleccionarTodo As ToolStripButton
+    Friend WithEvents buttonWholeWord As ToolStripButton
+    Friend WithEvents chkMostrarLineasHTML As ToolStripButton
     Friend WithEvents comboBoxBuscar As ToolStripComboBox
     Friend WithEvents comboBoxReemplazar As ToolStripComboBox
-    Friend menuColorear As ToolStripMenuItem
-    Friend menuColorearHTML As ToolStripMenuItem
-    Friend menuCompilar As ToolStripMenuItem
-    Friend menuEjecutar As ToolStripMenuItem
-    Friend menuEvaluar As ToolStripMenuItem
-    Friend menuMayúsculas As ToolStripMenuItem
-    Friend menuMinúsculas As ToolStripMenuItem
-    Friend menuMostrar_Buscar As ToolStripMenuItem
-    Friend menuMostrar_Compilar As ToolStripMenuItem
-    Friend menuMostrar_Edicion As ToolStripMenuItem
-    Friend menuMostrar_Editor As ToolStripMenuItem
-    Friend menuMostrar_Ficheros As ToolStripMenuItem
-    Friend menuNoColorear As ToolStripMenuItem
-    Friend menuOcultarEvaluar As ToolStripMenuItem
-    Friend menuOpciones As ToolStripMenuItem
-    Friend menuPrimeraMinúsculas As ToolStripMenuItem
-    Friend menuQuitarEspaciosTodos As ToolStripMenuItem
-    Friend menuQuitarEspaciosTrim As ToolStripMenuItem
-    Friend menuQuitarEspaciosTrimEnd As ToolStripMenuItem
-    Friend menuQuitarEspaciosTrimStart As ToolStripMenuItem
-    Friend menuTitulo As ToolStripMenuItem
-    Friend menuTools As ToolStripMenuItem
-    Friend panelBuscar As Panel
-    Friend panelHerramientas As FlowLayoutPanel
+    Friend WithEvents menuColorear As ToolStripMenuItem
+    Friend WithEvents menuColorearHTML As ToolStripMenuItem
+    Friend WithEvents menuCompilar As ToolStripMenuItem
+    Friend WithEvents menuCopiarPath As ToolStripMenuItem
+    Friend WithEvents menuEdit As ToolStripMenuItem
+    Friend WithEvents menuEditBuscar As ToolStripMenuItem
+    Friend WithEvents menuEditBuscarSiguiente As ToolStripMenuItem
+    Friend WithEvents menuEditCopiar As ToolStripMenuItem
+    Friend WithEvents menuEditCortar As ToolStripMenuItem
+    Friend WithEvents menuEditDeshacer As ToolStripMenuItem
+    Friend WithEvents menuEditPegar As ToolStripMenuItem
+    Friend WithEvents menuEditPegarRecorte As ToolStripMenuItem
+    Friend WithEvents menuEditReemplazar As ToolStripMenuItem
+    Friend WithEvents menuEditReemplazarSiguiente As ToolStripMenuItem
+    Friend WithEvents menuEditReemplazarTodos As ToolStripMenuItem
+    Friend WithEvents menuEditRehacer As ToolStripMenuItem
+    Friend WithEvents menuEditSeleccionarTodo As ToolStripMenuItem
+    Friend WithEvents menuEditor As ToolStripMenuItem
+    Friend WithEvents menuEditorCambiarMayúsculas As ToolStripMenuItem
+    Friend WithEvents menuEditorClasificarSeleccion As ToolStripMenuItem
+    Friend WithEvents menuEditorMarcador As ToolStripMenuItem
+    Friend WithEvents menuEditorMarcadorAnterior As ToolStripMenuItem
+    Friend WithEvents menuEditorMarcadorQuitarTodos As ToolStripMenuItem
+    Friend WithEvents menuEditorMarcadorSiguiente As ToolStripMenuItem
+    Friend WithEvents menuEditorPonerComentarios As ToolStripMenuItem
+    Friend WithEvents menuEditorPonerIndentacion As ToolStripMenuItem
+    Friend WithEvents menuEditorPonerTexto As ToolStripMenuItem
+    Friend WithEvents menuEditorPonerTextoAlFinal As ToolStripMenuItem
+    Friend WithEvents menuEditorQuitarComentarios As ToolStripMenuItem
+    Friend WithEvents menuEditorQuitarEspacios As ToolStripMenuItem
+    Friend WithEvents menuEditorQuitarIndentacion As ToolStripMenuItem
+    Friend WithEvents menuEditorQuitarTextoDelfinal As ToolStripMenuItem
+    Friend WithEvents menuEjecutar As ToolStripMenuItem
+    Friend WithEvents menuEvaluar As ToolStripMenuItem
+    Friend WithEvents menuFile As ToolStripMenuItem
+    Friend WithEvents menuFileAcercaDe As ToolStripMenuItem
+    Friend WithEvents menuFileGuardar As ToolStripMenuItem
+    Friend WithEvents menuFileGuardarComo As ToolStripMenuItem
+    Friend WithEvents menuFileNuevo As ToolStripMenuItem
+    Friend WithEvents menuFileRecargar As ToolStripMenuItem
+    Friend WithEvents menuFileRecientes As ToolStripMenuItem
+    Friend WithEvents menuFileSalir As ToolStripMenuItem
+    Friend WithEvents menuFileSeleccionarAbrir As ToolStripMenuItem
+    Friend WithEvents menuMayúsculas As ToolStripMenuItem
+    Friend WithEvents menuMinúsculas As ToolStripMenuItem
+    Friend WithEvents menuMostrar_Buscar As ToolStripMenuItem
+    Friend WithEvents menuMostrar_Compilar As ToolStripMenuItem
+    Friend WithEvents menuMostrar_Edicion As ToolStripMenuItem
+    Friend WithEvents menuMostrar_Editor As ToolStripMenuItem
+    Friend WithEvents menuMostrar_Ficheros As ToolStripMenuItem
+    Friend WithEvents menuNoColorear As ToolStripMenuItem
+    Friend WithEvents menuOcultarEvaluar As ToolStripMenuItem
+    Friend WithEvents menuOpciones As ToolStripMenuItem
+    Friend WithEvents menuPrimeraMinúsculas As ToolStripMenuItem
+    Friend WithEvents menuQuitarEspaciosTodos As ToolStripMenuItem
+    Friend WithEvents menuQuitarEspaciosTrim As ToolStripMenuItem
+    Friend WithEvents menuQuitarEspaciosTrimEnd As ToolStripMenuItem
+    Friend WithEvents menuQuitarEspaciosTrimStart As ToolStripMenuItem
+    Friend WithEvents menuRecargarFichero As ToolStripMenuItem
+    Friend WithEvents menuStrip1 As System.Windows.Forms.MenuStrip
+    Friend WithEvents menuTitulo As ToolStripMenuItem
+    Friend WithEvents menuTools As ToolStripMenuItem
+    Friend WithEvents menuVentana As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuVentanaArrangeAll As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuVentanaCascade As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuVentanaCloseAll As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuVentanaMaximizarTodas As ToolStripMenuItem
+    Friend WithEvents menuVentanaNueva As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuVentanaRestaurarTodas As ToolStripMenuItem
+    Friend WithEvents menuVentanaTileHorizontal As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents menuVentanaTileVertical As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents panelBuscar As Panel
+    Friend WithEvents panelHerramientas As FlowLayoutPanel
     Friend WithEvents rtbCodigoContext As ContextMenuStrip
-    Friend toolSeparator4 As ToolStripSeparator
-    Friend toolSeparatorTools1 As ToolStripSeparator
-    Friend toolSeparatorTools2 As ToolStripSeparator
-    Friend toolSeparatorTools3 As ToolStripSeparator
-    Friend toolSeparatorTools4 As ToolStripSeparator
-    Friend toolStripBuscar As ToolStrip
-    Friend ToolStripButton2 As ToolStripButton
-    Friend toolStripCompilar As ToolStrip
-    Friend toolStripEdicion As ToolStrip
-    Friend toolStripEditor As ToolStrip
-    Friend toolStripFicheros As ToolStrip
-    Friend toolStripLabelBuscar As ToolStripLabel
-    Friend toolStripLabelReemplazar As ToolStripLabel
-    Friend toolStripReemplazar As ToolStrip
-    Friend toolStripSeparatorBuscar1 As ToolStripSeparator
-    Friend toolStripSeparatorCompilar1 As ToolStripSeparator
-    Friend toolStripSeparatorCompilar2 As ToolStripSeparator
-    Friend toolStripSeparatorCompilar3 As ToolStripSeparator
-    Friend toolStripSeparatorCompilar4 As ToolStripSeparator
-    Friend toolStripSeparatorEdicion As ToolStripSeparator
-    Friend toolStripSeparatorEdicion2 As ToolStripSeparator
-    Friend toolStripSeparatorEdicion3 As ToolStripSeparator
-    Friend toolStripSeparatorEditor1 As ToolStripSeparator
-    Friend toolStripSeparatorEditor2 As ToolStripSeparator
-    Friend toolStripSeparatorEditor3 As ToolStripSeparator
-    Friend toolStripSeparatorFichero0 As ToolStripSeparator
-    Friend toolStripSeparatorFichero1 As ToolStripSeparator
-    Friend toolStripSeparatorReemplazar As ToolStripSeparator
-    Friend txtPonerTexto As ToolStripTextBox
-
-    '
-    ' Otros controles
-    '
-    Friend toolTip1 As ToolTip
-    Private WithEvents timerClipBoard As Timer
-    Private WithEvents menuVentanaSep1 As ToolStripSeparator
-    Private WithEvents menuFileGuardarTodo As ToolStripMenuItem
+    Friend WithEvents statusContextMenu As ContextMenuStrip
+    Friend WithEvents toolStripBuscar As ToolStrip
+    Friend WithEvents toolStripCompilar As ToolStrip
+    Friend WithEvents toolStripEdicion As ToolStrip
+    Friend WithEvents toolStripEditor As ToolStrip
+    Friend WithEvents toolStripFicheros As ToolStrip
+    Friend WithEvents toolStripLabelBuscar As ToolStripLabel
+    Friend WithEvents toolStripLabelReemplazar As ToolStripLabel
+    Friend WithEvents toolStripReemplazar As ToolStrip
+    Friend WithEvents toolTip1 As ToolTip
+    Friend WithEvents txtPonerTexto As ToolStripTextBox
     Private WithEvents buttonGuardarTodo As ToolStripButton
+    Private WithEvents menuFileGuardarTodo As ToolStripMenuItem
+    Private WithEvents menuVentanaSep1 As ToolStripSeparator
+    Private WithEvents timerClipBoard As Timer
     Private WithEvents timerInicio As Timer
+    Private WithEvents toolStripNavegar As ToolStrip
+    Private mnuSepEditor1 As ToolStripSeparator
+    Private mnuSepEditor2 As ToolStripSeparator
+    Private mnuSepEditor3 As ToolStripSeparator
+    Private mnuSepFile1 As ToolStripSeparator
+    Private mnuSepFile2 As ToolStripSeparator
+    Private mnuSepFile3 As ToolStripSeparator
+    Private mnuSepFile4 As ToolStripSeparator
+    Private tsSepBuscar1 As ToolStripSeparator
+    Private tsSepCompilar1 As ToolStripSeparator
+    Private tsSepCompilar2 As ToolStripSeparator
+    Private tsSepCompilar3 As ToolStripSeparator
+    Private tsSepCompilar4 As ToolStripSeparator
+    Private tsSepCompilar5 As ToolStripSeparator
+    Private tsSepEdicion As ToolStripSeparator
+    Private tsSepEdicion2 As ToolStripSeparator
+    Private tsSepEdicion3 As ToolStripSeparator
+    ' Estos dos se usan en el menú contextual del código
+    Friend tsSepEdit1 As ToolStripSeparator
+    Friend tsSepEdit2 As ToolStripSeparator
+    Private tsSepEdit3 As ToolStripSeparator
+    Private tsSepEditor1 As ToolStripSeparator
+    Private tsSepEditor2 As ToolStripSeparator
+    Private tsSepEditor3 As ToolStripSeparator
+    Private tsSepEditor4 As ToolStripSeparator
+    Private tsSepFichero0 As ToolStripSeparator
+    Private tsSepFichero1 As ToolStripSeparator
+    Private tsSepNavegar1 As ToolStripSeparator
+    Private tsSepReemplazar As ToolStripSeparator
+    Private tsSepTools1 As ToolStripSeparator
+    Private tsSepTools2 As ToolStripSeparator
+    Private tsSepTools3 As ToolStripSeparator
+    Private tsSepTools4 As ToolStripSeparator
+    Friend WithEvents buttonNavegarAnterior As ToolStripButton
 End Class

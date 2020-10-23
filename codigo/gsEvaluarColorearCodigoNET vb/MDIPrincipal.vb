@@ -20,6 +20,7 @@ Imports System.IO
 
 Public Class MDIPrincipal
 
+
     ''' <summary>
     ''' El último texto del portapapeles asignado.
     ''' </summary>
@@ -144,30 +145,6 @@ Public Class MDIPrincipal
         AddHandler buttonEdicionRecortes.Click, AddressOf menuEditPegarRecorte_Click
 
         ' Compilar, evaluar, ejecutar 
-        AddHandler menuTools.DropDownOpening, Sub()
-                                                  Dim b = richTextBoxCodigo.TextLength > 0
-                                                  ' Si el Lenguaje no es vb/cs no:      (08/Oct/20)
-                                                  '   compilar, ejecutar, colorear, etc.
-                                                  Dim b2 = b
-                                                  If buttonLenguaje.Text = ExtensionTexto Then
-                                                      b2 = False
-                                                  End If
-                                                  menuEvaluar.Enabled = b2
-                                                  menuColorearHTML.Enabled = b2
-                                                  menuColorear.Enabled = b2
-                                                  menuNoColorear.Enabled = b2
-                                                  menuCompilar.Enabled = b2
-                                                  menuEjecutar.Enabled = b2
-
-                                                  menuOcultarEvaluar.Enabled = Form1Activo.lstSyntax.Items.Count > 0
-                                                  If Form1Activo.splitContainer1.Panel2.Visible = True Then
-                                                      menuOcultarEvaluar.Text = "Ocultar panel de evaluación/error"
-                                                      'menuOcultarEvaluar.Checked = True
-                                                  Else
-                                                      menuOcultarEvaluar.Text = "Mostrar panel de evaluación/error"
-                                                      'menuOcultarEvaluar.Checked = False
-                                                  End If
-                                              End Sub
         AddHandler menuCompilar.Click, Sub() Build()
         AddHandler buttonCompilar.Click, Sub() Build()
         AddHandler menuEjecutar.Click, Sub() CompilarEjecutar()
@@ -184,20 +161,7 @@ Public Class MDIPrincipal
         AddHandler buttonNoColorear.Click, Sub() NoColorear()
 
         ' Ocultar el panel de evaluación                            (05/Oct/20)
-        AddHandler menuOcultarEvaluar.Click, Sub()
-                                                 'If lstSyntax.Items.Count = 0 Then
-                                                 '    menuOcultarEvaluar.Checked = False
-                                                 '    menuOcultarEvaluar.Text = "No hay datos de evaluación"
-                                                 'End If
-                                                 If menuOcultarEvaluar.Text = "Ocultar panel de evaluación/error" Then
-                                                     Form1Activo.splitContainer1.Panel2.Visible = False
-                                                     menuOcultarEvaluar.Text = "Mostrar panel de evaluación/error"
-                                                 Else
-                                                     menuOcultarEvaluar.Text = "Ocultar panel de evaluación/error"
-                                                     Form1Activo.splitContainer1.Panel2.Visible = True
-                                                 End If
-                                                 Form1Activo.splitContainer1_Resize()
-                                             End Sub
+        ' en evento normal con el del botón                         (20/Oct/20)
 
         ' Colorear en HTML
         AddHandler menuColorearHTML.Click, Sub() ColorearHTML()
@@ -276,7 +240,6 @@ Public Class MDIPrincipal
             richTextBoxCodigo.ContextMenuStrip = rtbCodigoContext
         End If
         CrearContextMenuCodigo()
-        'AddHandler rtbCodigoContext.Opening, Sub() menuEditDropDownOpening()
 
         Dim lambdaMenuMostrar = Sub(sender As Object, e As EventArgs)
                                     ' Están en un FlowPanel y se reajusta solo
@@ -494,6 +457,14 @@ Public Class MDIPrincipal
         buttonNoColorear.Enabled = b2
         buttonColorearHTML.Enabled = b2
         chkMostrarLineasHTML.Enabled = b2
+        ' el botón de mostrar/ocultar el panel de evaluación        (20/Oct/20)
+        buttonMostrarEvaluacion.Enabled = Form1Activo.lstSyntax.Items.Count > 0
+        If Form1Activo.splitContainer1.Panel2.Visible = True Then
+            buttonMostrarEvaluacion.Text = "Ocultar panel de evaluación/error"
+        Else
+            buttonMostrarEvaluacion.Text = "Mostrar panel de evaluación/error"
+        End If
+        buttonMostrarEvaluacion.ToolTipText = buttonMostrarEvaluacion.Text
 
         buttonEditorMarcador.Enabled = b
         buttonEditorClasificarSeleccion.Enabled = richTextBoxCodigo.SelectionLength > 0
@@ -505,6 +476,13 @@ Public Class MDIPrincipal
 
         b = ColRecortes.Count > 0
         buttonEdicionRecortes.Enabled = b
+
+        'If UltimasPosiciones.Count < 1 Then
+        '    buttonNavegarAnterior.Enabled = False
+        '    buttonNavegarSiguiente.Enabled = False
+        'Else
+        'End If
+        HabilitarBotonesNavegar()
 
         inicializando = False
     End Sub
@@ -838,4 +816,182 @@ Public Class MDIPrincipal
         inicializando = False
     End Sub
 
+    Private Sub buttonMostrarEvaluacion_Click() Handles buttonMostrarEvaluacion.Click, menuOcultarEvaluar.Click
+        If menuOcultarEvaluar.Text = "Ocultar panel de evaluación/error" Then
+            Form1Activo.splitContainer1.Panel2.Visible = False
+            menuOcultarEvaluar.Text = "Mostrar panel de evaluación/error"
+        Else
+            menuOcultarEvaluar.Text = "Ocultar panel de evaluación/error"
+            Form1Activo.splitContainer1.Panel2.Visible = True
+        End If
+        buttonMostrarEvaluacion.Text = menuOcultarEvaluar.Text
+        buttonMostrarEvaluacion.ToolTipText = buttonMostrarEvaluacion.Text
+        Form1Activo.splitContainer1_Resize()
+    End Sub
+
+    Private Sub menuTools_DropDownOpening() Handles menuTools.DropDownOpening
+        Dim b = richTextBoxCodigo.TextLength > 0
+        ' Si el Lenguaje no es vb/cs no:      (08/Oct/20)
+        '   compilar, ejecutar, colorear, etc.
+        Dim b2 = b
+        If buttonLenguaje.Text = ExtensionTexto Then
+            b2 = False
+        End If
+        menuEvaluar.Enabled = b2
+        menuColorearHTML.Enabled = b2
+        menuColorear.Enabled = b2
+        menuNoColorear.Enabled = b2
+        menuCompilar.Enabled = b2
+        menuEjecutar.Enabled = b2
+
+        menuOcultarEvaluar.Enabled = Form1Activo.lstSyntax.Items.Count > 0
+        If Form1Activo.splitContainer1.Panel2.Visible = True Then
+            menuOcultarEvaluar.Text = "Ocultar panel de evaluación/error"
+        Else
+            menuOcultarEvaluar.Text = "Mostrar panel de evaluación/error"
+        End If
+        buttonMostrarEvaluacion.Text = menuOcultarEvaluar.Text
+        buttonMostrarEvaluacion.ToolTipText = buttonMostrarEvaluacion.Text
+    End Sub
+
+    '
+    ' Para navegar en las últimas posiciones de edición.
+    ' Se buscará la ventana indicada por el fichero, se mostrará el formulario
+    ' y se posicionará en la última posición de esa ventana.
+    '
+
+    ''' <summary>
+    ''' Las últimas posiciones de donde se ha estado editando.
+    ''' Se guarda el fichero y la posición.
+    ''' </summary>
+    Friend UltimasPosiciones As New Dictionary(Of Integer, Marcadores)
+
+    ''' <summary>
+    ''' La posición actual en la navegación.
+    ''' </summary>
+    Friend PosNavegarActual As (Actual As Integer, Fichero As String, Posicion As Integer, Texto As String) = (-1, "", -1, "")
+
+    Private Sub buttonNavegarAnterior_Click() Handles buttonNavegarAnterior.Click
+        Navegar(anterior:=True)
+    End Sub
+
+    Private Sub buttonNavegarSiguiente_Click() Handles buttonNavegarSiguiente.Click
+        Navegar(anterior:=False)
+    End Sub
+
+    ''' <summary>
+    ''' Posicionarse en la posición anterior o siguiente de navegación.
+    ''' </summary>
+    ''' <param name="anterior">True si se ha pulsado en el botón anterior, 
+    ''' False si se ha pulsado en siguiente</param>
+    Private Sub Navegar(anterior As Boolean)
+        If UltimasPosiciones.Count = 0 Then Return
+
+        If anterior Then
+            PosNavegarActual.Actual -= 1
+            If PosNavegarActual.Actual < 0 Then
+                ' Repetir las posiciones si se llega a la última
+                PosNavegarActual.Actual = UltimasPosiciones.Count - 1
+            End If
+        Else
+            PosNavegarActual.Actual += 1
+            If PosNavegarActual.Actual >= UltimasPosiciones.Count Then
+                PosNavegarActual.Actual = UltimasPosiciones.Count - 1
+            End If
+        End If
+        ' Este caso no debería darse nunca, pero para comprobar
+        If PosNavegarActual.Actual < 0 OrElse PosNavegarActual.Actual > UltimasPosiciones.Count - 1 Then
+            PosNavegarActual.Actual = UltimasPosiciones.Count - 1
+            Debug.Assert(False)
+        End If
+
+        HabilitarBotonesNavegar()
+
+        PosNavegarActual.Fichero = UltimasPosiciones(PosNavegarActual.Actual).Fichero
+        PosNavegarActual.Posicion = UltimasPosiciones(PosNavegarActual.Actual).Posicion
+        'NavegarA(PosNavegarActual)
+        ' actualizar el menú con la posición actual
+        ' desde ahí se navega
+        buttonNavegarMenu.DropDownItems(PosNavegarActual.Actual).PerformClick()
+    End Sub
+
+    ''' <summary>
+    ''' Navegar al fichero y posición indicadas.
+    ''' </summary>
+    ''' <param name="fic"></param>
+    ''' <param name="pos"></param>
+    Private Sub NavegarA(posNav As (Actual As Integer, Fichero As String, Posicion As Integer, Texto As String))
+        cargando = True
+        ' Buscar el fichero en las ventanas abiertas
+        For Each frm As Form1 In Me.MdiChildren
+            If frm.nombreFichero = posNav.Fichero Then
+                ' posicionarse
+                frm.richTextBoxCodigo.SelectionStart = posNav.Posicion
+                frm.richTextBoxCodigo.SelectionLength = 0
+                frm.BringToFront()
+                Exit For
+            End If
+        Next
+        cargando = False
+    End Sub
+
+    ''' <summary>
+    ''' Habilitar adecuadamente los botones de navegar.
+    ''' </summary>
+    Private Sub HabilitarBotonesNavegar()
+        buttonNavegarAnterior.Enabled = True ' (PosNavegarActual.Actual > 0)
+        buttonNavegarSiguiente.Enabled = (PosNavegarActual.Actual < UltimasPosiciones.Count - 1)
+    End Sub
+
+    ''' <summary>
+    ''' Asignar la posición actual en el formulario indicado.
+    ''' </summary>
+    ''' <param name="elForm1"></param>
+    Friend Sub AsignarNavegar(elForm1 As Form1)
+        If cargando Then Return
+        ' No asignar la misma ubicación que la anterior
+        If PosNavegarActual.Posicion = elForm1.richTextBoxCodigo.SelectionStart Then
+            If PosNavegarActual.Fichero = elForm1.nombreFichero Then
+                Return
+            End If
+        End If
+        PosNavegarActual.Posicion = elForm1.richTextBoxCodigo.SelectionStart
+        PosNavegarActual.Fichero = elForm1.nombreFichero
+
+        ' Asignar la línea completa                                 (22/Oct/20)
+        Dim pos = PosicionActual()
+        PosNavegarActual.Texto = elForm1.richTextBoxCodigo.Lines(pos.Linea - 1)
+        Dim marcador = New Marcadores(elForm1)
+        ' El índice será el número de posiciones,
+        ' al empezar, Count es cero y ese es el primer índice.
+        Dim index = UltimasPosiciones.Count
+        UltimasPosiciones.Add(index, marcador)
+        PosNavegarActual.Actual = index
+
+        ' Asignar al menú del botón anterior las posiciones
+        Dim s = PosNavegarActual.Texto.TrimStart
+        If s.Length > 60 Then
+            s = s.Substring(0, 60)
+        End If
+        s = $"{Path.GetFileName(PosNavegarActual.Fichero)}: {s}"
+        For Each m As ToolStripMenuItem In buttonNavegarMenu.DropDownItems
+            m.Checked = False
+        Next
+        Dim mnu As New ToolStripMenuItem(s)
+        mnu.Tag = PosNavegarActual
+        AddHandler mnu.Click, Sub(sender As Object, e As EventArgs)
+                                  For Each m As ToolStripMenuItem In buttonNavegarMenu.DropDownItems
+                                      m.Checked = False
+                                  Next
+                                  Dim m2 = TryCast(sender, ToolStripMenuItem)
+                                  Dim pna = CType(m2.Tag, (Actual As Integer, Fichero As String, Posicion As Integer, Texto As String))
+                                  NavegarA(pna)
+                                  m2.Checked = True
+                                  PosNavegarActual = pna
+                                  HabilitarBotonesNavegar()
+                              End Sub
+        mnu.Checked = True
+        buttonNavegarMenu.DropDownItems.Add(mnu)
+
+    End Sub
 End Class

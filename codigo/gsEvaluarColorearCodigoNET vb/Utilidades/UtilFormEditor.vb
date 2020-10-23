@@ -175,6 +175,11 @@ Friend Module UtilFormEditor
     Public inicializando As Boolean = True
 
     ''' <summary>
+    ''' Mientras están cargándose los ficheros será True.
+    ''' </summary>
+    Public cargando As Boolean
+
+    ''' <summary>
     ''' Si se deben cambiar los TAB por 8 espacios
     ''' </summary>
     Public CambiarTabs As Boolean = True
@@ -296,7 +301,7 @@ Friend Module UtilFormEditor
 
     ''' <summary>
     ''' Si se deben comprobar los errores al evaluar.
-    ''' Si es <see cref="True"/> se pre-compila el código.
+    ''' Si es True se pre-compila el código.
     ''' </summary>
     Public Property compilarAlEvaluar As Boolean
         Get
@@ -586,6 +591,7 @@ Friend Module UtilFormEditor
         Next
         ' Si se indica cargarUltimo, abrirlos todos                 (16/Oct/20)
         If cargarUltimo Then
+            cargando = True
             cuantos = UltimasVentanasAbiertas.Count
             j = cuantos
             ' En Abrir se llama a OnProgreso una vez, en ColorearCodigo 2 veces
@@ -605,6 +611,7 @@ Friend Module UtilFormEditor
                 Application.DoEvents()
             Next
             m_fProcesando.Close()
+            cargando = False
         End If
 
     End Sub
@@ -655,7 +662,7 @@ Friend Module UtilFormEditor
 
 #End Region
 
-#Region " Para los marcadores y bookmarks "
+#Region " Para los marcadores (Bookmarks) "
 
     '
     ' Para los marcadores / Bookmarks                               (28/Sep/20)
@@ -664,7 +671,7 @@ Friend Module UtilFormEditor
     ''' <summary>
     ''' Colección con los marcadores del código que se está editando.
     ''' </summary>
-    Public ColMarcadores As New List(Of Integer)
+    Public ReadOnly Property ColMarcadores As New List(Of Integer)
 
     ''' <summary>
     ''' El fichero usado con los marcadores.
@@ -687,7 +694,7 @@ Friend Module UtilFormEditor
         ColMarcadores.Clear()
         For i = 0 To colMarcadorTemp.Count - 1
             Dim pos = colMarcadorTemp(i)
-            richTextBoxCodigo.SelectionStart = pos '- 1
+            richTextBoxCodigo.SelectionStart = pos
             MarcadorPonerQuitar()
         Next
         ' Poner la posición en la que estaba antes
@@ -2327,9 +2334,9 @@ Friend Module UtilFormEditor
     Public Sub CrearContextMenuCodigo()
         CurrentMDI.rtbCodigoContext.Items.Clear()
         CurrentMDI.rtbCodigoContext.Items.AddRange({CurrentMDI.menuEditDeshacer.Clonar(lambdaUndo),
-                                        CurrentMDI.menuEditRehacer.Clonar(lambdaRedo), CurrentMDI.toolEditSeparator1,
+                                        CurrentMDI.menuEditRehacer.Clonar(lambdaRedo), CurrentMDI.tsSepEdit1,
                                         CurrentMDI.menuEditCortar.Clonar(lambdaCut), CurrentMDI.menuEditCopiar.Clonar(lambdaCopy),
-                                        CurrentMDI.menuEditPegar.Clonar(lambdaPaste), CurrentMDI.toolEditSeparator2,
+                                        CurrentMDI.menuEditPegar.Clonar(lambdaPaste), CurrentMDI.tsSepEdit2,
                                         CurrentMDI.menuEditSeleccionarTodo.Clonar(lambdaSelectAll)})
         'richTextBoxCodigo.ContextMenuStrip = rtbCodigoContext
     End Sub

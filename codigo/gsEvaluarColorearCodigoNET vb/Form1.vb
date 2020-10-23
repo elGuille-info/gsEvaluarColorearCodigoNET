@@ -322,14 +322,47 @@
 '                       Al abrir el fichero, se oculta y se limpia el listSyntax
 'v1.0.0.183             UltimasVentanasAbiertas debe tener siempre el path completo
 'v1.0.0.184             Al guardar las últimas ventanas, guardaba 1 menos
-'
-' POR HACER:
-'                       Solucionar lo del pitido al pulsar ENTER
+'v1.0.0.185             Poner un botón para mostrar el panel de evaluación (y ponerle imagen)
+'v1.0.0.186             El evento Click del menú y botón de ocultar/mostrar panel
+'                       los pongo como método normal de evento
+'v1.0.0.187 21/Oct/20   Añadiendo opción para navegar entre las últimas poiciones.
+'v1.0.0.188             Probando a ver si va con Dictionary(Integer, Marcadores)
+'v1.0.0.189             Sigo con las pruebas
+'v1.0.0.190             Seguir con la navegación y asignar al menú del botón el texto con la posición
+'v1.0.0.191 22/Oct/20   A ver si esto de navegar va bien...
+'v1.0.0.192             Añado campo cargando para usarlo mientras se cargan los ficheros.
+'v1.0.0.193             Habilitando los botones de navegar.
+'                       Uso Cargando al asignar la posición al navegar
+'v1.0.0.194             Sigo con las comprobaciones de habilitar los botones
+'v1.0.0.195             Repetía cada dos posiciones... a ver si ya lo he arreglado
+'v1.0.0.196             Debería avanzar y retroceder de 1 en1 porque se salta posiciones
+'v1.0.0.197             Probando con habilitar los botones
+'v1.0.0.198             Ya funciona bien
+'v1.0.0.199             Creo un método para habilitar los botones de navegar.
+'v1.0.0.200             Asigno los menús de navegación (quito el botón anterior normal y dejo el de los menús)
+'v1.0.0.201             Asigno com WithEvents todos las definiciones en MDIPrincipal, salvo los separadores
+'v1.0.0.202             Asigno los menús a mostrar en el botón de navegar anterior
+'v1.0.0.203             Poner el menú de navegar aparte del menú anterior
+'v1.0.0.204             Ajustando detalles para que todo vaya bien al seleccionar del menú, etc.
+'v1.0.0.205             El botón anterior siempre estará habilitado
+'                       Hacer que al pulsar en el menú desplegable, vaya a donde tiene que ir
+'v1.0.0.206             En ello estoy...
+'v1.0.0.207             Ya funciona bien navegar y con el menú de navegación
+'v1.0.0.208             A arreglar lo de los Bookmarks...
 '
 '
 '
 'TODO:
+'   20-oct  Colorear en segundo plano
+'           Al cargar los ficheros al iniciar mostrar el primero que se abrió
+'               y el resto, en modo oculto, seguirán cargando/coloreando.
+'           Poner botones de navegación para ir al sitio anterior o al siguiente del actual
+'               Usar una colección con nombre ventana, posición en el texto
+'               al pulsar ir a esa posición y se tendrá en cuenta cual fue la última
+'   17-oct  Solucionar lo del pitido al pulsar ENTER
 '   16-oct  Arreglar los marcadores, para que cada fichero tenga los suyos.
+'               o marcadores globales para todos los ficheros abiertos.
+'               con el nombre del fichero y las posiciones (pero para más de un fichero).
 '   04-oct  Usar plantillas y crearlas para usar con Nuevo...
 '           Poder cargar un proyecto o solución con todos los ficheros relacionados
 '   
@@ -358,6 +391,13 @@ Imports System.Reflection
 Imports Microsoft.CodeAnalysis.Text
 
 Public Class Form1
+
+    ''' <summary>
+    ''' Los marcadores para este formulario.
+    ''' </summary>
+    ''' <returns></returns>
+    Friend Property Bookmarks As Marcadores
+
 
     ''' <summary>
     ''' Nombre del fichero asignado al formulario actual.
@@ -417,6 +457,7 @@ Public Class Form1
         End If
 
         'Inicializar()
+        Bookmarks = New Marcadores(Me)
 
     End Sub
 
@@ -905,8 +946,11 @@ Public Class Form1
     End Sub
 
     Private Sub richTextBoxCodigo_SelectionChanged() Handles richTextBoxCodigo.SelectionChanged, richTextBoxCodigo.MouseClick
-        If inicializando Then Return
-        'menuEditDropDownOpenning()
+        If cargando Then Return
+
+        ' Guardar la posición para usar en Navegar...               (21/Oct/20)
+        CurrentMDI.AsignarNavegar(Me)
+
         CurrentMDI.HabilitarBotones()
         MostrarPosicion(Nothing)
     End Sub
