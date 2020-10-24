@@ -11,7 +11,7 @@
         <Description>Abrir ficheros de Visual Basic o C# para:
 Evaluar si tiene fallos, Compilar, Ejecutar y Colorear (el código y para HTML)
 Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
-(para .NET 5.0 RC2 revisión del 22-oct-2020, iniciado el 20-sep)
+(para .NET 5.0 RC2 revisión del 24-oct-2020, iniciado el 20-sep)
 </Description>
         <Copyright>Copyright Guillermo Som (elGuille), 2020</Copyright>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -19,7 +19,7 @@ Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
         <Authors>Guillermo Som (elGuille)</Authors>
         <Version>1.0.0.0</Version>
         <NeutralLanguage>es-ES</NeutralLanguage>
-        <FileVersion>1.0.0.208</FileVersion>
+        <FileVersion>1.0.0.242</FileVersion>
         <ApplicationIcon>VSProject_genericproject.Office_Deve.ico</ApplicationIcon>
     </PropertyGroup>
 

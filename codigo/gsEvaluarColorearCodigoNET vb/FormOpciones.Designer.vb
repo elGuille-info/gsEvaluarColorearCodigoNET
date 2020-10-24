@@ -20,12 +20,13 @@ Partial Class FormOpciones
     'NOTA: el Diseñador de Windows Forms necesita el siguiente procedimiento
     'Se puede modificar usando el Diseñador de Windows Forms.  
     'No lo modifique con el editor de código.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormOpciones))
         Me.tabControl1 = New System.Windows.Forms.TabControl()
         Me.tabPage1 = New System.Windows.Forms.TabPage()
+        Me.chkCambiarTab = New System.Windows.Forms.CheckBox()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.chkCaseSensitive = New System.Windows.Forms.CheckBox()
         Me.chkCompareOrdinal = New System.Windows.Forms.CheckBox()
@@ -73,7 +74,6 @@ Partial Class FormOpciones
         Me.btnAceptar = New System.Windows.Forms.Button()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.toolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.chkCambiarTab = New System.Windows.Forms.CheckBox()
         Me.tabControl1.SuspendLayout()
         Me.tabPage1.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -101,10 +101,11 @@ Partial Class FormOpciones
         Me.tabControl1.Controls.Add(Me.TabPage3)
         Me.tabControl1.Controls.Add(Me.TabPage4)
         Me.tabControl1.Controls.Add(Me.TabPage5)
-        Me.tabControl1.Location = New System.Drawing.Point(12, 12)
+        Me.tabControl1.Location = New System.Drawing.Point(14, 14)
+        Me.tabControl1.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.tabControl1.Name = "tabControl1"
         Me.tabControl1.SelectedIndex = 0
-        Me.tabControl1.Size = New System.Drawing.Size(549, 317)
+        Me.tabControl1.Size = New System.Drawing.Size(640, 366)
         Me.tabControl1.TabIndex = 0
         '
         'tabPage1
@@ -116,20 +117,36 @@ Partial Class FormOpciones
         Me.tabPage1.Controls.Add(Me.chkColorearCargar)
         Me.tabPage1.Controls.Add(Me.chkCargarUltimo)
         Me.tabPage1.Location = New System.Drawing.Point(4, 24)
+        Me.tabPage1.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.tabPage1.Name = "tabPage1"
-        Me.tabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabPage1.Size = New System.Drawing.Size(541, 289)
+        Me.tabPage1.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.tabPage1.Size = New System.Drawing.Size(632, 338)
         Me.tabPage1.TabIndex = 0
         Me.tabPage1.Text = "Opciones generales"
         Me.tabPage1.UseVisualStyleBackColor = True
+        '
+        'chkCambiarTab
+        '
+        Me.chkCambiarTab.AutoSize = True
+        Me.chkCambiarTab.Location = New System.Drawing.Point(21, 72)
+        Me.chkCambiarTab.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.chkCambiarTab.Name = "chkCambiarTab"
+        Me.chkCambiarTab.Size = New System.Drawing.Size(268, 19)
+        Me.chkCambiarTab.TabIndex = 2
+        Me.chkCambiarTab.Text = "Al cargar o guardar, cambiar TAB por espacios"
+        Me.chkCambiarTab.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage
+        Me.toolTip1.SetToolTip(Me.chkCambiarTab, resources.GetString("chkCambiarTab.ToolTip"))
+        Me.chkCambiarTab.UseVisualStyleBackColor = True
         '
         'GroupBox4
         '
         Me.GroupBox4.Controls.Add(Me.chkCaseSensitive)
         Me.GroupBox4.Controls.Add(Me.chkCompareOrdinal)
-        Me.GroupBox4.Location = New System.Drawing.Point(12, 195)
+        Me.GroupBox4.Location = New System.Drawing.Point(14, 225)
+        Me.GroupBox4.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(511, 77)
+        Me.GroupBox4.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.GroupBox4.Size = New System.Drawing.Size(596, 89)
         Me.GroupBox4.TabIndex = 5
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Clasificar:"
@@ -137,7 +154,8 @@ Partial Class FormOpciones
         'chkCaseSensitive
         '
         Me.chkCaseSensitive.AutoSize = True
-        Me.chkCaseSensitive.Location = New System.Drawing.Point(6, 22)
+        Me.chkCaseSensitive.Location = New System.Drawing.Point(7, 25)
+        Me.chkCaseSensitive.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.chkCaseSensitive.Name = "chkCaseSensitive"
         Me.chkCaseSensitive.Size = New System.Drawing.Size(221, 19)
         Me.chkCaseSensitive.TabIndex = 0
@@ -148,7 +166,8 @@ Partial Class FormOpciones
         'chkCompareOrdinal
         '
         Me.chkCompareOrdinal.AutoSize = True
-        Me.chkCompareOrdinal.Location = New System.Drawing.Point(6, 47)
+        Me.chkCompareOrdinal.Location = New System.Drawing.Point(7, 54)
+        Me.chkCompareOrdinal.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.chkCompareOrdinal.Name = "chkCompareOrdinal"
         Me.chkCompareOrdinal.Size = New System.Drawing.Size(422, 19)
         Me.chkCompareOrdinal.TabIndex = 0
@@ -160,7 +179,8 @@ Partial Class FormOpciones
         'chkMostrarLineasHTML
         '
         Me.chkMostrarLineasHTML.AutoSize = True
-        Me.chkMostrarLineasHTML.Location = New System.Drawing.Point(18, 87)
+        Me.chkMostrarLineasHTML.Location = New System.Drawing.Point(21, 100)
+        Me.chkMostrarLineasHTML.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.chkMostrarLineasHTML.Name = "chkMostrarLineasHTML"
         Me.chkMostrarLineasHTML.Size = New System.Drawing.Size(270, 19)
         Me.chkMostrarLineasHTML.TabIndex = 3
@@ -172,9 +192,11 @@ Partial Class FormOpciones
         '
         Me.grbAlEvaluar.Controls.Add(Me.chkColorearEvaluar)
         Me.grbAlEvaluar.Controls.Add(Me.chkCompilarEvaluar)
-        Me.grbAlEvaluar.Location = New System.Drawing.Point(12, 112)
+        Me.grbAlEvaluar.Location = New System.Drawing.Point(14, 129)
+        Me.grbAlEvaluar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.grbAlEvaluar.Name = "grbAlEvaluar"
-        Me.grbAlEvaluar.Size = New System.Drawing.Size(511, 77)
+        Me.grbAlEvaluar.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.grbAlEvaluar.Size = New System.Drawing.Size(596, 89)
         Me.grbAlEvaluar.TabIndex = 4
         Me.grbAlEvaluar.TabStop = False
         Me.grbAlEvaluar.Text = "Al evaluar:"
@@ -182,7 +204,8 @@ Partial Class FormOpciones
         'chkColorearEvaluar
         '
         Me.chkColorearEvaluar.AutoSize = True
-        Me.chkColorearEvaluar.Location = New System.Drawing.Point(6, 22)
+        Me.chkColorearEvaluar.Location = New System.Drawing.Point(7, 25)
+        Me.chkColorearEvaluar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.chkColorearEvaluar.Name = "chkColorearEvaluar"
         Me.chkColorearEvaluar.Size = New System.Drawing.Size(123, 19)
         Me.chkColorearEvaluar.TabIndex = 0
@@ -193,7 +216,8 @@ Partial Class FormOpciones
         'chkCompilarEvaluar
         '
         Me.chkCompilarEvaluar.AutoSize = True
-        Me.chkCompilarEvaluar.Location = New System.Drawing.Point(6, 47)
+        Me.chkCompilarEvaluar.Location = New System.Drawing.Point(7, 54)
+        Me.chkCompilarEvaluar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.chkCompilarEvaluar.Name = "chkCompilarEvaluar"
         Me.chkCompilarEvaluar.Size = New System.Drawing.Size(126, 19)
         Me.chkCompilarEvaluar.TabIndex = 0
@@ -205,7 +229,8 @@ Partial Class FormOpciones
         'chkColorearCargar
         '
         Me.chkColorearCargar.AutoSize = True
-        Me.chkColorearCargar.Location = New System.Drawing.Point(18, 37)
+        Me.chkColorearCargar.Location = New System.Drawing.Point(21, 43)
+        Me.chkColorearCargar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.chkColorearCargar.Name = "chkColorearCargar"
         Me.chkColorearCargar.Size = New System.Drawing.Size(171, 19)
         Me.chkColorearCargar.TabIndex = 1
@@ -217,11 +242,12 @@ Partial Class FormOpciones
         'chkCargarUltimo
         '
         Me.chkCargarUltimo.AutoSize = True
-        Me.chkCargarUltimo.Location = New System.Drawing.Point(18, 12)
+        Me.chkCargarUltimo.Location = New System.Drawing.Point(21, 14)
+        Me.chkCargarUltimo.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.chkCargarUltimo.Name = "chkCargarUltimo"
-        Me.chkCargarUltimo.Size = New System.Drawing.Size(233, 19)
+        Me.chkCargarUltimo.Size = New System.Drawing.Size(254, 19)
         Me.chkCargarUltimo.TabIndex = 0
-        Me.chkCargarUltimo.Text = "Al iniciar cargar el último fichero &usado"
+        Me.chkCargarUltimo.Text = "Al iniciar cargar los últimos ficheros &usados"
         Me.toolTip1.SetToolTip(Me.chkCargarUltimo, "Si al iniciar la aplicación se carga el último fichero " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "abierto en la sesión ant" &
         "erior" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
         Me.chkCargarUltimo.UseVisualStyleBackColor = True
@@ -230,9 +256,10 @@ Partial Class FormOpciones
         '
         Me.tabPage2.Controls.Add(Me.groupBox1)
         Me.tabPage2.Location = New System.Drawing.Point(4, 24)
+        Me.tabPage2.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.tabPage2.Name = "tabPage2"
-        Me.tabPage2.Padding = New System.Windows.Forms.Padding(6)
-        Me.tabPage2.Size = New System.Drawing.Size(541, 289)
+        Me.tabPage2.Padding = New System.Windows.Forms.Padding(7, 7, 7, 7)
+        Me.tabPage2.Size = New System.Drawing.Size(632, 338)
         Me.tabPage2.TabIndex = 1
         Me.tabPage2.Text = "Ficheros recientes"
         Me.tabPage2.UseVisualStyleBackColor = True
@@ -247,10 +274,11 @@ Partial Class FormOpciones
         Me.groupBox1.Controls.Add(Me.btnQuitar)
         Me.groupBox1.Controls.Add(Me.lstFics)
         Me.groupBox1.Controls.Add(Me.label1)
-        Me.groupBox1.Location = New System.Drawing.Point(12, 12)
-        Me.groupBox1.Margin = New System.Windows.Forms.Padding(12)
+        Me.groupBox1.Location = New System.Drawing.Point(14, 14)
+        Me.groupBox1.Margin = New System.Windows.Forms.Padding(14, 14, 14, 14)
         Me.groupBox1.Name = "groupBox1"
-        Me.groupBox1.Size = New System.Drawing.Size(517, 265)
+        Me.groupBox1.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.groupBox1.Size = New System.Drawing.Size(603, 306)
         Me.groupBox1.TabIndex = 0
         Me.groupBox1.TabStop = False
         Me.groupBox1.Text = "Lista de ficheros abiertos recientemente"
@@ -258,18 +286,20 @@ Partial Class FormOpciones
         'txtFic
         '
         Me.txtFic.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.txtFic.Location = New System.Drawing.Point(6, 236)
+        Me.txtFic.Location = New System.Drawing.Point(7, 272)
+        Me.txtFic.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.txtFic.Name = "txtFic"
-        Me.txtFic.Size = New System.Drawing.Size(266, 23)
+        Me.txtFic.Size = New System.Drawing.Size(310, 23)
         Me.txtFic.TabIndex = 2
         '
         'btnOrdenar
         '
         Me.btnOrdenar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnOrdenar.Image = CType(resources.GetObject("btnOrdenar.Image"), System.Drawing.Image)
-        Me.btnOrdenar.Location = New System.Drawing.Point(303, 235)
+        Me.btnOrdenar.Location = New System.Drawing.Point(354, 271)
+        Me.btnOrdenar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnOrdenar.Name = "btnOrdenar"
-        Me.btnOrdenar.Size = New System.Drawing.Size(75, 23)
+        Me.btnOrdenar.Size = New System.Drawing.Size(88, 27)
         Me.btnOrdenar.TabIndex = 3
         Me.btnOrdenar.Text = "Ordenar"
         Me.btnOrdenar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
@@ -281,7 +311,8 @@ Partial Class FormOpciones
         Me.btnQuitar.AutoSize = True
         Me.btnQuitar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnQuitar.Image = CType(resources.GetObject("btnQuitar.Image"), System.Drawing.Image)
-        Me.btnQuitar.Location = New System.Drawing.Point(393, 234)
+        Me.btnQuitar.Location = New System.Drawing.Point(478, 274)
+        Me.btnQuitar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnQuitar.Name = "btnQuitar"
         Me.btnQuitar.Size = New System.Drawing.Size(118, 25)
         Me.btnQuitar.TabIndex = 4
@@ -294,17 +325,19 @@ Partial Class FormOpciones
         Me.lstFics.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.lstFics.FormattingEnabled = True
         Me.lstFics.ItemHeight = 14
-        Me.lstFics.Location = New System.Drawing.Point(6, 45)
+        Me.lstFics.Location = New System.Drawing.Point(7, 52)
+        Me.lstFics.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.lstFics.Name = "lstFics"
         Me.lstFics.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.lstFics.Size = New System.Drawing.Size(505, 158)
+        Me.lstFics.Size = New System.Drawing.Size(588, 172)
         Me.lstFics.TabIndex = 1
         '
         'label1
         '
-        Me.label1.Location = New System.Drawing.Point(6, 19)
+        Me.label1.Location = New System.Drawing.Point(7, 22)
+        Me.label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.label1.Name = "label1"
-        Me.label1.Size = New System.Drawing.Size(505, 23)
+        Me.label1.Size = New System.Drawing.Size(589, 27)
         Me.label1.TabIndex = 0
         Me.label1.Text = "Selecciona los que quieras borrar o clasifícalos usando los botones"
         '
@@ -312,9 +345,10 @@ Partial Class FormOpciones
         '
         Me.TabPage3.Controls.Add(Me.grbColores)
         Me.TabPage3.Location = New System.Drawing.Point(4, 24)
+        Me.TabPage3.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(541, 289)
+        Me.TabPage3.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.TabPage3.Size = New System.Drawing.Size(632, 338)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Colores y fuente"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -330,63 +364,70 @@ Partial Class FormOpciones
         Me.grbColores.Controls.Add(Me.comboFuenteNombre)
         Me.grbColores.Controls.Add(Me.labelTamaño)
         Me.grbColores.Controls.Add(Me.labelFuente)
-        Me.grbColores.Location = New System.Drawing.Point(12, 12)
+        Me.grbColores.Location = New System.Drawing.Point(14, 14)
+        Me.grbColores.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.grbColores.Name = "grbColores"
-        Me.grbColores.Size = New System.Drawing.Size(517, 265)
+        Me.grbColores.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.grbColores.Size = New System.Drawing.Size(603, 306)
         Me.grbColores.TabIndex = 0
         Me.grbColores.TabStop = False
         Me.grbColores.Text = "Colorear y fuentes"
         '
         'txtIndentar
         '
-        Me.txtIndentar.Location = New System.Drawing.Point(135, 80)
+        Me.txtIndentar.Location = New System.Drawing.Point(158, 92)
+        Me.txtIndentar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.txtIndentar.Name = "txtIndentar"
-        Me.txtIndentar.Size = New System.Drawing.Size(30, 23)
+        Me.txtIndentar.Size = New System.Drawing.Size(34, 23)
         Me.txtIndentar.TabIndex = 8
         Me.txtIndentar.Text = "4"
         Me.txtIndentar.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label3
         '
-        Me.Label3.Location = New System.Drawing.Point(6, 83)
+        Me.Label3.Location = New System.Drawing.Point(7, 96)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(123, 20)
+        Me.Label3.Size = New System.Drawing.Size(144, 23)
         Me.Label3.TabIndex = 7
         Me.Label3.Text = "Espacios indentar:"
+        Me.toolTip1.SetToolTip(Me.Label3, "Los espacios usados para poner o quitar indentación")
         '
         'comboFuenteTamaño
         '
         Me.comboFuenteTamaño.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.comboFuenteTamaño.Items.AddRange(New Object() {"8", "9", "10", "11", "12", "13", "14", "16", "18"})
-        Me.comboFuenteTamaño.Location = New System.Drawing.Point(79, 51)
+        Me.comboFuenteTamaño.Location = New System.Drawing.Point(92, 59)
+        Me.comboFuenteTamaño.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.comboFuenteTamaño.Name = "comboFuenteTamaño"
-        Me.comboFuenteTamaño.Size = New System.Drawing.Size(121, 23)
+        Me.comboFuenteTamaño.Size = New System.Drawing.Size(140, 23)
         Me.comboFuenteTamaño.TabIndex = 3
         '
         'comboFuenteNombre
         '
         Me.comboFuenteNombre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.comboFuenteNombre.Items.AddRange(New Object() {"Courier New", "Consolas", "Segoe UI", "Lucida Console", "Arial", "Verdana", "Comic Sans MS"})
-        Me.comboFuenteNombre.Location = New System.Drawing.Point(79, 22)
+        Me.comboFuenteNombre.Location = New System.Drawing.Point(92, 25)
+        Me.comboFuenteNombre.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.comboFuenteNombre.Name = "comboFuenteNombre"
-        Me.comboFuenteNombre.Size = New System.Drawing.Size(121, 23)
+        Me.comboFuenteNombre.Size = New System.Drawing.Size(140, 23)
         Me.comboFuenteNombre.TabIndex = 1
         '
         'labelTamaño
         '
-        Me.labelTamaño.Location = New System.Drawing.Point(6, 54)
-        Me.labelTamaño.Margin = New System.Windows.Forms.Padding(3)
+        Me.labelTamaño.Location = New System.Drawing.Point(7, 62)
+        Me.labelTamaño.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.labelTamaño.Name = "labelTamaño"
-        Me.labelTamaño.Size = New System.Drawing.Size(67, 20)
+        Me.labelTamaño.Size = New System.Drawing.Size(78, 23)
         Me.labelTamaño.TabIndex = 2
         Me.labelTamaño.Text = "Tamaño:"
         '
         'labelFuente
         '
-        Me.labelFuente.Location = New System.Drawing.Point(6, 25)
-        Me.labelFuente.Margin = New System.Windows.Forms.Padding(3)
+        Me.labelFuente.Location = New System.Drawing.Point(7, 29)
+        Me.labelFuente.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.labelFuente.Name = "labelFuente"
-        Me.labelFuente.Size = New System.Drawing.Size(67, 20)
+        Me.labelFuente.Size = New System.Drawing.Size(78, 23)
         Me.labelFuente.TabIndex = 0
         Me.labelFuente.Text = "Fuente:"
         '
@@ -394,9 +435,10 @@ Partial Class FormOpciones
         '
         Me.TabPage4.Controls.Add(Me.grbBuscarReemplazar)
         Me.TabPage4.Location = New System.Drawing.Point(4, 24)
+        Me.TabPage4.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(541, 289)
+        Me.TabPage4.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.TabPage4.Size = New System.Drawing.Size(632, 338)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Buscar / Reemplazar"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -411,10 +453,11 @@ Partial Class FormOpciones
         Me.grbBuscarReemplazar.Controls.Add(Me.grbReemplazar)
         Me.grbBuscarReemplazar.Controls.Add(Me.grbBuscar)
         Me.grbBuscarReemplazar.Controls.Add(Me.Label2)
-        Me.grbBuscarReemplazar.Location = New System.Drawing.Point(12, 12)
-        Me.grbBuscarReemplazar.Margin = New System.Windows.Forms.Padding(12)
+        Me.grbBuscarReemplazar.Location = New System.Drawing.Point(14, 14)
+        Me.grbBuscarReemplazar.Margin = New System.Windows.Forms.Padding(14, 14, 14, 14)
         Me.grbBuscarReemplazar.Name = "grbBuscarReemplazar"
-        Me.grbBuscarReemplazar.Size = New System.Drawing.Size(517, 265)
+        Me.grbBuscarReemplazar.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.grbBuscarReemplazar.Size = New System.Drawing.Size(603, 306)
         Me.grbBuscarReemplazar.TabIndex = 0
         Me.grbBuscarReemplazar.TabStop = False
         Me.grbBuscarReemplazar.Text = "Opciones de  buscar y reemplazar"
@@ -423,7 +466,8 @@ Partial Class FormOpciones
         '
         Me.chkWholeWord.AutoSize = True
         Me.chkWholeWord.Image = CType(resources.GetObject("chkWholeWord.Image"), System.Drawing.Image)
-        Me.chkWholeWord.Location = New System.Drawing.Point(6, 225)
+        Me.chkWholeWord.Location = New System.Drawing.Point(7, 260)
+        Me.chkWholeWord.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.chkWholeWord.Name = "chkWholeWord"
         Me.chkWholeWord.Size = New System.Drawing.Size(198, 19)
         Me.chkWholeWord.TabIndex = 4
@@ -435,7 +479,8 @@ Partial Class FormOpciones
         '
         Me.chkMatchCase.AutoSize = True
         Me.chkMatchCase.Image = CType(resources.GetObject("chkMatchCase.Image"), System.Drawing.Image)
-        Me.chkMatchCase.Location = New System.Drawing.Point(6, 200)
+        Me.chkMatchCase.Location = New System.Drawing.Point(7, 231)
+        Me.chkMatchCase.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.chkMatchCase.Name = "chkMatchCase"
         Me.chkMatchCase.Size = New System.Drawing.Size(240, 19)
         Me.chkMatchCase.TabIndex = 3
@@ -448,9 +493,11 @@ Partial Class FormOpciones
         Me.grbReemplazar.Controls.Add(Me.lstReemplazar)
         Me.grbReemplazar.Controls.Add(Me.btnQuitarReemplazar)
         Me.grbReemplazar.Controls.Add(Me.btnOrdenarReemplazar)
-        Me.grbReemplazar.Location = New System.Drawing.Point(262, 45)
+        Me.grbReemplazar.Location = New System.Drawing.Point(306, 52)
+        Me.grbReemplazar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.grbReemplazar.Name = "grbReemplazar"
-        Me.grbReemplazar.Size = New System.Drawing.Size(250, 149)
+        Me.grbReemplazar.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.grbReemplazar.Size = New System.Drawing.Size(292, 172)
         Me.grbReemplazar.TabIndex = 2
         Me.grbReemplazar.TabStop = False
         Me.grbReemplazar.Text = "Reemplazar"
@@ -460,10 +507,11 @@ Partial Class FormOpciones
         Me.lstReemplazar.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.lstReemplazar.FormattingEnabled = True
         Me.lstReemplazar.ItemHeight = 14
-        Me.lstReemplazar.Location = New System.Drawing.Point(6, 20)
+        Me.lstReemplazar.Location = New System.Drawing.Point(7, 23)
+        Me.lstReemplazar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.lstReemplazar.Name = "lstReemplazar"
         Me.lstReemplazar.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.lstReemplazar.Size = New System.Drawing.Size(238, 88)
+        Me.lstReemplazar.Size = New System.Drawing.Size(277, 88)
         Me.lstReemplazar.TabIndex = 0
         '
         'btnQuitarReemplazar
@@ -471,7 +519,8 @@ Partial Class FormOpciones
         Me.btnQuitarReemplazar.AutoSize = True
         Me.btnQuitarReemplazar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnQuitarReemplazar.Image = CType(resources.GetObject("btnQuitarReemplazar.Image"), System.Drawing.Image)
-        Me.btnQuitarReemplazar.Location = New System.Drawing.Point(126, 118)
+        Me.btnQuitarReemplazar.Location = New System.Drawing.Point(147, 136)
+        Me.btnQuitarReemplazar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnQuitarReemplazar.Name = "btnQuitarReemplazar"
         Me.btnQuitarReemplazar.Size = New System.Drawing.Size(118, 25)
         Me.btnQuitarReemplazar.TabIndex = 2
@@ -484,7 +533,8 @@ Partial Class FormOpciones
         Me.btnOrdenarReemplazar.AutoSize = True
         Me.btnOrdenarReemplazar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnOrdenarReemplazar.Image = CType(resources.GetObject("btnOrdenarReemplazar.Image"), System.Drawing.Image)
-        Me.btnOrdenarReemplazar.Location = New System.Drawing.Point(6, 118)
+        Me.btnOrdenarReemplazar.Location = New System.Drawing.Point(7, 136)
+        Me.btnOrdenarReemplazar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnOrdenarReemplazar.Name = "btnOrdenarReemplazar"
         Me.btnOrdenarReemplazar.Size = New System.Drawing.Size(76, 25)
         Me.btnOrdenarReemplazar.TabIndex = 1
@@ -497,9 +547,11 @@ Partial Class FormOpciones
         Me.grbBuscar.Controls.Add(Me.lstBuscar)
         Me.grbBuscar.Controls.Add(Me.btnQuitarBuscar)
         Me.grbBuscar.Controls.Add(Me.btnOrdenarBuscar)
-        Me.grbBuscar.Location = New System.Drawing.Point(6, 45)
+        Me.grbBuscar.Location = New System.Drawing.Point(7, 52)
+        Me.grbBuscar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.grbBuscar.Name = "grbBuscar"
-        Me.grbBuscar.Size = New System.Drawing.Size(250, 149)
+        Me.grbBuscar.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.grbBuscar.Size = New System.Drawing.Size(292, 172)
         Me.grbBuscar.TabIndex = 1
         Me.grbBuscar.TabStop = False
         Me.grbBuscar.Text = "Buscar"
@@ -509,10 +561,11 @@ Partial Class FormOpciones
         Me.lstBuscar.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.lstBuscar.FormattingEnabled = True
         Me.lstBuscar.ItemHeight = 14
-        Me.lstBuscar.Location = New System.Drawing.Point(6, 20)
+        Me.lstBuscar.Location = New System.Drawing.Point(7, 23)
+        Me.lstBuscar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.lstBuscar.Name = "lstBuscar"
         Me.lstBuscar.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.lstBuscar.Size = New System.Drawing.Size(238, 88)
+        Me.lstBuscar.Size = New System.Drawing.Size(277, 88)
         Me.lstBuscar.TabIndex = 0
         '
         'btnQuitarBuscar
@@ -520,7 +573,8 @@ Partial Class FormOpciones
         Me.btnQuitarBuscar.AutoSize = True
         Me.btnQuitarBuscar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnQuitarBuscar.Image = CType(resources.GetObject("btnQuitarBuscar.Image"), System.Drawing.Image)
-        Me.btnQuitarBuscar.Location = New System.Drawing.Point(126, 118)
+        Me.btnQuitarBuscar.Location = New System.Drawing.Point(147, 136)
+        Me.btnQuitarBuscar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnQuitarBuscar.Name = "btnQuitarBuscar"
         Me.btnQuitarBuscar.Size = New System.Drawing.Size(118, 25)
         Me.btnQuitarBuscar.TabIndex = 2
@@ -533,7 +587,8 @@ Partial Class FormOpciones
         Me.btnOrdenarBuscar.AutoSize = True
         Me.btnOrdenarBuscar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnOrdenarBuscar.Image = CType(resources.GetObject("btnOrdenarBuscar.Image"), System.Drawing.Image)
-        Me.btnOrdenarBuscar.Location = New System.Drawing.Point(6, 118)
+        Me.btnOrdenarBuscar.Location = New System.Drawing.Point(7, 136)
+        Me.btnOrdenarBuscar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnOrdenarBuscar.Name = "btnOrdenarBuscar"
         Me.btnOrdenarBuscar.Size = New System.Drawing.Size(76, 25)
         Me.btnOrdenarBuscar.TabIndex = 1
@@ -545,9 +600,10 @@ Partial Class FormOpciones
         '
         Me.Label2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label2.Location = New System.Drawing.Point(6, 19)
+        Me.Label2.Location = New System.Drawing.Point(7, 22)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(505, 23)
+        Me.Label2.Size = New System.Drawing.Size(589, 27)
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Selecciona lo que quieras borrar o clasifícalos usando los botones"
         '
@@ -555,9 +611,10 @@ Partial Class FormOpciones
         '
         Me.TabPage5.Controls.Add(Me.GroupBox2)
         Me.TabPage5.Location = New System.Drawing.Point(4, 24)
+        Me.TabPage5.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(541, 289)
+        Me.TabPage5.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.TabPage5.Size = New System.Drawing.Size(632, 338)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Edición"
         Me.TabPage5.UseVisualStyleBackColor = True
@@ -569,9 +626,11 @@ Partial Class FormOpciones
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.Controls.Add(Me.GroupBox3)
         Me.GroupBox2.Controls.Add(Me.Label4)
-        Me.GroupBox2.Location = New System.Drawing.Point(12, 12)
+        Me.GroupBox2.Location = New System.Drawing.Point(14, 14)
+        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(517, 265)
+        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.GroupBox2.Size = New System.Drawing.Size(603, 306)
         Me.GroupBox2.TabIndex = 0
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Recortes de edición"
@@ -581,9 +640,11 @@ Partial Class FormOpciones
         Me.GroupBox3.Controls.Add(Me.lstRecortes)
         Me.GroupBox3.Controls.Add(Me.btnQuitarRecortes)
         Me.GroupBox3.Controls.Add(Me.btnOrdenarRecortes)
-        Me.GroupBox3.Location = New System.Drawing.Point(6, 45)
+        Me.GroupBox3.Location = New System.Drawing.Point(7, 52)
+        Me.GroupBox3.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(505, 149)
+        Me.GroupBox3.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.GroupBox3.Size = New System.Drawing.Size(589, 172)
         Me.GroupBox3.TabIndex = 3
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Recortes"
@@ -593,10 +654,11 @@ Partial Class FormOpciones
         Me.lstRecortes.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.lstRecortes.FormattingEnabled = True
         Me.lstRecortes.ItemHeight = 14
-        Me.lstRecortes.Location = New System.Drawing.Point(6, 20)
+        Me.lstRecortes.Location = New System.Drawing.Point(7, 23)
+        Me.lstRecortes.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.lstRecortes.Name = "lstRecortes"
         Me.lstRecortes.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.lstRecortes.Size = New System.Drawing.Size(493, 88)
+        Me.lstRecortes.Size = New System.Drawing.Size(574, 88)
         Me.lstRecortes.TabIndex = 0
         '
         'btnQuitarRecortes
@@ -604,7 +666,8 @@ Partial Class FormOpciones
         Me.btnQuitarRecortes.AutoSize = True
         Me.btnQuitarRecortes.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnQuitarRecortes.Image = CType(resources.GetObject("btnQuitarRecortes.Image"), System.Drawing.Image)
-        Me.btnQuitarRecortes.Location = New System.Drawing.Point(381, 118)
+        Me.btnQuitarRecortes.Location = New System.Drawing.Point(444, 136)
+        Me.btnQuitarRecortes.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnQuitarRecortes.Name = "btnQuitarRecortes"
         Me.btnQuitarRecortes.Size = New System.Drawing.Size(118, 25)
         Me.btnQuitarRecortes.TabIndex = 2
@@ -617,7 +680,8 @@ Partial Class FormOpciones
         Me.btnOrdenarRecortes.AutoSize = True
         Me.btnOrdenarRecortes.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnOrdenarRecortes.Image = CType(resources.GetObject("btnOrdenarRecortes.Image"), System.Drawing.Image)
-        Me.btnOrdenarRecortes.Location = New System.Drawing.Point(6, 118)
+        Me.btnOrdenarRecortes.Location = New System.Drawing.Point(7, 136)
+        Me.btnOrdenarRecortes.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnOrdenarRecortes.Name = "btnOrdenarRecortes"
         Me.btnOrdenarRecortes.Size = New System.Drawing.Size(76, 25)
         Me.btnOrdenarRecortes.TabIndex = 1
@@ -629,18 +693,20 @@ Partial Class FormOpciones
         '
         Me.Label4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label4.Location = New System.Drawing.Point(6, 19)
+        Me.Label4.Location = New System.Drawing.Point(7, 22)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(505, 23)
+        Me.Label4.Size = New System.Drawing.Size(589, 27)
         Me.Label4.TabIndex = 2
         Me.Label4.Text = "Selecciona lo que quieras borrar o clasifícalos usando los botones"
         '
         'btnAceptar
         '
         Me.btnAceptar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnAceptar.Location = New System.Drawing.Point(405, 335)
+        Me.btnAceptar.Location = New System.Drawing.Point(472, 387)
+        Me.btnAceptar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnAceptar.Name = "btnAceptar"
-        Me.btnAceptar.Size = New System.Drawing.Size(75, 23)
+        Me.btnAceptar.Size = New System.Drawing.Size(88, 27)
         Me.btnAceptar.TabIndex = 1
         Me.btnAceptar.Text = "Aceptar"
         Me.btnAceptar.UseVisualStyleBackColor = True
@@ -648,39 +714,28 @@ Partial Class FormOpciones
         'btnCancelar
         '
         Me.btnCancelar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnCancelar.Location = New System.Drawing.Point(486, 335)
+        Me.btnCancelar.Location = New System.Drawing.Point(567, 387)
+        Me.btnCancelar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnCancelar.Name = "btnCancelar"
-        Me.btnCancelar.Size = New System.Drawing.Size(75, 23)
+        Me.btnCancelar.Size = New System.Drawing.Size(88, 27)
         Me.btnCancelar.TabIndex = 2
         Me.btnCancelar.Text = "Cancelar"
         Me.btnCancelar.UseVisualStyleBackColor = True
         '
-        'chkCambiarTab
-        '
-        Me.chkCambiarTab.AutoSize = True
-        Me.chkCambiarTab.Location = New System.Drawing.Point(18, 62)
-        Me.chkCambiarTab.Name = "chkCambiarTab"
-        Me.chkCambiarTab.Size = New System.Drawing.Size(277, 19)
-        Me.chkCambiarTab.TabIndex = 2
-        Me.chkCambiarTab.Text = "Al cargar o guardar, cambiar TAB por 8 espacios"
-        Me.chkCambiarTab.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage
-        Me.toolTip1.SetToolTip(Me.chkCambiarTab, "Si al abrir un fichero se deben cambiar los TAB por espacios." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Si está selecciona" &
-        "da, también se quitarán al guardar." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10))
-        Me.chkCambiarTab.UseVisualStyleBackColor = True
-        '
         'FormOpciones
         '
         Me.AcceptButton = Me.btnAceptar
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnCancelar
-        Me.ClientSize = New System.Drawing.Size(573, 370)
+        Me.ClientSize = New System.Drawing.Size(668, 427)
         Me.Controls.Add(Me.btnAceptar)
         Me.Controls.Add(Me.btnCancelar)
         Me.Controls.Add(Me.tabControl1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
+        Me.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.MaximizeBox = False
-        Me.MinimumSize = New System.Drawing.Size(550, 400)
+        Me.MinimumSize = New System.Drawing.Size(638, 455)
         Me.Name = "FormOpciones"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Opciones"
@@ -711,6 +766,7 @@ Partial Class FormOpciones
         Me.ResumeLayout(False)
 
     End Sub
+
     Friend chkCargarUltimo As System.Windows.Forms.CheckBox
     Private btnAceptar As System.Windows.Forms.Button
     Private btnCancelar As System.Windows.Forms.Button

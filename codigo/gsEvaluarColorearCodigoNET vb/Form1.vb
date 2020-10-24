@@ -349,6 +349,49 @@
 'v1.0.0.206             En ello estoy...
 'v1.0.0.207             Ya funciona bien navegar y con el menú de navegación
 'v1.0.0.208             A arreglar lo de los Bookmarks...
+'v1.0.0.209 23/Oct/20   Cambiar la funcionalidad anterior pero usando la clase Marcadores
+'v1.0.0.210             Añado métodos de Guardar y Leer configuración local
+'v1.0.0.211             Cambio a Form1 los métodos Abrir(fic), Guardar, Guardar(fic), GuardarComo y Recargar
+'v1.0.0.212             Elimino la variable NombreUltimoFichero, ahora se usará Form1Activo.nombreFichero
+'v1.0.0.213             Probando si va bien...
+'                       LeerConfigLocal: ponerlo en Abrir(fic) antes de abrir el fichero
+'v1.0.0.214             La configuración se guarda en la carpeta DirConfiguracion
+'                       Si no existe el directorio (estará en MyDocuments) se crea
+'                       La configuración global se guarda separada de la de cada formulario
+'v1.0.0.215             Asigno MostrarProcesando si al llamar a OnProcesando m_fProcesando es nulo
+'v1.0.0.216             Probando con todo sin asignar, como si fuese la primera vez
+'v1.0.0.217             Poniendo el fichero de configuración anterior en la carpeta
+'v1.0.0.218             Usar una carpeta en el directorio de configuración
+'                       para las configuraciones de los ficheros
+'v1.0.0.219             Arreglar los bookmarks, se ponen en otra línea si no están al principio
+'v1.0.0.220             Modifico la clase Marcadores para usar Inicio y SelStart en los bookmarks
+'v1.0.0.221             Añado más funciones a la clase Marcadores
+'v1.0.0.222             Se supone que ahora se posicionará en el sitio donde se marcó el marcador
+'v1.0.0.223             Y más funciones a la clase Marcadores, a ver si ahora...
+'v1.0.0.224             Para que funcione ir al siguiente o al anterior, las colecciones deben estar clasificadas
+'v1.0.0.225             Añado el método Sort a la clase Bookmarks y clasifico las dos colecciones
+'v1.0.0.226             Usando siempre PosicionActual0
+'v1.0.0.227             Al activar la ventana, mostrar los botones que pueden estar habilitados
+'v1.0.0.228             se comprueba si Bookmarks está asignado
+'v1.0.0.229             Al asignar una nueva ventana, usar el valor cargando para colorear más rápido
+'v1.0.0.230             Al crear un fichero nuevo Bookmarks no está asignado
+'v1.0.0.231             Al activar la ventana actualizar el list de sintaxis
+'v1.0.0.232             Si se ponen marcadores, al pulsar INTRO se quitan los marcadores...
+'v1.0.0.233 24/Oct/20   Solucionar al poner el marcador que se posiciona el cursor en la línea anterior
+'v1.0.0.234             Creo un método de extensión FindString para buscar en el texto del RichTextBox
+'v1.0.0.235             Pero no hace falta usarlo, ya que no era fallo del Find era mío:
+'                       escribí mal InitilizeComponent (InitializeComponent)
+'v1.0.0.236             Al poner un marcador se queda en la misma posición que estaba
+'                       al quitarlo se posiciona en la posición guardada por ese marcador
+'v1.0.0.237             Al pulsar Ctrl+F le quita letras a la palabra seleccionada ???
+'                       (por eso el fallo al buscar InitializeComponent)
+'                       Es por lo de quitar la palabra Buscar... carácter por carácter... 
+'v1.0.0.238             Arreglada la función QuitarPredeterminado
+'v1.0.0.239             Después de cargar los ficheros, se actualiza el último formulario mostrado
+'                       para que actualice correctamente los botones, etc.
+'v1.0.0.240             Comprobar si al pegar texto se pierden los marcadores. Parece que está bien.
+'v1.0.0.241             Al poner/quitar los marcadores repite línea. Solucionado.
+'v1.0.0.242             Poner botones de marcadores para los del fichero actual y todos los marcadores.
 '
 '
 '
@@ -356,13 +399,7 @@
 '   20-oct  Colorear en segundo plano
 '           Al cargar los ficheros al iniciar mostrar el primero que se abrió
 '               y el resto, en modo oculto, seguirán cargando/coloreando.
-'           Poner botones de navegación para ir al sitio anterior o al siguiente del actual
-'               Usar una colección con nombre ventana, posición en el texto
-'               al pulsar ir a esa posición y se tendrá en cuenta cual fue la última
 '   17-oct  Solucionar lo del pitido al pulsar ENTER
-'   16-oct  Arreglar los marcadores, para que cada fichero tenga los suyos.
-'               o marcadores globales para todos los ficheros abiertos.
-'               con el nombre del fichero y las posiciones (pero para más de un fichero).
 '   04-oct  Usar plantillas y crearlas para usar con Nuevo...
 '           Poder cargar un proyecto o solución con todos los ficheros relacionados
 '   
@@ -393,16 +430,34 @@ Imports Microsoft.CodeAnalysis.Text
 Public Class Form1
 
     ''' <summary>
-    ''' Los marcadores para este formulario.
+    ''' El inicio de la selección al cerrar
     ''' </summary>
-    ''' <returns></returns>
-    Friend Property Bookmarks As Marcadores
+    Friend selectionStartAnt As Integer
 
+    ''' <summary>
+    ''' El final de la selección al cerrar
+    ''' </summary>
+    Friend selectionEndAnt As Integer
+
+    Private _nombreFichero As String
 
     ''' <summary>
     ''' Nombre del fichero asignado al formulario actual.
+    ''' Al asignarlo, si no está en la colección <see cref="UltimasVentanasAbiertas"/>
+    ''' se añadirá.
     ''' </summary>
-    Friend nombreFichero As String
+    Friend Property nombreFichero As String
+        Get
+            Return _nombreFichero
+        End Get
+        Set(value As String)
+            _nombreFichero = value
+            CompararString.IgnoreCase = True
+            If Not UltimasVentanasAbiertas.Contains(value, New CompararString) Then
+                UltimasVentanasAbiertas.Add(value)
+            End If
+        End Set
+    End Property
 
     ''' <summary>
     ''' El nuevo código del editor
@@ -449,15 +504,11 @@ Public Class Form1
 
         richTextBoxCodigo.ContextMenuStrip = CurrentMDI.rtbCodigoContext
 
-        'AsignaMetodosDeEventos()
+        LeerConfigLocal()
 
         If Me.MdiParent Is CurrentMDI Then
-            'Me.CenterToParent()
             Me.BringToFront()
         End If
-
-        'Inicializar()
-        Bookmarks = New Marcadores(Me)
 
     End Sub
 
@@ -473,7 +524,7 @@ Public Class Form1
 
         ' Si no hay texto, no comprobar si se debe guardar          (01/Oct/20)
         If richTextBoxCodigo.TextLength > 0 Then
-            If TextoModificado OrElse String.IsNullOrEmpty(nombreUltimoFichero) Then
+            If TextoModificado OrElse String.IsNullOrEmpty(nombreFichero) Then
                 ' No preguntaba si quería guardar,                      (01/Oct/20)
                 ' porque usaba GuadarComo, y si el nombre es el mismo, no mostraba el diálogo
 
@@ -498,14 +549,11 @@ Public Class Form1
             selectionEndAnt = -1
             If richTextBoxCodigo.SelectionLength > 0 Then
                 selectionStartAnt = richTextBoxCodigo.SelectionStart
-                selectionEndAnt = richTextBoxCodigo.SelectionLength '+ selectionStartAnt
+                selectionEndAnt = richTextBoxCodigo.SelectionLength
             End If
         End If
 
-        ' Asignar los valores de la ventana
-        'Form1_Resize(Nothing, Nothing)
-
-        'GuardarConfig()
+        GuardarConfigLocal()
 
         ' quitar el fichero que tenía abierto esta ventana          (19/Oct/20)
         ' de la lista nombresUltimos
@@ -522,9 +570,10 @@ Public Class Form1
     End Sub
 
     Private Sub Form1_Activated() Handles Me.Activated
+        If cargando Then Return
+
         ' Asignar cuál es el Form1 activo
         Form1Activo = Me
-        'CurrentMDI.comboBoxFileName.Text = nombreFichero
         If Not String.IsNullOrWhiteSpace(nombreFichero) Then
             ' Aquí se asignaba el path completo!!!                  (20/Oct/20)
             Me.Text = Path.GetFileName(nombreFichero)
@@ -533,6 +582,12 @@ Public Class Form1
         If Me.WindowState = FormWindowState.Normal Then
             CurrentMDI.Text = $"{MDIPrincipal.TituloMDI} [{Me.Text}]"
         End If
+
+        ' Activar los botones que correspondan
+        CurrentMDI.HabilitarBotones()
+
+        ' Referescar la lista de sintaxis, porque no se repinta     (23/Oct/20)
+        lstSyntax.Refresh()
     End Sub
 
     Private Sub Form1_Resize() Handles Me.Resize
@@ -679,6 +734,60 @@ Public Class Form1
             richTextBoxCodigo.SelectedText = e.Data.GetData("System.String", True).ToString()
         End If
     End Sub
+
+    '
+    ' Guardar y Leer configuración para este formulario
+    '
+
+    ''' <summary>
+    ''' Guardar los datos de configuración relacionados con el fichero del formulario actual.
+    ''' </summary>
+    Private Sub GuardarConfigLocal()
+        Dim ficConfig = Path.Combine(DirConfigLocal, Bookmarks.Fichero & ExtensionConfiguracion)
+        Dim cfg = New Config(ficConfig)
+
+        Dim seccion = $"Marcadores {Bookmarks.Fichero}"
+        cfg.SetValue(seccion, "Count", Bookmarks.Count)
+        For i = 0 To Bookmarks.Count - 1
+            cfg.SetKeyValue(seccion, $"Inicio-{i}", Bookmarks.Item(i).Inicio)
+            cfg.SetKeyValue(seccion, $"SelStart-{i}", Bookmarks.Item(i).SelStart)
+        Next
+
+        ' Para la selección al cerrar                               (05/Oct/20)
+        seccion = $"Selección {Bookmarks.Fichero}"
+        cfg.SetValue(seccion, "selectionStartAnt", selectionStartAnt)
+        cfg.SetValue(seccion, "selectionEndAnt", selectionEndAnt)
+
+        cfg.Save()
+    End Sub
+
+    ''' <summary>
+    ''' Leer los datos de configuración relacionados con el fichero del formulario actual.
+    ''' </summary>
+    Private Sub LeerConfigLocal()
+        Bookmarks = New Marcadores(Me)
+
+        Dim ficConfig = Path.Combine(DirConfigLocal, Bookmarks.Fichero & ExtensionConfiguracion)
+        Dim cfg = New Config(ficConfig)
+
+        Dim cuantos As Integer
+
+        Bookmarks.Clear()
+        Dim seccion = $"Marcadores {Bookmarks.Fichero}"
+        cuantos = cfg.GetValue(seccion, "Count", 0)
+        For j = 0 To cuantos - 1
+            Dim inicio = cfg.GetValue(seccion, $"Inicio-{j}", 0)
+            Dim selStart = cfg.GetValue(seccion, $"SelStart-{j}", 0)
+            Bookmarks.Add(inicio, selStart)
+        Next
+
+        ' Para la selección al cerrar                               (05/Oct/20)
+        seccion = $"Selección {Bookmarks.Fichero}"
+        selectionStartAnt = cfg.GetValue(seccion, "selectionStartAnt", -1)
+        selectionEndAnt = cfg.GetValue(seccion, "selectionEndAnt", -1)
+
+    End Sub
+
 
     '
     ' Métodos de evento de lstSyntax
@@ -901,7 +1010,8 @@ Public Class Form1
                         col = richTextBoxCodigo.Lines(ln - 1).IndexOf(richTextBoxCodigo.Lines(ln - 1).TrimStart().Substring(0, 1))
                     End If
                     richTextBoxCodigo.SelectionStart = selStart
-                    richTextBoxCodigo.SelectedText = vbCr & New String(" "c, col)
+                    ' Ahora tiene vbLf en vez de vbCr               (23/Oct/20)
+                    richTextBoxCodigo.SelectedText = vbLf & New String(" "c, col)
                     inicializando = False
 
                     ' Si se da esta condicón, (creo que siempre se da),
@@ -958,4 +1068,438 @@ Public Class Form1
     Private Sub richTextBoxCodigo_FontChanged() Handles richTextBoxCodigo.FontChanged
         richTextBoxLineas.Font = New Font(richTextBoxCodigo.Font.FontFamily, richTextBoxCodigo.Font.Size)
     End Sub
+
+    '
+    ' Para los marcadores / Bookmarks                               (28/Sep/20)
+    ' Usando la clase Marcadores                                    (23/Oct/20)
+    '
+
+    ''' <summary>
+    ''' Los marcadores para este formulario.
+    ''' </summary>
+    ''' <returns></returns>
+    Friend Property Bookmarks As Marcadores
+
+    ''' <summary>
+    ''' Poner los marcadores, si hay... (30/Sep/20)
+    ''' </summary>
+    Friend Sub PonerLosMarcadores()
+        If Bookmarks.Count = 0 Then Return
+
+        inicializando = True
+
+        ' Recordar la posición                                      (30/Sep/20)
+        Dim selStart = richTextBoxCodigo.SelectionStart
+
+        Bookmarks.Sort()
+        Dim colMarcadorTemp = Bookmarks.ToList
+        Bookmarks.Clear()
+        For i = 0 To colMarcadorTemp.Count - 1
+            richTextBoxCodigo.SelectionStart = colMarcadorTemp(i)
+            MarcadorPonerQuitar()
+        Next
+
+        ' Poner la posición en la que estaba antes
+        richTextBoxCodigo.SelectionStart = selStart
+
+        inicializando = False
+    End Sub
+
+    ''' <summary>
+    ''' Poner o quitar el marcador.
+    ''' Si está marcado se quita y si no lo está se pone.
+    ''' Se guarda la posición del inicio de la línea en la que está el cursor (o la posición dentro del richTextBoxCodigo).
+    ''' </summary>
+    Friend Sub MarcadorPonerQuitar()
+        Dim posActual = PosicionActual0()
+        If Bookmarks.Contains(posActual.Inicio) Then
+            ' quitarlo
+            Dim posAnt = Bookmarks.GetSelectionStart(posActual.Inicio)
+            Bookmarks.Remove(posActual.Inicio)
+
+            richTextBoxCodigo.SelectionStart = posAnt
+            richTextBoxCodigo.SelectionLength = 0
+            Dim fcol = richTextBoxLineas.GetFirstCharIndexFromLine(posActual.Linea)
+            richTextBoxLineas.SelectionStart = fcol
+            richTextBoxLineas.SelectionLength = 5
+            'richTextBoxLineas.SelectionBullet = False
+            ' así es como se pone en AñadirNumerosDeLinea
+            richTextBoxLineas.SelectedText = $" {(posActual.Linea + 1).ToString("0").PadLeft(4)}"
+        Else
+            Bookmarks.Add(posActual.Inicio, posActual.SelStart)
+            ' Poner los marcadores en richTextBoxLineas
+            Dim fcol = richTextBoxLineas.GetFirstCharIndexFromLine(posActual.Linea)
+            richTextBoxLineas.SelectionStart = fcol
+            richTextBoxLineas.SelectionLength = 5
+
+            ' Poner delante la imagen del marcador
+            ' Usando la imagen bookmark_003_8x10.png
+            richTextBoxLineas.SelectedRtf = $"{picBookmark}{(posActual.Linea + 1).ToString("0").PadLeft(4)}" & "}"
+
+            richTextBoxCodigo.SelectionStart = posActual.SelStart
+            richTextBoxCodigo.SelectionLength = 0
+        End If
+        Bookmarks.Sort()
+    End Sub
+
+    ''' <summary>
+    ''' La imagen a usar cuando se muestra un marcador en richTextBoxLineas.
+    ''' </summary>
+    Private picBookmark As String = "{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil Consolas;}}
+{\colortbl ;\red0\green128\blue128;}
+\uc1 
+\pard\cf1\f0\fs22\lang9{\pict{\*\picprop}\wmetafile8\picw212\pich265\picwgoal120\pichgoal150 
+0100090000037e00000000005500000000000400000003010800050000000b0200000000050000
+000c020a000800030000001e000400000007010400040000000701040055000000410b2000cc00
+0a000800000000000a0008000000000028000000080000000a0000000100040000000000000000
+000000000000000000000000000000000000000000ffffff00424242003f3f3f00404040003737
+3700505050003c3c3c003a3a3a0076767600d1d1d1005c5c5c00c8c8c800fbfbfb000000000000
+000000bcd11dcb789aa98724566542222332222222222222222222222222222222222222222222
+22222222040000002701ffff030000000000
+}\f1\lang3082 "
+
+
+    ''' <summary>
+    ''' Ir al marcador anterior.
+    ''' Si está antes del primero, ir al último
+    ''' </summary>
+    Friend Sub MarcadorAnterior()
+        If Bookmarks.Count = 0 Then Return
+
+        Dim posActual = PosicionActual0()
+        Dim res = Bookmarks.Where(Function(x) x < posActual.Inicio)
+        If res.Count > 0 Then
+            Dim pos = Bookmarks.GetSelectionStart(res.Last)
+            richTextBoxCodigo.SelectionStart = pos
+        Else
+            ' si no hay más marcadores, ir al último
+            Dim fcol As Integer
+            If richTextBoxCodigo.Lines.Count < 2 Then
+                fcol = richTextBoxCodigo.TextLength
+            Else
+                fcol = richTextBoxCodigo.GetFirstCharIndexFromLine(richTextBoxCodigo.Lines.Count - 2)
+            End If
+            richTextBoxCodigo.SelectionStart = fcol
+            richTextBoxCodigo.SelectionLength = 0
+
+            MarcadorAnterior()
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Ir al marcador siguiente.
+    ''' Si está después del último, ir al anterior.
+    ''' </summary>
+    Friend Sub MarcadorSiguiente()
+        If Bookmarks.Count = 0 Then Return
+
+        Dim posActual = PosicionActual0()
+        Dim res = Bookmarks.Where(Function(x) x > posActual.Inicio)
+        If res.Count > 0 Then
+            Dim pos = Bookmarks.GetSelectionStart(res.First)
+            richTextBoxCodigo.SelectionStart = pos
+        Else
+            ' si no hay más marcadores, ir al anterior
+            richTextBoxCodigo.SelectionStart = 0
+            MarcadorSiguiente()
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Quitar todos los marcadores.
+    ''' </summary>
+    Friend Sub MarcadorQuitarTodos()
+        If Bookmarks.Count = 0 Then Return
+
+        Bookmarks.Clear()
+        AñadirNumerosDeLinea()
+    End Sub
+
+    ''' <summary>
+    ''' Añadir los números de línea
+    ''' </summary>
+    ''' <remarks>Como método separado 18/Sep/20</remarks>
+    Friend Sub AñadirNumerosDeLinea()
+        If inicializando Then Return
+        If String.IsNullOrEmpty(richTextBoxCodigo.Text) Then Return
+
+        Dim finlinea = richTextBoxCodigo.Text.ComprobarFinLinea
+        Dim lineas = richTextBoxCodigo.Lines.Length
+        richTextBoxLineas.Text = ""
+        For i = 1 To lineas
+            richTextBoxLineas.Text &= $" {i.ToString("0").PadLeft(4)}{finlinea}"
+        Next
+        ' Sincronizar los scrolls
+        Form1Activo.richTextBoxCodigo_VScroll()
+
+        PonerLosMarcadores()
+    End Sub
+
+    '
+    ' Los métodos para abrir, guardar y recargar en el Form1        (23/Oct/20)
+    '
+
+    ''' <summary>
+    ''' Abre nuevamente el último fichero
+    ''' desechando los datos realizados
+    ''' </summary>
+    Friend Sub Recargar()
+        Abrir(nombreFichero)
+    End Sub
+
+    ''' <summary>
+    ''' Abre el fichero indicado en el parámetro, 
+    ''' si no está en el combo de ficheros, añadirlo al principio.
+    ''' De añadirlo al princpio se encarga <see cref="AñadirAUltimosFicherosAbiertos"/>.
+    ''' </summary>
+    ''' <param name="fic">El path completo del fichero a abrir</param>
+    ''' <remarks>En el combo se muestra solo el nombre sin el path si el path es el directorio de documentos
+    ''' (o el que se haya asignado como predeterminado) en otro caso se muestra el path completo</remarks>
+    Friend Sub Abrir(fic As String)
+        If String.IsNullOrWhiteSpace(fic) Then Return
+
+        Dim sDirFic = Path.GetDirectoryName(fic)
+        If Not File.Exists(fic) Then
+            If String.IsNullOrWhiteSpace(sDirFic) Then
+                fic = Path.Combine(DirDocumentos, fic)
+            End If
+            If File.Exists(fic) Then
+                Abrir(fic)
+            End If
+            Return
+        End If
+
+        If String.IsNullOrWhiteSpace(sDirFic) Then
+            fic = Path.Combine(DirDocumentos, fic)
+        End If
+
+        ' Leer la configuración para este fichero                   (23/Oct/20)
+        ' Se asignará el valor a Bookmarks y el texto seleccionado
+        ' Leerlo antes de abrir el fichero
+        LeerConfigLocal()
+
+        labelInfo.Text = $"Abriendo {fic}..."
+        If m_fProcesando Is Nothing Then
+            MostrarProcesando(labelInfo.Text, labelInfo.Text, 2)
+        End If
+        OnProgreso(labelInfo.Text)
+
+        Dim sCodigo = ""
+        Using sr As New StreamReader(fic, detectEncodingFromByteOrderMarks:=True, encoding:=Encoding.UTF8)
+            sCodigo = sr.ReadToEnd()
+        End Using
+
+        ' Si se deben cambiar los TAB por 8 espacios                (05/Oct/20)
+        ' cambiarlos por los indicados en EspaciosIndentar          (23/Oct/20)
+        If CambiarTabs Then
+            'sCodigo = sCodigo.Replace(vbTab, "        ")
+            Dim sTabs = New String(" "c, EspaciosIndentar)
+            sCodigo = sCodigo.Replace(vbTab, sTabs)
+        End If
+
+        codigoAnterior = sCodigo
+
+        richTextBoxCodigo.Text = sCodigo
+
+        ' El nombre del fichero con el path completo                (17/Oct/20)
+        ' Ya no se usa NombreUltimoFichero a nivel global           (23/Oct/20)
+        ' Siempre se hará referencia a Form1Activo.nombreFichero
+        nombreFichero = fic
+
+        ' En la ventana mostrar solo el nombre del fichero          (19/Oct/20)
+        ' independientemente del path
+        Me.Text = Path.GetFileName(fic)
+
+        AñadirAUltimosFicherosAbiertos(fic)
+
+        Dim extension = Path.GetExtension(fic).ToLower
+
+        ' Asignar el lenguaje en los combos
+        ' Solo comprobar vb y cs, el resto se considera texto       (08/Oct/20)
+        Dim sLenguaje As String
+        If extension = ".cs" Then
+            sLenguaje = Compilar.LenguajeCSharp
+        ElseIf extension = ".vb" Then
+            sLenguaje = Compilar.LenguajeVisualBasic
+        Else
+            sLenguaje = ExtensionTexto
+        End If
+        If sLenguaje = Compilar.LenguajeVisualBasic Then
+            buttonLenguaje.Image = buttonLenguaje.DropDownItems(0).Image
+        ElseIf sLenguaje = Compilar.LenguajeCSharp Then
+            buttonLenguaje.Image = buttonLenguaje.DropDownItems(1).Image
+        Else
+            buttonLenguaje.Image = buttonLenguaje.DropDownItems(2).Image
+        End If
+        buttonLenguaje.Text = sLenguaje
+
+        ' Mostrar información del fichero
+        labelInfo.Text = $"{Path.GetFileName(fic)} ({sDirFic})"
+        CurrentMDI.Text = $"{MDIPrincipal.TituloMDI} [{Me.Text}]"
+        Application.DoEvents()
+
+        ' Limpiar el contenido de la sintaxis                       (23/Oct/20)
+        lstSyntax.Items.Clear()
+
+        ' Si hay que colorear el fichero cargado
+        If colorearAlCargar Then
+            ' Para que tarde menos en colorear                      (23/Oct/20)
+            ' pero tener en cuenta si cargando ya estaba asignado
+            Dim cargandoTmp = cargando
+            cargando = True
+            ColorearCodigo()
+            cargando = cargandoTmp
+            ' Mostrar el panel de sintaxis
+            splitContainer1.Panel2.Visible = True
+        Else
+            splitContainer1.Panel2.Visible = False
+        End If
+        splitContainer1_Resize()
+
+        '
+        ' Todo esto debe estar después de LeerConfigLocal:
+        ' PonerLosMarcadores y la selección del texto anterior
+        '
+
+        ' Poner los marcadores de este fichero                      (23/Oct/20)
+        ' Antes estaba en Inicializar de MDIPrincipal
+        'PonerLosMarcadores()
+
+        ' En AñadirNumerosDeLinea se llama a PonerLosMarcadores
+        AñadirNumerosDeLinea()
+
+
+        ' Marcar el texto que antes estaba seleccionado             (23/Oct/20)
+        ' Antes estaba en Inicializar de MDIPrincipal
+        If selectionStartAnt > -1 Then
+            richTextBoxCodigo.SelectionStart = selectionStartAnt
+            richTextBoxCodigo.SelectionLength = selectionEndAnt
+        End If
+
+        MostrarPosicion(Nothing)
+
+
+        labelTamaño.Text = $"{richTextBoxCodigo.Text.Length:#,##0} car. ({richTextBoxCodigo.Text.CuantasPalabras:#,##0} palab.)"
+
+        ' Si es texto, deshabilitar los botones que correspondan    (08/Oct/20)
+        If sLenguaje = ExtensionTexto Then
+            CurrentMDI.HabilitarBotones()
+        End If
+
+        Me.TextoModificado = False
+
+    End Sub
+
+    ''' <summary>
+    ''' Guarda el fichero indicado en el parámetro
+    ''' </summary>
+    ''' <param name="fic">El path completo del fichero a guardar</param>
+    Public Sub Guardar(fic As String)
+        labelInfo.Text = $"Guardando {fic}..."
+        If m_fProcesando Is Nothing Then
+            MostrarProcesando(labelInfo.Text, labelInfo.Text, 2)
+        End If
+        OnProgreso(labelInfo.Text)
+
+        Dim sCodigo = richTextBoxCodigo.Text
+
+        Dim sDirFic = Path.GetDirectoryName(fic)
+        If String.IsNullOrWhiteSpace(sDirFic) Then
+            fic = Path.Combine(DirDocumentos, fic)
+        End If
+
+        ' Si se deben cambiar los TAB por 8 espacios                (05/Oct/20)
+        ' cambiarlos por los indicados en EspaciosIndentar          (23/Oct/20)
+        If CambiarTabs Then
+            Dim sTabs = New String(" "c, EspaciosIndentar)
+            sCodigo = sCodigo.Replace(vbTab, sTabs)
+        End If
+
+        Using sw As New StreamWriter(fic, append:=False, encoding:=Encoding.UTF8)
+            sw.WriteLine(sCodigo)
+        End Using
+        codigoAnterior = sCodigo
+
+        labelInfo.Text = $"{Path.GetFileName(fic)} ({Path.GetDirectoryName(fic)})"
+        nombreFichero = fic
+
+        ' En la ventana mostrar solo el nombre del fichero          (19/Oct/20)
+        ' independientemente del path
+        Me.Text = Path.GetFileName(fic)
+        CurrentMDI.Text = $"{MDIPrincipal.TituloMDI} [{Me.Text}]"
+        Application.DoEvents()
+
+        labelTamaño.Text = $"{richTextBoxCodigo.Text.Length:#,##0} car. ({richTextBoxCodigo.Text.CuantasPalabras:#,##0} palab.)"
+
+        Me.TextoModificado = False
+
+        AñadirAUltimosFicherosAbiertos(fic)
+
+        ' Si es texto, deshabilitar los botones que correspondan    (08/Oct/20)
+        ' y asignar el lenguaje en el botón de lenguaje
+        Dim extension = Path.GetExtension(fic).ToLower
+
+        ' Asignar el lenguaje en los combos
+        ' Solo comprobar vb y cs, el resto se considera texto       (08/Oct/20)
+        Dim sLenguaje As String
+        If extension = ".cs" Then
+            sLenguaje = Compilar.LenguajeCSharp
+        ElseIf extension = ".vb" Then
+            sLenguaje = Compilar.LenguajeVisualBasic
+        Else
+            sLenguaje = ExtensionTexto
+        End If
+        If sLenguaje = Compilar.LenguajeVisualBasic Then
+            buttonLenguaje.Image = buttonLenguaje.DropDownItems(0).Image
+        ElseIf sLenguaje = Compilar.LenguajeCSharp Then
+            buttonLenguaje.Image = buttonLenguaje.DropDownItems(1).Image
+        Else
+            buttonLenguaje.Image = buttonLenguaje.DropDownItems(2).Image
+        End If
+        buttonLenguaje.Text = sLenguaje
+
+        If sLenguaje = ExtensionTexto Then
+            CurrentMDI.HabilitarBotones()
+        End If
+
+        Me.TextoModificado = False
+        labelInfo.Text = "Fichero guardado con " & labelTamaño.Text
+        OnProgreso(labelInfo.Text)
+
+    End Sub
+
+    ''' <summary>
+    ''' Muestra el cuadro de diálogo de Guardar como.
+    ''' </summary>
+    Friend Sub GuardarComo()
+        Dim fichero = nombreFichero
+
+        Using sFD As New SaveFileDialog
+            sFD.Title = "Seleccionar fichero para guardar el código"
+            sFD.FileName = fichero
+            sFD.InitialDirectory = DirDocumentos
+            sFD.RestoreDirectory = True
+            sFD.Filter = "Código de Visual Basic y CSharp (*.vb;*.cs)|*.vb;*.cs|Textos (*.txt;*.log;*.md)|*.txt;*.log;*.md|Todos los ficheros (*.*)|*.*"
+            If sFD.ShowDialog = DialogResult.Cancel Then
+                Return
+            End If
+            fichero = sFD.FileName
+            nombreFichero = sFD.FileName
+            ' Guardarlo
+            Guardar(fichero)
+        End Using
+    End Sub
+
+    ''' <summary>
+    ''' Guarda el fichero actual (<see cref="nombreFichero"/>).
+    ''' Si no tiene nombre muestra el diálogo de guardar como
+    ''' </summary>
+    Friend Sub Guardar()
+        If String.IsNullOrEmpty(nombreFichero) Then
+            GuardarComo()
+            Return
+        End If
+        Guardar(nombreFichero)
+    End Sub
+
 End Class

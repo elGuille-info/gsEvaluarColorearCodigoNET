@@ -109,20 +109,20 @@ Public Class MDIPrincipal
         AddHandler menuFileSalir.Click, Sub() CurrentMDI.Close()
         AddHandler menuFileSeleccionarAbrir.Click, Sub() Abrir()
         AddHandler buttonSeleccionar.Click, Sub() Abrir()
-        AddHandler menuFileGuardar.Click, Sub() Guardar()
-        AddHandler buttonGuardar.Click, Sub() Guardar()
-        AddHandler menuFileGuardarComo.Click, Sub() GuardarComo()
-        AddHandler buttonGuardarComo.Click, Sub() GuardarComo()
+        AddHandler menuFileGuardar.Click, Sub() Form1Activo.Guardar()
+        AddHandler buttonGuardar.Click, Sub() Form1Activo.Guardar()
+        AddHandler menuFileGuardarComo.Click, Sub() Form1Activo.GuardarComo()
+        AddHandler buttonGuardarComo.Click, Sub() Form1Activo.GuardarComo()
         AddHandler menuFileNuevo.Click, Sub() Nuevo()
         AddHandler buttonNuevo.Click, Sub() Nuevo()
 
-        AddHandler menuFileRecargar.Click, Sub() Recargar()
-        AddHandler buttonRecargar.Click, Sub() Recargar()
+        AddHandler menuFileRecargar.Click, Sub() Form1Activo.Recargar()
+        AddHandler buttonRecargar.Click, Sub() Form1Activo.Recargar()
 
-        AddHandler menuRecargarFichero.Click, Sub() Recargar()
+        AddHandler menuRecargarFichero.Click, Sub() Form1Activo.Recargar()
         AddHandler menuCopiarPath.Click, Sub()
                                              Try
-                                                 Clipboard.SetText(nombreUltimoFichero)
+                                                 Clipboard.SetText(Form1Activo.nombreFichero)
                                              Catch ex As Exception
                                              End Try
                                          End Sub
@@ -155,8 +155,16 @@ Public Class MDIPrincipal
         AddHandler buttonColorearAlEvaluar.Click, Sub() colorearAlEvaluar = buttonColorearAlEvaluar.Checked
         AddHandler buttonCompilarAlEvaluar.Click, Sub() compilarAlEvaluar = buttonCompilarAlEvaluar.Checked
 
-        AddHandler menuColorear.Click, Sub() ColorearCodigo()
-        AddHandler buttonColorear.Click, Sub() ColorearCodigo()
+        AddHandler menuColorear.Click, Sub()
+                                           cargando = True
+                                           ColorearCodigo()
+                                           cargando = False
+                                       End Sub
+        AddHandler buttonColorear.Click, Sub()
+                                             cargando = True
+                                             ColorearCodigo()
+                                             cargando = False
+                                         End Sub
         AddHandler menuNoColorear.Click, Sub() NoColorear()
         AddHandler buttonNoColorear.Click, Sub() NoColorear()
 
@@ -283,12 +291,12 @@ Public Class MDIPrincipal
         AddHandler menuEditorQuitarComentarios.Click, Sub() QuitarComentarios(richTextBoxCodigo)
         AddHandler buttonEditorPonerComentarios.Click, Sub() PonerComentarios(richTextBoxCodigo)
         AddHandler menuEditorPonerComentarios.Click, Sub() PonerComentarios(richTextBoxCodigo)
-        AddHandler buttonEditorMarcador.Click, Sub() MarcadorPonerQuitar()
-        AddHandler menuEditorMarcador.Click, Sub() MarcadorPonerQuitar()
-        AddHandler buttonEditorMarcadorAnterior.Click, Sub() MarcadorAnterior()
-        AddHandler menuEditorMarcadorAnterior.Click, Sub() MarcadorAnterior()
-        AddHandler buttonEditorMarcadorSiguiente.Click, Sub() MarcadorSiguiente()
-        AddHandler menuEditorMarcadorSiguiente.Click, Sub() MarcadorSiguiente()
+        AddHandler buttonEditorMarcador.Click, Sub() Form1Activo.MarcadorPonerQuitar()
+        AddHandler menuEditorMarcador.Click, Sub() Form1Activo.MarcadorPonerQuitar()
+        AddHandler buttonEditorMarcadorAnterior.Click, Sub() Form1Activo.MarcadorAnterior()
+        AddHandler menuEditorMarcadorAnterior.Click, Sub() Form1Activo.MarcadorAnterior()
+        AddHandler buttonEditorMarcadorSiguiente.Click, Sub() Form1Activo.MarcadorSiguiente()
+        AddHandler menuEditorMarcadorSiguiente.Click, Sub() Form1Activo.MarcadorSiguiente()
 
         ' opciones para clasificar (solo en el menú Editor)
         AddHandler menuMayúsculas.Click, Sub() CambiarMayúsculasMinúsculas(CasingValues.Upper)
@@ -305,20 +313,18 @@ Public Class MDIPrincipal
         AddHandler menuEditorPonerTextoAlFinal.Click, Sub() PonerTextoAlFinal()
         AddHandler menuEditorQuitarTextoDelfinal.Click, Sub() QuitarTextoDelFinal()
 
-        Dim lambdaQuitarMarcadores = Sub(sender As Object, e As EventArgs)
-                                         If ColMarcadores.Count = 0 Then Return
-                                         If MessageBox.Show("¿Seguro que quieres quitar todos los marcadores.",
-                                                            "Quitar todos los marcadores",
-                                                            MessageBoxButtons.YesNo,
-                                                            MessageBoxIcon.Question) = DialogResult.Yes Then
+    End Sub
 
-                                             MarcadorQuitarTodos()
-                                         End If
-                                     End Sub
-        AddHandler buttonEditorMarcadorQuitarTodos.Click, lambdaQuitarMarcadores
-        AddHandler menuEditorMarcadorQuitarTodos.Click, lambdaQuitarMarcadores
+    Private Sub EditorQuitarTodosLosMarcadores() Handles buttonEditorMarcadorQuitarTodos.Click, menuEditorMarcadorQuitarTodos.Click
+        If MessageBox.Show("¿Seguro que quieres quitar todos los marcadores.",
+                           "Quitar todos los marcadores",
+                           MessageBoxButtons.YesNo,
+                           MessageBoxIcon.Question) = DialogResult.Yes Then
 
-
+            For Each frm As Form1 In Me.MdiChildren
+                frm.MarcadorQuitarTodos()
+            Next
+        End If
     End Sub
 
     Private Sub menuEditPegarRecorte_Click(sender As Object,
@@ -334,13 +340,20 @@ Public Class MDIPrincipal
     ''' Este método se llama desde el evento Form1_Load.
     ''' </summary>
     Private Sub Inicializar()
-        '
-        ' Todo esto estaba en el evento Form1_Load                  (28/Sep/20)
-        '
 
-        Dim extension = ".appconfig.txt"
         DirDocumentos = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-        FicheroConfiguracion = Path.Combine(DirDocumentos, Application.ProductName & extension)
+        DirConfiguracion = Path.Combine(DirDocumentos, Application.ProductName)
+        If Not Directory.Exists(DirConfiguracion) Then
+            Directory.CreateDirectory(DirConfiguracion)
+        End If
+        FicheroConfiguracion = Path.Combine(DirConfiguracion, Application.ProductName & ExtensionConfiguracion)
+
+        ' Crear el de configuración "local"
+        DirConfigLocal = Path.Combine(DirConfiguracion, "Config-Ficheros")
+        If Not Directory.Exists(DirConfigLocal) Then
+            Directory.CreateDirectory(DirConfigLocal)
+        End If
+
 
         ' No mostrar el panel al iniciar
         ' Ponerlo después de inicializando = false                  (30/Sep/20)
@@ -362,58 +375,41 @@ Public Class MDIPrincipal
         ' Si se cambia y se quiere leer
         'Compilar.UpdateColorDictionaryFromFile()
 
-        'Form1Activo.splitContainer1.Panel2.Visible = False
-        'Form1Activo.splitContainer1_Resize()
-
-        ' Esto se usará para cargar                                 (16/Oct/20)
-        ' si se indica en la línea de comandos,
-        ' ya que se habrán cargado en LeerConfig
-        Dim tmpCargarUltimo = False ' cargarUltimo
-        ' Comprobar si se indica un fichero en la línea de comandos (28/Sep/20)
-        If Environment.GetCommandLineArgs.Length > 1 Then
-            Dim s As String = Environment.GetCommandLineArgs(1)
-            If Not String.IsNullOrWhiteSpace(s) Then
-                nombreUltimoFichero = s
-                tmpCargarUltimo = True
-            End If
-        End If
-
         ' posicionarlo al principio
         richTextBoxCodigo.SelectionStart = 0
         richTextBoxCodigo.SelectionLength = 0
 
-        If tmpCargarUltimo Then
-            ' Si hay más de un formulario abierto                   (16/Oct/20)
-            ' abrirlo en una nueva ventana
-            If MdiChildren.Count > 1 Then
-                Nuevo()
-                Form1Activo.nombreFichero = nombreUltimoFichero
+        ' Esto se usará para cargar                                 (16/Oct/20)
+        ' si se indica en la línea de comandos,
+        ' ya que se habrán cargado en LeerConfig
+        'Dim tmpCargarUltimo = False
+        'Dim sFicArg As String
+        ' Comprobar si se indica un fichero en la línea de comandos (28/Sep/20)
+        If Environment.GetCommandLineArgs.Length > 1 Then
+            Dim sFicArg = Environment.GetCommandLineArgs(1)
+            If Not String.IsNullOrWhiteSpace(sFicArg) Then
+                'tmpCargarUltimo = True
+
+                ' Si hay más de un formulario abierto                   (16/Oct/20)
+                ' abrirlo en una nueva ventana
+                If MdiChildren.Count > 1 Then
+                    Nuevo()
+                    Form1Activo.nombreFichero = sFicArg
+                End If
+                Form1Activo.Abrir(sFicArg)
+
+                ' Mostrar los números de línea
+                If Form1Activo.nombreFichero <> "" Then _
+                Form1Activo.AñadirNumerosDeLinea()
+
+                ' Iniciar la posición al principio
+                MostrarPosicion(New KeyEventArgs(Keys.Home))
+
             End If
-            Abrir(nombreUltimoFichero)
-
-            If selectionStartAnt > -1 Then
-                richTextBoxCodigo.SelectionStart = selectionStartAnt
-                richTextBoxCodigo.SelectionLength = selectionEndAnt
-            End If
-
-            ' Mostrar los números de línea
-            If nombreUltimoFichero <> "" Then _
-                AñadirNumerosDeLinea()
-
-
-            ' Iniciar la posición al principio
-            MostrarPosicion(New KeyEventArgs(Keys.Home))
-
         End If
-
-        '
-        ' hasta aquí lo que estaba en el Form1_Load
-        '
 
         buttonLenguaje.DropDownItems(0).Text = Compilar.LenguajeVisualBasic
         buttonLenguaje.DropDownItems(1).Text = Compilar.LenguajeCSharp
-
-        PonerLosMarcadores()
 
     End Sub
 
@@ -423,6 +419,7 @@ Public Class MDIPrincipal
     ''' </summary>
     Friend Sub HabilitarBotones()
         If inicializando Then Return
+        If cargando Then Return
 
         inicializando = True
 
@@ -469,7 +466,7 @@ Public Class MDIPrincipal
         buttonEditorMarcador.Enabled = b
         buttonEditorClasificarSeleccion.Enabled = richTextBoxCodigo.SelectionLength > 0
 
-        b = ColMarcadores.Count > 0
+        b = Form1Activo.Bookmarks.Count > 0
         buttonEditorMarcadorAnterior.Enabled = b
         buttonEditorMarcadorSiguiente.Enabled = b
         buttonEditorMarcadorQuitarTodos.Enabled = b
@@ -477,11 +474,6 @@ Public Class MDIPrincipal
         b = ColRecortes.Count > 0
         buttonEdicionRecortes.Enabled = b
 
-        'If UltimasPosiciones.Count < 1 Then
-        '    buttonNavegarAnterior.Enabled = False
-        '    buttonNavegarSiguiente.Enabled = False
-        'Else
-        'End If
         HabilitarBotonesNavegar()
 
         inicializando = False
@@ -515,6 +507,7 @@ Public Class MDIPrincipal
         ChildForm.Top = 0
         ChildForm.Left = 0
 
+        ' desde aquí se llama al evento Load de Form1
         ChildForm.Show()
 
         labelInfo.Text = ChildForm.Text
@@ -531,7 +524,6 @@ Public Class MDIPrincipal
         labelInfo.Text = ""
         labelPos.Text = "Lín: 1  Car: 1"
         labelTamaño.Text = $"{0:#,##0} car. ({0:#,##0} palab.)"
-        nombreUltimoFichero = ""
 
         ' A nive de Form1
         Form1Activo.lstSyntax.Items.Clear()
@@ -625,11 +617,10 @@ Public Class MDIPrincipal
         MostrarProcesando("Guardar todo", "Guardando todos los ficheros abiertos...", MdiChildren.Count * 2)
         Dim t = 0
         For Each frm As Form1 In Me.MdiChildren
-            nombreUltimoFichero = frm.nombreFichero
-            labelInfo.Text = $"Guardando {nombreUltimoFichero}..."
+            labelInfo.Text = $"Guardando {frm.nombreFichero}..."
             OnProgreso(labelInfo.Text)
             Application.DoEvents()
-            Guardar()
+            frm.Guardar()
         Next
         labelInfo.Text = $"Guardado {If(t = 1, "un fichero", $"{t} ficheros")}."
         OnProgreso(labelInfo.Text)
@@ -637,12 +628,12 @@ Public Class MDIPrincipal
 
     Private Sub menuFileRecientes_DropDownOpening() Handles menuFileRecientes.DropDownOpening
         ' No hacer nada si no hay nombre de fichero                 (20/Oct/20)
-        If String.IsNullOrWhiteSpace(nombreUltimoFichero) Then Return
+        If String.IsNullOrWhiteSpace(Form1Activo.nombreFichero) Then Return
 
         Dim yaSeleccionado = False
         For i = 0 To menuFileRecientes.DropDownItems.Count - 1
             TryCast(menuFileRecientes.DropDownItems(i), ToolStripMenuItem).Checked = False
-            If menuFileRecientes.DropDownItems(i).Text.IndexOf(nombreUltimoFichero) > 3 Then
+            If menuFileRecientes.DropDownItems(i).Text.IndexOf(Form1Activo.nombreFichero) > 3 Then
                 If yaSeleccionado Then Continue For
                 menuFileRecientes.DropDownItems(i).Select()
                 TryCast(menuFileRecientes.DropDownItems(i), ToolStripMenuItem).Checked = True
@@ -740,7 +731,7 @@ Public Class MDIPrincipal
 
         menuEditorPonerTexto.Enabled = richTextBoxCodigo.TextLength > 0
 
-        b = ColMarcadores.Count > 0
+        b = Form1Activo.Bookmarks.Count > 0
         menuEditorMarcador.Enabled = b
         menuEditorMarcadorAnterior.Enabled = b
         menuEditorMarcadorSiguiente.Enabled = b
@@ -949,6 +940,7 @@ Public Class MDIPrincipal
     ''' <param name="elForm1"></param>
     Friend Sub AsignarNavegar(elForm1 As Form1)
         If cargando Then Return
+
         ' No asignar la misma ubicación que la anterior
         If PosNavegarActual.Posicion = elForm1.richTextBoxCodigo.SelectionStart Then
             If PosNavegarActual.Fichero = elForm1.nombreFichero Then
@@ -959,8 +951,8 @@ Public Class MDIPrincipal
         PosNavegarActual.Fichero = elForm1.nombreFichero
 
         ' Asignar la línea completa                                 (22/Oct/20)
-        Dim pos = PosicionActual()
-        PosNavegarActual.Texto = elForm1.richTextBoxCodigo.Lines(pos.Linea - 1)
+        Dim pos = PosicionActual0()
+        PosNavegarActual.Texto = elForm1.richTextBoxCodigo.Lines(pos.Linea)
         Dim marcador = New Marcadores(elForm1)
         ' El índice será el número de posiciones,
         ' al empezar, Count es cero y ese es el primer índice.

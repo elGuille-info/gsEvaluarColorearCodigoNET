@@ -17,7 +17,66 @@ Imports System.Windows.Forms
 Public Module Extensiones
 
     ''' <summary>
-    ''' Comporueba cómo terminan las líneas.
+    ''' Comprueba si la palabra completa indicada está en la cadena.
+    ''' </summary>
+    ''' <param name="texto">El texto donde se buscará la palabra.</param>
+    ''' <param name="palabra">Palabra a buscar.</param>
+    ''' <returns>True o False según esté la palabra completa.</returns>
+    <Extension>
+    Public Function ContienePalabra(texto As String, palabra As String) As Boolean
+        Dim buscar = $"\b{palabra}\b"
+        Dim col As MatchCollection = Regex.Matches(texto, buscar)
+        Return col.Count > 0
+    End Function
+
+    ''' <summary>
+    ''' Buscar cadenas en un RichTextBox, pero línea por línea.
+    ''' </summary>
+    ''' <param name="rtb">El control RichTextBox al que aplicaremos la búsqueda.</param>
+    ''' <param name="search">La cadena a buscar.</param>
+    ''' <param name="opciones">Opciones de la búsqueda, solo se usarán MathCase, None y WholeWord</param>
+    ''' <returns>La posición dentro del texto o -1 si no se ha encontrado.</returns>
+    ''' <remarks>Este método de extensión es porque el método Find de RichTextBox que acepta string
+    ''' como el primer parámetro ahora no encuentra una cadena si está en varias líneas.</remarks>
+    <Extension>
+    Public Function FindString(rtb As RichTextBox, search As String, start As Integer, rtbFinds As RichTextBoxFinds) As Integer
+        ' Primero probamos con el método normal
+        ' Si devuelve un valor mayor de -1 es que ha encontrado algo
+        Dim res = rtb.Find(search, start, rtbFinds)
+        If res > -1 Then Return res
+
+        ' si es -1 comprobamos cada línea desde la posición indicada
+        'CompararString.IgnoreCase = (rtbFinds Or RichTextBoxFinds.MatchCase) = RichTextBoxFinds.MatchCase
+        Dim strC As StringComparison
+        If (rtbFinds Or RichTextBoxFinds.MatchCase) = RichTextBoxFinds.MatchCase Then
+            strC = StringComparison.Ordinal
+        Else
+            strC = StringComparison.OrdinalIgnoreCase
+        End If
+
+        Dim lin = rtb.GetLineFromCharIndex(start)
+        For li = lin To rtb.Lines.Count - 1
+            If (rtbFinds Or RichTextBoxFinds.WholeWord) = RichTextBoxFinds.WholeWord Then
+                If rtb.Lines(li).ContienePalabra(search) Then
+                    res = rtb.Lines(li).IndexOf(search, strC)
+                Else
+                    res = -1
+                End If
+            Else
+                res = rtb.Lines(li).IndexOf(search, strC)
+            End If
+
+            If res > -1 Then
+                res = rtb.GetFirstCharIndexFromLine(li) + res
+                Exit For
+            End If
+        Next
+
+        Return res
+    End Function
+
+    ''' <summary>
+    ''' Comprueba cómo terminan las líneas.
     ''' Primero se comprueba con el valor de <see cref="vbCr"/>
     ''' si no la tiene se comprueba <see cref="vbLf"/>,  
     ''' si tampoco se comprueba con <see cref="vbCrLf"/> y
@@ -47,13 +106,28 @@ Public Module Extensiones
     ''' Por ejemplo si el texto grisáceo es Buscar... y
     ''' se empezó a escribir en medio del texto (o en cualquier parte)
     ''' BuscarL... se quitará Buscar... y se dejará L.
+    ''' Antes de hacer cambios se comprueba si el texto predeterminado está al completo 
+    ''' en el texto en el que se hará el cambio.
     ''' </summary>
     ''' <param name="texto">El texto en el que se hará la sustitución.</param>
     ''' <param name="predeterminado">El texto a quitar.</param>
     ''' <returns>Una cadena con el texto predeterminado quitado.</returns>
-    ''' <remarks>18/Oct/2020</remarks>
+    ''' <remarks>18/Oct/2020 actualizado 24/Oct/2020</remarks>
     <Extension>
     Public Function QuitarPredeterminado(texto As String, predeterminado As String) As String
+        Dim cuantos = predeterminado.Length
+        Dim k = 0
+
+        For i = 0 To predeterminado.Length - 1
+            Dim j = texto.IndexOf(predeterminado(i))
+            If j = -1 Then Continue For
+            k += 1
+        Next
+        ' si k es distinto de cuantos es que no están todos lo caracteres a quitar
+        If k <> cuantos Then
+            Return texto
+        End If
+
         For i = 0 To predeterminado.Length - 1
             Dim j = texto.IndexOf(predeterminado(i))
             If j = -1 Then Continue For
@@ -63,6 +137,7 @@ Public Module Extensiones
                 texto = texto.Substring(0, j) & texto.Substring(j + 1)
             End If
         Next
+
         Return texto
     End Function
 

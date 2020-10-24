@@ -57,6 +57,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="chkCambiarTab.ToolTip" xml:space="preserve">
+    <value>Si al abrir un fichero se deben cambiar los TAB por espacios.
+Si está seleccionada, también se quitarán al guardar.
+El número de espacios serán los indicados en 'Espacios indentar' (en la ficha Colores y fuente)</value>
+  </data>
   <assembly alias="System.Drawing.Common" name="System.Drawing.Common, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
   <data name="btnOrdenar.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

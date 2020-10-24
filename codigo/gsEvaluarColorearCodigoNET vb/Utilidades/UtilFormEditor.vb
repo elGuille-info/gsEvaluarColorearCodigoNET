@@ -185,16 +185,6 @@ Friend Module UtilFormEditor
     Public CambiarTabs As Boolean = True
 
     ''' <summary>
-    ''' El inicio de la selección al cerrar
-    ''' </summary>
-    Public selectionStartAnt As Integer
-
-    ''' <summary>
-    ''' El final de la selección al cerrar
-    ''' </summary>
-    Public selectionEndAnt As Integer
-
-    ''' <summary>
     ''' El número de caracteres para indentar
     ''' </summary>
     Public EspaciosIndentar As Integer = 4
@@ -212,9 +202,26 @@ Friend Module UtilFormEditor
     End Property
 
     ''' <summary>
-    ''' El nombre del fichero de configuración
+    ''' El nombre del fichero de configuración global
     ''' </summary>
     Public FicheroConfiguracion As String
+
+    ''' <summary>
+    ''' La extensión a usar en los ficheros de configuración
+    ''' </summary>
+    ''' <remarks>23/Oct/2020</remarks>
+    Public Const ExtensionConfiguracion As String = ".appconfig.txt"
+
+    ''' <summary>
+    ''' El Directorio donde se guarda la configuración
+    ''' </summary>
+    ''' <remarks>23/Oct/2020</remarks>
+    Public DirConfiguracion As String
+
+    ''' <summary>
+    ''' El directorio para guardar las configuraciones de los ficheros.
+    ''' </summary>
+    Public DirConfigLocal As String
 
     ''' <summary>
     ''' El directorio de documentos
@@ -244,30 +251,30 @@ Friend Module UtilFormEditor
     ''' </summary>
     Public cargarUltimo As Boolean
 
-    ''' <summary>
-    ''' Nombre del último fichero asignado al código.
-    ''' Se usará el NombreFichero del formulario activo.
-    ''' Al asignarlo, si no está en la colección <see cref="UltimasVentanasAbiertas"/>
-    ''' se añadirá.
-    ''' </summary>
-    Public Property nombreUltimoFichero As String
-        Get
-            If Form1Activo IsNot Nothing Then
-                Return Form1Activo.nombreFichero
-            Else
-                Return ""
-            End If
-        End Get
-        Set(value As String)
-            If Form1Activo IsNot Nothing Then
-                Form1Activo.nombreFichero = value
-                CompararString.IgnoreCase = True
-                If Not UltimasVentanasAbiertas.Contains(value, New CompararString) Then
-                    UltimasVentanasAbiertas.Add(value)
-                End If
-            End If
-        End Set
-    End Property
+    '''' <summary>
+    '''' Nombre del último fichero asignado al código.
+    '''' Se usará el NombreFichero del formulario activo.
+    '''' Al asignarlo, si no está en la colección <see cref="UltimasVentanasAbiertas"/>
+    '''' se añadirá.
+    '''' </summary>
+    'Public Property nombreUltimoFichero As String
+    '    Get
+    '        If Form1Activo IsNot Nothing Then
+    '            Return Form1Activo.nombreFichero
+    '        Else
+    '            Return ""
+    '        End If
+    '    End Get
+    '    Set(value As String)
+    '        If Form1Activo IsNot Nothing Then
+    '            Form1Activo.nombreFichero = value
+    '            CompararString.IgnoreCase = True
+    '            If Not UltimasVentanasAbiertas.Contains(value, New CompararString) Then
+    '                UltimasVentanasAbiertas.Add(value)
+    '            End If
+    '        End If
+    '    End Set
+    'End Property
 
     ''' <summary>
     ''' Los nombres de los ficheros abiertos en cada sesión.
@@ -325,11 +332,6 @@ Friend Module UtilFormEditor
 
         ' Si cargarUltimo es falso no guardar el último fichero     (16/Sep/20)
         cfg.SetValue("Ficheros", "CargarUltimo", cargarUltimo)
-        'If cargarUltimo Then
-        '    cfg.SetValue("Ficheros", "Ultimo", nombreUltimoFichero)
-        'Else
-        '    cfg.SetValue("Ficheros", "Ultimo", "")
-        'End If
 
         ' Guardar los últimos ficheros abiertos                     (16/Oct/20)
         ' No guardar si está en blanco el nombre del fichero
@@ -373,12 +375,6 @@ Friend Module UtilFormEditor
         cfg.SetValue("Fuente", "Nombre", fuenteNombre)
         cfg.SetValue("Fuente", "Tamaño", fuenteTamaño)
 
-        '' El tamaño y la posición de la ventana
-        'cfg.SetValue("Ventana", "Left", tamForm.L)
-        'cfg.SetValue("Ventana", "Top", tamForm.T)
-        'cfg.SetValue("Ventana", "Height", tamForm.H)
-        'cfg.SetValue("Ventana", "Width", tamForm.W)
-
         ' Para buscar y reemplazar y CaseSensitive y WholeWord      (17/Sep/20)
         cfg.SetValue("Buscar", "QueBuscar", buscarQueBuscar)
         cfg.SetValue("Reemplazar", "QueReemplazar", buscarQueReemplazar)
@@ -399,12 +395,6 @@ Friend Module UtilFormEditor
             If j = BuscarMaxItems Then Exit For
         Next
 
-        cfg.SetValue("Marcadores", "Marcadores-Fichero", nombreUltimoFichero)
-        cfg.SetValue("Marcadores", "Marcadores-Count", ColMarcadores.Count)
-        For i = 0 To ColMarcadores.Count - 1
-            cfg.SetKeyValue("Marcadores", $"Marcadores-Items{i}", ColMarcadores.Item(i))
-        Next
-
         ' El estado de los ToolStrip                                (29/Sep/20)
         ' No guardar la visibilidad de buscar
         cfg.SetValue("Herramientas", "Barra-Ficheros", toolStripFicheros.Visible)
@@ -417,10 +407,6 @@ Friend Module UtilFormEditor
         For i = 0 To ColRecortes.Count - 1
             cfg.SetKeyValue("Recortes", $"Recortes-Item{i}", ColRecortes(i))
         Next
-
-        ' Para la selección al cerrar                               (05/Oct/20)
-        cfg.SetValue("Selección", "selectionStartAnt", selectionStartAnt)
-        cfg.SetValue("Selección", "selectionEndAnt", selectionEndAnt)
 
         ' para el texto a quitar/poner                              (08/Oct/20)
         cfg.SetValue("Quitar Poner Texto", "PonerTexto", txtPonerTexto.Text)
@@ -437,13 +423,7 @@ Friend Module UtilFormEditor
         Dim cuantos = 0
 
         ' Si cargarUltimo es falso no asignar el último fichero     (16/Sep/20)
-        cargarUltimo = cfg.GetValue("Ficheros", "CargarUltimo", False)
-        ' No asignar a nombreUltimoFichero                          (20/Oct/20)
-        'If cargarUltimo Then
-        '    nombreUltimoFichero = cfg.GetValue("Ficheros", "Ultimo", "")
-        '    'Else
-        '    '    nombreUltimoFichero = ""
-        'End If
+        cargarUltimo = cfg.GetValue("Ficheros", "CargarUltimo", True)
 
         buttonLenguaje.Text = cfg.GetValue("Herramientas", "Lenguaje", Compilar.LenguajeVisualBasic)
         If buttonLenguaje.Text = Compilar.LenguajeVisualBasic Then
@@ -453,7 +433,7 @@ Friend Module UtilFormEditor
         Else
             buttonLenguaje.Image = buttonLenguaje.DropDownItems(2).Image
         End If
-        colorearAlCargar = cfg.GetValue("Herramientas", "Colorear", False)
+        colorearAlCargar = cfg.GetValue("Herramientas", "Colorear", True)
         chkMostrarLineasHTML.Checked = cfg.GetValue("Herramientas", "Mostrar Líneas HTML", True)
 
         colorearAlEvaluar = cfg.GetValue("Herramientas", "ColorearEvaluar", False)
@@ -488,21 +468,6 @@ Friend Module UtilFormEditor
 
         richTextBoxCodigo.Font = New Font(fuenteNombre, CSng(fuenteTamaño))
         richTextBoxLineas.Font = New Font(fuenteNombre, CSng(fuenteTamaño))
-        ' No cambiar la fuente del panel de sintaxis                (03/Oct/20)
-        'richTextBoxSyntax.Font = New Font(fuenteNombre, CSng(fuenteTamaño))
-
-        'If Not MDIPrincipal.PrimerForm1 Is Me Then
-        '    ' El tamaño y la posición de la ventana
-        '    tamForm.L = cfg.GetValue("Ventana", "Left", -1)
-        '    tamForm.T = cfg.GetValue("Ventana", "Top", -1)
-        '    tamForm.H = cfg.GetValue("Ventana", "Height", -1)
-        '    tamForm.W = cfg.GetValue("Ventana", "Width", -1)
-
-        '    If tamForm.L <> -1 Then Me.Left = tamForm.L
-        '    If tamForm.T <> -1 Then Me.Top = tamForm.T
-        '    If tamForm.H > -1 Then Me.Height = tamForm.H
-        '    If tamForm.W > -1 Then Me.Width = tamForm.W
-        'End If
 
         ' Los datos de configuración para buscar y reemplazar       (17/Sep/20)
         ' y valores de MatchCase, WholeWord
@@ -546,16 +511,6 @@ Friend Module UtilFormEditor
 
         Dim j = 0
 
-        ' Solo asignar los valores si el fichero es el mismo
-        ColMarcadores.Clear()
-        MarcadorFichero = cfg.GetValue("Marcadores", "Marcadores-Fichero", "")
-        If Not String.IsNullOrEmpty(nombreUltimoFichero) AndAlso nombreUltimoFichero = MarcadorFichero Then
-            cuantos = cfg.GetValue("Marcadores", "Marcadores-Count", 0)
-            For j = 0 To cuantos - 1
-                ColMarcadores.Add(cfg.GetValue("Marcadores", $"Marcadores-Items{j}", 0))
-            Next
-        End If
-
         ' El estado de los ToolStrip                                (29/Sep/20)
         ' La de buscar no se muestra al iniciar el programa
         toolStripFicheros.Visible = cfg.GetValue("Herramientas", "Barra-Ficheros", True)
@@ -569,10 +524,6 @@ Friend Module UtilFormEditor
         For i = 0 To cuantos - 1
             ColRecortes.Add(cfg.GetValue("Recortes", $"Recortes-Item{i}", ""))
         Next
-
-        ' Para la selección al cerrar                               (05/Oct/20)
-        selectionStartAnt = cfg.GetValue("Selección", "selectionStartAnt", -1)
-        selectionEndAnt = cfg.GetValue("Selección", "selectionEndAnt", -1)
 
         ' para el texto a quitar/poner                              (08/Oct/20)
         txtPonerTexto.Text = cfg.GetValue("Quitar Poner Texto", "PonerTexto", "")
@@ -599,8 +550,10 @@ Friend Module UtilFormEditor
             MostrarProcesando($"Cargando {j} ficheros", "Cargando los ficheros...", cuantos)
             For i = 0 To j - 1
                 m_fProcesando.Text = $"Cargando {i + 1} de {j} ficheros"
+
                 ' Esto se supone que no se dará...                  (17/Oct/20)
                 If String.IsNullOrWhiteSpace(UltimasVentanasAbiertas(i)) Then Continue For
+
                 m_fProcesando.Mensaje1 = $"Cargando {UltimasVentanasAbiertas(i)}...{vbCrLf}"
                 Application.DoEvents()
                 If m_fProcesando.Cancelar Then Exit For
@@ -612,6 +565,9 @@ Friend Module UtilFormEditor
             Next
             m_fProcesando.Close()
             cargando = False
+            ' Activar el último formulario cargado                  (24/Oct/20)
+            ' para que se actualicen los botones, etc.
+            Form1Activo.BringToFront()
         End If
 
     End Sub
@@ -620,7 +576,7 @@ Friend Module UtilFormEditor
 
 #Region " Para la ventana de progreso "
 
-    Friend m_fProcesando As New fProcesando
+    Friend m_fProcesando As fProcesando
 
     ''' <summary>
     ''' Mostrar la ventana de procesando (mientras cargan los ficheros, etc.)
@@ -630,7 +586,7 @@ Friend Module UtilFormEditor
     ''' <param name="max">El valor máximo de la barra de progreso.</param>
     ''' <remarks>16/Oct/2020</remarks>
     Public Sub MostrarProcesando(titulo As String, msg As String, max As Integer)
-        'm_fProcesando = New fProcesando
+        m_fProcesando = New fProcesando
         m_fProcesando.Texto = titulo
         m_fProcesando.Mensaje = msg
         m_fProcesando.Mensaje1 = m_fProcesando.Mensaje
@@ -662,190 +618,27 @@ Friend Module UtilFormEditor
 
 #End Region
 
-#Region " Para los marcadores (Bookmarks) "
-
-    '
-    ' Para los marcadores / Bookmarks                               (28/Sep/20)
-    '
-
-    ''' <summary>
-    ''' Colección con los marcadores del código que se está editando.
-    ''' </summary>
-    Public ReadOnly Property ColMarcadores As New List(Of Integer)
-
-    ''' <summary>
-    ''' El fichero usado con los marcadores.
-    ''' </summary>
-    Public MarcadorFichero As String
-
-    ''' <summary>
-    ''' Poner los marcadores, si hay... (30/Sep/20)
-    ''' </summary>
-    Public Sub PonerLosMarcadores()
-        If ColMarcadores.Count = 0 Then Return
-
-        inicializando = True
-
-        ' Recordar la posición                                      (30/Sep/20)
-        Dim selStart = richTextBoxCodigo.SelectionStart
-
-        ColMarcadores.Sort()
-        Dim colMarcadorTemp = ColMarcadores.ToList
-        ColMarcadores.Clear()
-        For i = 0 To colMarcadorTemp.Count - 1
-            Dim pos = colMarcadorTemp(i)
-            richTextBoxCodigo.SelectionStart = pos
-            MarcadorPonerQuitar()
-        Next
-        ' Poner la posición en la que estaba antes
-        richTextBoxCodigo.SelectionStart = selStart
-
-        inicializando = False
-    End Sub
-
-
-    ''' <summary>
-    ''' Poner o quitar el marcador.
-    ''' Si está marcado se quita y si no lo está se pone.
-    ''' Se guarda la posición del inicio de la línea en la que está el cursor (o la posición dentro del richTextBoxCodigo).
-    ''' </summary>
-    Public Sub MarcadorPonerQuitar()
-        Dim posActual = PosicionActual()
-        If ColMarcadores.Contains(posActual.Inicio) Then
-            ' quitarlo
-            ColMarcadores.Remove(posActual.Inicio)
-
-            richTextBoxCodigo.SelectionStart = If(posActual.Inicio - 1 < 0, 0, posActual.Inicio - 1) ' posActual.Inicio - 1
-            richTextBoxCodigo.SelectionLength = 0
-            'richTextBoxCodigo.SelectionBullet = False
-            Dim fcol = richTextBoxLineas.GetFirstCharIndexFromLine(posActual.Linea - 1)
-            richTextBoxLineas.SelectionStart = fcol
-            richTextBoxLineas.SelectionLength = 5
-            richTextBoxLineas.SelectionBullet = False
-            ' así es como se pone en AñadirNumerosDeLinea
-            richTextBoxLineas.SelectedText = $" {(posActual.Linea).ToString("0").PadLeft(4)}"
-        Else
-            ColMarcadores.Add(posActual.Inicio)
-            ' Poner los marcadores en richTextBoxLineas
-            'richTextBoxLineas.SelectionBullet = True
-            Dim fcol = richTextBoxLineas.GetFirstCharIndexFromLine(posActual.Linea - 1)
-            richTextBoxLineas.SelectionStart = fcol
-            richTextBoxLineas.SelectionLength = 5
-            'richTextBoxLineas.SelectionBullet = True
-
-            ' Poner delante la imagen del marcador
-            ' Usando la imagen bookmark_003_8x10.png
-            richTextBoxLineas.SelectedRtf = $"{picBookmark}{(posActual.Linea).ToString("0").PadLeft(4)}" & "}"
-            'richTextBoxLineas.SelectedText = $"*{(posActual.Linea).ToString("0").PadLeft(4)}"
-
-            'richTextBoxCodigo.SelectionBullet = True
-            richTextBoxCodigo.SelectionStart = If(posActual.Inicio - 1 < 0, 0, posActual.Inicio - 1)
-            richTextBoxCodigo.SelectionLength = 0
-        End If
-        ColMarcadores.Sort()
-    End Sub
-
-    ''' <summary>
-    ''' La imagen a usar cuando se muestra un marcador en richTextBoxLineas.
-    ''' </summary>
-    Private picBookmark As String = "{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil Consolas;}}
-{\colortbl ;\red0\green128\blue128;}
-\uc1 
-\pard\cf1\f0\fs22\lang9{\pict{\*\picprop}\wmetafile8\picw212\pich265\picwgoal120\pichgoal150 
-0100090000037e00000000005500000000000400000003010800050000000b0200000000050000
-000c020a000800030000001e000400000007010400040000000701040055000000410b2000cc00
-0a000800000000000a0008000000000028000000080000000a0000000100040000000000000000
-000000000000000000000000000000000000000000ffffff00424242003f3f3f00404040003737
-3700505050003c3c3c003a3a3a0076767600d1d1d1005c5c5c00c8c8c800fbfbfb000000000000
-000000bcd11dcb789aa98724566542222332222222222222222222222222222222222222222222
-22222222040000002701ffff030000000000
-}\f1\lang3082 "
-
-
-    ''' <summary>
-    ''' Ir al marcador anterior.
-    ''' Si está antes del primero, ir al último
-    ''' </summary>
-    Public Sub MarcadorAnterior()
-        If ColMarcadores.Count = 0 Then Return
-        Dim posActual = PosicionActual()
-        Dim res = ColMarcadores.Where(Function(x) x < posActual.Inicio)
-        If res.Count > 0 Then
-            Dim pos = res.Last
-            richTextBoxCodigo.SelectionStart = pos
-        Else
-            ' si no hay más marcadores, ir al último
-            Dim fcol As Integer
-            If richTextBoxCodigo.Lines.Count < 2 Then
-                fcol = richTextBoxCodigo.TextLength
-            Else
-                fcol = richTextBoxCodigo.GetFirstCharIndexFromLine(richTextBoxCodigo.Lines.Count - 2)
-            End If
-            richTextBoxCodigo.SelectionStart = fcol
-            richTextBoxCodigo.SelectionLength = 0
-
-            MarcadorAnterior()
-        End If
-    End Sub
-
-    ''' <summary>
-    ''' Ir al marcador siguiente.
-    ''' Si está después del último, ir al anterior.
-    ''' </summary>
-    Public Sub MarcadorSiguiente()
-        If ColMarcadores.Count = 0 Then Return
-
-        Dim posActual = PosicionActual()
-        Dim res = ColMarcadores.Where(Function(x) x > posActual.Inicio)
-        If res.Count > 0 Then
-            Dim pos = res.First
-            richTextBoxCodigo.SelectionStart = pos
-        Else
-            ' si no hay más marcadores, ir al anterior
-            richTextBoxCodigo.SelectionStart = 0
-            MarcadorSiguiente()
-        End If
-    End Sub
-
-    ''' <summary>
-    ''' Quitar todos los marcadores.
-    ''' </summary>
-    Public Sub MarcadorQuitarTodos()
-        If ColMarcadores.Count = 0 Then Return
-
-        ColMarcadores.Clear()
-        AñadirNumerosDeLinea()
-
-        MarcadorFichero = ""
-    End Sub
-
-    ''' <summary>
-    ''' Añadir los números de línea
-    ''' </summary>
-    ''' <remarks>Como método separado 18/Sep/20</remarks>
-    Public Sub AñadirNumerosDeLinea()
-        If inicializando Then Return
-        If String.IsNullOrEmpty(richTextBoxCodigo.Text) Then Return
-        Dim finlinea = richTextBoxCodigo.Text.ComprobarFinLinea
-        Dim lineas = richTextBoxCodigo.Lines.Length
-        richTextBoxLineas.Text = ""
-        For i = 1 To lineas
-            richTextBoxLineas.Text &= $" {i.ToString("0").PadLeft(4)}{finlinea}"
-        Next
-        ' Sincronizar los scrolls
-        Form1Activo.richTextBoxCodigo_VScroll()
-
-        PonerLosMarcadores()
-    End Sub
-
-#End Region
-
 #Region " Métodos para la posición actual "
 
     ''' <summary>
     ''' Averigua la línea, columna (y primer caracter de la línea) de la posición actual en richTextBoxCodigo.
     ''' </summary>
+    ''' <returns>Una tupla con la Fila, SelStart y la primera posición de la línea (Inicio)</returns>
+    ''' <remarks>En esta implementación no se le añade +1 a la posición ni a la línea.</remarks>
+    Public Function PosicionActual0() As (Linea As Integer, SelStart As Integer, Inicio As Integer)
+        Dim pos As Integer = richTextBoxCodigo.SelectionStart
+        Dim lin As Integer = richTextBoxCodigo.GetLineFromCharIndex(pos)
+        Dim fcol = richTextBoxCodigo.GetFirstCharIndexFromLine(lin)
+
+        Return (lin, pos, fcol)
+    End Function
+
+    ''' <summary>
+    ''' Averigua la línea, columna (y primer caracter de la línea) de la posición actual en richTextBoxCodigo.
+    ''' </summary>
     ''' <returns>Una tupla con la Fila, Columna y la posición del primer caracter de la línea (Inicio)</returns>
+    ''' <remarks>Esta implementación le añade 1 a la posición y a la línea.
+    ''' Usarla para mostrar la fila y columna</remarks>
     Public Function PosicionActual() As (Linea As Integer, Columna As Integer, Inicio As Integer)
         Dim pos As Integer = richTextBoxCodigo.SelectionStart + 1
         Dim lin As Integer = richTextBoxCodigo.GetLineFromCharIndex(pos) + 1
@@ -1238,6 +1031,9 @@ Friend Module UtilFormEditor
 
         labelInfo.Text = $"Coloreando el código de {buttonLenguaje.Text}..."
         CurrentMDI.Refresh()
+        If m_fProcesando Is Nothing Then
+            MostrarProcesando(labelInfo.Text, labelInfo.Text, 2)
+        End If
         OnProgreso(labelInfo.Text)
 
         Dim modif = richTextBoxCodigo.Modified
@@ -1311,10 +1107,10 @@ Friend Module UtilFormEditor
 
         ' Guardar (con el nombre del formulario activo)             (16/Oct/20)
         If Form1Activo.TextoModificado Then
-            Guardar()
+            Form1Activo.Guardar()
         End If
 
-        Dim fichero = nombreUltimoFichero
+        Dim fichero = Form1Activo.nombreFichero
 
         ' Si no tiene el path, añadirlo                             (27/Sep/20)
         If String.IsNullOrEmpty(Path.GetDirectoryName(fichero)) Then
@@ -1352,10 +1148,10 @@ Friend Module UtilFormEditor
         If richTextBoxCodigo.TextLength = 0 Then Return
 
         If Form1Activo.TextoModificado Then
-            Guardar()
+            Form1Activo.Guardar()
         End If
 
-        Dim filepath = nombreUltimoFichero
+        Dim filepath = Form1Activo.nombreFichero
         labelInfo.Text = $"Compilando para {buttonLenguaje.Text}..."
         CurrentMDI.Refresh()
 
@@ -1396,7 +1192,7 @@ Friend Module UtilFormEditor
         If richTextBoxCodigo.TextLength = 0 Then Return
 
         If Form1Activo.TextoModificado Then
-            Guardar()
+            Form1Activo.Guardar()
         End If
 
         Dim res As EmitResult
@@ -1861,7 +1657,7 @@ Friend Module UtilFormEditor
             Dim pos = richTextBoxCodigo.GetFirstCharIndexFromLine(lin)
 
             ' obligar a poner las líneas
-            AñadirNumerosDeLinea()
+            Form1Activo.AñadirNumerosDeLinea()
 
             ' Seleccionar el texto después de pegar                 (04/Oct/20)
             richTextBoxCodigo.SelectionStart = pos
@@ -1971,7 +1767,7 @@ Friend Module UtilFormEditor
         ' Si llega aquí es que no estaba abierto
         Nuevo()
         Form1Activo.nombreFichero = ficT
-        Abrir(Form1Activo.nombreFichero)
+        Form1Activo.Abrir(Form1Activo.nombreFichero)
 
     End Sub
 
@@ -1998,228 +1794,23 @@ Friend Module UtilFormEditor
     End Sub
 
     ''' <summary>
-    ''' Abre nuevamente el último fichero
-    ''' desechando los datos realizados
-    ''' </summary>
-    Public Sub Recargar()
-        If nombreUltimoFichero <> "" Then _
-            Abrir(nombreUltimoFichero)
-    End Sub
-
-    ''' <summary>
     ''' Abrir el fichero indicado en una nueva ventana.
     ''' </summary>
     ''' <param name="fic">El path completo del fichero a abrir.</param>
     ''' <remarks>19/Oct/2020</remarks>
     Public Sub AbrirEnNuevaVentana(fic As String)
+        Dim cargandoTmp = cargando
+        cargando = True
         Nuevo()
-        nombreUltimoFichero = fic
-        'Form1Activo.nombreFichero = fic
-        Abrir(fic)
+        Form1Activo.nombreFichero = fic
+        Form1Activo.Abrir(fic)
+        cargando = cargandoTmp
     End Sub
 
-    ''' <summary>
-    ''' Abre el fichero indicado en el parámetro, 
-    ''' si no está en el combo de ficheros, añadirlo al principio.
-    ''' De añadirlo al princpio se encarga <see cref="AñadirAUltimosFicherosAbiertos"/>.
-    ''' </summary>
-    ''' <param name="fic">El path completo del fichero a abrir</param>
-    ''' <remarks>En el combo se muestra solo el nombre sin el path si el path es el directorio de documentos
-    ''' (o el que se haya asignado como predeterminado) en otro caso se muestra el path completo</remarks>
-    Public Sub Abrir(fic As String)
-        If String.IsNullOrWhiteSpace(fic) Then
-            Return
-        End If
-
-        Dim sDirFic = Path.GetDirectoryName(fic)
-        If Not File.Exists(fic) Then
-            If String.IsNullOrWhiteSpace(sDirFic) Then
-                fic = Path.Combine(DirDocumentos, fic)
-            End If
-            If File.Exists(fic) Then
-                Abrir(fic)
-            End If
-            Return
-        End If
-
-        If String.IsNullOrWhiteSpace(sDirFic) Then
-            fic = Path.Combine(DirDocumentos, fic)
-        End If
-
-        labelInfo.Text = $"Abriendo {fic}..."
-        OnProgreso(labelInfo.Text)
-
-        ' solo ocultarlo si no es el mismo fichero                  (25/Sep/20)
-        ' Siempre ocultarlo al abrir el fichero                     (20/Oct/20)
-        'If fic <> Form1Activo.nombreFichero Then
-        Form1Activo.splitContainer1.Panel2.Visible = False
-        Form1Activo.splitContainer1_Resize()
-        Form1Activo.lstSyntax.Items.Clear()
-        'End If
-
-        Dim sCodigo = ""
-        Using sr As New StreamReader(fic, detectEncodingFromByteOrderMarks:=True, encoding:=Encoding.UTF8)
-            sCodigo = sr.ReadToEnd()
-        End Using
-
-        ' Si se deben cambiar los TAB por 8 espacios                (05/Oct/20)
-        If CambiarTabs Then
-            sCodigo = sCodigo.Replace(vbTab, "        ")
-        End If
-
-        Form1Activo.codigoAnterior = sCodigo
-
-        richTextBoxCodigo.Text = sCodigo
-        'richTextBoxCodigo.Modified = False
-        richTextBoxCodigo.SelectionStart = 0
-        richTextBoxCodigo.SelectionLength = 0
-        MostrarPosicion(Nothing)
-
-        ' El nombre del fichero con el path completo                (17/Oct/20)
-        nombreUltimoFichero = fic
-        ' Al asignar a nombreUltimoFichero se asigna a nombreFichero del Form1
-        'Form1Activo.nombreFichero = fic
-
-        ' En la ventana mostrar solo el nombre del fichero          (19/Oct/20)
-        ' independientemente del path
-        Form1Activo.Text = Path.GetFileName(fic)
-
-        AñadirAUltimosFicherosAbiertos(fic)
-
-        '' Comprobar si hay que añadir el fichero a la lista de recientes
-        'sDirFic = Path.GetDirectoryName(fic)
-        'If sDirFic = DirDocumentos Then
-        '    fic = Path.GetFileName(fic)
-        'End If
-
-        If MarcadorFichero <> fic Then
-            MarcadorQuitarTodos()
-            MarcadorFichero = fic
-        End If
-
-        Dim extension = Path.GetExtension(fic).ToLower
-
-        ' Asignar el lenguaje en los combos
-        ' Solo comprobar vb y cs, el resto se considera texto       (08/Oct/20)
-        Dim sLenguaje As String
-        If extension = ".cs" Then
-            sLenguaje = Compilar.LenguajeCSharp
-        ElseIf extension = ".vb" Then
-            sLenguaje = Compilar.LenguajeVisualBasic
-        Else
-            sLenguaje = ExtensionTexto
-        End If
-        If sLenguaje = Compilar.LenguajeVisualBasic Then
-            buttonLenguaje.Image = buttonLenguaje.DropDownItems(0).Image
-        ElseIf sLenguaje = Compilar.LenguajeCSharp Then
-            buttonLenguaje.Image = buttonLenguaje.DropDownItems(1).Image
-        Else
-            buttonLenguaje.Image = buttonLenguaje.DropDownItems(2).Image
-        End If
-        buttonLenguaje.Text = sLenguaje
-
-        ' Mostrar información del fichero
-        labelInfo.Text = $"{Path.GetFileName(fic)} ({sDirFic})"
-        Application.DoEvents()
-        CurrentMDI.Text = $"{MDIPrincipal.TituloMDI} [{Form1Activo.Text}]"
-
-        ' Si hay que colorear el fichero cargado
-        If colorearAlCargar Then
-            ColorearCodigo()
-        End If
-
-        labelTamaño.Text = $"{richTextBoxCodigo.Text.Length:#,##0} car. ({richTextBoxCodigo.Text.CuantasPalabras:#,##0} palab.)"
-
-        ' Si es texto, deshabilitar los botones que correspondan    (08/Oct/20)
-        If sLenguaje = ExtensionTexto Then
-            CurrentMDI.HabilitarBotones()
-        End If
-
-        Form1Activo.TextoModificado = False
-
-    End Sub
-
-    ''' <summary>
-    ''' Guarda el fichero indicado en el parámetro
-    ''' </summary>
-    ''' <param name="fic">El path completo del fichero a guardar</param>
-    Public Sub Guardar(fic As String)
-        labelInfo.Text = $"Guardando {fic}..."
-        OnProgreso(labelInfo.Text)
-
-        Dim sCodigo = richTextBoxCodigo.Text
-
-        Dim sDirFic = Path.GetDirectoryName(fic)
-        If String.IsNullOrWhiteSpace(sDirFic) Then
-            fic = Path.Combine(DirDocumentos, fic)
-        End If
-
-        ' Si se deben cambiar los TAB por 8 espacios                (05/Oct/20)
-        If CambiarTabs Then
-            sCodigo = sCodigo.Replace(vbTab, "        ")
-        End If
-
-        Using sw As New StreamWriter(fic, append:=False, encoding:=Encoding.UTF8)
-            sw.WriteLine(sCodigo)
-        End Using
-        Form1Activo.codigoAnterior = sCodigo
-
-        labelInfo.Text = $"{Path.GetFileName(fic)} ({Path.GetDirectoryName(fic)})"
-        nombreUltimoFichero = fic
-        'Form1Activo.nombreFichero = fic ' labelInfo.Text
-
-        ' En la ventana mostrar solo el nombre del fichero          (19/Oct/20)
-        ' independientemente del path
-        Form1Activo.Text = Path.GetFileName(fic)
-        Application.DoEvents()
-        CurrentMDI.Text = $"{MDIPrincipal.TituloMDI} [{Form1Activo.Text}]"
-
-        'labelTamaño.Text = $"{richTextBoxCodigo.Text.Length:#,##0} car."
-        labelTamaño.Text = $"{richTextBoxCodigo.Text.Length:#,##0} car. ({richTextBoxCodigo.Text.CuantasPalabras:#,##0} palab.)"
-
-        Form1Activo.TextoModificado = False
-
-        'Dim fic2 = fic
-        'If Path.GetDirectoryName(fic) = DirDocumentos Then
-        '    fic2 = Path.GetFileName(fic)
-        'End If
-        ' para que se muestre solo el nombre, si está en documentos (02/Oct/20)
-        'nombreUltimoFichero = fic2
-
-        AñadirAUltimosFicherosAbiertos(fic)
-
-        ' Si es texto, deshabilitar los botones que correspondan    (08/Oct/20)
-        ' y asignar el lenguaje en el botón de lenguaje
-        Dim extension = Path.GetExtension(fic).ToLower
-
-        ' Asignar el lenguaje en los combos
-        ' Solo comprobar vb y cs, el resto se considera texto       (08/Oct/20)
-        Dim sLenguaje As String
-        If extension = ".cs" Then
-            sLenguaje = Compilar.LenguajeCSharp
-        ElseIf extension = ".vb" Then
-            sLenguaje = Compilar.LenguajeVisualBasic
-        Else
-            sLenguaje = ExtensionTexto
-        End If
-        If sLenguaje = Compilar.LenguajeVisualBasic Then
-            buttonLenguaje.Image = buttonLenguaje.DropDownItems(0).Image
-        ElseIf sLenguaje = Compilar.LenguajeCSharp Then
-            buttonLenguaje.Image = buttonLenguaje.DropDownItems(1).Image
-        Else
-            buttonLenguaje.Image = buttonLenguaje.DropDownItems(2).Image
-        End If
-        buttonLenguaje.Text = sLenguaje
-
-        If sLenguaje = ExtensionTexto Then
-            CurrentMDI.HabilitarBotones()
-        End If
-
-        Form1Activo.TextoModificado = False
-        labelInfo.Text = "Fichero guardado con " & labelTamaño.Text
-        OnProgreso(labelInfo.Text)
-
-    End Sub
+    '
+    ' Los métodos pasados a Form1                                   (23/Oct/20)
+    ' Recargar, Abrir(fic) y Guardar(fic), Guardar y GuardarComo
+    '
 
     ''' <summary>
     ''' Borra la ventana de código y deja en blanco el <see cref="nombreUltimoFichero"/>.
@@ -2227,42 +1818,6 @@ Friend Module UtilFormEditor
     ''' </summary>
     Public Sub Nuevo()
         CurrentMDI.NuevaVentana()
-
-    End Sub
-
-    ''' <summary>
-    ''' Muestra el cuadro de diálogo de Guardar como.
-    ''' </summary>
-    Public Sub GuardarComo()
-
-        Dim fichero = Form1Activo.nombreFichero
-
-        Using sFD As New SaveFileDialog
-            sFD.Title = "Seleccionar fichero para guardar el código"
-            sFD.FileName = fichero
-            sFD.InitialDirectory = DirDocumentos
-            sFD.RestoreDirectory = True
-            sFD.Filter = "Código de Visual Basic y CSharp (*.vb;*.cs)|*.vb;*.cs|Textos (*.txt;*.log;*.md)|*.txt;*.log;*.md|Todos los ficheros (*.*)|*.*"
-            If sFD.ShowDialog = DialogResult.Cancel Then
-                Return
-            End If
-            fichero = sFD.FileName
-            nombreUltimoFichero = sFD.FileName
-            ' Guardarlo
-            Guardar(fichero)
-        End Using
-    End Sub
-
-    ''' <summary>
-    ''' Guarda el fichero actual (<see cref="nombreUltimoFichero"/>).
-    ''' Si no tiene nombre muestra el diálogo de guardar como
-    ''' </summary>
-    Public Sub Guardar()
-        If String.IsNullOrEmpty(nombreUltimoFichero) Then
-            GuardarComo()
-            Return
-        End If
-        Guardar(nombreUltimoFichero)
     End Sub
 
 
@@ -2360,7 +1915,7 @@ Friend Module UtilFormEditor
 
 
             ' obligar a poner las líneas                            (18/Sep/20)
-            AñadirNumerosDeLinea()
+            Form1Activo.AñadirNumerosDeLinea()
 
             ' Seleccionar el texto después de pegar                 (04/Oct/20)
             richTextBoxCodigo.SelectionStart = pos
@@ -2502,6 +2057,10 @@ Friend Module UtilFormEditor
             buscarPos = 0
         End If
 
+        ' Se ve que en la versión de .NET 5.0 RC2 han modificado 
+        ' la forma de usar Find
+        ' y ahora si se busca algo que está más de na vez, devuelve -1
+        ' como si no estuviera... 
         buscarPos = richTextBoxCodigo.Find(buscarQueBuscar, buscarPos, rtbFinds)
         If buscarPos = -1 Then
             If esReemplazar Then
