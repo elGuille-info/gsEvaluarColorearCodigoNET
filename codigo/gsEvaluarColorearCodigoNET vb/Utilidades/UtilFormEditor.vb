@@ -169,6 +169,11 @@ Friend Module UtilFormEditor
 #Region " Los 'campos' generales "
 
     ''' <summary>
+    ''' Llevar la cuenta de los marcadores que hay de forma global.
+    ''' </summary>
+    Public totalBookmarks As Integer
+
+    ''' <summary>
     ''' Si se está inicializando.
     ''' Usado para que no se provoquen eventos en cadena
     ''' </summary>

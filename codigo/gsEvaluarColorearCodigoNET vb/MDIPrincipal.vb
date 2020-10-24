@@ -291,12 +291,6 @@ Public Class MDIPrincipal
         AddHandler menuEditorQuitarComentarios.Click, Sub() QuitarComentarios(richTextBoxCodigo)
         AddHandler buttonEditorPonerComentarios.Click, Sub() PonerComentarios(richTextBoxCodigo)
         AddHandler menuEditorPonerComentarios.Click, Sub() PonerComentarios(richTextBoxCodigo)
-        AddHandler buttonEditorMarcador.Click, Sub() Form1Activo.MarcadorPonerQuitar()
-        AddHandler menuEditorMarcador.Click, Sub() Form1Activo.MarcadorPonerQuitar()
-        AddHandler buttonEditorMarcadorAnterior.Click, Sub() Form1Activo.MarcadorAnterior()
-        AddHandler menuEditorMarcadorAnterior.Click, Sub() Form1Activo.MarcadorAnterior()
-        AddHandler buttonEditorMarcadorSiguiente.Click, Sub() Form1Activo.MarcadorSiguiente()
-        AddHandler menuEditorMarcadorSiguiente.Click, Sub() Form1Activo.MarcadorSiguiente()
 
         ' opciones para clasificar (solo en el menú Editor)
         AddHandler menuMayúsculas.Click, Sub() CambiarMayúsculasMinúsculas(CasingValues.Upper)
@@ -313,18 +307,6 @@ Public Class MDIPrincipal
         AddHandler menuEditorPonerTextoAlFinal.Click, Sub() PonerTextoAlFinal()
         AddHandler menuEditorQuitarTextoDelfinal.Click, Sub() QuitarTextoDelFinal()
 
-    End Sub
-
-    Private Sub EditorQuitarTodosLosMarcadores() Handles buttonEditorMarcadorQuitarTodos.Click, menuEditorMarcadorQuitarTodos.Click
-        If MessageBox.Show("¿Seguro que quieres quitar todos los marcadores.",
-                           "Quitar todos los marcadores",
-                           MessageBoxButtons.YesNo,
-                           MessageBoxIcon.Question) = DialogResult.Yes Then
-
-            For Each frm As Form1 In Me.MdiChildren
-                frm.MarcadorQuitarTodos()
-            Next
-        End If
     End Sub
 
     Private Sub menuEditPegarRecorte_Click(sender As Object,
@@ -467,6 +449,10 @@ Public Class MDIPrincipal
         buttonEditorClasificarSeleccion.Enabled = richTextBoxCodigo.SelectionLength > 0
 
         b = Form1Activo.Bookmarks.Count > 0
+        buttonEditorMarcadorAnteriorLocal.Enabled = b
+        buttonEditorMarcadorSiguienteLocal.Enabled = b
+
+        b = totalBookmarks > 0
         buttonEditorMarcadorAnterior.Enabled = b
         buttonEditorMarcadorSiguiente.Enabled = b
         buttonEditorMarcadorQuitarTodos.Enabled = b
@@ -732,7 +718,11 @@ Public Class MDIPrincipal
         menuEditorPonerTexto.Enabled = richTextBoxCodigo.TextLength > 0
 
         b = Form1Activo.Bookmarks.Count > 0
-        menuEditorMarcador.Enabled = b
+        'menuEditorMarcador.Enabled = b
+        menuEditorMarcadorAnteriorLocal.Enabled = b
+        menuEditorMarcadorSiguienteLocal.Enabled = b
+
+        b = totalBookmarks > 0
         menuEditorMarcadorAnterior.Enabled = b
         menuEditorMarcadorSiguiente.Enabled = b
         menuEditorMarcadorQuitarTodos.Enabled = b
@@ -985,5 +975,95 @@ Public Class MDIPrincipal
         mnu.Checked = True
         buttonNavegarMenu.DropDownItems.Add(mnu)
 
+    End Sub
+
+    Private Sub buttonEditorMarcador_Click() Handles buttonEditorMarcador.Click, menuEditorMarcador.Click
+        Form1Activo.MarcadorPonerQuitar()
+    End Sub
+
+    Private Sub buttonEditorMarcadorAnterior_Click() Handles buttonEditorMarcadorAnterior.Click, menuEditorMarcadorAnterior.Click, menuEditorMarcadorAnteriorLocal.Click
+        ' Ir al marcador anterior, en todos los ficheros abiertos   (24/Oct/20)
+        Dim b = Form1Activo.MarcadorAnterior
+        If b = False Then
+            ' Buscar en otro fichero
+            ' Buscar cuál es el form1activo en la lista de ventanas
+            ' e ir a la anterior si es que hay más
+            Dim index = 0
+            For i = Me.MdiChildren.Count - 1 To 0 Step -1
+                Dim frm = Me.MdiChildren(i)
+                If Form1Activo.Text = frm.Text Then
+                    Do While i > 0
+                        frm = Me.MdiChildren(i - 1)
+                        Form1Activo = TryCast(frm, Form1)
+                        If Form1Activo.Bookmarks.Count > 0 Then
+                            b = Form1Activo.MarcadorAnterior()
+                            If b Then
+                                Form1Activo.BringToFront()
+                                Exit For
+                            End If
+                        End If
+                        i -= 1
+                    Loop
+                End If
+            Next
+        End If
+        If b = False Then
+            MessageBox.Show("Se ha llegado al principio de los ficheros con marcadores/bookmarks.",
+                            "Marcador global anterior",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
+    Private Sub buttonEditorMarcadorAnteriorLocal_Click() Handles buttonEditorMarcadorAnteriorLocal.Click
+        Form1Activo.MarcadorAnterior()
+    End Sub
+
+    Private Sub EditorQuitarTodosLosMarcadores() Handles buttonEditorMarcadorQuitarTodos.Click, menuEditorMarcadorQuitarTodos.Click
+        If MessageBox.Show("¿Seguro que quieres quitar todos los marcadores.",
+                           "Quitar todos los marcadores",
+                           MessageBoxButtons.YesNo,
+                           MessageBoxIcon.Question) = DialogResult.Yes Then
+
+            For Each frm As Form1 In Me.MdiChildren
+                frm.MarcadorQuitarTodos()
+            Next
+        End If
+    End Sub
+
+    Private Sub buttonEditorMarcadorSiguiente_Click() Handles buttonEditorMarcadorSiguiente.Click, menuEditorMarcadorSiguiente.Click, menuEditorMarcadorSiguienteLocal.Click
+        ' Ir al marcador siguiente, en todos los ficheros abiertos
+        Dim b = Form1Activo.MarcadorSiguiente
+        If b = False Then
+            ' Buscar en otro fichero
+            ' Buscar cuál es el form1activo en la lista de ventanas
+            ' e ir a la siguiente si es que hay más
+            ' aunque fallará si la siguiente ventana no tiene marcadores
+            For i = 0 To Me.MdiChildren.Count - 1
+                Dim frm = Me.MdiChildren(i)
+                If Form1Activo.Text = frm.Text Then
+                    Do While i < Me.MdiChildren.Count - 1
+                        frm = Me.MdiChildren(i + 1)
+                        Form1Activo = TryCast(frm, Form1)
+                        If Form1Activo.Bookmarks.Count > 0 Then
+                            b = Form1Activo.MarcadorSiguiente()
+                            If b Then
+                                Form1Activo.BringToFront()
+                                Exit For
+                            End If
+                        End If
+                        i += 1
+                    Loop
+                End If
+            Next
+        End If
+        If b = False Then
+            MessageBox.Show("Se ha llegado al final de los ficheros con marcadores/bookmarks.",
+                            "Marcador global siguiente",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
+
+    Private Sub buttonEditorMarcadorSiguienteLocal_Click() Handles buttonEditorMarcadorSiguienteLocal.Click
+        Form1Activo.MarcadorSiguiente()
     End Sub
 End Class

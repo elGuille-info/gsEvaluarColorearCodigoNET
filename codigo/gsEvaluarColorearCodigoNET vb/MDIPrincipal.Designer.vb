@@ -95,6 +95,9 @@ Partial Class MDIPrincipal
         Me.menuEditorMarcador = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorMarcadorAnterior = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorMarcadorSiguiente = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorMarcadorAnteriorLocal = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuEditorMarcadorSiguienteLocal = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuSepEditor4 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEditorMarcadorQuitarTodos = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuVentana = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuVentanaNueva = New System.Windows.Forms.ToolStripMenuItem()
@@ -180,11 +183,14 @@ Partial Class MDIPrincipal
         Me.buttonEditorQuitarComentarios = New System.Windows.Forms.ToolStripButton()
         Me.tsSepEditor2 = New System.Windows.Forms.ToolStripSeparator()
         Me.buttonEditorClasificarSeleccion = New System.Windows.Forms.ToolStripButton()
-        Me.tsSepEditor4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepEditor3 = New System.Windows.Forms.ToolStripSeparator()
         Me.buttonEditorMarcador = New System.Windows.Forms.ToolStripButton()
         Me.buttonEditorMarcadorAnterior = New System.Windows.Forms.ToolStripButton()
         Me.buttonEditorMarcadorSiguiente = New System.Windows.Forms.ToolStripButton()
-        Me.tsSepEditor3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tsSepEditor4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.buttonEditorMarcadorAnteriorLocal = New System.Windows.Forms.ToolStripButton()
+        Me.buttonEditorMarcadorSiguienteLocal = New System.Windows.Forms.ToolStripButton()
+        Me.tsSepEditor5 = New System.Windows.Forms.ToolStripSeparator()
         Me.buttonEditorMarcadorQuitarTodos = New System.Windows.Forms.ToolStripButton()
         Me.rtbCodigoContext = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.timerClipBoard = New System.Windows.Forms.Timer(Me.components)
@@ -561,7 +567,7 @@ Partial Class MDIPrincipal
         '
         'menuEditor
         '
-        Me.menuEditor.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditorQuitarIndentacion, Me.menuEditorPonerIndentacion, Me.mnuSepEditor1, Me.menuEditorPonerComentarios, Me.menuEditorQuitarComentarios, Me.mnuSepEditor2, Me.menuEditorClasificarSeleccion, Me.menuEditorCambiarMayúsculas, Me.menuEditorQuitarEspacios, Me.menuEditorPonerTexto, Me.mnuSepEditor3, Me.menuEditorMarcador, Me.menuEditorMarcadorAnterior, Me.menuEditorMarcadorSiguiente, Me.menuEditorMarcadorQuitarTodos})
+        Me.menuEditor.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEditorQuitarIndentacion, Me.menuEditorPonerIndentacion, Me.mnuSepEditor1, Me.menuEditorPonerComentarios, Me.menuEditorQuitarComentarios, Me.mnuSepEditor2, Me.menuEditorClasificarSeleccion, Me.menuEditorCambiarMayúsculas, Me.menuEditorQuitarEspacios, Me.menuEditorPonerTexto, Me.mnuSepEditor3, Me.menuEditorMarcador, Me.menuEditorMarcadorAnterior, Me.menuEditorMarcadorSiguiente, Me.menuEditorMarcadorAnteriorLocal, Me.menuEditorMarcadorSiguienteLocal, Me.mnuSepEditor4, Me.menuEditorMarcadorQuitarTodos})
         Me.menuEditor.Name = "menuEditor"
         Me.menuEditor.Size = New System.Drawing.Size(50, 20)
         Me.menuEditor.Text = "Edi&tor"
@@ -570,27 +576,27 @@ Partial Class MDIPrincipal
         '
         Me.menuEditorQuitarIndentacion.Image = CType(resources.GetObject("menuEditorQuitarIndentacion.Image"), System.Drawing.Image)
         Me.menuEditorQuitarIndentacion.Name = "menuEditorQuitarIndentacion"
-        Me.menuEditorQuitarIndentacion.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorQuitarIndentacion.Size = New System.Drawing.Size(318, 22)
         Me.menuEditorQuitarIndentacion.Text = "Quitar indentación"
         '
         'menuEditorPonerIndentacion
         '
         Me.menuEditorPonerIndentacion.Image = CType(resources.GetObject("menuEditorPonerIndentacion.Image"), System.Drawing.Image)
         Me.menuEditorPonerIndentacion.Name = "menuEditorPonerIndentacion"
-        Me.menuEditorPonerIndentacion.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorPonerIndentacion.Size = New System.Drawing.Size(318, 22)
         Me.menuEditorPonerIndentacion.Text = "Poner indentación"
         '
         'mnuSepEditor1
         '
         Me.mnuSepEditor1.Name = "mnuSepEditor1"
-        Me.mnuSepEditor1.Size = New System.Drawing.Size(310, 6)
+        Me.mnuSepEditor1.Size = New System.Drawing.Size(315, 6)
         '
         'menuEditorPonerComentarios
         '
         Me.menuEditorPonerComentarios.Image = CType(resources.GetObject("menuEditorPonerComentarios.Image"), System.Drawing.Image)
         Me.menuEditorPonerComentarios.Name = "menuEditorPonerComentarios"
         Me.menuEditorPonerComentarios.ShortcutKeyDisplayString = "Ctrl+K, Ctrl+C"
-        Me.menuEditorPonerComentarios.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorPonerComentarios.Size = New System.Drawing.Size(318, 22)
         Me.menuEditorPonerComentarios.Text = "Poner comentarios"
         '
         'menuEditorQuitarComentarios
@@ -598,27 +604,27 @@ Partial Class MDIPrincipal
         Me.menuEditorQuitarComentarios.Image = CType(resources.GetObject("menuEditorQuitarComentarios.Image"), System.Drawing.Image)
         Me.menuEditorQuitarComentarios.Name = "menuEditorQuitarComentarios"
         Me.menuEditorQuitarComentarios.ShortcutKeyDisplayString = "Ctrl+K, Ctrl+U"
-        Me.menuEditorQuitarComentarios.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorQuitarComentarios.Size = New System.Drawing.Size(318, 22)
         Me.menuEditorQuitarComentarios.Text = "Quitar comentarios"
         '
         'mnuSepEditor2
         '
         Me.mnuSepEditor2.Name = "mnuSepEditor2"
-        Me.mnuSepEditor2.Size = New System.Drawing.Size(310, 6)
+        Me.mnuSepEditor2.Size = New System.Drawing.Size(315, 6)
         '
         'menuEditorClasificarSeleccion
         '
         Me.menuEditorClasificarSeleccion.Image = CType(resources.GetObject("menuEditorClasificarSeleccion.Image"), System.Drawing.Image)
         Me.menuEditorClasificarSeleccion.Name = "menuEditorClasificarSeleccion"
         Me.menuEditorClasificarSeleccion.ShortcutKeyDisplayString = "Shit+Alt+L, Shift+Alt+S"
-        Me.menuEditorClasificarSeleccion.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorClasificarSeleccion.Size = New System.Drawing.Size(318, 22)
         Me.menuEditorClasificarSeleccion.Text = "Clasificar selección"
         '
         'menuEditorCambiarMayúsculas
         '
         Me.menuEditorCambiarMayúsculas.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuMayúsculas, Me.menuMinúsculas, Me.menuTitulo, Me.menuPrimeraMinúsculas})
         Me.menuEditorCambiarMayúsculas.Name = "menuEditorCambiarMayúsculas"
-        Me.menuEditorCambiarMayúsculas.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorCambiarMayúsculas.Size = New System.Drawing.Size(318, 22)
         Me.menuEditorCambiarMayúsculas.Text = "Cambiar mayúsculas / minúsculas"
         '
         'menuMayúsculas
@@ -659,7 +665,7 @@ Partial Class MDIPrincipal
         '
         Me.menuEditorQuitarEspacios.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuQuitarEspaciosTrim, Me.menuQuitarEspaciosTrimStart, Me.menuQuitarEspaciosTrimEnd, Me.menuQuitarEspaciosTodos})
         Me.menuEditorQuitarEspacios.Name = "menuEditorQuitarEspacios"
-        Me.menuEditorQuitarEspacios.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorQuitarEspacios.Size = New System.Drawing.Size(318, 22)
         Me.menuEditorQuitarEspacios.Text = "Quitar espacios"
         '
         'menuQuitarEspaciosTrim
@@ -690,7 +696,7 @@ Partial Class MDIPrincipal
         '
         Me.menuEditorPonerTexto.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.txtPonerTexto, Me.menuEditorPonerTextoAlFinal, Me.menuEditorQuitarTextoDelfinal})
         Me.menuEditorPonerTexto.Name = "menuEditorPonerTexto"
-        Me.menuEditorPonerTexto.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorPonerTexto.Size = New System.Drawing.Size(318, 22)
         Me.menuEditorPonerTexto.Text = "Poner/quitar texto al final de la línea"
         '
         'txtPonerTexto
@@ -713,36 +719,55 @@ Partial Class MDIPrincipal
         'mnuSepEditor3
         '
         Me.mnuSepEditor3.Name = "mnuSepEditor3"
-        Me.mnuSepEditor3.Size = New System.Drawing.Size(310, 6)
+        Me.mnuSepEditor3.Size = New System.Drawing.Size(315, 6)
         '
         'menuEditorMarcador
         '
         Me.menuEditorMarcador.Image = CType(resources.GetObject("menuEditorMarcador.Image"), System.Drawing.Image)
         Me.menuEditorMarcador.Name = "menuEditorMarcador"
         Me.menuEditorMarcador.ShortcutKeyDisplayString = "Ctrl+K, Ctrl+K"
-        Me.menuEditorMarcador.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorMarcador.Size = New System.Drawing.Size(318, 22)
         Me.menuEditorMarcador.Text = "Alternar marcador"
         '
         'menuEditorMarcadorAnterior
         '
         Me.menuEditorMarcadorAnterior.Image = CType(resources.GetObject("menuEditorMarcadorAnterior.Image"), System.Drawing.Image)
         Me.menuEditorMarcadorAnterior.Name = "menuEditorMarcadorAnterior"
-        Me.menuEditorMarcadorAnterior.Size = New System.Drawing.Size(313, 22)
-        Me.menuEditorMarcadorAnterior.Text = "Ir al marcador anterior"
+        Me.menuEditorMarcadorAnterior.Size = New System.Drawing.Size(318, 22)
+        Me.menuEditorMarcadorAnterior.Text = "Ir al marcador anterior (en todos los ficheros)"
         '
         'menuEditorMarcadorSiguiente
         '
         Me.menuEditorMarcadorSiguiente.Image = CType(resources.GetObject("menuEditorMarcadorSiguiente.Image"), System.Drawing.Image)
         Me.menuEditorMarcadorSiguiente.Name = "menuEditorMarcadorSiguiente"
-        Me.menuEditorMarcadorSiguiente.Size = New System.Drawing.Size(313, 22)
-        Me.menuEditorMarcadorSiguiente.Text = "Ir al marcador siguiente"
+        Me.menuEditorMarcadorSiguiente.Size = New System.Drawing.Size(318, 22)
+        Me.menuEditorMarcadorSiguiente.Text = "Ir al marcador siguiente (en todos los ficheros)"
+        '
+        'menuEditorMarcadorAnteriorLocal
+        '
+        Me.menuEditorMarcadorAnteriorLocal.Image = CType(resources.GetObject("menuEditorMarcadorAnteriorLocal.Image"), System.Drawing.Image)
+        Me.menuEditorMarcadorAnteriorLocal.Name = "menuEditorMarcadorAnteriorLocal"
+        Me.menuEditorMarcadorAnteriorLocal.Size = New System.Drawing.Size(318, 22)
+        Me.menuEditorMarcadorAnteriorLocal.Text = "Ir al marcador anterior en el fcihero actual"
+        '
+        'menuEditorMarcadorSiguienteLocal
+        '
+        Me.menuEditorMarcadorSiguienteLocal.Image = CType(resources.GetObject("menuEditorMarcadorSiguienteLocal.Image"), System.Drawing.Image)
+        Me.menuEditorMarcadorSiguienteLocal.Name = "menuEditorMarcadorSiguienteLocal"
+        Me.menuEditorMarcadorSiguienteLocal.Size = New System.Drawing.Size(318, 22)
+        Me.menuEditorMarcadorSiguienteLocal.Text = "Ir al marcador siguiente en el fichero actual"
+        '
+        'mnuSepEditor4
+        '
+        Me.mnuSepEditor4.Name = "mnuSepEditor4"
+        Me.mnuSepEditor4.Size = New System.Drawing.Size(315, 6)
         '
         'menuEditorMarcadorQuitarTodos
         '
         Me.menuEditorMarcadorQuitarTodos.Image = CType(resources.GetObject("menuEditorMarcadorQuitarTodos.Image"), System.Drawing.Image)
         Me.menuEditorMarcadorQuitarTodos.Name = "menuEditorMarcadorQuitarTodos"
         Me.menuEditorMarcadorQuitarTodos.ShortcutKeyDisplayString = "Ctrl+K, Ctrl+L"
-        Me.menuEditorMarcadorQuitarTodos.Size = New System.Drawing.Size(313, 22)
+        Me.menuEditorMarcadorQuitarTodos.Size = New System.Drawing.Size(318, 22)
         Me.menuEditorMarcadorQuitarTodos.Text = "Eliminar todos los marcadores"
         '
         'menuVentana
@@ -1377,11 +1402,11 @@ Partial Class MDIPrincipal
         'toolStripEditor
         '
         Me.toolStripEditor.Dock = System.Windows.Forms.DockStyle.None
-        Me.toolStripEditor.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEditorQuitarIndentacion, Me.buttonEditorPonerIndentacion, Me.tsSepEditor1, Me.buttonEditorPonerComentarios, Me.buttonEditorQuitarComentarios, Me.tsSepEditor2, Me.buttonEditorClasificarSeleccion, Me.tsSepEditor4, Me.buttonEditorMarcador, Me.buttonEditorMarcadorAnterior, Me.buttonEditorMarcadorSiguiente, Me.tsSepEditor3, Me.buttonEditorMarcadorQuitarTodos})
+        Me.toolStripEditor.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEditorQuitarIndentacion, Me.buttonEditorPonerIndentacion, Me.tsSepEditor1, Me.buttonEditorPonerComentarios, Me.buttonEditorQuitarComentarios, Me.tsSepEditor2, Me.buttonEditorClasificarSeleccion, Me.tsSepEditor3, Me.buttonEditorMarcador, Me.buttonEditorMarcadorAnterior, Me.buttonEditorMarcadorSiguiente, Me.tsSepEditor4, Me.buttonEditorMarcadorAnteriorLocal, Me.buttonEditorMarcadorSiguienteLocal, Me.tsSepEditor5, Me.buttonEditorMarcadorQuitarTodos})
         Me.toolStripEditor.Location = New System.Drawing.Point(742, 3)
         Me.toolStripEditor.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripEditor.Name = "toolStripEditor"
-        Me.toolStripEditor.Size = New System.Drawing.Size(243, 25)
+        Me.toolStripEditor.Size = New System.Drawing.Size(295, 25)
         Me.toolStripEditor.TabIndex = 0
         Me.toolStripEditor.Text = "Editor"
         '
@@ -1442,10 +1467,10 @@ Partial Class MDIPrincipal
         Me.buttonEditorClasificarSeleccion.Size = New System.Drawing.Size(23, 22)
         Me.buttonEditorClasificarSeleccion.Text = "Clasificar selección (Shit+Alt+L, Shift+Alt+S)"
         '
-        'tsSepEditor4
+        'tsSepEditor3
         '
-        Me.tsSepEditor4.Name = "tsSepEditor4"
-        Me.tsSepEditor4.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepEditor3.Name = "tsSepEditor3"
+        Me.tsSepEditor3.Size = New System.Drawing.Size(6, 25)
         '
         'buttonEditorMarcador
         '
@@ -1463,7 +1488,7 @@ Partial Class MDIPrincipal
         Me.buttonEditorMarcadorAnterior.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.buttonEditorMarcadorAnterior.Name = "buttonEditorMarcadorAnterior"
         Me.buttonEditorMarcadorAnterior.Size = New System.Drawing.Size(23, 22)
-        Me.buttonEditorMarcadorAnterior.Text = "Ir al marcador (bookmark) anterior"
+        Me.buttonEditorMarcadorAnterior.Text = "Ir al marcador (bookmark) anterior en todos los ficheros"
         '
         'buttonEditorMarcadorSiguiente
         '
@@ -1472,12 +1497,35 @@ Partial Class MDIPrincipal
         Me.buttonEditorMarcadorSiguiente.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.buttonEditorMarcadorSiguiente.Name = "buttonEditorMarcadorSiguiente"
         Me.buttonEditorMarcadorSiguiente.Size = New System.Drawing.Size(23, 22)
-        Me.buttonEditorMarcadorSiguiente.Text = "Ir al siguiente marcador (bookmark)"
+        Me.buttonEditorMarcadorSiguiente.Text = "Ir al siguiente marcador (bookmark) en todos los ficheros"
         '
-        'tsSepEditor3
+        'tsSepEditor4
         '
-        Me.tsSepEditor3.Name = "tsSepEditor3"
-        Me.tsSepEditor3.Size = New System.Drawing.Size(6, 25)
+        Me.tsSepEditor4.Name = "tsSepEditor4"
+        Me.tsSepEditor4.Size = New System.Drawing.Size(6, 25)
+        '
+        'buttonEditorMarcadorAnteriorLocal
+        '
+        Me.buttonEditorMarcadorAnteriorLocal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.buttonEditorMarcadorAnteriorLocal.Image = CType(resources.GetObject("buttonEditorMarcadorAnteriorLocal.Image"), System.Drawing.Image)
+        Me.buttonEditorMarcadorAnteriorLocal.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.buttonEditorMarcadorAnteriorLocal.Name = "buttonEditorMarcadorAnteriorLocal"
+        Me.buttonEditorMarcadorAnteriorLocal.Size = New System.Drawing.Size(23, 22)
+        Me.buttonEditorMarcadorAnteriorLocal.Text = "Ir al marcador (bookmark) anterior del fichero actual"
+        '
+        'buttonEditorMarcadorSiguienteLocal
+        '
+        Me.buttonEditorMarcadorSiguienteLocal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.buttonEditorMarcadorSiguienteLocal.Image = CType(resources.GetObject("buttonEditorMarcadorSiguienteLocal.Image"), System.Drawing.Image)
+        Me.buttonEditorMarcadorSiguienteLocal.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.buttonEditorMarcadorSiguienteLocal.Name = "buttonEditorMarcadorSiguienteLocal"
+        Me.buttonEditorMarcadorSiguienteLocal.Size = New System.Drawing.Size(23, 22)
+        Me.buttonEditorMarcadorSiguienteLocal.Text = "Ir al siguiente marcador (bookmark) del fichero actual"
+        '
+        'tsSepEditor5
+        '
+        Me.tsSepEditor5.Name = "tsSepEditor5"
+        Me.tsSepEditor5.Size = New System.Drawing.Size(6, 25)
         '
         'buttonEditorMarcadorQuitarTodos
         '
@@ -1561,6 +1609,8 @@ Partial Class MDIPrincipal
     Friend WithEvents buttonEditorMarcadorAnterior As ToolStripButton
     Friend WithEvents buttonEditorMarcadorQuitarTodos As ToolStripButton
     Friend WithEvents buttonEditorMarcadorSiguiente As ToolStripButton
+    Friend WithEvents buttonEditorMarcadorAnteriorLocal As ToolStripButton
+    Friend WithEvents buttonEditorMarcadorSiguienteLocal As ToolStripButton
     Friend WithEvents buttonEditorPonerComentarios As ToolStripButton
     Friend WithEvents buttonEditorPonerIndentacion As ToolStripButton
     Friend WithEvents buttonEditorQuitarComentarios As ToolStripButton
@@ -1572,6 +1622,7 @@ Partial Class MDIPrincipal
     Friend WithEvents buttonMatchCase As ToolStripButton
     Friend WithEvents buttonMostrarEvaluacion As ToolStripButton
     Friend WithEvents buttonNavegarMenu As ToolStripDropDownButton
+    Friend WithEvents buttonNavegarAnterior As ToolStripButton
     Friend WithEvents buttonNavegarSiguiente As ToolStripButton
     Friend WithEvents buttonNoColorear As ToolStripButton
     Friend WithEvents buttonNuevo As ToolStripButton
@@ -1701,6 +1752,7 @@ Partial Class MDIPrincipal
     Private tsSepEditor2 As ToolStripSeparator
     Private tsSepEditor3 As ToolStripSeparator
     Private tsSepEditor4 As ToolStripSeparator
+    Private tsSepEditor5 As ToolStripSeparator
     Private tsSepFichero0 As ToolStripSeparator
     Private tsSepFichero1 As ToolStripSeparator
     Private tsSepNavegar1 As ToolStripSeparator
@@ -1709,5 +1761,7 @@ Partial Class MDIPrincipal
     Private tsSepTools2 As ToolStripSeparator
     Private tsSepTools3 As ToolStripSeparator
     Private tsSepTools4 As ToolStripSeparator
-    Friend WithEvents buttonNavegarAnterior As ToolStripButton
+    Friend WithEvents menuEditorMarcadorAnteriorLocal As ToolStripMenuItem
+    Friend WithEvents menuEditorMarcadorSiguienteLocal As ToolStripMenuItem
+    Private mnuSepEditor4 As ToolStripSeparator
 End Class

@@ -7,8 +7,8 @@ Este código lo estoy usando con Visual Studio 2019 Preview y .NET 5.0 RC2<br>
 <br>
 <h4>Descripción con los cambios</h4>
 <br>
-<i>Ver los comentarios al inicio del fichero Form1 del código del proyecto.</i><br>
+Ver los comentarios en el fichero <b>Revisiones.txt</b>.<br>
 <br>
 <br>
-Actualizado el 24 de octubre de 2020 a eso de las 19:35 (GMT/UTC+2)<br>
+Actualizado el 24 de octubre de 2020 a eso de las 21:37 (GMT/UTC+2)<br>
 
