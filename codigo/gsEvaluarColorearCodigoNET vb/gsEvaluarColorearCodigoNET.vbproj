@@ -8,10 +8,11 @@
         <RootNamespace>gsEvaluarColorearCodigoNET</RootNamespace>
         <StartupObject>gsEvaluarColorearCodigoNET.MDIPrincipal</StartupObject>
         <UseWindowsForms>true</UseWindowsForms>
-        <Description>Abrir ficheros de Visual Basic o C# para:
+        
+        <Description>Abrir múltiples ficheros de Visual Basic o C# para:
 Evaluar si tiene fallos, Compilar, Ejecutar y Colorear (el código y para HTML)
 Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
-(para .NET 5.0 RC2 revisión del 24-oct-2020, iniciado el 20-sep)
+(para .NET 5.0 RC2 revisión del 25-oct-2020, iniciado el 20-sep)
 </Description>
         <Copyright>Copyright Guillermo Som (elGuille), 2020</Copyright>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -19,8 +20,15 @@ Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
         <Authors>Guillermo Som (elGuille)</Authors>
         <Version>1.0.0.0</Version>
         <NeutralLanguage>es-ES</NeutralLanguage>
-        <FileVersion>1.0.0.246</FileVersion>
+        <FileVersion>1.0.0.247</FileVersion>
         <ApplicationIcon>VSProject_genericproject.Office_Deve.ico</ApplicationIcon>
+        <MyType>WindowsForms</MyType>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/elGuille-info/gsEvaluarColorearCodigoNET</RepositoryUrl>
+        <PackageIcon>gsCompilarEjecutarNET.jpg</PackageIcon>
+        <PackageTags>visual-basic vb c# dotnet net-core net-5 compilar colorear visual-studio-preview</PackageTags>
+        <PackageReleaseNotes>v1.0.0.247 (25/Oct/20) Añado los estilos visuales a las propiedades del proyecto y añado la ubicación en github de este proyecto.
+</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
@@ -48,6 +56,10 @@ Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
             <Pack>True</Pack>
             <PackagePath></PackagePath>
         </None>
+        <None Include="gsCompilarEjecutarNET.jpg">
+          <Pack>True</Pack>
+          <PackagePath></PackagePath>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -59,6 +71,11 @@ Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
     </ItemGroup>
 
     <ItemGroup>
+        <Compile Update="My Project\Application.Designer.vb">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Application.myapp</DependentUpon>
+        </Compile>
         <Compile Update="My Project\Resources.Designer.vb">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -72,6 +89,13 @@ Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
             <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.vb</LastGenOutput>
         </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="My Project\Application.myapp">
+        <Generator>MyApplicationCodeGenerator</Generator>
+        <LastGenOutput>Application.Designer.vb</LastGenOutput>
+      </None>
     </ItemGroup>
 
 </Project>

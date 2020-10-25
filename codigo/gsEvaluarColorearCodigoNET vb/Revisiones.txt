@@ -426,6 +426,8 @@
 '                       para saber si habilitar los botones/menús de ir a los marcadores globales
 'v1.0.0.246             Ya está operativo el ir a los bookmarks globales
 '                       antes fallaba si al ir al siguiente o anterior, esa ventana no tenía marcadores
+'v1.0.0.247 25/Oct/20   Añado los estilos visuales a las propiedades del proyecto y
+'                       añado la ubicación en github de este proyecto.
 '
 '
 ' TODO:
