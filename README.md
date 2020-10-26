@@ -11,4 +11,7 @@ Ver los comentarios en el fichero <b>Revisiones.txt</b>.<br>
 <br>
 <br>
 Actualizado el 26 de octubre de 2020 a eso de las 19:32 (GMT/UTC+1)
+<br>
+<br>
+Ver como sitio web: <a href="https://elguille-info.github.io/gsEvaluarColorearCodigoNET/">https://elguille-info.github.io/gsEvaluarColorearCodigoNET/</a>
 
