@@ -92,32 +92,10 @@ Public Class Compilar
                 ' porque el path contiene espacios.
                 Dim p = Process.Start("dotnet", $"{ChrW(34)}{res.OutputPath}{ChrW(34)}")
 
-                '' Intentar posicionar y mostrar la ventana          (17/Oct/20)
-                'Dim psi = New ProcessStartInfo
-                'psi.WindowStyle = ProcessWindowStyle.Normal
-                'psi.FileName = "dotnet"
-                'psi.Arguments = $"{ChrW(34)}{res.OutputPath}{ChrW(34)}"
-                'Dim p = Process.Start(psi)
+                ' No hay forma de moverla, el truco es:             (26/Oct/20)
+                ' al poner el cursor sobre la ventana en la barra de tareas
+                ' se muestra un popup de la ventana, pulsar en la barra y darle a mover...
 
-                '' Posicionar la ventana en el centro de la pantalla (17/Oct/20)
-                '' Es que al NO usar el monitor externo,
-                '' no se ve porque le asigné la posición manualmente (supongo)
-                '' Pero esto no hace nada... :-(
-                'Dim h = p.MainWindowHandle
-                'Dim ret As (Left As Integer, Top As Integer, Width As Integer, Height As Integer)
-                'h = p.Handle
-                'Dim estado = GetWindowState(h)
-                'Dim posN = PosicionNormal
-                'posN.Bottom = 400
-                'posN.Right = 500
-                'SetWindowState(h, FormWindowState.Normal)
-                'ret = GetWindowPosition(h)
-                ''ret.Width = 400
-                ''ret.Height = 200
-                'ret.Left = Screen.PrimaryScreen.WorkingArea.Width \ 2 - ret.Width \ 2
-                'ret.Top = Screen.PrimaryScreen.WorkingArea.Height \ 2 - ret.Height \ 2
-                'SetWindowPosition(h, ret.Left, ret.Top, ret.Width, ret.Height)
-                'BringToTop(h)
             Catch ex As Exception
                 Debug.WriteLine(ex.Message)
             End Try
@@ -781,7 +759,7 @@ Public Class Compilar
 
         With richtb
             Dim selStart = richtb.SelectionStart
-            Dim selStartFin = selStart + .SelectionLength
+            Dim selStartFin = selStart + richtb.SelectionLength
 
             Dim colSpans = GetClasSpans(sourceCode:= .Text, lenguaje)
             Dim colCodigo = EvaluaCodigo(.Text, colSpans)

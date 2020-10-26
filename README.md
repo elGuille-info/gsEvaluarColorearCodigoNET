@@ -10,5 +10,5 @@ Este código lo estoy usando con Visual Studio 2019 Preview y .NET 5.0 RC2<br>
 Ver los comentarios en el fichero <b>Revisiones.txt</b>.<br>
 <br>
 <br>
-Actualizado el 25 de octubre de 2020 a eso de las 15:03 (GMT/UTC+1)
+Actualizado el 26 de octubre de 2020 a eso de las 19:32 (GMT/UTC+1)
 

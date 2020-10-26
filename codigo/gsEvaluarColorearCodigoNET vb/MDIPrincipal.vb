@@ -78,13 +78,10 @@ Public Class MDIPrincipal
         Dim sCopyR = $"Copyright Guillermo Som (elGuille), 2020{If(Date.Now.Year > 2020, $"-{Date.Now.Year}", "")}"
         sCopyR = $"{Application.ProductName} v{Application.ProductVersion}, {sCopyR}"
 
-        'Dim t = 0
         ' Asignar el texto de la información a todas las ventanas
         For Each frm As Form1 In MdiChildren
             frm.labelInfo.Text = sCopyR
-            't += 1
         Next
-        'Debug.WriteLine(t)
     End Sub
 
 
@@ -92,9 +89,34 @@ Public Class MDIPrincipal
                                          e As FormClosingEventArgs) Handles Me.FormClosing
         timerClipBoard.Stop()
 
+        ' Para guardar la posición y tamaño actual de la ventana    (26/Oct/20)
+        MDIPrincipal_Resize()
+
         ' Antes estaba en el Form1                                  (18/Oct/20)
         GuardarConfig()
     End Sub
+
+    Private Sub MDIPrincipal_Resize() Handles Me.Resize
+        If inicializando Then Return
+
+        If Me.WindowState = FormWindowState.Normal Then
+            tamForm = (Me.Left, Me.Top, Me.Height, Me.Width)
+        Else
+            tamForm = (Me.RestoreBounds.Left, Me.RestoreBounds.Top,
+                       Me.RestoreBounds.Height, Me.RestoreBounds.Width)
+        End If
+
+    End Sub
+
+    Private Sub MDIPrincipal_Move() Handles Me.Move
+        If inicializando Then Return
+
+        If Me.WindowState = FormWindowState.Normal Then
+            tamForm = (Me.Left, Me.Top, Me.Height, Me.Width)
+        End If
+
+    End Sub
+
 
     ''' <summary>
     ''' Asignar los métodos de evento manualmente en vez de con Handles
@@ -1066,4 +1088,5 @@ Public Class MDIPrincipal
     Private Sub buttonEditorMarcadorSiguienteLocal_Click() Handles buttonEditorMarcadorSiguienteLocal.Click
         Form1Activo.MarcadorSiguiente()
     End Sub
+
 End Class

@@ -428,15 +428,30 @@
 '                       antes fallaba si al ir al siguiente o anterior, esa ventana no tenía marcadores
 'v1.0.0.247 25/Oct/20   Añado los estilos visuales a las propiedades del proyecto y
 '                       añado la ubicación en github de este proyecto.
+'v1.0.0.248 26/Oct/20   Comprobar porqué no colorea bien la selección: solucionado
+'v1.0.0.249             Después de cargar los ficheros (al iniciarse la aplicación) activar directamente la ventana
+'                       para que se muestren correctamente los botones (con BringToFront no va bien)
+'v1.0.0.250             Nuevo intento de mover la ventana de dotnet al ejecutar el código
+'v1.0.0.251             No hay forma de moverla, el truco es:
+'                           al poner el cursor sobre la ventana en la barra de tareas
+'                           se muestra un popup de la ventana, pulsar en la barra y darle a mover...
+'v1.0.0.252             Arreglado BUG al cargar reciente (en recientes está el nombre del fichero sin path)
+'v1.0.0.253             Pongo más elementos en la lista de recientes (25)
+'v1.0.0.254             A ver si los cambios realizados van bien con el monitor externo
+'                       (no lo han reparado, pero lo tengo)
+'v1.0.0.255             Quito la llamada a Activate al final de LeerConfig
+'v1.0.0.256             Pongo nuevamente el código para saber posición y tamaño del formulario principal
+'v1.0.0.257             Solo se tiene en cuenta el Left para asignarle 0 si está fuera de la vista
+'                       Top lo pongo a cero si es menor de cero
+'v1.0.0.258             Arreglado BUG que en UltimasVentanasAbiertas guardaba el fichero sin el path
+'
 '
 '
 ' TODO:
-'   24-oct  Solucionar que al colorear la selección no lo hace bien
-'
 '   20-oct  Colorear en segundo plano
 '           Al cargar los ficheros al iniciar mostrar el primero que se abrió
 '               y el resto, en modo oculto, seguirán cargando/coloreando.
-'   17-oct  Solucionar lo del pitido al pulsar ENTER
+'   17-oct  Solucionar lo del pitido al pulsar ENTER (creo que ya está)
 '   04-oct  Usar plantillas y crearlas para usar con Nuevo...
 '           Poder cargar un proyecto o solución con todos los ficheros relacionados
 '

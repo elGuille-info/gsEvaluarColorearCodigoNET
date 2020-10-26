@@ -77,6 +77,10 @@ Public Class Form1
         End Get
         Set(value As String)
             _nombreFichero = value
+            ' No guardarla si es una cadena vacía                   (26/Oct/20)
+            If String.IsNullOrWhiteSpace(value) Then
+                Return
+            End If
             CompararString.IgnoreCase = True
             If Not UltimasVentanasAbiertas.Contains(value, New CompararString) Then
                 UltimasVentanasAbiertas.Add(value)
@@ -194,7 +198,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Form1_Activated() Handles Me.Activated
+    Friend Sub Form1_Activated() Handles Me.Activated
         If cargando Then Return
 
         ' Asignar cuál es el Form1 activo
@@ -1014,13 +1018,14 @@ Public Class Form1
 
         MostrarPosicion(Nothing)
 
-
         labelTamaño.Text = $"{richTextBoxCodigo.Text.Length:#,##0} car. ({richTextBoxCodigo.Text.CuantasPalabras:#,##0} palab.)"
 
         ' Si es texto, deshabilitar los botones que correspondan    (08/Oct/20)
-        If sLenguaje = ExtensionTexto Then
-            CurrentMDI.HabilitarBotones()
-        End If
+        'If sLenguaje = ExtensionTexto Then
+        '    CurrentMDI.HabilitarBotones()
+        'End If
+        ' Llamar siempre a este método para habilitar los botones   (26/Oct/20)
+        CurrentMDI.HabilitarBotones()
 
         Me.TextoModificado = False
 

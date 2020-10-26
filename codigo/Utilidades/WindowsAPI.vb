@@ -20,6 +20,40 @@ Imports System.Runtime.InteropServices
 
 Public Module WindowsAPI
 
+    Public Function FindTopWindowTitle(titulo As String) As IntPtr ' Integer
+        ' Buscará la ventana indicada en el título                      (25/Sep/02)
+        ' y devolverá el handle de la misma o un cero si no se ha hayado.
+        Dim lpClassName As String = ""
+        Return FindWindow(lpClassName, titulo)
+    End Function
+
+    'Private Declare Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal lpClassName As String, ByVal lpWindowName As String) As Integer
+
+    Public Const WM_COMMAND As Integer = &H112
+    Public Const WM_CLOSE As Integer = &HF060
+
+    '' FindWindowEx también busca en las ventanas hijas                  (25/Sep/02)
+    '' Esta constante se puede usar sólo con Windows 2000/XP para indicar que sólo
+    '' se buscará en las ventanas que reciban mensajes.
+    'Public Const HWND_MESSAGE As Integer = (-3)
+    'Public Declare Function FindWindowEx Lib "user32" Alias "FindWindowExA" (ByVal hWnd1 As Integer, ByVal hWnd2 As Integer, ByVal lpsz1 As String, ByVal lpsz2 As String) As Integer
+
+    <DllImport("user32.dll")>
+    Public Function FindWindow(lpClassName As String, lpWindowName As String) As IntPtr ' Integer
+    End Function
+
+    <System.Runtime.InteropServices.DllImport("User32.dll")>
+    Public Function SendMessage(hWnd As IntPtr, msg As Long, wParam As Long, lParam As Long) As Integer
+    End Function
+
+
+    <DllImport("User32.dll", ExactSpelling:=True, CharSet:=System.Runtime.InteropServices.CharSet.Auto)>
+    Public Function MoveWindow(hWnd As IntPtr,
+                               x As Integer, y As Integer,
+                               cx As Integer, cy As Integer,
+                               repaint As Boolean) As Boolean
+    End Function
+
     ''' <summary>
     ''' Estructura para la posición y tamaño de la ventana
     ''' </summary>

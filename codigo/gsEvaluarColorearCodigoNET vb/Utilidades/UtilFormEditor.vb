@@ -96,6 +96,8 @@ Friend Module UtilFormEditor
     Public Function GetScrollPos(hWnd As IntPtr, nBar As Integer) As Integer
     End Function
 
+    ' SendeMessage está declarada en el módulo WindowsAPI           (26/Oct/20)
+    ' comentar esto si se añade ese módulo
     <System.Runtime.InteropServices.DllImport("User32.dll")>
     Public Function SendMessage(hWnd As IntPtr, msg As Long, wParam As Long, lParam As Long) As Integer
     End Function
@@ -167,6 +169,11 @@ Friend Module UtilFormEditor
 #End Region
 
 #Region " Los 'campos' generales "
+
+    ''' <summary>
+    ''' Tupla para guardar el tamaño y posición del formulario
+    ''' </summary>
+    Public tamForm As (Left As Integer, Top As Integer, Height As Integer, Width As Integer)
 
     ''' <summary>
     ''' Llevar la cuenta de los marcadores que hay de forma global.
@@ -255,31 +262,6 @@ Friend Module UtilFormEditor
     ''' cuando se cerró la aplicación
     ''' </summary>
     Public cargarUltimo As Boolean
-
-    '''' <summary>
-    '''' Nombre del último fichero asignado al código.
-    '''' Se usará el NombreFichero del formulario activo.
-    '''' Al asignarlo, si no está en la colección <see cref="UltimasVentanasAbiertas"/>
-    '''' se añadirá.
-    '''' </summary>
-    'Public Property nombreUltimoFichero As String
-    '    Get
-    '        If Form1Activo IsNot Nothing Then
-    '            Return Form1Activo.nombreFichero
-    '        Else
-    '            Return ""
-    '        End If
-    '    End Get
-    '    Set(value As String)
-    '        If Form1Activo IsNot Nothing Then
-    '            Form1Activo.nombreFichero = value
-    '            CompararString.IgnoreCase = True
-    '            If Not UltimasVentanasAbiertas.Contains(value, New CompararString) Then
-    '                UltimasVentanasAbiertas.Add(value)
-    '            End If
-    '        End If
-    '    End Set
-    'End Property
 
     ''' <summary>
     ''' Los nombres de los ficheros abiertos en cada sesión.
@@ -416,6 +398,12 @@ Friend Module UtilFormEditor
         ' para el texto a quitar/poner                              (08/Oct/20)
         cfg.SetValue("Quitar Poner Texto", "PonerTexto", txtPonerTexto.Text)
 
+        ' El tamaño y la posición de la ventana                     (26/Oct/20)
+        cfg.SetValue("Ventana", "Left", tamForm.Left)
+        cfg.SetValue("Ventana", "Top", tamForm.Top)
+        cfg.SetValue("Ventana", "Height", tamForm.Height)
+        cfg.SetValue("Ventana", "Width", tamForm.Width)
+
         cfg.Save()
     End Sub
 
@@ -425,7 +413,33 @@ Friend Module UtilFormEditor
     ''' </summary>
     Public Sub LeerConfig()
         Dim cfg = New Config(FicheroConfiguracion)
-        Dim cuantos = 0
+
+        ' El tamaño y la posición de la ventana                     (26/Oct/20)
+        tamForm.Left = cfg.GetValue("Ventana", "Left", -1)
+        tamForm.Top = cfg.GetValue("Ventana", "Top", -1)
+        tamForm.Height = cfg.GetValue("Ventana", "Height", -1)
+        tamForm.Width = cfg.GetValue("Ventana", "Width", -1)
+
+        ' Comprobar que no esté fuera de la pantalla
+        If tamForm.Left <> -1 Then
+            If Screen.PrimaryScreen.WorkingArea.Left >= tamForm.Left Then
+                CurrentMDI.Left = tamForm.Left
+            End If
+        End If
+        If tamForm.Top <> -1 Then
+            If tamForm.Top < 0 Then
+                CurrentMDI.Top = 0
+            Else
+                CurrentMDI.Top = tamForm.Top
+            End If
+            'If Screen.PrimaryScreen.WorkingArea.Top < tamForm.Top Then
+            '    CurrentMDI.Top = tamForm.Top
+            'Else
+            '    CurrentMDI.Top = 0
+            'End If
+        End If
+        If tamForm.Height > -1 Then CurrentMDI.Height = tamForm.Height
+        If tamForm.Width > -1 Then CurrentMDI.Width = tamForm.Width
 
         ' Si cargarUltimo es falso no asignar el último fichero     (16/Sep/20)
         cargarUltimo = cfg.GetValue("Ficheros", "CargarUltimo", True)
@@ -450,7 +464,7 @@ Friend Module UtilFormEditor
 
         ' Leer la lista de los últimos ficheros que se han abierto
         ' (aunque no estén abiertos ahora)
-        cuantos = cfg.GetValue("Ficheros", "Count", 0)
+        Dim cuantos = cfg.GetValue("Ficheros", "Count", 0)
         UltimosFicherosAbiertos.Clear()
         For i = 0 To MaxFicsConfig - 1
             If i >= cuantos Then Exit For
@@ -570,9 +584,14 @@ Friend Module UtilFormEditor
             Next
             m_fProcesando.Close()
             cargando = False
+
+            '
+            ' Esto ya no hace falta...                              (26/Oct/20)
+            '
             ' Activar el último formulario cargado                  (24/Oct/20)
             ' para que se actualicen los botones, etc.
-            Form1Activo.BringToFront()
+            ' Llamo directamente al evento Activated                (26/Oct/20)
+            'Form1Activo.Form1_Activated() 'BringToFront()
         End If
 
     End Sub
@@ -1685,11 +1704,13 @@ Friend Module UtilFormEditor
     ''' <summary>
     ''' El número máximo de ficheros en el menú recientes
     ''' </summary>
-    Public Const MaxFicsMenu As Integer = 9
+    Public Const MaxFicsMenu As Integer = 25 '9
 
     ''' <summary>
     ''' El número máximo de ficheros a guardar en la configuración
     ''' y a mostrar en el combo de los nombres de los ficheros.
+    ''' Estos ficheros solo se podrán ver en las opciones del programa,
+    ''' ya que solo estarán accesible los 25 mostrados en Recientes
     ''' </summary>
     Public Const MaxFicsConfig As Integer = 50
 
@@ -1764,16 +1785,24 @@ Friend Module UtilFormEditor
         ' si es así, mostrar la ventana
         ' si no está abierto, abrirlo en una ventana nueva
         For Each frm As Form1 In CurrentMDI.MdiChildren
-            If frm.nombreFichero = ficT Then
+            If frm.Text = ficT Then 'If Path.GetFileName(frm.nombreFichero) = ficT Then
                 frm.BringToFront()
+                frm.Activate()
                 Return
             End If
         Next
         ' Si llega aquí es que no estaba abierto
         Nuevo()
+        ' Aquí siempre debe tener el path                           (26/Oct/20)
+        Dim sDir = Path.GetDirectoryName(ficT)
+        If String.IsNullOrWhiteSpace(sDir) Then
+            sDir = DirDocumentos
+            ficT = Path.Combine(sDir, ficT)
+        End If
         Form1Activo.nombreFichero = ficT
         Form1Activo.Abrir(Form1Activo.nombreFichero)
-
+        Form1Activo.BringToFront()
+        'Form1Activo.Activate()
     End Sub
 
 
@@ -1912,19 +1941,21 @@ Friend Module UtilFormEditor
     Public Sub Pegar()
         If richTextBoxCodigo.CanPaste(DataFormats.GetFormat("Text")) Then
             richTextBoxCodigo.Paste(DataFormats.GetFormat("Text"))
+            ' El texto pegado                                       (26/Oct/20)
+            Dim sTexto = Clipboard.GetText()
 
-            Dim selStart = richTextBoxCodigo.SelectionStart
+            Dim selStart = richTextBoxCodigo.SelectionStart - sTexto.Length
             Dim lin = richTextBoxCodigo.GetLineFromCharIndex(selStart)
-            Dim pos = richTextBoxCodigo.GetFirstCharIndexFromLine(lin)
-            Dim sLinea = richTextBoxCodigo.Lines(lin)
-
+            Dim pos = richTextBoxCodigo.GetFirstCharIndexFromLine(lin + 1)
+            ' Esta es la primera línea del texto pegado             (26/Oct/20)
+            'Dim sLinea = richTextBoxCodigo.Lines(lin + 1)
 
             ' obligar a poner las líneas                            (18/Sep/20)
             Form1Activo.AñadirNumerosDeLinea()
 
             ' Seleccionar el texto después de pegar                 (04/Oct/20)
             richTextBoxCodigo.SelectionStart = pos
-            richTextBoxCodigo.SelectionLength = sLinea.Length
+            richTextBoxCodigo.SelectionLength = sTexto.Length
             ' y colorearlo si procede
             ColorearSeleccion()
 
