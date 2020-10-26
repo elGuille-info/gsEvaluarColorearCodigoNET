@@ -9,6 +9,9 @@ Este código lo estoy usando con Visual Studio 2019 Preview y .NET 5.0 RC2<br>
 <br>
 Ver los comentarios en el fichero <b>Revisiones.txt</b>.<br>
 <br>
+<h2>Releases</h2>
+Hay una <b>Release</b> (ficheros ejecutables) publicada:<br>
+<a href="https://github.com/elGuille-info/gsEvaluarColorearCodigoNET/releases/tag/v1.0.0.248">gsEvaluarColorearCodigoNET v1.0.0.248</a><br>
 <br>
 Actualizado el 26 de octubre de 2020 a eso de las 19:32 (GMT/UTC+1)
 <br>
