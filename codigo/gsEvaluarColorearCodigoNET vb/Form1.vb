@@ -374,7 +374,7 @@ Public Class Form1
         End If
     End Sub
 
-    Public Sub Form1_DragEnter(sender As Object, e As DragEventArgs) Handles Me.DragEnter
+    Public Sub Form1_DragEnter(sender As Object, e As DragEventArgs) Handles Me.DragEnter, richTextBoxCodigo.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) OrElse
                 e.Data.GetDataPresent(DataFormats.Text) OrElse
                 e.Data.GetDataPresent("System.String") Then
@@ -382,17 +382,55 @@ Public Class Form1
         End If
     End Sub
 
-    Public Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles Me.DragDrop
+    Public Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles Me.DragDrop, richTextBoxCodigo.DragDrop
         If e.Data.GetDataPresent("System.String") Then
             Dim fic As String = CType(e.Data.GetData("System.String"), String)
             ' Comprobar que sea una URL o un fichero
             If fic.IndexOf("http") > -1 OrElse fic.IndexOf(":\") > -1 Then
                 Abrir(fic)
+                m_fProcesando.Close()
             End If
-        End If
-        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
-            Dim fic As String = CType(e.Data.GetData(DataFormats.FileDrop, True), String())(0)
-            Abrir(fic)
+        ElseIf e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            ' Si se sueltan varios ficheros, abrirlos todos         (30/Oct/20)
+            Dim files = CType(e.Data.GetData(DataFormats.FileDrop, True), String())
+            ' Si se suelta 1, abrirlo en la misma ventana
+            ' si son más de 1, abrirlos en ventanas nuevas
+            If files.Length = 1 Then
+                Dim fic = files(0)
+                Abrir(fic)
+            Else
+                MostrarProcesando("Cargando ficheros con Drag & Drop", $"Cargando {files.Length} ficheros...{vbCrLf}", files.Length * 2)
+                Dim fic As String
+                ' Al tener una ventana abierta y hacer DragDrop
+                ' se quedaba modificado el primer fichero
+                ' así que... si hay una ventana abierta, se deja como estaba
+                ' y los ficheros soltados se abren en neuvas ventanas
+                ' así también vale por si ya tenía texto
+
+                'Dim origen = TryCast(sender, Form)
+                'Dim j As Integer = 0
+                '' si el dragdrop no se manda desde el MDI
+                'If origen IsNot MDIPrincipal Then
+                '    j = 1
+                '    fic = files(0)
+                '    Abrir(fic)
+                '    TextoModificado = False
+                'End If
+                For i = 0 To files.Length - 1
+                    fic = files(i)
+                    Nuevo()
+                    Form1Activo.Abrir(fic)
+                    Form1Activo.TextoModificado = False
+                Next
+                'If origen IsNot MDIPrincipal Then
+                '    TextoModificado = False
+                '    'Me.Close()
+                '    If Me.Text = "" Then
+                '        Me.Close()
+                '    End If
+                'End If
+            End If
+            m_fProcesando.Close()
         ElseIf e.Data.GetDataPresent(DataFormats.Text) Then
             richTextBoxCodigo.SelectedText = e.Data.GetData("System.String", True).ToString()
         End If

@@ -1111,4 +1111,11 @@ Public Class MDIPrincipal
         Form1Activo.MarcadorSiguiente()
     End Sub
 
+    Private Sub MDIPrincipal_DragEnter(sender As Object, e As DragEventArgs) Handles MyBase.DragEnter
+        Form1Activo.Form1_DragEnter(sender, e)
+    End Sub
+
+    Private Sub MDIPrincipal_DragDrop(sender As Object, e As DragEventArgs) Handles MyBase.DragDrop
+        Form1Activo.Form1_DragDrop(sender, e)
+    End Sub
 End Class

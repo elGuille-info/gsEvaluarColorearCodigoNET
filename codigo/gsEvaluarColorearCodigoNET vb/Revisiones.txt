@@ -469,7 +469,10 @@
 'v1.0.0.274             En Form1_Activate se asignaba nuevamente el nombre del fichero... ¡ain!
 'v1.0.0.275             Al pulsar ENTER en el list de los recortes, aceptar ese texto
 'v1.0.0.276             Al pegar desde Recortes, si es fichero de texto, no seleccionar (ya que se pierde lo pegado)
-'
+'v1.0.0.277             Al pegar, si el fichero está vacío, selectionStart es -1
+'v1.0.0.278             Drag Drop no funciona... no estaba implementado en el richTexBoxCodigo
+'v1.0.0.279             Al soltar ficheros con DragDrop poder cargar todos los soltados
+'v1.0.0.280             También añado las operaciones de Drag Drop en el MDI
 '
 '
 '

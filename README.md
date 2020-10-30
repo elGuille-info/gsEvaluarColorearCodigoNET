@@ -11,9 +11,9 @@ Ver los comentarios en el fichero <b>Revisiones.txt</b>.<br>
 <br>
 <h2>Releases</h2>
 Hay una <b>Release</b> (ficheros ejecutables) publicada:<br>
-<a href="https://github.com/elGuille-info/gsEvaluarColorearCodigoNET/releases/tag/v1.0.0.276">gsEvaluarColorearCodigoNET v1.0.0.276</a><br>
+<a href="https://github.com/elGuille-info/gsEvaluarColorearCodigoNET/releases/tag/v1.0.0.280">gsEvaluarColorearCodigoNET v1.0.0.280</a><br>
 <br>
-Actualizado el 30 de octubre de 2020 a eso de las 18:57 (GMT/UTC+1)
+Actualizado el 30 de octubre de 2020 a eso de las 20:20 (GMT/UTC+1)
 <br>
 <br>
 Ver como sitio web: <a href="https://elguille-info.github.io/gsEvaluarColorearCodigoNET/">https://elguille-info.github.io/gsEvaluarColorearCodigoNET/</a>

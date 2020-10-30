@@ -165,6 +165,7 @@ Partial Class Form1
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.richTextBoxCodigo.DetectUrls = False
+        Me.richTextBoxCodigo.EnableAutoDragDrop = True
         Me.richTextBoxCodigo.Font = New System.Drawing.Font("Consolas", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.richTextBoxCodigo.HideSelection = False
         Me.richTextBoxCodigo.Location = New System.Drawing.Point(70, 0)

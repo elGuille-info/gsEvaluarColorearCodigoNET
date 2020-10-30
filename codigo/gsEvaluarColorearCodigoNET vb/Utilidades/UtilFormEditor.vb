@@ -1825,6 +1825,7 @@ Friend Module UtilFormEditor
         Form1Activo.Abrir(Form1Activo.nombreFichero)
         Form1Activo.BringToFront()
         'Form1Activo.Activate()
+        m_fProcesando.Close()
     End Sub
 
 
@@ -1982,7 +1983,7 @@ Friend Module UtilFormEditor
                 richTextBoxCodigo.SelectionStart = selStart
                 richTextBoxCodigo.SelectionLength = sTexto.Length
             Else
-                richTextBoxCodigo.SelectionStart = pos
+                richTextBoxCodigo.SelectionStart = If(pos < 0, 0, pos)
                 richTextBoxCodigo.SelectionLength = sTexto.Length
                 ' y colorearlo si procede
                 ColorearSeleccion()
