@@ -444,6 +444,26 @@
 'v1.0.0.257             Solo se tiene en cuenta el Left para asignarle 0 si está fuera de la vista
 '                       Top lo pongo a cero si es menor de cero
 'v1.0.0.258             Arreglado BUG que en UltimasVentanasAbiertas guardaba el fichero sin el path
+'v1.0.0.259 30/Oct/20   Se pueden indicar varios ficheros en la línea de comandos, de ser así,
+'                       no se cargan los anteriores y no se guarda la lista de ficheros al cerrar.
+'                       Esto lo hago así lo puedo usar para abrir varios ficheros
+'                       que usaré para modificar sin que sean de los que quiero "recordar"
+'v1.0.0.260             Al abrir desde la línea de comandos y al guardar todos se quedaba el form de progreso
+'v1.0.0.261             Arreglado que al pegar, si no colorea, selecciona lo siguiente
+'                       de donde se pegó
+'v1.0.0.262             Al abrir, si es fichero de texto, no mostrar el panel de sintaxis
+'v1.0.0.263             Al cerrar, si se pregunta guardar, usarlo para el resto de ficheros
+'v1.0.0.264             Arreglado lo del pitido al pulsar ENTER y que ponga una línea de más
+'                       si no estaba al principio de la línea
+'v1.0.0.265             Para guardar todos (v...263) la variable guardarSinPreguntar
+'                       la declaro compartida para que esté accesible a todos los formularios
+'v1.0.0.266             Corregida la coparación para decidir si pregunta al guardar... estaba con OrElse
+'                       después de comprobar guardarSinPreguntar
+'v1.0.0.267             Se me escapó un detalle importante: ¡guardarlos! (cuando guardarSinPreguntar = True)
+'v1.0.0.268             Al cargar desde la línea de comandos no muestra el fichero que carga...
+'v1.0.0.269             El primer fichero en la línea de comandos será el ejecutable
+'
+'
 '
 '
 '

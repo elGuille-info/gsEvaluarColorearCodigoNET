@@ -87,6 +87,8 @@ Public Class MDIPrincipal
 
     Private Sub MDIPrincipal_FormClosing(sender As Object,
                                          e As FormClosingEventArgs) Handles Me.FormClosing
+        ' Este evento se produce después de los Form1_Closing       (30/Oct/20)
+
         timerClipBoard.Stop()
 
         ' Para guardar la posición y tamaño actual de la ventana    (26/Oct/20)
@@ -364,6 +366,8 @@ Public Class MDIPrincipal
         ' para que se ajuste el tamaño de FlowPanel
         MostrarPanelBuscar(False, esReemplazar:=False)
 
+        variosLineaComandos = Environment.GetCommandLineArgs.Length
+
         LeerConfig()
 
         ' Mostrar los 15 primeros en el menú Recientes
@@ -386,30 +390,35 @@ Public Class MDIPrincipal
         ' Esto se usará para cargar                                 (16/Oct/20)
         ' si se indica en la línea de comandos,
         ' ya que se habrán cargado en LeerConfig
-        'Dim tmpCargarUltimo = False
-        'Dim sFicArg As String
         ' Comprobar si se indica un fichero en la línea de comandos (28/Sep/20)
-        If Environment.GetCommandLineArgs.Length > 1 Then
-            Dim sFicArg = Environment.GetCommandLineArgs(1)
-            If Not String.IsNullOrWhiteSpace(sFicArg) Then
-                'tmpCargarUltimo = True
+        ' Si hay varios, abrirlos todos                             (30/Oct/20)
+        ' De ser así, se obvian los indicados en la configuración
+        ' Más arriba (antes de LeerConfig) se asigna variosLineaComandos
+        If variosLineaComandos > 1 Then
+            Dim n = 0
+            ' El primer fichero es el ejecutable                    (30/Oct/20)
+            For i = 1 To variosLineaComandos - 1
+                Dim sFicArg = Environment.GetCommandLineArgs(i)
+                If String.IsNullOrWhiteSpace(sFicArg) Then Continue For
 
-                ' Si hay más de un formulario abierto                   (16/Oct/20)
+                ' Abrir siempre en ventanas nuevas                  (30/Oct/20)
+                ' aunque puede que ya haya un formulario asignado
+                ' Si hay más de un formulario abierto               (16/Oct/20)
                 ' abrirlo en una nueva ventana
-                If MdiChildren.Count > 1 Then
+                n += 1
+                If n > 0 Then
                     Nuevo()
-                    Form1Activo.nombreFichero = sFicArg
                 End If
+                Form1Activo.nombreFichero = sFicArg
                 Form1Activo.Abrir(sFicArg)
 
                 ' Mostrar los números de línea
-                If Form1Activo.nombreFichero <> "" Then _
-                Form1Activo.AñadirNumerosDeLinea()
+                If Form1Activo.nombreFichero <> "" Then Form1Activo.AñadirNumerosDeLinea()
 
                 ' Iniciar la posición al principio
-                MostrarPosicion(New KeyEventArgs(Keys.Home))
-
-            End If
+                'MostrarPosicion(New KeyEventArgs(Keys.Home))
+            Next
+            m_fProcesando.Close()
         End If
 
         buttonLenguaje.DropDownItems(0).Text = Compilar.LenguajeVisualBasic
@@ -632,6 +641,8 @@ Public Class MDIPrincipal
         Next
         labelInfo.Text = $"Guardado {If(t = 1, "un fichero", $"{t} ficheros")}."
         OnProgreso(labelInfo.Text)
+
+        m_fProcesando.Close()
     End Sub
 
     Private Sub menuFileRecientes_DropDownOpening() Handles menuFileRecientes.DropDownOpening

@@ -264,6 +264,12 @@ Friend Module UtilFormEditor
     Public cargarUltimo As Boolean
 
     ''' <summary>
+    ''' si se indican ficheros en la línea de comandos.
+    ''' </summary>
+    ''' <remarks>30/Oct/2020</remarks>
+    Public variosLineaComandos As Integer
+
+    ''' <summary>
     ''' Los nombres de los ficheros abiertos en cada sesión.
     ''' </summary>
     ''' <remarks>16/Oct/2020</remarks>
@@ -322,14 +328,21 @@ Friend Module UtilFormEditor
 
         ' Guardar los últimos ficheros abiertos                     (16/Oct/20)
         ' No guardar si está en blanco el nombre del fichero
-        cuantos = -1
-        For i = 0 To UltimasVentanasAbiertas.Count - 1
-            Dim s = UltimasVentanasAbiertas(i)
-            If String.IsNullOrWhiteSpace(s) Then Continue For
-            cuantos += 1
-            cfg.SetKeyValue("Ventanas", $"Fichero{cuantos}", s)
-        Next
-        cfg.SetValue("Ventanas", "Cuantas", cuantos + 1)
+
+        ' No guardar las últimas ventanas abiertas                  (30/Oct/20)
+        ' si se han indicado ficheros desde la línea de comandos.
+        ' Esto lo hago así lo puedo usar para abrir varios ficheros
+        ' que usaré para modificar sin que sean de los que quiero "recordar"
+        If variosLineaComandos = 0 Then
+            cuantos = -1
+            For i = 0 To UltimasVentanasAbiertas.Count - 1
+                Dim s = UltimasVentanasAbiertas(i)
+                If String.IsNullOrWhiteSpace(s) Then Continue For
+                cuantos += 1
+                cfg.SetKeyValue("Ventanas", $"Fichero{cuantos}", s)
+            Next
+            cfg.SetValue("Ventanas", "Cuantas", cuantos + 1)
+        End If
 
         cfg.SetValue("Herramientas", "Lenguaje", buttonLenguaje.Text)
         cfg.SetValue("Herramientas", "Colorear", colorearAlCargar)
@@ -560,7 +573,9 @@ Friend Module UtilFormEditor
             UltimasVentanasAbiertas.Add(s)
         Next
         ' Si se indica cargarUltimo, abrirlos todos                 (16/Oct/20)
-        If cargarUltimo Then
+        ' Si se indica algún fichero en la línea de comandos        (30/Oct/20)
+        ' No abrir los anteriores (uso la variable variosLineaComandos)
+        If cargarUltimo AndAlso variosLineaComandos < 2 Then
             cargando = True
             cuantos = UltimasVentanasAbiertas.Count
             j = cuantos
@@ -1954,11 +1969,17 @@ Friend Module UtilFormEditor
             Form1Activo.AñadirNumerosDeLinea()
 
             ' Seleccionar el texto después de pegar                 (04/Oct/20)
-            richTextBoxCodigo.SelectionStart = pos
-            richTextBoxCodigo.SelectionLength = sTexto.Length
-            ' y colorearlo si procede
-            ColorearSeleccion()
-
+            ' A ver si al no colorear cambia la posición            (30/Oct/20)
+            ' ¡Efectivamente!
+            If buttonLenguaje.Text = ExtensionTexto Then
+                richTextBoxCodigo.SelectionStart = selStart
+                richTextBoxCodigo.SelectionLength = sTexto.Length
+            Else
+                richTextBoxCodigo.SelectionStart = pos
+                richTextBoxCodigo.SelectionLength = sTexto.Length
+                ' y colorearlo si procede
+                ColorearSeleccion()
+            End If
         End If
     End Sub
 
@@ -2097,6 +2118,9 @@ Friend Module UtilFormEditor
         ' la forma de usar Find
         ' y ahora si se busca algo que está más de na vez, devuelve -1
         ' como si no estuviera... 
+        ' NO ES ASÍ, fue fallo mío y buscaba algo que no estaba...  (30/Oct/20)
+        ' lo que indica la documentación sobre FIND es que la cadena de búsqueda
+        ' no puede contener varias líneas, si las tiene, no lo encuentra.
         buscarPos = richTextBoxCodigo.Find(buscarQueBuscar, buscarPos, rtbFinds)
         If buscarPos = -1 Then
             If esReemplazar Then
@@ -2281,53 +2305,7 @@ Friend Module UtilFormEditor
 
 #End Region
 
-#Region " Editor: Los menús y botones "
-
-    'Friend menuEditor As ToolStripMenuItem = CurrentMDI.menuEditor
-    'Friend menuEditorCambiarMayúsculas As ToolStripMenuItem = CurrentMDI.menuEditorCambiarMayúsculas
-    'Friend menuEditorClasificarSeleccion As ToolStripMenuItem = CurrentMDI.menuEditorClasificarSeleccion
-    'Friend menuEditorMarcador As ToolStripMenuItem = CurrentMDI.menuEditorMarcador
-    'Friend menuEditorMarcadorAnterior As ToolStripMenuItem = CurrentMDI.menuEditorMarcadorAnterior
-    'Friend menuEditorMarcadorQuitarTodos As ToolStripMenuItem = CurrentMDI.menuEditorMarcadorQuitarTodos
-    'Friend menuEditorMarcadorSiguiente As ToolStripMenuItem = CurrentMDI.menuEditorMarcadorSiguiente
-    'Friend menuEditorPonerComentarios As ToolStripMenuItem = CurrentMDI.menuEditorPonerComentarios
-    'Friend menuEditorPonerIndentacion As ToolStripMenuItem = CurrentMDI.menuEditorPonerIndentacion
-    'Friend menuEditorPonerTexto As ToolStripMenuItem = CurrentMDI.menuEditorPonerTexto
-    'Friend menuEditorPonerTextoAlFinal As ToolStripMenuItem = CurrentMDI.menuEditorPonerTextoAlFinal
-    'Friend menuEditorQuitarComentarios As ToolStripMenuItem = CurrentMDI.menuEditorQuitarComentarios
-    'Friend menuEditorQuitarEspacios As ToolStripMenuItem = CurrentMDI.menuEditorQuitarEspacios
-    'Friend menuEditorQuitarIndentacion As ToolStripMenuItem = CurrentMDI.menuEditorQuitarIndentacion
-    'Friend menuEditorQuitarTextoDelfinal As ToolStripMenuItem = CurrentMDI.menuEditorQuitarTextoDelfinal
-
-    'Friend buttonEditorClasificarSeleccion As ToolStripButton = CurrentMDI.buttonEditorClasificarSeleccion
-    'Friend buttonEditorMarcador As ToolStripButton = CurrentMDI.buttonEditorMarcador
-    'Friend buttonEditorMarcadorAnterior As ToolStripButton = CurrentMDI.buttonEditorMarcadorAnterior
-    'Friend buttonEditorMarcadorQuitarTodos As ToolStripButton = CurrentMDI.buttonEditorMarcadorQuitarTodos
-    'Friend buttonEditorMarcadorSiguiente As ToolStripButton = CurrentMDI.buttonEditorMarcadorSiguiente
-    'Friend buttonEditorPonerComentarios As ToolStripButton = CurrentMDI.buttonEditorPonerComentarios
-    'Friend buttonEditorPonerIndentacion As ToolStripButton = CurrentMDI.buttonEditorPonerIndentacion
-    'Friend buttonEditorQuitarComentarios As ToolStripButton = CurrentMDI.buttonEditorQuitarComentarios
-    'Friend buttonEditorQuitarIndentacion As ToolStripButton = CurrentMDI.buttonEditorQuitarIndentacion
-
-#End Region
-
 #Region " Herramientas: Los paneles, menús y contextual del panel herramientas "
-
-    'Friend menuTools As ToolStripMenuItem = CurrentMDI.menuTools
-
-    'Friend menuMostrar_Buscar As ToolStripMenuItem = CurrentMDI.menuMostrar_Buscar
-    'Friend menuMostrar_Compilar As ToolStripMenuItem = CurrentMDI.menuMostrar_Compilar
-    'Friend menuMostrar_Edicion As ToolStripMenuItem = CurrentMDI.menuMostrar_Edicion
-    'Friend menuMostrar_Editor As ToolStripMenuItem = CurrentMDI.menuMostrar_Editor
-    'Friend menuMostrar_Ficheros As ToolStripMenuItem = CurrentMDI.menuMostrar_Ficheros
-
-    'Friend panelBuscar As Panel = CurrentMDI.panelBuscar
-    'Friend panelHerramientas As FlowLayoutPanel = CurrentMDI.panelHerramientas
-
-    'Friend barraHerramientasContext As ContextMenuStrip = CurrentMDI.barraHerramientasContext
-
-    'Friend menuOpciones As ToolStripMenuItem = CurrentMDI.menuOpciones
-
 
     Public ReadOnly Property comboBoxBuscar As ToolStripComboBox
         Get

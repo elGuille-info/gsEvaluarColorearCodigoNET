@@ -141,6 +141,13 @@ Public Class Form1
 
     End Sub
 
+    ''' <summary>
+    ''' Si se pregunta guardar, y quedan más ficheros sin guardar,
+    ''' usar la misma respuesta (si se dice que Sí)
+    ''' </summary>
+    ''' <remarks>30/Oct/2020</remarks>
+    Private Shared guardarSinPreguntar As Boolean
+
     Private Sub Form1_FormClosing(sender As Object,
                                   e As FormClosingEventArgs) Handles Me.FormClosing
 
@@ -154,24 +161,38 @@ Public Class Form1
         ' Si no hay texto, no comprobar si se debe guardar          (01/Oct/20)
         If richTextBoxCodigo.TextLength > 0 Then
             If TextoModificado OrElse String.IsNullOrEmpty(nombreFichero) Then
-                ' No preguntaba si quería guardar,                      (01/Oct/20)
-                ' porque usaba GuadarComo, y si el nombre es el mismo, no mostraba el diálogo
-
-                ' Dar la oportunidad de cancelar para seguir editando   (02/Oct/20)
-                Dim res As DialogResult = DialogResult.No
-                res = MessageBox.Show($"El texto está modificado,{vbCrLf}¿Quieres guardarlo?{vbCrLf}{vbCrLf}" &
-                                      "Pulsa en Cancelar para seguir editando.",
-                                      "Texto modificado y no guardado",
-                                      MessageBoxButtons.YesNoCancel,
-                                      MessageBoxIcon.Question)
-                If res = DialogResult.Yes Then
-                    ' GuardarComo debe mostrar siempre el cuadro dediálogo.
-                    ' Si no tiene nombre, preguntar                 (02/Oct/20)
-                    ' Guardar se encarga de llamar a GuardarComo si no tiene nombre
+                If guardarSinPreguntar Then
                     Guardar()
-                ElseIf res = DialogResult.Cancel Then
-                    e.Cancel = True
-                    Return
+                Else
+                    ' Si está modificado, y se indicó guardar               (30/Oct/20)
+                    ' guardar el resto de ficheros sin preguntar
+                    ' esto es para el caso que se cierre el MDI y haya ficheros sin guardar
+                    Dim msg = "¿Quieres guardarlo?"
+                    If e.CloseReason = CloseReason.MdiFormClosing Then
+                        msg &= $"{vbCrLf}También se guardarán los restantes ficheros que estén modificados."
+                    End If
+
+                    ' No preguntaba si quería guardar,                      (01/Oct/20)
+                    ' porque usaba GuadarComo, y si el nombre es el mismo, no mostraba el diálogo
+
+                    ' Dar la oportunidad de cancelar para seguir editando   (02/Oct/20)
+                    Dim res As DialogResult = DialogResult.No
+                    res = MessageBox.Show($"El texto está modificado,{vbCrLf}{msg}{vbCrLf}{vbCrLf}" &
+                                          "Pulsa en Cancelar para seguir editando.",
+                                          "Texto modificado y no guardado",
+                                          MessageBoxButtons.YesNoCancel,
+                                          MessageBoxIcon.Question)
+                    If res = DialogResult.Yes Then
+                        ' GuardarComo debe mostrar siempre el cuadro dediálogo.
+                        ' Si no tiene nombre, preguntar                 (02/Oct/20)
+                        ' Guardar se encarga de llamar a GuardarComo si no tiene nombre
+                        Guardar()
+                        guardarSinPreguntar = True
+                    ElseIf res = DialogResult.Cancel Then
+                        guardarSinPreguntar = False
+                        e.Cancel = True
+                        Return
+                    End If
                 End If
             End If
             selectionStartAnt = -1
@@ -640,15 +661,20 @@ Public Class Form1
                     End If
                     richTextBoxCodigo.SelectionStart = selStart
                     ' Ahora tiene vbLf en vez de vbCr               (23/Oct/20)
-                    richTextBoxCodigo.SelectedText = vbLf & New String(" "c, col)
+                    ' Esto es lo que añadía una línea de más        (30/Oct/20)
+                    ' cuando se pulsaba ENTER desde el final de la línea anterior
+                    'richTextBoxCodigo.SelectedText = vbLf & New String(" "c, col)
+                    richTextBoxCodigo.SelectedText = New String(" "c, col)
                     inicializando = False
 
-                    ' Si se da esta condicón, (creo que siempre se da),
-                    ' ir al inicio, borrar e ir al final 
-                    If richTextBoxCodigo.GetLineFromCharIndex(richTextBoxCodigo.SelectionStart) > ln Then
-                        'Debug.Assert(rtEditor.Lines(ln + 1) = "")
-                        SendKeys.Send("{HOME}{BS}{END}")
-                    End If
+                    '' Si se da esta condición, (creo que siempre se da),
+                    '' ir al inicio, borrar e ir al final
+                    '' Esta condición se da cuando se pulsa INTRO    (30/Oct/20)
+                    '' cuando no está al principio de la línea
+                    'If richTextBoxCodigo.GetLineFromCharIndex(richTextBoxCodigo.SelectionStart) > ln Then
+                    '    'Debug.Assert(rtEditor.Lines(ln + 1) = "")
+                    '    SendKeys.Send("{HOME}{BS}{END}")
+                    'End If
                 End If
                 'End If
                 MostrarPosicion(e)
@@ -990,7 +1016,13 @@ Public Class Form1
             ColorearCodigo()
             cargando = cargandoTmp
             ' Mostrar el panel de sintaxis
-            splitContainer1.Panel2.Visible = True
+            ' Si es texto, como no se colorea,                      (30/Oct/20)
+            ' no mostrar el panel de sintaxis
+            If buttonLenguaje.Text = ExtensionTexto Then
+                splitContainer1.Panel2.Visible = False
+            Else
+                splitContainer1.Panel2.Visible = True
+            End If
         Else
             splitContainer1.Panel2.Visible = False
         End If
