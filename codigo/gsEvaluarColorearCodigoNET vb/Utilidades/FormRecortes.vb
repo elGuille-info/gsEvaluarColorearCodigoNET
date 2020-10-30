@@ -152,6 +152,23 @@ Public Class FormRecortes
         End If
     End Sub
 
+    Private Sub lstRecortes_KeyPress(sender As Object, e As KeyPressEventArgs) Handles lstRecortes.KeyPress
+        ' Si se pulsa ENTER, seleccionar el texto                   (30/Oct/20)
+        If e.KeyChar = ChrW(13) Then
+            Dim i = lstRecortes.SelectedIndex
+            ' No aceptar el primero ni el último
+            If i < 1 OrElse i = lstRecortes.Items.Count - 1 Then
+                Return
+            End If
+
+            ' Hay que usar el anterior,                             (04/Oct/20)
+            ' ya que el primero (0) está en blanco
+            TextoSeleccionado = colRecortes(i - 1)
+
+            Me.DialogResult = DialogResult.OK
+        End If
+    End Sub
+
     Private Sub btnCerrar_Click(sender As Object,
                                 e As EventArgs) Handles btnCerrar.Click
         Me.DialogResult = DialogResult.Cancel

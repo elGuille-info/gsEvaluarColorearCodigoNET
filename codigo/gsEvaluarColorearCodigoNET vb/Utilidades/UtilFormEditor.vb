@@ -435,7 +435,11 @@ Friend Module UtilFormEditor
 
         ' Comprobar que no esté fuera de la pantalla
         If tamForm.Left <> -1 Then
-            If Screen.PrimaryScreen.WorkingArea.Left >= tamForm.Left Then
+            ' No se mostraba al cambiar del monitor externo         (30/Oct/20)
+            ' a la pantalla del portátil.
+            ' Invierto la comparación... aunque no sé...
+            ' cuando vuelva a ser negativo no se verá en su sitio...
+            If Screen.PrimaryScreen.WorkingArea.Left < tamForm.Left Then
                 CurrentMDI.Left = tamForm.Left
             End If
         End If
@@ -1699,10 +1703,13 @@ Friend Module UtilFormEditor
             Form1Activo.AñadirNumerosDeLinea()
 
             ' Seleccionar el texto después de pegar                 (04/Oct/20)
-            richTextBoxCodigo.SelectionStart = pos
-            richTextBoxCodigo.SelectionLength = s.Length + (selStart - pos)
-            ' y colorearlo si procede
-            ColorearSeleccion()
+            ' Si es texto, no seleccionar                           (30/Oct/20)
+            If buttonLenguaje.Text <> ExtensionTexto Then
+                richTextBoxCodigo.SelectionStart = pos
+                richTextBoxCodigo.SelectionLength = s.Length + (selStart - pos)
+                ' y colorearlo si procede
+                ColorearSeleccion()
+            End If
             richTextBoxCodigo.SelectionStart = selStart 'pos
         End If
     End Sub

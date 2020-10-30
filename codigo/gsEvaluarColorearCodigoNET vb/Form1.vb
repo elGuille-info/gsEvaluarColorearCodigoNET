@@ -109,8 +109,11 @@ Public Class Form1
             Return richTextBoxCodigo.Modified
         End Get
         Set(value As Boolean)
+            ' Asignar el nombre del fichero sin asterisco           (30/Oct/20)
+            Me.Text = Path.GetFileName(nombreFichero)
             If value Then
                 labelModificado.Text = "*"
+                Me.Text &= " *"
             Else
                 labelModificado.Text = " "
             End If
@@ -224,10 +227,20 @@ Public Class Form1
 
         ' Asignar cuál es el Form1 activo
         Form1Activo = Me
-        If Not String.IsNullOrWhiteSpace(nombreFichero) Then
-            ' Aquí se asignaba el path completo!!!                  (20/Oct/20)
-            Me.Text = Path.GetFileName(nombreFichero)
-        End If
+
+        ' No asignar el nombre del fichero al Text                  (30/Oct/20)
+        ' ya que se hará en TextoModificado
+        'If Not String.IsNullOrWhiteSpace(nombreFichero) Then
+        '    ' Aquí se asignaba el path completo!!!                  (20/Oct/20)
+        '    Me.Text = Path.GetFileName(nombreFichero)
+        'End If
+
+        ' esto está en el evento menuVentana.DropDownOpening del MDI
+        ' ya que si no, solo se pondrá si se activa la ventana
+        '' si está modificado, añadir un asterisco                   (30/Oct/20)
+        'If TextoModificado Then
+        '    Me.Text &= " *"
+        'End If
 
         If Me.WindowState = FormWindowState.Normal Then
             CurrentMDI.Text = $"{MDIPrincipal.TituloMDI} [{Me.Text}]"

@@ -619,8 +619,19 @@ Public Class MDIPrincipal
 
         '' asignar a Text el nombre del fichero sin path             (20/Oct/20)
         '' No es necesario, se asignaba el path completo en Form1_Activate!!!
+
+        ' Finalmente lo pongo en TextoModificado                    (30/Oct/20)
+
+        '' Si está modificado, añadir un asterisco                   (30/Oct/20)
+        '' Lo quito del Activate, ya que si la ventana no se ha activado
+        '' no tendrá el asterisco
+        ''
         'For Each frm As Form1 In Me.MdiChildren
-        '    frm.Text = Path.GetFileName(frm.nombreFichero)
+        '    'frm.Text = Path.GetFileName(frm.nombreFichero)
+        '    ' solo añadirlo si no lo tiene
+        '    If frm.TextoModificado AndAlso Not frm.Text.EndsWith(" *") Then
+        '        frm.Text &= " *"
+        '    End If
         'Next
 
         If ActiveMdiChild IsNot Nothing Then

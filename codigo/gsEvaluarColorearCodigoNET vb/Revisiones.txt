@@ -462,6 +462,13 @@
 'v1.0.0.267             Se me escapó un detalle importante: ¡guardarlos! (cuando guardarSinPreguntar = True)
 'v1.0.0.268             Al cargar desde la línea de comandos no muestra el fichero que carga...
 'v1.0.0.269             El primer fichero en la línea de comandos será el ejecutable
+'v1.0.0.270             Al quitar el monitor externo ya no se mostraba en su sitio
+'v1.0.0.271             Si es texto está modificado, mostrar un asterisco en el texto de la ventana
+'v1.0.0.272             Pongo lo del asterisco en menuVentana.DropDownOpening ya que si no se activa, no lo mostraría
+'v1.0.0.273             Lo del asterisco lo pongo en TextoModificado
+'v1.0.0.274             En Form1_Activate se asignaba nuevamente el nombre del fichero... ¡ain!
+'v1.0.0.275             Al pulsar ENTER en el list de los recortes, aceptar ese texto
+'v1.0.0.276             Al pegar desde Recortes, si es fichero de texto, no seleccionar (ya que se pierde lo pegado)
 '
 '
 '

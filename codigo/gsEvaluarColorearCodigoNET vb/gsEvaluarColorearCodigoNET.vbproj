@@ -20,14 +20,14 @@ Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
         <Authors>Guillermo Som (elGuille)</Authors>
         <Version>1.0.0.0</Version>
         <NeutralLanguage>es-ES</NeutralLanguage>
-        <FileVersion>1.0.0.269</FileVersion>
+        <FileVersion>1.0.0.276</FileVersion>
         <ApplicationIcon>VSProject_genericproject.Office_Deve.ico</ApplicationIcon>
         <MyType>WindowsForms</MyType>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/elGuille-info/gsEvaluarColorearCodigoNET</RepositoryUrl>
         <PackageIcon>gsCompilarEjecutarNET.jpg</PackageIcon>
         <PackageTags>visual-basic vb c# dotnet net-core net-5 compilar colorear visual-studio-preview</PackageTags>
-        <PackageReleaseNotes>v1.0.0.269 (30/Oct/20) El primer fichero en la línea de comandos será el ejecutable</PackageReleaseNotes>
+        <PackageReleaseNotes>v1.0.0.276 (30/Oct/20) Al pegar desde Recortes, si es fichero de texto, no seleccionar (ya que se pierde lo pegado)</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
