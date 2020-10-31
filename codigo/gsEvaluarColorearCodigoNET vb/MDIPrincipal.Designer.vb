@@ -30,6 +30,8 @@ Partial Class MDIPrincipal
         Me.menuFileNuevo = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileSeleccionarAbrir = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileRecargar = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuSepFile0 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuFileCerrarTodos = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuSepFile1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuFileGuardar = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFileGuardarComo = New System.Windows.Forms.ToolStripMenuItem()
@@ -68,6 +70,8 @@ Partial Class MDIPrincipal
         Me.tsSepTools3 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuOcultarEvaluar = New System.Windows.Forms.ToolStripMenuItem()
         Me.tsSepTools4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuToolsMacro = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsSepTools5 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuOpciones = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditor = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuEditorQuitarIndentacion = New System.Windows.Forms.ToolStripMenuItem()
@@ -101,12 +105,14 @@ Partial Class MDIPrincipal
         Me.menuEditorMarcadorQuitarTodos = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuVentana = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuVentanaNueva = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuVentanaSep1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuSepVentana1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuVentanaCascade = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuVentanaTileVertical = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuVentanaTileHorizontal = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuSepVentana2 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuVentanaCloseAll = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuVentanaArrangeAll = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuSepVentana3 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuVentanaMaximizarTodas = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuVentanaRestaurarTodas = New System.Windows.Forms.ToolStripMenuItem()
         Me.statusContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -175,6 +181,8 @@ Partial Class MDIPrincipal
         Me.buttonNavegarMenu = New System.Windows.Forms.ToolStripDropDownButton()
         Me.buttonNavegarSiguiente = New System.Windows.Forms.ToolStripButton()
         Me.tsSepNavegar1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.buttonMacro = New System.Windows.Forms.ToolStripButton()
+        Me.tsSepNavegar2 = New System.Windows.Forms.ToolStripSeparator()
         Me.toolStripEditor = New System.Windows.Forms.ToolStrip()
         Me.buttonEditorQuitarIndentacion = New System.Windows.Forms.ToolStripButton()
         Me.buttonEditorPonerIndentacion = New System.Windows.Forms.ToolStripButton()
@@ -222,7 +230,7 @@ Partial Class MDIPrincipal
         '
         'menuFile
         '
-        Me.menuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuFileNuevo, Me.menuFileSeleccionarAbrir, Me.menuFileRecargar, Me.mnuSepFile1, Me.menuFileGuardar, Me.menuFileGuardarComo, Me.menuFileGuardarTodo, Me.mnuSepFile2, Me.menuFileRecientes, Me.mnuSepFile3, Me.menuFileAcercaDe, Me.mnuSepFile4, Me.menuFileSalir})
+        Me.menuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuFileNuevo, Me.menuFileSeleccionarAbrir, Me.menuFileRecargar, Me.mnuSepFile0, Me.menuFileCerrarTodos, Me.mnuSepFile1, Me.menuFileGuardar, Me.menuFileGuardarComo, Me.menuFileGuardarTodo, Me.mnuSepFile2, Me.menuFileRecientes, Me.mnuSepFile3, Me.menuFileAcercaDe, Me.mnuSepFile4, Me.menuFileSalir})
         Me.menuFile.Name = "menuFile"
         Me.menuFile.Size = New System.Drawing.Size(63, 20)
         Me.menuFile.Text = "&Ficheros"
@@ -258,6 +266,18 @@ Partial Class MDIPrincipal
             Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
         Me.menuFileRecargar.Size = New System.Drawing.Size(233, 22)
         Me.menuFileRecargar.Text = "Recargar fichero"
+        '
+        'mnuSepFile0
+        '
+        Me.mnuSepFile0.Name = "mnuSepFile0"
+        Me.mnuSepFile0.Size = New System.Drawing.Size(230, 6)
+        '
+        'menuFileCerrarTodos
+        '
+        Me.menuFileCerrarTodos.Image = CType(resources.GetObject("menuFileCerrarTodos.Image"), System.Drawing.Image)
+        Me.menuFileCerrarTodos.Name = "menuFileCerrarTodos"
+        Me.menuFileCerrarTodos.Size = New System.Drawing.Size(233, 22)
+        Me.menuFileCerrarTodos.Text = "Cerrar todas"
         '
         'mnuSepFile1
         '
@@ -469,7 +489,7 @@ Partial Class MDIPrincipal
         '
         'menuTools
         '
-        Me.menuTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEjecutar, Me.menuCompilar, Me.tsSepTools1, Me.menuEvaluar, Me.tsSepTools2, Me.menuNoColorear, Me.menuColorear, Me.menuColorearHTML, Me.tsSepTools3, Me.menuOcultarEvaluar, Me.tsSepTools4, Me.menuOpciones})
+        Me.menuTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEjecutar, Me.menuCompilar, Me.tsSepTools1, Me.menuEvaluar, Me.tsSepTools2, Me.menuNoColorear, Me.menuColorear, Me.menuColorearHTML, Me.tsSepTools3, Me.menuOcultarEvaluar, Me.tsSepTools4, Me.menuToolsMacro, Me.tsSepTools5, Me.menuOpciones})
         Me.menuTools.Name = "menuTools"
         Me.menuTools.Size = New System.Drawing.Size(90, 20)
         Me.menuTools.Text = "&Herramientas"
@@ -555,6 +575,19 @@ Partial Class MDIPrincipal
         '
         Me.tsSepTools4.Name = "tsSepTools4"
         Me.tsSepTools4.Size = New System.Drawing.Size(240, 6)
+        '
+        'menuToolsMacro
+        '
+        Me.menuToolsMacro.Name = "menuToolsMacro"
+        Me.menuToolsMacro.ShortcutKeyDisplayString = ""
+        Me.menuToolsMacro.Size = New System.Drawing.Size(243, 22)
+        Me.menuToolsMacro.Text = "Ejecutar macro"
+        Me.menuToolsMacro.ToolTipText = "Simlar la pulsación de varias teclas"
+        '
+        'tsSepTools5
+        '
+        Me.tsSepTools5.Name = "tsSepTools5"
+        Me.tsSepTools5.Size = New System.Drawing.Size(240, 6)
         '
         'menuOpciones
         '
@@ -772,7 +805,7 @@ Partial Class MDIPrincipal
         '
         'menuVentana
         '
-        Me.menuVentana.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuVentanaNueva, Me.menuVentanaSep1, Me.menuVentanaCascade, Me.menuVentanaTileVertical, Me.menuVentanaTileHorizontal, Me.menuVentanaCloseAll, Me.menuVentanaArrangeAll, Me.menuVentanaMaximizarTodas, Me.menuVentanaRestaurarTodas})
+        Me.menuVentana.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuVentanaNueva, Me.mnuSepVentana1, Me.menuVentanaCascade, Me.menuVentanaTileVertical, Me.menuVentanaTileHorizontal, Me.mnuSepVentana2, Me.menuVentanaCloseAll, Me.menuVentanaArrangeAll, Me.mnuSepVentana3, Me.menuVentanaMaximizarTodas, Me.menuVentanaRestaurarTodas})
         Me.menuVentana.Name = "menuVentana"
         Me.menuVentana.Size = New System.Drawing.Size(61, 20)
         Me.menuVentana.Text = "&Ventana"
@@ -784,43 +817,59 @@ Partial Class MDIPrincipal
         Me.menuVentanaNueva.Size = New System.Drawing.Size(229, 22)
         Me.menuVentanaNueva.Text = "&Nueva Ventana"
         '
-        'menuVentanaSep1
+        'mnuSepVentana1
         '
-        Me.menuVentanaSep1.Name = "menuVentanaSep1"
-        Me.menuVentanaSep1.Size = New System.Drawing.Size(226, 6)
+        Me.mnuSepVentana1.Name = "mnuSepVentana1"
+        Me.mnuSepVentana1.Size = New System.Drawing.Size(226, 6)
         '
         'menuVentanaCascade
         '
+        Me.menuVentanaCascade.Image = CType(resources.GetObject("menuVentanaCascade.Image"), System.Drawing.Image)
         Me.menuVentanaCascade.Name = "menuVentanaCascade"
         Me.menuVentanaCascade.Size = New System.Drawing.Size(229, 22)
         Me.menuVentanaCascade.Text = "&Cascada"
         '
         'menuVentanaTileVertical
         '
+        Me.menuVentanaTileVertical.Image = CType(resources.GetObject("menuVentanaTileVertical.Image"), System.Drawing.Image)
         Me.menuVentanaTileVertical.Name = "menuVentanaTileVertical"
         Me.menuVentanaTileVertical.Size = New System.Drawing.Size(229, 22)
         Me.menuVentanaTileVertical.Text = "Mosaico &Vertical"
         '
         'menuVentanaTileHorizontal
         '
+        Me.menuVentanaTileHorizontal.Image = CType(resources.GetObject("menuVentanaTileHorizontal.Image"), System.Drawing.Image)
         Me.menuVentanaTileHorizontal.Name = "menuVentanaTileHorizontal"
         Me.menuVentanaTileHorizontal.Size = New System.Drawing.Size(229, 22)
         Me.menuVentanaTileHorizontal.Text = "Mosaico &Horizontal"
         '
+        'mnuSepVentana2
+        '
+        Me.mnuSepVentana2.Name = "mnuSepVentana2"
+        Me.mnuSepVentana2.Size = New System.Drawing.Size(226, 6)
+        '
         'menuVentanaCloseAll
         '
+        Me.menuVentanaCloseAll.Image = CType(resources.GetObject("menuVentanaCloseAll.Image"), System.Drawing.Image)
         Me.menuVentanaCloseAll.Name = "menuVentanaCloseAll"
         Me.menuVentanaCloseAll.Size = New System.Drawing.Size(229, 22)
         Me.menuVentanaCloseAll.Text = "Cerrar Todas"
         '
         'menuVentanaArrangeAll
         '
+        Me.menuVentanaArrangeAll.Image = CType(resources.GetObject("menuVentanaArrangeAll.Image"), System.Drawing.Image)
         Me.menuVentanaArrangeAll.Name = "menuVentanaArrangeAll"
         Me.menuVentanaArrangeAll.Size = New System.Drawing.Size(229, 22)
         Me.menuVentanaArrangeAll.Text = "Organizar Iconos"
         '
+        'mnuSepVentana3
+        '
+        Me.mnuSepVentana3.Name = "mnuSepVentana3"
+        Me.mnuSepVentana3.Size = New System.Drawing.Size(226, 6)
+        '
         'menuVentanaMaximizarTodas
         '
+        Me.menuVentanaMaximizarTodas.Image = CType(resources.GetObject("menuVentanaMaximizarTodas.Image"), System.Drawing.Image)
         Me.menuVentanaMaximizarTodas.Name = "menuVentanaMaximizarTodas"
         Me.menuVentanaMaximizarTodas.Size = New System.Drawing.Size(229, 22)
         Me.menuVentanaMaximizarTodas.Text = "Maximizar Todas las Ventanas"
@@ -828,6 +877,7 @@ Partial Class MDIPrincipal
         '
         'menuVentanaRestaurarTodas
         '
+        Me.menuVentanaRestaurarTodas.Image = CType(resources.GetObject("menuVentanaRestaurarTodas.Image"), System.Drawing.Image)
         Me.menuVentanaRestaurarTodas.Name = "menuVentanaRestaurarTodas"
         Me.menuVentanaRestaurarTodas.Size = New System.Drawing.Size(229, 22)
         Me.menuVentanaRestaurarTodas.Text = "Restaurar Todas las Ventanas"
@@ -1230,7 +1280,7 @@ Partial Class MDIPrincipal
         '
         Me.toolStripCompilar.Dock = System.Windows.Forms.DockStyle.None
         Me.toolStripCompilar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEjecutar, Me.buttonCompilar, Me.tsSepCompilar1, Me.buttonEvaluar, Me.buttonCompilarAlEvaluar, Me.buttonColorearAlEvaluar, Me.tsSepCompilar2, Me.buttonNoColorear, Me.buttonColorear, Me.tsSepCompilar3, Me.buttonColorearHTML, Me.chkMostrarLineasHTML, Me.tsSepCompilar4, Me.buttonMostrarEvaluacion, Me.tsSepCompilar5})
-        Me.toolStripCompilar.Location = New System.Drawing.Point(462, 3)
+        Me.toolStripCompilar.Location = New System.Drawing.Point(491, 3)
         Me.toolStripCompilar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripCompilar.Name = "toolStripCompilar"
         Me.toolStripCompilar.Size = New System.Drawing.Size(272, 25)
@@ -1277,7 +1327,7 @@ Partial Class MDIPrincipal
         Me.toolStripEdicion.Dock = System.Windows.Forms.DockStyle.None
         Me.toolStripEdicion.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonCortar, Me.buttonCopiar, Me.buttonPegar, Me.buttonDeshacer, Me.buttonRehacer, Me.tsSepEdicion, Me.buttonSeleccionarTodo, Me.tsSepEdicion2, Me.buttonEdicionRecortes, Me.tsSepEdicion3})
         Me.toolStripEdicion.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow
-        Me.toolStripEdicion.Location = New System.Drawing.Point(263, 3)
+        Me.toolStripEdicion.Location = New System.Drawing.Point(292, 3)
         Me.toolStripEdicion.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripEdicion.Name = "toolStripEdicion"
         Me.toolStripEdicion.Size = New System.Drawing.Size(191, 25)
@@ -1313,7 +1363,7 @@ Partial Class MDIPrincipal
         '
         Me.toolStripFicheros.Dock = System.Windows.Forms.DockStyle.None
         Me.toolStripFicheros.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonNuevo, Me.buttonSeleccionar, Me.buttonRecargar, Me.tsSepFichero0, Me.buttonGuardar, Me.buttonGuardarComo, Me.buttonGuardarTodo, Me.tsSepFichero1})
-        Me.toolStripFicheros.Location = New System.Drawing.Point(93, 3)
+        Me.toolStripFicheros.Location = New System.Drawing.Point(122, 3)
         Me.toolStripFicheros.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripFicheros.Name = "toolStripFicheros"
         Me.toolStripFicheros.Size = New System.Drawing.Size(162, 25)
@@ -1359,11 +1409,11 @@ Partial Class MDIPrincipal
         '
         'toolStripNavegar
         '
-        Me.toolStripNavegar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonNavegarAnterior, Me.buttonNavegarMenu, Me.buttonNavegarSiguiente, Me.tsSepNavegar1})
+        Me.toolStripNavegar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonNavegarAnterior, Me.buttonNavegarMenu, Me.buttonNavegarSiguiente, Me.tsSepNavegar1, Me.buttonMacro, Me.tsSepNavegar2})
         Me.toolStripNavegar.Location = New System.Drawing.Point(8, 3)
         Me.toolStripNavegar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripNavegar.Name = "toolStripNavegar"
-        Me.toolStripNavegar.Size = New System.Drawing.Size(77, 25)
+        Me.toolStripNavegar.Size = New System.Drawing.Size(106, 25)
         Me.toolStripNavegar.TabIndex = 15
         Me.toolStripNavegar.Text = "ToolStrip1"
         '
@@ -1399,11 +1449,25 @@ Partial Class MDIPrincipal
         Me.tsSepNavegar1.Name = "tsSepNavegar1"
         Me.tsSepNavegar1.Size = New System.Drawing.Size(6, 25)
         '
+        'buttonMacro
+        '
+        Me.buttonMacro.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.buttonMacro.Image = CType(resources.GetObject("buttonMacro.Image"), System.Drawing.Image)
+        Me.buttonMacro.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.buttonMacro.Name = "buttonMacro"
+        Me.buttonMacro.Size = New System.Drawing.Size(23, 22)
+        Me.buttonMacro.Text = "Ejecutar Macro"
+        '
+        'tsSepNavegar2
+        '
+        Me.tsSepNavegar2.Name = "tsSepNavegar2"
+        Me.tsSepNavegar2.Size = New System.Drawing.Size(6, 25)
+        '
         'toolStripEditor
         '
         Me.toolStripEditor.Dock = System.Windows.Forms.DockStyle.None
         Me.toolStripEditor.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.buttonEditorQuitarIndentacion, Me.buttonEditorPonerIndentacion, Me.tsSepEditor1, Me.buttonEditorPonerComentarios, Me.buttonEditorQuitarComentarios, Me.tsSepEditor2, Me.buttonEditorClasificarSeleccion, Me.tsSepEditor3, Me.buttonEditorMarcador, Me.buttonEditorMarcadorAnterior, Me.buttonEditorMarcadorSiguiente, Me.tsSepEditor4, Me.buttonEditorMarcadorAnteriorLocal, Me.buttonEditorMarcadorSiguienteLocal, Me.tsSepEditor5, Me.buttonEditorMarcadorQuitarTodos})
-        Me.toolStripEditor.Location = New System.Drawing.Point(742, 3)
+        Me.toolStripEditor.Location = New System.Drawing.Point(771, 3)
         Me.toolStripEditor.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.toolStripEditor.Name = "toolStripEditor"
         Me.toolStripEditor.Size = New System.Drawing.Size(295, 25)
@@ -1674,6 +1738,7 @@ Partial Class MDIPrincipal
     Friend WithEvents menuEvaluar As ToolStripMenuItem
     Friend WithEvents menuFile As ToolStripMenuItem
     Friend WithEvents menuFileAcercaDe As ToolStripMenuItem
+    Friend WithEvents menuFileCerrarTodos As ToolStripMenuItem
     Friend WithEvents menuFileGuardar As ToolStripMenuItem
     Friend WithEvents menuFileGuardarComo As ToolStripMenuItem
     Friend WithEvents menuFileNuevo As ToolStripMenuItem
@@ -1725,17 +1790,21 @@ Partial Class MDIPrincipal
     Friend WithEvents txtPonerTexto As ToolStripTextBox
     Private WithEvents buttonGuardarTodo As ToolStripButton
     Private WithEvents menuFileGuardarTodo As ToolStripMenuItem
-    Private WithEvents menuVentanaSep1 As ToolStripSeparator
     Private WithEvents timerClipBoard As Timer
     Private WithEvents timerInicio As Timer
     Private WithEvents toolStripNavegar As ToolStrip
     Private mnuSepEditor1 As ToolStripSeparator
     Private mnuSepEditor2 As ToolStripSeparator
     Private mnuSepEditor3 As ToolStripSeparator
+    Private mnuSepEditor4 As ToolStripSeparator
+    Private mnuSepFile0 As ToolStripSeparator
     Private mnuSepFile1 As ToolStripSeparator
     Private mnuSepFile2 As ToolStripSeparator
     Private mnuSepFile3 As ToolStripSeparator
     Private mnuSepFile4 As ToolStripSeparator
+    Private mnuSepVentana1 As ToolStripSeparator
+    Private mnuSepVentana2 As ToolStripSeparator
+    Private mnuSepVentana3 As ToolStripSeparator
     Private tsSepBuscar1 As ToolStripSeparator
     Private tsSepCompilar1 As ToolStripSeparator
     Private tsSepCompilar2 As ToolStripSeparator
@@ -1762,7 +1831,10 @@ Partial Class MDIPrincipal
     Private tsSepTools2 As ToolStripSeparator
     Private tsSepTools3 As ToolStripSeparator
     Private tsSepTools4 As ToolStripSeparator
+    Private tsSepTools5 As ToolStripSeparator
     Friend WithEvents menuEditorMarcadorAnteriorLocal As ToolStripMenuItem
     Friend WithEvents menuEditorMarcadorSiguienteLocal As ToolStripMenuItem
-    Private mnuSepEditor4 As ToolStripSeparator
+    Friend WithEvents menuToolsMacro As ToolStripMenuItem
+    Friend WithEvents buttonMacro As ToolStripButton
+    Private WithEvents tsSepNavegar2 As ToolStripSeparator
 End Class

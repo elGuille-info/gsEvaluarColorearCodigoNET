@@ -53,6 +53,7 @@ Partial Class FormOpciones
         Me.labelFuente = New System.Windows.Forms.Label()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.grbBuscarReemplazar = New System.Windows.Forms.GroupBox()
+        Me.chkAvisarBuscar = New System.Windows.Forms.CheckBox()
         Me.chkWholeWord = New System.Windows.Forms.CheckBox()
         Me.chkMatchCase = New System.Windows.Forms.CheckBox()
         Me.grbReemplazar = New System.Windows.Forms.GroupBox()
@@ -71,6 +72,11 @@ Partial Class FormOpciones
         Me.btnQuitarRecortes = New System.Windows.Forms.Button()
         Me.btnOrdenarRecortes = New System.Windows.Forms.Button()
         Me.Label4 = New System.Windows.Forms.Label()
+        Me.TabPage6 = New System.Windows.Forms.TabPage()
+        Me.grbMacros = New System.Windows.Forms.GroupBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.cboMacros = New System.Windows.Forms.ComboBox()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.btnAceptar = New System.Windows.Forms.Button()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.toolTip1 = New System.Windows.Forms.ToolTip(Me.components)
@@ -89,6 +95,8 @@ Partial Class FormOpciones
         Me.TabPage5.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
+        Me.TabPage6.SuspendLayout()
+        Me.grbMacros.SuspendLayout()
         Me.SuspendLayout()
         '
         'tabControl1
@@ -101,6 +109,7 @@ Partial Class FormOpciones
         Me.tabControl1.Controls.Add(Me.TabPage3)
         Me.tabControl1.Controls.Add(Me.TabPage4)
         Me.tabControl1.Controls.Add(Me.TabPage5)
+        Me.tabControl1.Controls.Add(Me.TabPage6)
         Me.tabControl1.Location = New System.Drawing.Point(14, 14)
         Me.tabControl1.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.tabControl1.Name = "tabControl1"
@@ -258,7 +267,7 @@ Partial Class FormOpciones
         Me.tabPage2.Location = New System.Drawing.Point(4, 24)
         Me.tabPage2.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.tabPage2.Name = "tabPage2"
-        Me.tabPage2.Padding = New System.Windows.Forms.Padding(7, 7, 7, 7)
+        Me.tabPage2.Padding = New System.Windows.Forms.Padding(7)
         Me.tabPage2.Size = New System.Drawing.Size(632, 338)
         Me.tabPage2.TabIndex = 1
         Me.tabPage2.Text = "Ficheros recientes"
@@ -275,7 +284,7 @@ Partial Class FormOpciones
         Me.groupBox1.Controls.Add(Me.lstFics)
         Me.groupBox1.Controls.Add(Me.label1)
         Me.groupBox1.Location = New System.Drawing.Point(14, 14)
-        Me.groupBox1.Margin = New System.Windows.Forms.Padding(14, 14, 14, 14)
+        Me.groupBox1.Margin = New System.Windows.Forms.Padding(14)
         Me.groupBox1.Name = "groupBox1"
         Me.groupBox1.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.groupBox1.Size = New System.Drawing.Size(603, 306)
@@ -286,17 +295,17 @@ Partial Class FormOpciones
         'txtFic
         '
         Me.txtFic.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.txtFic.Location = New System.Drawing.Point(7, 272)
+        Me.txtFic.Location = New System.Drawing.Point(8, 277)
         Me.txtFic.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.txtFic.Name = "txtFic"
-        Me.txtFic.Size = New System.Drawing.Size(310, 23)
+        Me.txtFic.Size = New System.Drawing.Size(365, 23)
         Me.txtFic.TabIndex = 2
         '
         'btnOrdenar
         '
         Me.btnOrdenar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnOrdenar.Image = CType(resources.GetObject("btnOrdenar.Image"), System.Drawing.Image)
-        Me.btnOrdenar.Location = New System.Drawing.Point(354, 271)
+        Me.btnOrdenar.Location = New System.Drawing.Point(381, 274)
         Me.btnOrdenar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnOrdenar.Name = "btnOrdenar"
         Me.btnOrdenar.Size = New System.Drawing.Size(88, 27)
@@ -311,7 +320,7 @@ Partial Class FormOpciones
         Me.btnQuitar.AutoSize = True
         Me.btnQuitar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.btnQuitar.Image = CType(resources.GetObject("btnQuitar.Image"), System.Drawing.Image)
-        Me.btnQuitar.Location = New System.Drawing.Point(478, 274)
+        Me.btnQuitar.Location = New System.Drawing.Point(477, 275)
         Me.btnQuitar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnQuitar.Name = "btnQuitar"
         Me.btnQuitar.Size = New System.Drawing.Size(118, 25)
@@ -448,19 +457,35 @@ Partial Class FormOpciones
         Me.grbBuscarReemplazar.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grbBuscarReemplazar.Controls.Add(Me.chkAvisarBuscar)
         Me.grbBuscarReemplazar.Controls.Add(Me.chkWholeWord)
         Me.grbBuscarReemplazar.Controls.Add(Me.chkMatchCase)
         Me.grbBuscarReemplazar.Controls.Add(Me.grbReemplazar)
         Me.grbBuscarReemplazar.Controls.Add(Me.grbBuscar)
         Me.grbBuscarReemplazar.Controls.Add(Me.Label2)
         Me.grbBuscarReemplazar.Location = New System.Drawing.Point(14, 14)
-        Me.grbBuscarReemplazar.Margin = New System.Windows.Forms.Padding(14, 14, 14, 14)
+        Me.grbBuscarReemplazar.Margin = New System.Windows.Forms.Padding(14)
         Me.grbBuscarReemplazar.Name = "grbBuscarReemplazar"
         Me.grbBuscarReemplazar.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.grbBuscarReemplazar.Size = New System.Drawing.Size(603, 306)
         Me.grbBuscarReemplazar.TabIndex = 0
         Me.grbBuscarReemplazar.TabStop = False
         Me.grbBuscarReemplazar.Text = "Opciones de  buscar y reemplazar"
+        '
+        'chkAvisarBuscar
+        '
+        Me.chkAvisarBuscar.AutoSize = True
+        Me.chkAvisarBuscar.Checked = True
+        Me.chkAvisarBuscar.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkAvisarBuscar.Location = New System.Drawing.Point(306, 230)
+        Me.chkAvisarBuscar.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.chkAvisarBuscar.Name = "chkAvisarBuscar"
+        Me.chkAvisarBuscar.Size = New System.Drawing.Size(220, 19)
+        Me.chkAvisarBuscar.TabIndex = 5
+        Me.chkAvisarBuscar.Text = "Avisar que no hay más coincidencias"
+        Me.chkAvisarBuscar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.toolTip1.SetToolTip(Me.chkAvisarBuscar, "Mostrar el aviso de que no hay más coincidencias en la búsqueda")
+        Me.chkAvisarBuscar.UseVisualStyleBackColor = True
         '
         'chkWholeWord
         '
@@ -700,6 +725,66 @@ Partial Class FormOpciones
         Me.Label4.TabIndex = 2
         Me.Label4.Text = "Selecciona lo que quieras borrar o clasifícalos usando los botones"
         '
+        'TabPage6
+        '
+        Me.TabPage6.Controls.Add(Me.grbMacros)
+        Me.TabPage6.Location = New System.Drawing.Point(4, 24)
+        Me.TabPage6.Name = "TabPage6"
+        Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage6.Size = New System.Drawing.Size(632, 338)
+        Me.TabPage6.TabIndex = 5
+        Me.TabPage6.Text = "Macros"
+        Me.TabPage6.UseVisualStyleBackColor = True
+        '
+        'grbMacros
+        '
+        Me.grbMacros.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grbMacros.Controls.Add(Me.Label6)
+        Me.grbMacros.Controls.Add(Me.cboMacros)
+        Me.grbMacros.Controls.Add(Me.Label5)
+        Me.grbMacros.Location = New System.Drawing.Point(15, 16)
+        Me.grbMacros.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.grbMacros.Name = "grbMacros"
+        Me.grbMacros.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
+        Me.grbMacros.Size = New System.Drawing.Size(603, 306)
+        Me.grbMacros.TabIndex = 1
+        Me.grbMacros.TabStop = False
+        Me.grbMacros.Text = "Macros"
+        '
+        'Label6
+        '
+        Me.Label6.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label6.Location = New System.Drawing.Point(8, 79)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(4)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(587, 100)
+        Me.Label6.TabIndex = 6
+        Me.Label6.Text = resources.GetString("Label6.Text")
+        '
+        'cboMacros
+        '
+        Me.cboMacros.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cboMacros.FormattingEnabled = True
+        Me.cboMacros.Location = New System.Drawing.Point(7, 49)
+        Me.cboMacros.Name = "cboMacros"
+        Me.cboMacros.Size = New System.Drawing.Size(588, 23)
+        Me.cboMacros.TabIndex = 5
+        '
+        'Label5
+        '
+        Me.Label5.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label5.Location = New System.Drawing.Point(8, 22)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(4)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(587, 20)
+        Me.Label5.TabIndex = 0
+        Me.Label5.Text = "Indica la secuencia de teclas a usar para generar una macro"
+        '
         'btnAceptar
         '
         Me.btnAceptar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -763,19 +848,21 @@ Partial Class FormOpciones
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
+        Me.TabPage6.ResumeLayout(False)
+        Me.grbMacros.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
 
-    Friend chkCargarUltimo As System.Windows.Forms.CheckBox
-    Private btnAceptar As System.Windows.Forms.Button
-    Private btnCancelar As System.Windows.Forms.Button
-    Private btnOrdenar As System.Windows.Forms.Button
-    Private btnOrdenarBuscar As Button
-    Private btnOrdenarReemplazar As Button
-    Private btnQuitar As System.Windows.Forms.Button
-    Private btnQuitarBuscar As Button
-    Private btnQuitarReemplazar As Button
+    Friend WithEvents chkCargarUltimo As System.Windows.Forms.CheckBox
+    Private WithEvents btnAceptar As System.Windows.Forms.Button
+    Private WithEvents btnCancelar As System.Windows.Forms.Button
+    Private WithEvents btnOrdenar As System.Windows.Forms.Button
+    Private WithEvents btnOrdenarBuscar As Button
+    Private WithEvents btnOrdenarReemplazar As Button
+    Private WithEvents btnQuitar As System.Windows.Forms.Button
+    Private WithEvents btnQuitarBuscar As Button
+    Private WithEvents btnQuitarReemplazar As Button
     Private grbAlEvaluar As GroupBox
     Private grbBuscar As GroupBox
     Private grbBuscarReemplazar As GroupBox
@@ -789,25 +876,25 @@ Partial Class FormOpciones
     Private TabPage3 As TabPage
     Private TabPage4 As TabPage
     Private toolTip1 As ToolTip
-    Private txtFic As System.Windows.Forms.TextBox
+    Private WithEvents txtFic As System.Windows.Forms.TextBox
     Private grbColores As GroupBox
     Private labelTamaño As Label
     Private labelFuente As Label
-    Private WithEvents TabPage5 As TabPage
-    Private WithEvents GroupBox2 As GroupBox
-    Private WithEvents GroupBox3 As GroupBox
+    Private TabPage5 As TabPage
+    Private GroupBox2 As GroupBox
+    Private GroupBox3 As GroupBox
     Private WithEvents btnQuitarRecortes As Button
     Private WithEvents btnOrdenarRecortes As Button
-    Private WithEvents Label4 As Label
+    Private Label4 As Label
     Private WithEvents txtIndentar As TextBox
-    Private WithEvents Label3 As Label
+    Private Label3 As Label
     Private WithEvents lstBuscar As ListBox
     Private WithEvents lstFics As ListBox
     Private WithEvents lstReemplazar As ListBox
     Private WithEvents comboFuenteNombre As ComboBox
     Private WithEvents comboFuenteTamaño As ComboBox
     Private WithEvents lstRecortes As ListBox
-    Private WithEvents GroupBox4 As GroupBox
+    Private GroupBox4 As GroupBox
     Friend WithEvents chkIgnoreCase As CheckBox
     Private WithEvents chkCaseSensitive As CheckBox
     Private WithEvents chkCompareOrdinal As CheckBox
@@ -817,5 +904,11 @@ Partial Class FormOpciones
     Private WithEvents chkMatchCase As CheckBox
     Private WithEvents chkWholeWord As CheckBox
     Private WithEvents chkMostrarLineasHTML As CheckBox
-    Private chkCambiarTab As CheckBox
+    Private WithEvents chkCambiarTab As CheckBox
+    Private WithEvents chkAvisarBuscar As CheckBox
+    Friend WithEvents TabPage6 As TabPage
+    Private WithEvents grbMacros As GroupBox
+    Private Label6 As Label
+    Friend WithEvents cboMacros As ComboBox
+    Private Label5 As Label
 End Class

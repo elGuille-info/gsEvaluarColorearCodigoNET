@@ -12,22 +12,24 @@
         <Description>Abrir múltiples ficheros de Visual Basic o C# para:
 Evaluar si tiene fallos, Compilar, Ejecutar y Colorear (el código y para HTML)
 Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
-(para .NET 5.0 RC2 revisión del 30-oct-2020, iniciado el 20-sep)
-</Description>
+(para .NET 5.0 RC2 revisión del 1-nov-2020, iniciado el 20-sep)
+
+v1.0.0.299 (01/Nov/20) Al cargar ficheros desde la línea de comandos, usar variosLineaComandos como máximo
+        </Description>
         <Copyright>Copyright Guillermo Som (elGuille), 2020</Copyright>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Company>elGuille</Company>
         <Authors>Guillermo Som (elGuille)</Authors>
         <Version>1.0.0.0</Version>
         <NeutralLanguage>es-ES</NeutralLanguage>
-        <FileVersion>1.0.0.280</FileVersion>
+        <FileVersion>1.0.0.299</FileVersion>
         <ApplicationIcon>VSProject_genericproject.Office_Deve.ico</ApplicationIcon>
         <MyType>WindowsForms</MyType>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/elGuille-info/gsEvaluarColorearCodigoNET</RepositoryUrl>
         <PackageIcon>gsCompilarEjecutarNET.jpg</PackageIcon>
         <PackageTags>visual-basic vb c# dotnet net-core net-5 compilar colorear visual-studio-preview</PackageTags>
-        <PackageReleaseNotes>v1.0.0.280 (30/Oct/20) También añado las operaciones de Drag Drop en el MDI</PackageReleaseNotes>
+        <PackageReleaseNotes>v1.0.0.298 (31/Oct/20) Usar guardarSinPreguntar solo si se ha indicado al cerrar varias ventanas</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
@@ -69,6 +71,11 @@ Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
     </ItemGroup>
 
     <ItemGroup>
+        <Compile Update="app.Designer.vb">
+          <DesignTimeSharedInput>True</DesignTimeSharedInput>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>app.config</DependentUpon>
+        </Compile>
         <Compile Update="My Project\Application.Designer.vb">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
@@ -90,6 +97,10 @@ Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
     </ItemGroup>
 
     <ItemGroup>
+      <None Update="app.config">
+        <Generator>SettingsSingleFileGenerator</Generator>
+        <LastGenOutput>app.Designer.vb</LastGenOutput>
+      </None>
       <None Update="My Project\Application.myapp">
         <Generator>MyApplicationCodeGenerator</Generator>
         <LastGenOutput>Application.Designer.vb</LastGenOutput>

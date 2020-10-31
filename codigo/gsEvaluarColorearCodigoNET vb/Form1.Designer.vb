@@ -125,23 +125,23 @@ Partial Class Form1
         Me.menuVB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.menuVB.Image = CType(resources.GetObject("menuVB.Image"), System.Drawing.Image)
         Me.menuVB.Name = "menuVB"
-        Me.menuVB.Size = New System.Drawing.Size(89, 22)
-        Me.menuVB.Text = "VB"
+        Me.menuVB.Size = New System.Drawing.Size(135, 22)
+        Me.menuVB.Text = "Visual Basic"
         '
         'menuCS
         '
         Me.menuCS.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.menuCS.Image = CType(resources.GetObject("menuCS.Image"), System.Drawing.Image)
         Me.menuCS.Name = "menuCS"
-        Me.menuCS.Size = New System.Drawing.Size(89, 22)
+        Me.menuCS.Size = New System.Drawing.Size(135, 22)
         Me.menuCS.Text = "C#"
         '
         'menuTxt
         '
         Me.menuTxt.Image = CType(resources.GetObject("menuTxt.Image"), System.Drawing.Image)
         Me.menuTxt.Name = "menuTxt"
-        Me.menuTxt.Size = New System.Drawing.Size(89, 22)
-        Me.menuTxt.Text = "txt"
+        Me.menuTxt.Size = New System.Drawing.Size(135, 22)
+        Me.menuTxt.Text = "Texto"
         '
         'labelTamaño
         '
@@ -266,19 +266,18 @@ Partial Class Form1
     ' Los controles del statusBar
     '
     Private statusContextMenu As ContextMenuStrip
-    Friend menuCopiarPath As ToolStripMenuItem
-    Friend menuRecargarFichero As ToolStripMenuItem
-    Friend statusStrip1 As System.Windows.Forms.StatusStrip
+    Friend WithEvents menuCopiarPath As ToolStripMenuItem
+    Friend WithEvents menuRecargarFichero As ToolStripMenuItem
+    Friend WithEvents statusStrip1 As System.Windows.Forms.StatusStrip
     Friend labelFuente As ToolStripStatusLabel
     Friend labelInfo As ToolStripStatusLabel
     Friend labelModificado As ToolStripStatusLabel
     Friend labelPos As ToolStripStatusLabel
     Friend labelTamaño As ToolStripStatusLabel
-    Friend buttonLenguaje As ToolStripSplitButton
-    Private menuCS As ToolStripMenuItem
-    Private menuVB As ToolStripMenuItem
-    Private menuTxt As ToolStripMenuItem
-
+    Friend WithEvents buttonLenguaje As ToolStripSplitButton
+    Private WithEvents menuCS As ToolStripMenuItem
+    Private WithEvents menuVB As ToolStripMenuItem
+    Private WithEvents menuTxt As ToolStripMenuItem
     Friend WithEvents richTextBoxCodigo As RichTextBox
     Friend WithEvents richTextBoxLineas As RichTextBox
     Friend WithEvents lstSyntax As ListBox

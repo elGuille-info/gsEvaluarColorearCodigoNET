@@ -17,6 +17,7 @@ Imports vb = Microsoft.VisualBasic
 
 Imports System.Windows.Forms
 Imports System.IO
+Imports System.ComponentModel
 
 Public Class MDIPrincipal
 
@@ -63,6 +64,9 @@ Public Class MDIPrincipal
         AsignaMetodosDeEventos()
 
         Inicializar()
+
+        HabilitarBotones()
+        buttonNavegarAnterior.Enabled = False
 
         ' Abrir una nueva ventana si no se han abierto
         ' los anteriores
@@ -129,8 +133,8 @@ Public Class MDIPrincipal
     Private Sub AsignaMetodosDeEventos()
 
         ' Ficheros: los menús de archivo y botones de la barra ficheros
-        AddHandler menuFileAcercaDe.Click, Sub() AcercaDe()
-        AddHandler menuFileSalir.Click, Sub() CurrentMDI.Close()
+        'AddHandler menuFileAcercaDe.Click, Sub() AcercaDe()
+        'AddHandler menuFileSalir.Click, Sub() CurrentMDI.Close()
         AddHandler menuFileSeleccionarAbrir.Click, Sub() Abrir()
         AddHandler buttonSeleccionar.Click, Sub() Abrir()
         AddHandler menuFileGuardar.Click, Sub() Form1Activo.Guardar()
@@ -144,12 +148,12 @@ Public Class MDIPrincipal
         AddHandler buttonRecargar.Click, Sub() Form1Activo.Recargar()
 
         AddHandler menuRecargarFichero.Click, Sub() Form1Activo.Recargar()
-        AddHandler menuCopiarPath.Click, Sub()
-                                             Try
-                                                 Clipboard.SetText(Form1Activo.nombreFichero)
-                                             Catch ex As Exception
-                                             End Try
-                                         End Sub
+        'AddHandler menuCopiarPath.Click, Sub()
+        '                                     Try
+        '                                         Clipboard.SetText(Form1Activo.nombreFichero)
+        '                                     Catch ex As Exception
+        '                                     End Try
+        '                                 End Sub
 
         ' Edición: menús y botones de la barra de edición
         'AddHandler menuEdit.DropDownOpening, Sub() menuEditDropDownOpening()
@@ -203,11 +207,6 @@ Public Class MDIPrincipal
         ' Herramientas; Opciones, Colorear, lenguajes
         AddHandler panelHerramientas.SizeChanged, AddressOf panelHerramientas_SizeChanged
 
-        AddHandler buttonLenguaje.DropDownItemClicked, Sub(sender As Object, e As ToolStripItemClickedEventArgs)
-                                                           Dim it = e.ClickedItem
-                                                           buttonLenguaje.Text = it.Text
-                                                           buttonLenguaje.Image = it.Image
-                                                       End Sub
 
         ' Clasificar la selección
         AddHandler menuEditorClasificarSeleccion.Click, Sub() ClasificarSeleccion()
@@ -253,12 +252,14 @@ Public Class MDIPrincipal
         AddHandler comboBoxBuscar.KeyUp, Sub(sender As Object, e As KeyEventArgs)
                                              If e.KeyCode = Keys.Enter Then
                                                  e.Handled = True
+                                                 e.SuppressKeyPress = True
                                                  BuscarSiguiente(esReemplazar:=False)
                                              End If
                                          End Sub
         AddHandler comboBoxReemplazar.KeyUp, Sub(sender As Object, e As KeyEventArgs)
                                                  If e.KeyCode = Keys.Enter Then
                                                      e.Handled = True
+                                                     e.SuppressKeyPress = True
                                                      BuscarSiguiente(esReemplazar:=True)
                                                  End If
                                              End Sub
@@ -339,6 +340,37 @@ Public Class MDIPrincipal
         MostrarRecortes()
     End Sub
 
+    ''' <summary>
+    ''' Muestra la ventana informativa sobre esta utilidad.
+    ''' </summary>
+    Public Sub AcercaDe() Handles menuFileAcercaDe.Click
+        ' Añadir la versión de esta utilidad                        (15/Sep/20)
+        Dim ensamblado As System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly
+        Dim fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(ensamblado.Location)
+        'Dim vers = $" v{My.Application.Info.Version} ({fvi.FileVersion})"
+        Dim versionAttr = ensamblado.GetCustomAttributes(GetType(System.Reflection.AssemblyVersionAttribute), False)
+        Dim vers = If(versionAttr.Length > 0,
+                                (TryCast(versionAttr(0), System.Reflection.AssemblyVersionAttribute)).Version,
+                                "1.0.0.0")
+        Dim prodAttr = ensamblado.GetCustomAttributes(GetType(System.Reflection.AssemblyProductAttribute), False)
+        Dim producto = If(prodAttr.Length > 0,
+                                (TryCast(prodAttr(0), System.Reflection.AssemblyProductAttribute)).Product,
+                                "gsEvaluarColorearNET")
+        Dim descAttr = ensamblado.GetCustomAttributes(GetType(System.Reflection.AssemblyDescriptionAttribute), False)
+        Dim desc = If(descAttr.Length > 0,
+                                (TryCast(descAttr(0), System.Reflection.AssemblyDescriptionAttribute)).Description,
+                                "(para .NET 5.0 RC2 revisión del 31/Oct/2020)")
+
+        Dim k = desc.IndexOf("(para .NET")
+        Dim desc1 = desc.Substring(k)
+        Dim descL = desc.Substring(0, k - 1)
+
+        MessageBox.Show($"{producto} v{vers} ({fvi.FileVersion})" & vbCrLf & vbCrLf &
+                        $"{descL}" & vbCrLf &
+                        $"{desc1}",
+                        $"Acerca de {producto}",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End Sub
 
 
     ''' <summary>
@@ -396,10 +428,25 @@ Public Class MDIPrincipal
         ' Más arriba (antes de LeerConfig) se asigna variosLineaComandos
         If variosLineaComandos > 1 Then
             Dim n = 0
+            ' Para que no se produzcan todos los eventos            (31/Oct/20)
+            cargando = True
             ' El primer fichero es el ejecutable                    (30/Oct/20)
+            MostrarProcesando($"Cargando {variosLineaComandos - 1} ficheros de la línea de comandos",
+                              "Cargando los ficheros...",
+                              variosLineaComandos)
             For i = 1 To variosLineaComandos - 1
+                m_fProcesando.Text = $"Cargando {i} de {variosLineaComandos - 1} ficheros de la línea de comandos"
+
                 Dim sFicArg = Environment.GetCommandLineArgs(i)
                 If String.IsNullOrWhiteSpace(sFicArg) Then Continue For
+
+                m_fProcesando.Mensaje1 = $"Cargando {sFicArg}...{vbCrLf}"
+                Application.DoEvents()
+                If m_fProcesando.Cancelar Then Exit For
+
+                If i = variosLineaComandos - 1 Then
+                    m_fProcesando.ValorActual = m_fProcesando.Maximo - 1
+                End If
 
                 ' Abrir siempre en ventanas nuevas                  (30/Oct/20)
                 ' aunque puede que ya haya un formulario asignado
@@ -419,10 +466,8 @@ Public Class MDIPrincipal
                 'MostrarPosicion(New KeyEventArgs(Keys.Home))
             Next
             m_fProcesando.Close()
+            cargando = False
         End If
-
-        buttonLenguaje.DropDownItems(0).Text = Compilar.LenguajeVisualBasic
-        buttonLenguaje.DropDownItems(1).Text = Compilar.LenguajeCSharp
 
     End Sub
 
@@ -437,13 +482,20 @@ Public Class MDIPrincipal
         inicializando = True
 
         ' para saber si hay texto en el control
-        Dim b = richTextBoxCodigo.TextLength > 0
+        Dim b = False
 
-        menuEditDeshacer.Enabled = richTextBoxCodigo.CanUndo
-        menuEditRehacer.Enabled = richTextBoxCodigo.CanRedo
-        buttonCopiar.Enabled = richTextBoxCodigo.SelectionLength > 0
-        buttonCortar.Enabled = buttonCopiar.Enabled
-        buttonPegar.Enabled = richTextBoxCodigo.CanPaste(DataFormats.GetFormat("Text"))
+        If Me.MdiChildren.Count > 0 Then
+            b = richTextBoxCodigo.TextLength > 0
+            menuEditDeshacer.Enabled = richTextBoxCodigo.CanUndo
+            menuEditRehacer.Enabled = richTextBoxCodigo.CanRedo
+            buttonCopiar.Enabled = richTextBoxCodigo.SelectionLength > 0
+            buttonCortar.Enabled = buttonCopiar.Enabled
+            buttonPegar.Enabled = richTextBoxCodigo.CanPaste(DataFormats.GetFormat("Text"))
+
+            buttonEditorClasificarSeleccion.Enabled = richTextBoxCodigo.SelectionLength > 0
+        End If
+
+        buttonMacro.Enabled = b
 
         buttonBuscarSiguiente.Enabled = b
         buttonReemplazarSiguiente.Enabled = b
@@ -467,6 +519,7 @@ Public Class MDIPrincipal
         buttonNoColorear.Enabled = b2
         buttonColorearHTML.Enabled = b2
         chkMostrarLineasHTML.Enabled = b2
+
         ' el botón de mostrar/ocultar el panel de evaluación        (20/Oct/20)
         buttonMostrarEvaluacion.Enabled = Form1Activo.lstSyntax.Items.Count > 0
         If Form1Activo.splitContainer1.Panel2.Visible = True Then
@@ -477,9 +530,10 @@ Public Class MDIPrincipal
         buttonMostrarEvaluacion.ToolTipText = buttonMostrarEvaluacion.Text
 
         buttonEditorMarcador.Enabled = b
-        buttonEditorClasificarSeleccion.Enabled = richTextBoxCodigo.SelectionLength > 0
-
-        b = Form1Activo.Bookmarks.Count > 0
+        b = False
+        If Form1Activo.Bookmarks IsNot Nothing Then
+            b = Form1Activo.Bookmarks.Count > 0
+        End If
         buttonEditorMarcadorAnteriorLocal.Enabled = b
         buttonEditorMarcadorSiguienteLocal.Enabled = b
 
@@ -492,6 +546,7 @@ Public Class MDIPrincipal
         buttonEdicionRecortes.Enabled = b
 
         HabilitarBotonesNavegar()
+        'buttonNavegarAnterior.Enabled = PosNavegarActual.Actual > 0
 
         inicializando = False
     End Sub
@@ -634,6 +689,17 @@ Public Class MDIPrincipal
         '    End If
         'Next
 
+        ' Deshabilitar los menús si no hay ventanas abiertas        (31/Oct/20)
+        ' Solo dejar habilitada la opción de nueva ventana
+        Dim b = Me.MdiChildren.Count > 0
+        menuVentanaArrangeAll.Enabled = b
+        menuVentanaCascade.Enabled = b
+        menuVentanaCloseAll.Enabled = b
+        menuVentanaMaximizarTodas.Enabled = b
+        menuVentanaRestaurarTodas.Enabled = b
+        menuVentanaTileHorizontal.Enabled = b
+        menuVentanaTileVertical.Enabled = b
+
         If ActiveMdiChild IsNot Nothing Then
             Dim ventanaActiva As Form = Me.ActiveMdiChild
             ActivateMdiChild(Nothing)
@@ -642,6 +708,8 @@ Public Class MDIPrincipal
     End Sub
 
     Private Sub GuardarTodo_Click() Handles buttonGuardarTodo.Click, menuFileGuardarTodo.Click
+        CerrandoVarios = True
+
         MostrarProcesando("Guardar todo", "Guardando todos los ficheros abiertos...", MdiChildren.Count * 2)
         Dim t = 0
         For Each frm As Form1 In Me.MdiChildren
@@ -654,6 +722,7 @@ Public Class MDIPrincipal
         OnProgreso(labelInfo.Text)
 
         m_fProcesando.Close()
+        CerrandoVarios = False
     End Sub
 
     Private Sub menuFileRecientes_DropDownOpening() Handles menuFileRecientes.DropDownOpening
@@ -751,18 +820,30 @@ Public Class MDIPrincipal
     End Sub
 
     Private Sub menuEditor_DropDownOpening() Handles menuEditor.DropDownOpening
-        Dim b = richTextBoxCodigo.SelectionLength > 0
+        'If inicializando Then Return
+
+        Dim b = False
+        Dim b2 = False
+
+        If Me.MdiChildren.Count > 0 Then
+            b = richTextBoxCodigo.SelectionLength > 0
+            b2 = richTextBoxCodigo.TextLength > 0
+        End If
+
         menuEditorQuitarIndentacion.Enabled = b
         menuEditorPonerIndentacion.Enabled = b
         menuEditorQuitarComentarios.Enabled = b
         menuEditorPonerComentarios.Enabled = b
-
         menuEditorClasificarSeleccion.Enabled = b
 
-        menuEditorPonerTexto.Enabled = richTextBoxCodigo.TextLength > 0
+        menuEditorPonerTexto.Enabled = b2
 
-        b = Form1Activo.Bookmarks.Count > 0
-        'menuEditorMarcador.Enabled = b
+        menuEditorMarcador.Enabled = b2
+
+        b = False
+        If Form1Activo.Bookmarks IsNot Nothing Then
+            b = Form1Activo.Bookmarks.Count > 0
+        End If
         menuEditorMarcadorAnteriorLocal.Enabled = b
         menuEditorMarcadorSiguienteLocal.Enabled = b
 
@@ -793,19 +874,25 @@ Public Class MDIPrincipal
     ''' asignar si están o no habilitados el menú en sí, el contextual y las barras de herramientas.
     ''' </summary>
     Public Sub menuEditDropDownOpening() Handles menuEdit.DropDownOpening, rtbCodigoContext.Opening
-        If inicializando Then Return
+        'If inicializando Then Return
+
+        ' para saber si hay texto en el control
+        Dim b = False
+
+        If Me.MdiChildren.Count > 0 Then
+            b = richTextBoxCodigo.TextLength > 0
+
+            menuEditDeshacer.Enabled = richTextBoxCodigo.CanUndo
+            menuEditRehacer.Enabled = richTextBoxCodigo.CanRedo
+            menuEditCopiar.Enabled = richTextBoxCodigo.SelectionLength > 0
+            menuEditCortar.Enabled = menuEditCopiar.Enabled
+            menuEditPegar.Enabled = richTextBoxCodigo.CanPaste(DataFormats.GetFormat("Text"))
+        End If
 
         inicializando = True
 
-        ' para saber si hay texto en el control
-        Dim b = richTextBoxCodigo.TextLength > 0
-
-        menuEditDeshacer.Enabled = richTextBoxCodigo.CanUndo
-        menuEditRehacer.Enabled = richTextBoxCodigo.CanRedo
-        menuEditCopiar.Enabled = richTextBoxCodigo.SelectionLength > 0
-        menuEditCortar.Enabled = menuEditCopiar.Enabled
         menuEditSeleccionarTodo.Enabled = b
-        menuEditPegar.Enabled = richTextBoxCodigo.CanPaste(DataFormats.GetFormat("Text"))
+
 
         'If Clipboard.GetDataObject.GetDataPresent(DataFormats.Text) Then
         '    menuEditPegar.Enabled = richTextBoxCodigo.CanPaste(DataFormats.GetFormat(DataFormats.Text))
@@ -827,6 +914,10 @@ Public Class MDIPrincipal
 
         menuEditBuscar.Enabled = b
         menuEditReemplazar.Enabled = b
+        ' Habilitar/deshabilitar también estos menús                (31/Oct/20)
+        menuEditBuscarSiguiente.Enabled = b
+        menuEditReemplazarSiguiente.Enabled = b
+        menuEditReemplazarTodos.Enabled = b
 
         ' Actualizar también los del menú contextual
         For j = 0 To rtbCodigoContext.Items.Count - 1
@@ -855,7 +946,16 @@ Public Class MDIPrincipal
     End Sub
 
     Private Sub menuTools_DropDownOpening() Handles menuTools.DropDownOpening
-        Dim b = richTextBoxCodigo.TextLength > 0
+        'If inicializando Then Return
+
+        ' Comprobar si no hay ventanas abiertas                     (31/Oct/20)
+        Dim b = False
+        If Me.MdiChildren.Count > 0 Then
+            b = richTextBoxCodigo.TextLength > 0
+        End If
+
+        menuToolsMacro.Enabled = b
+
         ' Si el Lenguaje no es vb/cs no:      (08/Oct/20)
         '   compilar, ejecutar, colorear, etc.
         Dim b2 = b
@@ -877,6 +977,7 @@ Public Class MDIPrincipal
         End If
         buttonMostrarEvaluacion.Text = menuOcultarEvaluar.Text
         buttonMostrarEvaluacion.ToolTipText = buttonMostrarEvaluacion.Text
+
     End Sub
 
     '
@@ -974,6 +1075,9 @@ Public Class MDIPrincipal
     ''' <param name="elForm1"></param>
     Friend Sub AsignarNavegar(elForm1 As Form1)
         If cargando Then Return
+
+        ' Si no hay texto, nada que hacer                           (31/Oct/20)
+        If richTextBoxCodigo.TextLength = 0 Then Return
 
         ' No asignar la misma ubicación que la anterior
         If PosNavegarActual.Posicion = elForm1.richTextBoxCodigo.SelectionStart Then
@@ -1118,4 +1222,48 @@ Public Class MDIPrincipal
     Private Sub MDIPrincipal_DragDrop(sender As Object, e As DragEventArgs) Handles MyBase.DragDrop
         Form1Activo.Form1_DragDrop(sender, e)
     End Sub
+
+    Private Sub menuFileCerrarTodos_Click() Handles menuFileCerrarTodos.Click
+        ' Cerrar todas las ventanas abiertas                        (31/Oct/20)
+        ' ya estaba en el menú Ventanas
+        CloseAllToolStripMenuItem_Click()
+    End Sub
+
+    Private Sub menuCopiarPath_Click(sender As Object, e As EventArgs) Handles menuCopiarPath.Click
+        Try
+            Clipboard.SetText(Form1Activo.nombreFichero)
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub menuFileSalir_Click(sender As Object, e As EventArgs) Handles menuFileSalir.Click
+        Me.Close()
+    End Sub
+
+    ''' <summary>
+    ''' Colección para las macros de la aplicación.
+    ''' </summary>
+    ''' <remarks>31/Oct/2020</remarks>
+    Public colMacros As New List(Of String)
+
+    ''' <summary>
+    ''' La macro actual
+    ''' </summary>
+    Public MacroActual As String
+
+    Private Sub menuToolsMacro_Click() Handles menuToolsMacro.Click, buttonMacro.Click
+        ' {F3} {END} {ENTER} ^v ^{F6}
+        ' Buscar, fin, intro, Ctrl+V, Ctrl+F6
+        ' se deben enviar las teclas de forma independiente
+        Dim macros = MacroActual.Split(" "c, StringSplitOptions.RemoveEmptyEntries)
+        For i = 0 To macros.Count - 1
+            Try
+                'SendKeys.SendWait(macros(i) & If(macros(i).StartsWith("{"), "}", ""))
+                SendKeys.SendWait(macros(i))
+            Catch ex As Exception
+                Debug.WriteLine(ex.Message)
+            End Try
+        Next
+    End Sub
+
 End Class

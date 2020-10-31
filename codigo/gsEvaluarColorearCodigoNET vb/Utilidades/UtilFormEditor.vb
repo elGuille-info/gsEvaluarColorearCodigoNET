@@ -171,6 +171,18 @@ Friend Module UtilFormEditor
 #Region " Los 'campos' generales "
 
     ''' <summary>
+    ''' Si se están cerrando varias ventanas o guardando todo
+    ''' </summary>
+    ''' <remarks>31/Oct/2020</remarks>
+    Public CerrandoVarios As Boolean = False
+
+    ''' <summary>
+    ''' Si se debe mostrar el diálogo de que no hay más coincidencias en la búsqueda
+    ''' </summary>
+    ''' <remarks>31/Oct/2020</remarks>
+    Public avisarFinBusqueda As Boolean = True
+
+    ''' <summary>
     ''' Tupla para guardar el tamaño y posición del formulario
     ''' </summary>
     Public tamForm As (Left As Integer, Top As Integer, Height As Integer, Width As Integer)
@@ -375,11 +387,15 @@ Friend Module UtilFormEditor
         cfg.SetValue("Fuente", "Nombre", fuenteNombre)
         cfg.SetValue("Fuente", "Tamaño", fuenteTamaño)
 
+        ' Si se debe avisar cuando no haya más coincidencias        (31/Oct/20)
+        cfg.SetValue("Buscar", "Avisar Buscar", avisarFinBusqueda)
+
         ' Para buscar y reemplazar y CaseSensitive y WholeWord      (17/Sep/20)
         cfg.SetValue("Buscar", "QueBuscar", buscarQueBuscar)
         cfg.SetValue("Reemplazar", "QueReemplazar", buscarQueReemplazar)
-        cfg.SetValue("Buscar", "MatchCase", buttonMatchCase.Checked)
-        cfg.SetValue("Buscar", "WholeWord", buttonWholeWord.Checked)
+
+        cfg.SetValue("Buscar", "MatchCase", buscarMatchCase)
+        cfg.SetValue("Buscar", "WholeWord", buscarWholeWord)
         cfg.SetValue("Buscar", "Buscar-Items-Count", comboBoxBuscar.Items.Count)
         cfg.SetValue("Reemplazar", "Reemplazar-Items-Count", comboBoxReemplazar.Items.Count)
         j = 0
@@ -416,6 +432,22 @@ Friend Module UtilFormEditor
         cfg.SetValue("Ventana", "Top", tamForm.Top)
         cfg.SetValue("Ventana", "Height", tamForm.Height)
         cfg.SetValue("Ventana", "Width", tamForm.Width)
+
+        ' Para las macros                                           (31/Oct/20)
+        ' Esta macro la uso para modificar los ficheros del sitio elGuille.info
+        ' para añadir el viewport
+        '{F3} {END} {ENTER} ^v ^{F6}
+        '
+        cfg.SetValue("Macros", "Macro actual", CurrentMDI.MacroActual)
+        cuantos = CurrentMDI.colMacros.Count
+        j = -1
+        For i = 0 To cuantos - 1
+            Dim s = CurrentMDI.colMacros(i)
+            If String.IsNullOrEmpty(s) Then Continue For
+            j += 1
+            cfg.SetValue("Macros", $"Macro{j}", s)
+        Next
+        cfg.SetValue("Macros", "Cuantos", j + 1)
 
         cfg.Save()
     End Sub
@@ -505,16 +537,19 @@ Friend Module UtilFormEditor
         richTextBoxCodigo.Font = New Font(fuenteNombre, CSng(fuenteTamaño))
         richTextBoxLineas.Font = New Font(fuenteNombre, CSng(fuenteTamaño))
 
+        ' Si se debe avisar cuando no haya más coincidencias        (31/Oct/20)
+        avisarFinBusqueda = cfg.GetValue("Buscar", "Avisar Buscar", True)
+
         ' Los datos de configuración para buscar y reemplazar       (17/Sep/20)
         ' y valores de MatchCase, WholeWord
         buscarQueBuscar = cfg.GetValue("Buscar", "Buscar", "")
         buscarQueReemplazar = cfg.GetValue("Reemplazar", "Reemplazar", "")
 
         buscarMatchCase = cfg.GetValue("Buscar", "MatchCase", False)
-        buttonMatchCase.Checked = buscarMatchCase
+        MDIPrincipal.buttonMatchCase.Checked = buscarMatchCase
 
         buscarWholeWord = cfg.GetValue("Buscar", "WholeWord", False)
-        buttonWholeWord.Checked = buscarWholeWord
+        MDIPrincipal.buttonWholeWord.Checked = buscarWholeWord
 
         cuantos = cfg.GetValue("Buscar", "Buscar-Items-Count", 0)
         comboBoxBuscar.Items.Clear()
@@ -524,6 +559,10 @@ Friend Module UtilFormEditor
             If s = "-1" Then Exit For
             comboBoxBuscar.Items.Add(s)
         Next
+        ' Si buscarQueBuscar está vacío, usar lo último buscado     (31/Oct/20)
+        If comboBoxBuscar.Items.Count > 0 AndAlso String.IsNullOrEmpty(buscarQueBuscar) Then
+            buscarQueBuscar = comboBoxBuscar.Items(comboBoxBuscar.Items.Count - 1).ToString
+        End If
         cuantos = cfg.GetValue("Reemplazar", "Reemplazar-Items-Count", 0)
         comboBoxReemplazar.Items.Clear()
         For i = 0 To BuscarMaxItems - 1
@@ -532,6 +571,10 @@ Friend Module UtilFormEditor
             If s = "-1" Then Exit For
             comboBoxReemplazar.Items.Add(s)
         Next
+        ' Si buscarQueReemplazar está vacío, usar lo último reemplazado
+        If comboBoxReemplazar.Items.Count > 0 AndAlso String.IsNullOrEmpty(buscarQueReemplazar) Then
+            buscarQueReemplazar = comboBoxReemplazar.Items(comboBoxReemplazar.Items.Count - 1).ToString
+        End If
         comboBoxBuscar.Text = If(String.IsNullOrWhiteSpace(buscarQueBuscar), BuscarVacio, buscarQueBuscar)
         If comboBoxBuscar.Text = BuscarVacio Then
             comboBoxBuscar.ForeColor = SystemColors.GrayText
@@ -611,6 +654,24 @@ Friend Module UtilFormEditor
             ' para que se actualicen los botones, etc.
             ' Llamo directamente al evento Activated                (26/Oct/20)
             'Form1Activo.Form1_Activated() 'BringToFront()
+        End If
+
+        ' Para las macros                                           (31/Oct/20)
+        ' Esta macro la uso para modificar los ficheros del sitio elGuille.info
+        ' para añadir el viewport
+        '{F3} {END} {ENTER} ^v ^{F6}
+        CurrentMDI.MacroActual = cfg.GetValue("Macros", "Macro actual", "{F3} {END} {ENTER} ^v ^{F6}")
+        cuantos = cfg.GetValue("Macros", "Cuantos", 0)
+        CurrentMDI.colMacros.Clear()
+        For i = 0 To cuantos - 1
+            Dim s = cfg.GetValue("Macros", $"Macro{i}", "")
+            If String.IsNullOrEmpty(s) Then Continue For
+            CurrentMDI.colMacros.Add(s)
+        Next
+        If CurrentMDI.colMacros.Count > 0 Then
+            CurrentMDI.MacroActual = CurrentMDI.colMacros(CurrentMDI.colMacros.Count - 1)
+        Else
+            CurrentMDI.MacroActual = "{F3} {END} {ENTER} ^v ^{F6}"
         End If
 
     End Sub
@@ -1736,37 +1797,6 @@ Friend Module UtilFormEditor
     ''' </summary>
     Public Const MaxFicsConfig As Integer = 50
 
-    ''' <summary>
-    ''' Muestra la ventana informativa sobre esta utilidad
-    ''' y las DLL que utiliza
-    ''' </summary>
-    Public Sub AcercaDe()
-        ' Añadir la versión de esta utilidad                        (15/Sep/20)
-        Dim ensamblado As System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly
-        Dim fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(ensamblado.Location)
-        'Dim vers = $" v{My.Application.Info.Version} ({fvi.FileVersion})"
-        Dim versionAttr = ensamblado.GetCustomAttributes(GetType(System.Reflection.AssemblyVersionAttribute), False)
-        Dim vers = If(versionAttr.Length > 0,
-                                (TryCast(versionAttr(0), System.Reflection.AssemblyVersionAttribute)).Version,
-                                "1.0.0.0")
-        Dim prodAttr = ensamblado.GetCustomAttributes(GetType(System.Reflection.AssemblyProductAttribute), False)
-        Dim producto = If(prodAttr.Length > 0,
-                                (TryCast(prodAttr(0), System.Reflection.AssemblyProductAttribute)).Product,
-                                "gsEvaluarColorearNET")
-        Dim descAttr = ensamblado.GetCustomAttributes(GetType(System.Reflection.AssemblyDescriptionAttribute), False)
-        Dim desc = If(descAttr.Length > 0,
-                                (TryCast(descAttr(0), System.Reflection.AssemblyDescriptionAttribute)).Description,
-                                "(para .NET 5.0 RC1 revisión del 26/Sep/2020)")
-        Dim k = desc.IndexOf("(para .NET")
-        Dim desc1 = desc.Substring(k)
-        Dim descL = desc.Substring(0, k - 1)
-
-        MessageBox.Show($"{producto} v{vers} ({fvi.FileVersion})" & vbCrLf & vbCrLf &
-                        $"{descL}" & vbCrLf &
-                        $"{desc1}",
-                        $"Acerca de {producto}",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information)
-    End Sub
 
     '
     ' Los métodos de ficheros
@@ -1846,6 +1876,7 @@ Friend Module UtilFormEditor
             oFD.RestoreDirectory = True
             If oFD.ShowDialog() = DialogResult.OK Then
                 AbrirEnNuevaVentana(oFD.FileName)
+                m_fProcesando.Close()
             End If
         End Using
     End Sub
@@ -1980,7 +2011,7 @@ Friend Module UtilFormEditor
             ' A ver si al no colorear cambia la posición            (30/Oct/20)
             ' ¡Efectivamente!
             If buttonLenguaje.Text = ExtensionTexto Then
-                richTextBoxCodigo.SelectionStart = selStart
+                richTextBoxCodigo.SelectionStart = If(selStart < 0, 0, selStart)
                 richTextBoxCodigo.SelectionLength = sTexto.Length
             Else
                 richTextBoxCodigo.SelectionStart = If(pos < 0, 0, pos)
@@ -2142,9 +2173,11 @@ Friend Module UtilFormEditor
                         Else
                             msg = $"No hay más coincidencias de: {buscarQueBuscar}."
                         End If
-                        MessageBox.Show(msg,
-                                        "Reemplazar siguiente",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        If avisarFinBusqueda Then
+                            MessageBox.Show(msg,
+                                            "Reemplazar siguiente",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
                         esCtrlF = True
                         Return False
                     End If
@@ -2152,9 +2185,11 @@ Friend Module UtilFormEditor
                 Return False
             Else
                 If buscarPosAnt = 0 OrElse buscarPosAnt >= richTextBoxCodigo.Text.Length Then
-                    MessageBox.Show($"No se ha encontrado el texto buscado: {buscarQueBuscar}.",
-                                    "Buscar siguiente",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    If avisarFinBusqueda Then
+                        MessageBox.Show($"No se ha encontrado el texto buscado: {buscarQueBuscar}.",
+                                        "Buscar siguiente",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
                     esCtrlF = True
                     Return False
                 End If
@@ -2170,9 +2205,11 @@ Friend Module UtilFormEditor
                 richTextBoxCodigo.SelectionLength = buscarQueBuscar.Length
 
                 If buscarPos = buscarPosIni Then
-                    MessageBox.Show($"No hay más coincidencias de: {buscarQueBuscar}, se ha llegado al inicio de la búsqueda.",
-                                    "Buscar siguiente",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    If avisarFinBusqueda Then
+                        MessageBox.Show($"No hay más coincidencias de: {buscarQueBuscar}, se ha llegado al inicio de la búsqueda.",
+                                        "Buscar siguiente",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
                     esCtrlF = True
                     Return False
                 End If
@@ -2246,6 +2283,9 @@ Friend Module UtilFormEditor
                 End If
             End If
         Loop
+
+        If Not avisarFinBusqueda Then Exit Sub
+
         ' motrar todos los cambios realizados
         If t > 0 Then
             Dim plural = If(t > 1, "s", "")
@@ -2327,17 +2367,17 @@ Friend Module UtilFormEditor
         End Get
     End Property
 
-    Public ReadOnly Property buttonColorearAlEvaluar As ToolStripButton
-        Get
-            Return CurrentMDI.buttonColorearAlEvaluar
-        End Get
-    End Property
+    'Public ReadOnly Property buttonColorearAlEvaluar As ToolStripButton
+    '    Get
+    '        Return CurrentMDI.buttonColorearAlEvaluar
+    '    End Get
+    'End Property
 
-    Public ReadOnly Property buttonCompilarAlEvaluar As ToolStripButton
-        Get
-            Return CurrentMDI.buttonCompilarAlEvaluar
-        End Get
-    End Property
+    'Public ReadOnly Property buttonCompilarAlEvaluar As ToolStripButton
+    '    Get
+    '        Return CurrentMDI.buttonCompilarAlEvaluar
+    '    End Get
+    'End Property
 
     Public ReadOnly Property chkMostrarLineasHTML As ToolStripButton
         Get
@@ -2345,17 +2385,17 @@ Friend Module UtilFormEditor
         End Get
     End Property
 
-    Public ReadOnly Property buttonMatchCase As ToolStripButton
-        Get
-            Return CurrentMDI.buttonMatchCase
-        End Get
-    End Property
+    'Public ReadOnly Property buttonMatchCase As ToolStripButton
+    '    Get
+    '        Return CurrentMDI.buttonMatchCase
+    '    End Get
+    'End Property
 
-    Public ReadOnly Property buttonWholeWord As ToolStripButton
-        Get
-            Return CurrentMDI.buttonWholeWord
-        End Get
-    End Property
+    'Public ReadOnly Property buttonWholeWord As ToolStripButton
+    '    Get
+    '        Return CurrentMDI.buttonWholeWord
+    '    End Get
+    'End Property
 
     Public ReadOnly Property toolStripFicheros As ToolStrip
         Get

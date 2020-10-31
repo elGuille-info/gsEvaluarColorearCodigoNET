@@ -158,4 +158,11 @@ El número de espacios serán los indicados en 'Espacios indentar' (en la ficha 
         TkSuQmCC
 </value>
   </data>
+  <data name="Label6.Text" xml:space="preserve">
+    <value>Usa {} para encerrar cada pulsación de tecla. ^ para indicar CTRL, + para indicar SHIFT, % para indicar ALT
+Si indicas ^, + o % debes hacerlo así: ^v para CTRL+v o ^{F6} para CTRL+F6 o +E para SHIFT+E
+Es decir, si la tecla va con alguna tecla especial la tecla debe ir entre llaves, si es una tecla normal no es necesario que vaya entre llaves.
+
+Separa cada pulsación con un espacio.</value>
+  </data>
 </root>

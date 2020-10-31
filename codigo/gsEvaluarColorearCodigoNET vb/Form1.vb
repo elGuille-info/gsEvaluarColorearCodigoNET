@@ -51,6 +51,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic
 Imports Microsoft.VisualBasic.CompilerServices
 Imports System.Reflection
 Imports Microsoft.CodeAnalysis.Text
+Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 
 Public Class Form1
 
@@ -134,6 +135,11 @@ Public Class Form1
         ' Asignaciones al Form
         Me.KeyPreview = True
 
+        buttonLenguaje.DropDownItems(0).Text = Compilar.LenguajeVisualBasic
+        buttonLenguaje.DropDownItems(1).Text = Compilar.LenguajeCSharp
+        buttonLenguaje.Image = buttonLenguaje.DropDownItems(2).Image
+        buttonLenguaje.Text = ExtensionTexto ' buttonLenguaje.DropDownItems(2).Text
+
         richTextBoxCodigo.ContextMenuStrip = CurrentMDI.rtbCodigoContext
 
         LeerConfigLocal()
@@ -164,7 +170,7 @@ Public Class Form1
         ' Si no hay texto, no comprobar si se debe guardar          (01/Oct/20)
         If richTextBoxCodigo.TextLength > 0 Then
             If TextoModificado OrElse String.IsNullOrEmpty(nombreFichero) Then
-                If guardarSinPreguntar Then
+                If CerrandoVarios AndAlso guardarSinPreguntar Then
                     Guardar()
                 Else
                     ' Si está modificado, y se indicó guardar               (30/Oct/20)
@@ -172,7 +178,10 @@ Public Class Form1
                     ' esto es para el caso que se cierre el MDI y haya ficheros sin guardar
                     Dim msg = "¿Quieres guardarlo?"
                     If e.CloseReason = CloseReason.MdiFormClosing Then
-                        msg &= $"{vbCrLf}También se guardarán los restantes ficheros que estén modificados."
+                        CerrandoVarios = True
+                        msg &= $"{vbCrLf}Se está cerrando la aplicación, si guardas este, también se guardarán los restantes ficheros que estén modificados."
+                    Else
+                        msg &= $"{vbCrLf}Si estás cerrando varias ventanas, también se guardarán los restantes ficheros que estén modificados."
                     End If
 
                     ' No preguntaba si quería guardar,                      (01/Oct/20)
@@ -190,11 +199,15 @@ Public Class Form1
                         ' Si no tiene nombre, preguntar                 (02/Oct/20)
                         ' Guardar se encarga de llamar a GuardarComo si no tiene nombre
                         Guardar()
-                        guardarSinPreguntar = True
+                        If CerrandoVarios Then
+                            guardarSinPreguntar = True
+                        End If
                     ElseIf res = DialogResult.Cancel Then
                         guardarSinPreguntar = False
                         e.Cancel = True
                         Return
+                    Else
+                        guardarSinPreguntar = False
                     End If
                 End If
             End If
@@ -334,6 +347,7 @@ Public Class Form1
             ' Esto NO hacerla en el eveto del RichTextBoxCodigo
             If e.KeyCode = Keys.Home Then
                 e.Handled = True
+                e.SuppressKeyPress = True
 
                 inicializando = True
                 Dim selStart = richTextBoxCodigo.SelectionStart
@@ -673,6 +687,7 @@ Public Class Form1
             If e.KeyCode = Keys.Tab Then
                 ' Atrás
                 e.Handled = True
+                e.SuppressKeyPress = True
                 QuitarIndentacion(richTextBoxCodigo)
                 MostrarPosicion(e)
             End If
@@ -680,10 +695,12 @@ Public Class Form1
             If e.KeyCode = Keys.Tab Then
                 ' Adelante
                 e.Handled = True
+                e.SuppressKeyPress = True
                 PonerIndentacion(richTextBoxCodigo)
                 MostrarPosicion(e)
             ElseIf e.KeyCode = Keys.Enter Then
                 e.Handled = True
+                e.SuppressKeyPress = True
 
                 ' Entra dos veces y no sé porqué...
 
@@ -1226,4 +1243,10 @@ Public Class Form1
         Guardar(nombreFichero)
     End Sub
 
+    Private Sub buttonLenguaje_DropDownItemClicked(sender As Object,
+                                                   e As ToolStripItemClickedEventArgs) Handles buttonLenguaje.DropDownItemClicked
+        Dim it = e.ClickedItem
+        buttonLenguaje.Text = it.Text
+        buttonLenguaje.Image = it.Image
+    End Sub
 End Class

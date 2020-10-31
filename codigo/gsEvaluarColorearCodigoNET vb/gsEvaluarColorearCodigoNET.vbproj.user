@@ -30,6 +30,9 @@
     <EmbeddedResource Update="Form1.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Update="FormOpciones.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Update="MDIPrincipal.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

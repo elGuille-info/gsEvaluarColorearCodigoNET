@@ -473,7 +473,26 @@
 'v1.0.0.278             Drag Drop no funciona... no estaba implementado en el richTexBoxCodigo
 'v1.0.0.279             Al soltar ficheros con DragDrop poder cargar todos los soltados
 'v1.0.0.280             También añado las operaciones de Drag Drop en el MDI
-'
+'v1.0.0.281 31/Oct/20   Al cargar ficheros desde la línea de comandos asigno cargando = True
+'v1.0.0.282             Hago que la aplicación sea de instancia única (parece que ni caso)
+'v1.0.0.283             Quito lo de instancia única, ya lo haré "manualmente"
+'v1.0.0.284             Opción de cerrar todas las ventanas (ya estaba en el menú ventanas)
+'                       pero lo dejo como opción en el menú ficheros
+'v1.0.0.285             Deshabilitar los menús si no hay ventanas abiertas
+'v1.0.0.286             Asigno imágenes a los menús de Ventana
+'v1.0.0.287             Algunos cambios para que todo vaya mejor
+'v1.0.0.288             Nueva opción de si se debe mostrar o no el diálogo de que no hay más coincidencias en la búsqueda
+'v1.0.0.289             Que al no mostrar el diálogo de que no hay más coincidencias en la búsqueda no se culegue
+'v1.0.0.290             No se guardaba en la configuración el valor de si se avisa cuando no haya más coincidencias
+'v1.0.0.291             Quito algunas definiciones de UtilFormEditor y uso el acceso directo desde CurrentMDI
+'v1.0.0.292             Arreglo bugs en FormOpciones y asigno los eventos con Handles
+'v1.0.0.293             Comprobaciones al mostrar los menús de que haya formularios abiertos
+'v1.0.0.294             Mostrar correctamente la ventana de aviso mientras se cargan de la línea de comandos
+'v1.0.0.295             Habilitar los botones correctamente cuando no hay ventanas abiertas
+'v1.0.0.296             Se puede usar una secuencia de pulsaciones (macro) y para usarlas pulsar CTRL+SHIFT+M
+'v1.0.0.297             No usar la combinación de teclas Ctrl+Shift+M
+'v1.0.0.298             Usar guardarSinPreguntar solo si se ha indicado al cerrar varias ventanas
+'v1.0.0.299 01/Nov/20   Al cargar ficheros desde la línea de comandos, usar variosLineaComandos como máximo
 '
 '
 '
