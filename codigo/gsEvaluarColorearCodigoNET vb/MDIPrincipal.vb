@@ -147,7 +147,7 @@ Public Class MDIPrincipal
         AddHandler menuFileRecargar.Click, Sub() Form1Activo.Recargar()
         AddHandler buttonRecargar.Click, Sub() Form1Activo.Recargar()
 
-        AddHandler menuRecargarFichero.Click, Sub() Form1Activo.Recargar()
+        'AddHandler menuRecargarFichero.Click, Sub() Form1Activo.Recargar()
         'AddHandler menuCopiarPath.Click, Sub()
         '                                     Try
         '                                         Clipboard.SetText(Form1Activo.nombreFichero)
@@ -268,11 +268,11 @@ Public Class MDIPrincipal
         AddHandler buttonMatchCase.Click, Sub() buscarMatchCase = buttonMatchCase.Checked
         AddHandler buttonWholeWord.Click, Sub() buscarWholeWord = buttonWholeWord.Checked
 
-        ' Crear un context menú para el richTextBox del código      (18/Sep/20)
-        If richTextBoxCodigo.ContextMenuStrip Is Nothing Then
-            richTextBoxCodigo.ContextMenuStrip = rtbCodigoContext
-        End If
-        CrearContextMenuCodigo()
+        '' Crear un context menú para el richTextBox del código      (18/Sep/20)
+        'If richTextBoxCodigo.ContextMenuStrip Is Nothing Then
+        '    richTextBoxCodigo.ContextMenuStrip = rtbCodigoContext
+        'End If
+        'CrearContextMenuCodigo()
 
         Dim lambdaMenuMostrar = Sub(sender As Object, e As EventArgs)
                                     ' Están en un FlowPanel y se reajusta solo
@@ -873,7 +873,7 @@ Public Class MDIPrincipal
     ''' Cuando se abre el menú de edición o se cambia la selección del código
     ''' asignar si están o no habilitados el menú en sí, el contextual y las barras de herramientas.
     ''' </summary>
-    Public Sub menuEditDropDownOpening() Handles menuEdit.DropDownOpening, rtbCodigoContext.Opening
+    Public Sub menuEditDropDownOpening() Handles menuEdit.DropDownOpening
         'If inicializando Then Return
 
         ' para saber si hay texto en el control
@@ -920,10 +920,10 @@ Public Class MDIPrincipal
         menuEditReemplazarTodos.Enabled = b
 
         ' Actualizar también los del menú contextual
-        For j = 0 To rtbCodigoContext.Items.Count - 1
+        For j = 0 To Form1Activo.rtbCodigoContext.Items.Count - 1
             For i = 0 To menuEdit.DropDownItems.Count - 1
-                If rtbCodigoContext.Items(j).Name = menuEdit.DropDownItems(i).Name Then
-                    rtbCodigoContext.Items(j).Enabled = menuEdit.DropDownItems(i).Enabled
+                If Form1Activo.rtbCodigoContext.Items(j).Name = menuEdit.DropDownItems(i).Name Then
+                    Form1Activo.rtbCodigoContext.Items(j).Enabled = menuEdit.DropDownItems(i).Enabled
                     Exit For
                 End If
             Next
@@ -1227,13 +1227,6 @@ Public Class MDIPrincipal
         ' Cerrar todas las ventanas abiertas                        (31/Oct/20)
         ' ya estaba en el menú Ventanas
         CloseAllToolStripMenuItem_Click()
-    End Sub
-
-    Private Sub menuCopiarPath_Click(sender As Object, e As EventArgs) Handles menuCopiarPath.Click
-        Try
-            Clipboard.SetText(Form1Activo.nombreFichero)
-        Catch ex As Exception
-        End Try
     End Sub
 
     Private Sub menuFileSalir_Click(sender As Object, e As EventArgs) Handles menuFileSalir.Click

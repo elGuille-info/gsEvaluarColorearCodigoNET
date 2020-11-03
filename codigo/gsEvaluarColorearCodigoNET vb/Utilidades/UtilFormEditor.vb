@@ -171,6 +171,37 @@ Friend Module UtilFormEditor
 #Region " Los 'campos' generales "
 
     ''' <summary>
+    ''' Para los formatos de los ficheros.
+    ''' </summary>
+    ''' <remarks>03/Nov/2020</remarks>
+    Public Enum FormatosEncoding
+        ''' <summary>
+        ''' Latin1 character set (ISO-8859-1)
+        ''' </summary>
+        ''' <remarks>En .NET framework 4.8 no se admite Latin1</remarks>
+        Latin1
+        ''' <summary>
+        ''' UTF-8 format
+        ''' </summary>
+        UTF8
+        ''' <summary>
+        ''' The default encoding for this .NET implementation.
+        ''' No es recomendable usar Default en .NET 5.0.
+        ''' En .NET Framework 4.8 sí usar Default.
+        ''' </summary>
+        ''' <remarks>On .NET Core, the Default property always returns the UTF8Encoding. 
+        ''' UTF-8 is supported on all the operating systems (Windows, Linux, and macOS) 
+        ''' on which .NET Core applications run.</remarks>
+        [Default]
+    End Enum
+
+    ''' <summary>
+    ''' El formato a usar al leer/guardar los ficheros.
+    ''' </summary>
+    ''' <remarks>03/Nov/2020</remarks>
+    Public FormatoEncoding As FormatosEncoding = FormatosEncoding.Latin1
+
+    ''' <summary>
     ''' Si se están cerrando varias ventanas o guardando todo
     ''' </summary>
     ''' <remarks>31/Oct/2020</remarks>
@@ -1967,23 +1998,6 @@ Friend Module UtilFormEditor
                                            richTextBoxCodigo.Cut()
                                        End Sub
     Public lambdaSelectAll As EventHandler = Sub(sender As Object, e As EventArgs) richTextBoxCodigo.SelectAll()
-
-
-    ''' <summary>
-    ''' Crear un menú contextual para richTextBoxCodigo
-    ''' para los comandos de edición
-    ''' </summary>
-    ''' <remarks>Usando la extensión Clonar: 27/Sep/20</remarks>
-    Public Sub CrearContextMenuCodigo()
-        CurrentMDI.rtbCodigoContext.Items.Clear()
-        CurrentMDI.rtbCodigoContext.Items.AddRange({CurrentMDI.menuEditDeshacer.Clonar(lambdaUndo),
-                                        CurrentMDI.menuEditRehacer.Clonar(lambdaRedo), CurrentMDI.tsSepEdit1,
-                                        CurrentMDI.menuEditCortar.Clonar(lambdaCut), CurrentMDI.menuEditCopiar.Clonar(lambdaCopy),
-                                        CurrentMDI.menuEditPegar.Clonar(lambdaPaste), CurrentMDI.tsSepEdit2,
-                                        CurrentMDI.menuEditSeleccionarTodo.Clonar(lambdaSelectAll)})
-        'richTextBoxCodigo.ContextMenuStrip = rtbCodigoContext
-    End Sub
-
 
     '
     ' Los métodos de edición

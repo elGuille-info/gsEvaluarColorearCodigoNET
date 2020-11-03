@@ -115,9 +115,6 @@ Partial Class MDIPrincipal
         Me.mnuSepVentana3 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuVentanaMaximizarTodas = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuVentanaRestaurarTodas = New System.Windows.Forms.ToolStripMenuItem()
-        Me.statusContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.menuCopiarPath = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuRecargarFichero = New System.Windows.Forms.ToolStripMenuItem()
         Me.toolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.barraHerramientasContext = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.menuMostrar_Ficheros = New System.Windows.Forms.ToolStripMenuItem()
@@ -200,11 +197,9 @@ Partial Class MDIPrincipal
         Me.buttonEditorMarcadorSiguienteLocal = New System.Windows.Forms.ToolStripButton()
         Me.tsSepEditor5 = New System.Windows.Forms.ToolStripSeparator()
         Me.buttonEditorMarcadorQuitarTodos = New System.Windows.Forms.ToolStripButton()
-        Me.rtbCodigoContext = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.timerClipBoard = New System.Windows.Forms.Timer(Me.components)
         Me.timerInicio = New System.Windows.Forms.Timer(Me.components)
         Me.menuStrip1.SuspendLayout()
-        Me.statusContextMenu.SuspendLayout()
         Me.barraHerramientasContext.SuspendLayout()
         Me.panelBuscar.SuspendLayout()
         Me.toolStripReemplazar.SuspendLayout()
@@ -882,28 +877,6 @@ Partial Class MDIPrincipal
         Me.menuVentanaRestaurarTodas.Size = New System.Drawing.Size(229, 22)
         Me.menuVentanaRestaurarTodas.Text = "Restaurar Todas las Ventanas"
         Me.menuVentanaRestaurarTodas.ToolTipText = "Restaurar todas las ventanas a la posición Normal"
-        '
-        'statusContextMenu
-        '
-        Me.statusContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuCopiarPath, Me.menuRecargarFichero})
-        Me.statusContextMenu.Name = "StatusContextMenu"
-        Me.statusContextMenu.Size = New System.Drawing.Size(309, 48)
-        '
-        'menuCopiarPath
-        '
-        Me.menuCopiarPath.Image = CType(resources.GetObject("menuCopiarPath.Image"), System.Drawing.Image)
-        Me.menuCopiarPath.Name = "menuCopiarPath"
-        Me.menuCopiarPath.Size = New System.Drawing.Size(308, 22)
-        Me.menuCopiarPath.Text = "Copiar PATH completo"
-        Me.menuCopiarPath.ToolTipText = "Copia en el portapapeles la ruta completa del fichero actual"
-        '
-        'menuRecargarFichero
-        '
-        Me.menuRecargarFichero.Image = CType(resources.GetObject("menuRecargarFichero.Image"), System.Drawing.Image)
-        Me.menuRecargarFichero.Name = "menuRecargarFichero"
-        Me.menuRecargarFichero.Size = New System.Drawing.Size(308, 22)
-        Me.menuRecargarFichero.Text = "Recargar el fichero (sin guardar los cambios)"
-        Me.menuRecargarFichero.ToolTipText = "Abre nuevamente el fichero actual desechando los cambios realizados"
         '
         'barraHerramientasContext
         '
@@ -1600,11 +1573,6 @@ Partial Class MDIPrincipal
         Me.buttonEditorMarcadorQuitarTodos.Size = New System.Drawing.Size(23, 22)
         Me.buttonEditorMarcadorQuitarTodos.Text = "Quitar todos los marcadores (Ctrl+K, Ctrl+L)"
         '
-        'rtbCodigoContext
-        '
-        Me.rtbCodigoContext.Name = "rtbCodigoContextMenu"
-        Me.rtbCodigoContext.Size = New System.Drawing.Size(61, 4)
-        '
         'timerClipBoard
         '
         Me.timerClipBoard.Interval = 30000
@@ -1629,7 +1597,6 @@ Partial Class MDIPrincipal
         Me.Text = "Editor de código"
         Me.menuStrip1.ResumeLayout(False)
         Me.menuStrip1.PerformLayout()
-        Me.statusContextMenu.ResumeLayout(False)
         Me.barraHerramientasContext.ResumeLayout(False)
         Me.panelBuscar.ResumeLayout(False)
         Me.panelBuscar.PerformLayout()
@@ -1705,7 +1672,6 @@ Partial Class MDIPrincipal
     Friend WithEvents menuColorear As ToolStripMenuItem
     Friend WithEvents menuColorearHTML As ToolStripMenuItem
     Friend WithEvents menuCompilar As ToolStripMenuItem
-    Friend WithEvents menuCopiarPath As ToolStripMenuItem
     Friend WithEvents menuEdit As ToolStripMenuItem
     Friend WithEvents menuEditBuscar As ToolStripMenuItem
     Friend WithEvents menuEditBuscarSiguiente As ToolStripMenuItem
@@ -1761,7 +1727,6 @@ Partial Class MDIPrincipal
     Friend WithEvents menuQuitarEspaciosTrim As ToolStripMenuItem
     Friend WithEvents menuQuitarEspaciosTrimEnd As ToolStripMenuItem
     Friend WithEvents menuQuitarEspaciosTrimStart As ToolStripMenuItem
-    Friend WithEvents menuRecargarFichero As ToolStripMenuItem
     Friend WithEvents menuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents menuTitulo As ToolStripMenuItem
     Friend WithEvents menuTools As ToolStripMenuItem
@@ -1776,8 +1741,6 @@ Partial Class MDIPrincipal
     Friend WithEvents menuVentanaTileVertical As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents panelBuscar As Panel
     Friend WithEvents panelHerramientas As FlowLayoutPanel
-    Friend WithEvents rtbCodigoContext As ContextMenuStrip
-    Friend WithEvents statusContextMenu As ContextMenuStrip
     Friend WithEvents toolStripBuscar As ToolStrip
     Friend WithEvents toolStripCompilar As ToolStrip
     Friend WithEvents toolStripEdicion As ToolStrip

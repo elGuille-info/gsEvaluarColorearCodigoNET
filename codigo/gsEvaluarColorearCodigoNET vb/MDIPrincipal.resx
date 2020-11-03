@@ -505,24 +505,6 @@
         CTLoP/8BoITnhH1xgjceghYuQQ/St0RO4GTOzXluyPUAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="menuCopiarPath.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vAAADrwBlbxySQAAAGNJREFUOE+9k0sKwCAMRD1b7n+X1k22U4IKqd9EaQeeiDAvIhgAHPEKM8NLrqbI
-        ARGZGQruKy75RyD7mkYgi5dGoCesGArK1WaUkpZtCTR7D6dTC2Z8K7DSFXjJ1ZTeF7WD8ADuE8bdeves
-        5wAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="menuRecargarFichero.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vAAADrwBlbxySQAAAPBJREFUOE+VU7ENgzAQpEz6RMoKWYMVAguQJTJDKktI9BRpGIMV0oYJTIEQYCo+
-        f5ZBInEcc9JLxn93/2+bwBdEtDPL7RiG4cbxbNv2aLb8AXFVVVQUBW02UUpdpZQUxzGFYUh5nm836fv+
-        BSEMnCbjOJ6Z/OCk5ABpFU4TFl7qulZpmlIURQvRFbOJrgxxkiRW4q9YDNA2KmMT1cuyJBzcZ2RZ9iXW
-        I/BCzm1DzIZ3PZcBiM75+WNJolLXdSedYHhdo60DJhymadqbvPsh2c6gaRqQhaFoE6sYsN2CEGJlADh/
-        ps93YDP4C8tL9DAIgjfcXajKhZGP9wAAAABJRU5ErkJggg==
-</value>
-  </data>
   <data name="buttonBuscarSiguiente.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -836,10 +818,10 @@
   <data name="buttonMacro.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAC7SURBVDhPzZIxCgIxEEXTi41nEAvvoHdYD2Jt4WVEWyuv
-        sDfYZu8RkoBF4j6ZJREmIKTQDx/CzP+TmUnM/yHGuPDenyYO1ton5EyMnMh0hBDWzrlxvN/S47BP1+3q
-        Tc7EyKER+SeojqA/H9Nls1RJDo3aCS1yi2YsiQat2DKYk1Y1U0k0aMWWwbKYVzOVRINWbBnNBb4eodvp
-        I7CYpiU2PyOofqSpbWLkqh9pBtVpkTlZFuRMrHrzD2HMC2shS4hmRH5VAAAAAElFTkSuQmCC
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAC8SURBVDhPzZIxCgIxEEXTi41nEAvvoHdYD2Jt4WVEWyuv
+        sDfYZs+QPglYJO6TWRJhAkIK/fAhzPw/mZnE/B9ijAvv/WniYK19Qs7EyIlMRwhh7Zwbx/stPQ77dN2u
+        3uRMjBwakX+C6gj68zFdNkuV5NCondAit2jGkmjQii2DOWlVM5VEg1ZsGSyLeTVTSTRoxZbRXODrEbqd
+        PgKLaVpi8zOC6kea2iZGrvqRZlCdFpmTZUHOxKo3/xDGvACz10qwCnLh7wAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="buttonEditorQuitarIndentacion.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">

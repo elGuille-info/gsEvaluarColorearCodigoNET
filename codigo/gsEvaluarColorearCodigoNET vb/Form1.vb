@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.CompilerServices
 Imports System.Reflection
 Imports Microsoft.CodeAnalysis.Text
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
+Imports System.ComponentModel
 
 Public Class Form1
 
@@ -140,7 +141,8 @@ Public Class Form1
         buttonLenguaje.Image = buttonLenguaje.DropDownItems(2).Image
         buttonLenguaje.Text = ExtensionTexto ' buttonLenguaje.DropDownItems(2).Text
 
-        richTextBoxCodigo.ContextMenuStrip = CurrentMDI.rtbCodigoContext
+        CrearContextMenuCodigo()
+        'richTextBoxCodigo.ContextMenuStrip = CurrentMDI.rtbCodigoContext
 
         LeerConfigLocal()
 
@@ -1019,7 +1021,16 @@ Public Class Form1
         OnProgreso(labelInfo.Text)
 
         Dim sCodigo = ""
-        Using sr As New StreamReader(fic, detectEncodingFromByteOrderMarks:=True, encoding:=Encoding.UTF8)
+        ' Para el formato de lectura y escritura de los ficheros    (03/Nov/20)
+        Dim enc As Encoding
+        If FormatoEncoding = FormatosEncoding.UTF8 Then
+            enc = Encoding.UTF8
+        ElseIf FormatoEncoding = FormatosEncoding.Default Then
+            enc = Encoding.Default
+        Else
+            enc = Encoding.Latin1
+        End If
+        Using sr As New StreamReader(fic, detectEncodingFromByteOrderMarks:=True, encoding:=enc)
             sCodigo = sr.ReadToEnd()
         End Using
 
@@ -1156,7 +1167,16 @@ Public Class Form1
             sCodigo = sCodigo.Replace(vbTab, sTabs)
         End If
 
-        Using sw As New StreamWriter(fic, append:=False, encoding:=Encoding.UTF8)
+        ' Para el formato de lectura y escritura de los ficheros    (03/Nov/20)
+        Dim enc As Encoding
+        If FormatoEncoding = FormatosEncoding.UTF8 Then
+            enc = Encoding.UTF8
+        ElseIf FormatoEncoding = FormatosEncoding.Default Then
+            enc = Encoding.Default
+        Else
+            enc = Encoding.Latin1
+        End If
+        Using sw As New StreamWriter(fic, append:=False, encoding:=enc)
             sw.WriteLine(sCodigo)
         End Using
         codigoAnterior = sCodigo
@@ -1248,5 +1268,36 @@ Public Class Form1
         Dim it = e.ClickedItem
         buttonLenguaje.Text = it.Text
         buttonLenguaje.Image = it.Image
+    End Sub
+
+    Private Sub menuCopiarPath_Click(sender As Object, e As EventArgs) Handles menuCopiarPath.Click
+        Try
+            Clipboard.SetText(Form1Activo.nombreFichero)
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub menuRecargarFichero_Click(sender As Object, e As EventArgs) Handles menuRecargarFichero.Click
+        Recargar()
+    End Sub
+
+    ''' <summary>
+    ''' Crear un menú contextual para richTextBoxCodigo
+    ''' para los comandos de edición
+    ''' </summary>
+    ''' <remarks>Usando la extensión Clonar: 27/Sep/20</remarks>
+    Public Sub CrearContextMenuCodigo()
+        rtbCodigoContext.Items.Clear()
+        rtbCodigoContext.Items.AddRange({CurrentMDI.menuEditDeshacer.Clonar(lambdaUndo),
+                                        CurrentMDI.menuEditRehacer.Clonar(lambdaRedo), CurrentMDI.tsSepEdit1,
+                                        CurrentMDI.menuEditCortar.Clonar(lambdaCut), CurrentMDI.menuEditCopiar.Clonar(lambdaCopy),
+                                        CurrentMDI.menuEditPegar.Clonar(lambdaPaste), CurrentMDI.tsSepEdit2,
+                                        CurrentMDI.menuEditSeleccionarTodo.Clonar(lambdaSelectAll)})
+
+        richTextBoxCodigo.ContextMenuStrip = rtbCodigoContext
+    End Sub
+
+    Private Sub rtbCodigoContext_Opening() Handles rtbCodigoContext.Opening
+        CurrentMDI.menuEditDropDownOpening()
     End Sub
 End Class

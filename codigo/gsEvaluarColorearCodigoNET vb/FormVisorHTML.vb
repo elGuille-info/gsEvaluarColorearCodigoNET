@@ -13,6 +13,7 @@ Imports Microsoft.VisualBasic
 Imports System
 Imports System.Collections.Generic
 Imports System.IO
+Imports System.Text
 
 Public Class FormVisorHTML
 
@@ -32,7 +33,16 @@ Public Class FormVisorHTML
 
         Dim ficTmp As String = Path.Combine(Path.GetTempPath(), "HTMLTemp.html")
 
-        Using sw As New StreamWriter(ficTmp, False, System.Text.Encoding.UTF8)
+        ' Para el formato de lectura y escritura de los ficheros    (03/Nov/20)
+        Dim enc As Encoding
+        If FormatoEncoding = FormatosEncoding.UTF8 Then
+            enc = Encoding.UTF8
+        ElseIf FormatoEncoding = FormatosEncoding.Default Then
+            enc = Encoding.Default
+        Else
+            enc = Encoding.Latin1
+        End If
+        Using sw As New StreamWriter(ficTmp, False, enc)
             ' Aquí si incluir el style
             'sw.WriteLine("<style>pre{{font-family:{0}; font-size:{1}.0pt;}}</style>", "Consolas", "11")
             sw.WriteLine(codigoHTML)

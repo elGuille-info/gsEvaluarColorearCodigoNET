@@ -38,6 +38,7 @@ Partial Class Form1
         Me.labelTamaño = New System.Windows.Forms.ToolStripStatusLabel()
         Me.labelPos = New System.Windows.Forms.ToolStripStatusLabel()
         Me.richTextBoxCodigo = New System.Windows.Forms.RichTextBox()
+        Me.rtbCodigoContext = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.richTextBoxLineas = New System.Windows.Forms.RichTextBox()
         Me.splitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.lstSyntax = New System.Windows.Forms.ListBox()
@@ -164,6 +165,7 @@ Partial Class Form1
         Me.richTextBoxCodigo.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.richTextBoxCodigo.ContextMenuStrip = Me.rtbCodigoContext
         Me.richTextBoxCodigo.DetectUrls = False
         Me.richTextBoxCodigo.EnableAutoDragDrop = True
         Me.richTextBoxCodigo.Font = New System.Drawing.Font("Consolas", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
@@ -175,6 +177,11 @@ Partial Class Form1
         Me.richTextBoxCodigo.TabIndex = 1
         Me.richTextBoxCodigo.Text = ""
         Me.richTextBoxCodigo.WordWrap = False
+        '
+        'rtbCodigoContext
+        '
+        Me.rtbCodigoContext.Name = "rtbCodigoContextMenu"
+        Me.rtbCodigoContext.Size = New System.Drawing.Size(61, 4)
         '
         'richTextBoxLineas
         '
@@ -282,5 +289,5 @@ Partial Class Form1
     Friend WithEvents richTextBoxLineas As RichTextBox
     Friend WithEvents lstSyntax As ListBox
     Friend WithEvents splitContainer1 As SplitContainer
-
+    Friend WithEvents rtbCodigoContext As ContextMenuStrip
 End Class

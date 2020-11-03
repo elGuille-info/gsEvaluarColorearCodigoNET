@@ -493,6 +493,9 @@
 'v1.0.0.297             No usar la combinación de teclas Ctrl+Shift+M
 'v1.0.0.298             Usar guardarSinPreguntar solo si se ha indicado al cerrar varias ventanas
 'v1.0.0.299 01/Nov/20   Al cargar ficheros desde la línea de comandos, usar variosLineaComandos como máximo
+'v1.0.0.300 02/Nov/20   Cambio el context menú del RichTextBoxCodigo al Form1 y
+'                       quito del MDI también el context menú de la barra de estado
+'v1.0.0.301 03/Nov/20   Uso FormatoEncoding para leer/guardar los ficheros. Uso Latin1 en vez de UTF8
 '
 '
 '

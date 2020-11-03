@@ -6,4 +6,4 @@ En el fichero de proyecto, algunas de las clases dentro de la carpeta <b>Utilida
 La carpeta <b>gsEvaluarColorearCodigoNET vb</b> tiene el proyecto de Visual Basic.<br>
 <br>
 <br>
-Actualizado el 01 de noviembre de 2020 a eso de las 00:39 GMT+1<br>
+Actualizado el 3 de noviembre de 2020 a eso de las 20:34 GMT+1<br>
