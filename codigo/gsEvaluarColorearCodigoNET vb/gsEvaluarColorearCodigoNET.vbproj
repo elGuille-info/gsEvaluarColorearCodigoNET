@@ -12,9 +12,9 @@
         <Description>Abrir múltiples ficheros de Visual Basic o C# para:
 Evaluar si tiene fallos, Compilar, Ejecutar y Colorear (el código y para HTML)
 Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
-(para .NET 5.0 RC2 revisión del 2-nov-2020, iniciado el 20-sep)
+(para .NET 5.0 RC2 revisión del 6-nov-2020, iniciado el 20-sep)
 
-v1.0.0.301 (03/Nov/20) Uso FormatoEncoding para leer/guardar los ficheros. Uso Latin1 en vez de UTF8
+v1.0.0.305 (06/Nov/20) Reviso los mensajes de aviso y solo dejo los que indican hacer métodos compartidos
         </Description>
         <Copyright>Copyright Guillermo Som (elGuille), 2020</Copyright>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -22,14 +22,14 @@ v1.0.0.301 (03/Nov/20) Uso FormatoEncoding para leer/guardar los ficheros. Uso L
         <Authors>Guillermo Som (elGuille)</Authors>
         <Version>1.0.0.0</Version>
         <NeutralLanguage>es-ES</NeutralLanguage>
-        <FileVersion>1.0.0.301</FileVersion>
+        <FileVersion>1.0.0.305</FileVersion>
         <ApplicationIcon>VSProject_genericproject.Office_Deve.ico</ApplicationIcon>
         <MyType>WindowsForms</MyType>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/elGuille-info/gsEvaluarColorearCodigoNET</RepositoryUrl>
         <PackageIcon>gsCompilarEjecutarNET.jpg</PackageIcon>
         <PackageTags>visual-basic vb c# dotnet net-core net-5 compilar colorear visual-studio-preview</PackageTags>
-        <PackageReleaseNotes>v1.0.0.301 (03/Nov/20) Uso FormatoEncoding para leer/guardar los ficheros. Uso Latin1 en vez de UTF8</PackageReleaseNotes>
+        <PackageReleaseNotes>v1.0.0.305 (06/Nov/20) Reviso los mensajes de aviso y solo dejo los que indican hacer métodos compartidos</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>

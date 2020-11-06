@@ -496,6 +496,10 @@
 'v1.0.0.300 02/Nov/20   Cambio el context menú del RichTextBoxCodigo al Form1 y
 '                       quito del MDI también el context menú de la barra de estado
 'v1.0.0.301 03/Nov/20   Uso FormatoEncoding para leer/guardar los ficheros. Uso Latin1 en vez de UTF8
+'v1.0.0.302 06/Nov/20   Un poco de limpieza del código no usado, comentarios ya obsoletos, etc.
+'v1.0.0.303             Quito algunas definciones de UtilFormEditor y las pongo en el form que corresponde
+'v1.0.0.304             Pongo nueva opción para indicar si se debe o no habilitar la ejecución de la macro
+'v1.0.0.305             Reviso los mensajes de aviso y solo dejo los que indican hacer métodos compartidos
 '
 '
 '

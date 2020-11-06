@@ -55,7 +55,7 @@ Public Module Extensiones
         End If
 
         Dim lin = rtb.GetLineFromCharIndex(start)
-        For li = lin To rtb.Lines.Count - 1
+        For li = lin To rtb.Lines.Length - 1
             If (rtbFinds Or RichTextBoxFinds.WholeWord) = RichTextBoxFinds.WholeWord Then
                 If rtb.Lines(li).ContienePalabra(search) Then
                     res = rtb.Lines(li).IndexOf(search, strC)
@@ -87,11 +87,11 @@ Public Module Extensiones
     <Extension>
     Public Function ComprobarFinLinea(selT As String) As String
         Dim finLinea = vbCr
-        If selT.IndexOf(finLinea) = -1 Then
+        If Not selT.Contains(finLinea) Then
             finLinea = vbLf
-            If selT.IndexOf(finLinea) = -1 Then
+            If Not selT.Contains(finLinea) Then
                 finLinea = vbCrLf
-                If selT.IndexOf(finLinea) = -1 Then
+                If Not selT.Contains(finLinea) Then
                     finLinea = Environment.NewLine
                 End If
             End If
@@ -119,8 +119,9 @@ Public Module Extensiones
         Dim k = 0
 
         For i = 0 To predeterminado.Length - 1
-            Dim j = texto.IndexOf(predeterminado(i))
-            If j = -1 Then Continue For
+            If Not texto.Contains(predeterminado(i)) Then Continue For
+            'Dim j = texto.IndexOf(predeterminado(i))
+            'If j = -1 Then Continue For
             k += 1
         Next
         ' si k es distinto de cuantos es que no están todos lo caracteres a quitar
@@ -450,6 +451,9 @@ Public Module Extensiones
     ''' <param name="txt">El TextBox a extender</param>
     ''' <remarks>28/sep/2020</remarks>
     <Extension>
+    <CodeAnalysis.SuppressMessage("Performance",
+                                  "CA1806:Do not ignore method results",
+                                  Justification:="No es necesario el valor devuelto")>
     Public Function AsInteger(txt As TextBox) As Integer
         Dim i As Integer = 0
 
@@ -623,7 +627,7 @@ Public Module Extensiones
         'Dim ordinal = StringComparison.Ordinal
         'Dim noOrdinal = StringComparison.OrdinalIgnoreCase
 
-        Do While j < texto.Length AndAlso __Assign(j, texto.IndexOf(buscar, j, comparar)) >= 0
+        Do While j < texto.Length AndAlso Assign(j, texto.IndexOf(buscar, j, comparar)) >= 0
             If (j = 0 OrElse Not IsWordChar(texto(j - 1))) AndAlso
                 (j + buscar.Length = texto.Length OrElse Not IsWordChar(texto(j + buscar.Length))) Then
 
@@ -650,7 +654,7 @@ Public Module Extensiones
     ''' <param name="target">La variable a la que se le asignará el valor de la expresión de value</param>
     ''' <param name="value">Expresión con el valor a asignar a target</param>
     ''' <returns>Devuelve el valor de value</returns>
-    Private Function __Assign(Of T)(ByRef target As T, value As T) As T
+    Private Function Assign(Of T)(ByRef target As T, value As T) As T
         target = value
         Return value
     End Function

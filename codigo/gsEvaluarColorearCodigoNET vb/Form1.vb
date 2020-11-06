@@ -73,7 +73,7 @@ Public Class Form1
     ''' Al asignarlo, si no está en la colección <see cref="UltimasVentanasAbiertas"/>
     ''' se añadirá.
     ''' </summary>
-    Friend Property nombreFichero As String
+    Friend Property NombreFichero As String
         Get
             Return _nombreFichero
         End Get
@@ -112,7 +112,7 @@ Public Class Form1
         End Get
         Set(value As Boolean)
             ' Asignar el nombre del fichero sin asterisco           (30/Oct/20)
-            Me.Text = Path.GetFileName(nombreFichero)
+            Me.Text = Path.GetFileName(NombreFichero)
             If value Then
                 labelModificado.Text = "*"
                 Me.Text &= " *"
@@ -139,10 +139,9 @@ Public Class Form1
         buttonLenguaje.DropDownItems(0).Text = Compilar.LenguajeVisualBasic
         buttonLenguaje.DropDownItems(1).Text = Compilar.LenguajeCSharp
         buttonLenguaje.Image = buttonLenguaje.DropDownItems(2).Image
-        buttonLenguaje.Text = ExtensionTexto ' buttonLenguaje.DropDownItems(2).Text
+        buttonLenguaje.Text = ExtensionTexto
 
         CrearContextMenuCodigo()
-        'richTextBoxCodigo.ContextMenuStrip = CurrentMDI.rtbCodigoContext
 
         LeerConfigLocal()
 
@@ -162,20 +161,13 @@ Public Class Form1
     Private Sub Form1_FormClosing(sender As Object,
                                   e As FormClosingEventArgs) Handles Me.FormClosing
 
-        ' BUG: Si se pulsa en nuevo, se pega texto y no se guarda   (18/Sep/20)
-        ' al cerrar no pregunta si se quiere guardar.
-        ' Esto está solucionado en el evento de richTextBoxCodigo.TextChanged
-        ' Además de que al llamar a GuardarComo()                   (01/Oct/20)
-        ' solo mostraba el diálogo si el nombre era distinto.
-        ' GuardarComo debe mostrar siempre el cuadro de diálogo.
-
         ' Si no hay texto, no comprobar si se debe guardar          (01/Oct/20)
         If richTextBoxCodigo.TextLength > 0 Then
-            If TextoModificado OrElse String.IsNullOrEmpty(nombreFichero) Then
+            If TextoModificado OrElse String.IsNullOrEmpty(NombreFichero) Then
                 If CerrandoVarios AndAlso guardarSinPreguntar Then
                     Guardar()
                 Else
-                    ' Si está modificado, y se indicó guardar               (30/Oct/20)
+                    ' Si está modificado, y se indicó guardar       (30/Oct/20)
                     ' guardar el resto de ficheros sin preguntar
                     ' esto es para el caso que se cierre el MDI y haya ficheros sin guardar
                     Dim msg = "¿Quieres guardarlo?"
@@ -186,18 +178,14 @@ Public Class Form1
                         msg &= $"{vbCrLf}Si estás cerrando varias ventanas, también se guardarán los restantes ficheros que estén modificados."
                     End If
 
-                    ' No preguntaba si quería guardar,                      (01/Oct/20)
-                    ' porque usaba GuadarComo, y si el nombre es el mismo, no mostraba el diálogo
-
                     ' Dar la oportunidad de cancelar para seguir editando   (02/Oct/20)
-                    Dim res As DialogResult = DialogResult.No
+                    Dim res As DialogResult '= DialogResult.No
                     res = MessageBox.Show($"El texto está modificado,{vbCrLf}{msg}{vbCrLf}{vbCrLf}" &
                                           "Pulsa en Cancelar para seguir editando.",
                                           "Texto modificado y no guardado",
                                           MessageBoxButtons.YesNoCancel,
                                           MessageBoxIcon.Question)
                     If res = DialogResult.Yes Then
-                        ' GuardarComo debe mostrar siempre el cuadro dediálogo.
                         ' Si no tiene nombre, preguntar                 (02/Oct/20)
                         ' Guardar se encarga de llamar a GuardarComo si no tiene nombre
                         Guardar()
@@ -228,7 +216,7 @@ Public Class Form1
         ' Pero solo si el MDI no se está cerrando
         If Not e.CloseReason = CloseReason.MdiFormClosing Then
             For i = UltimasVentanasAbiertas.Count - 1 To 0 Step -1
-                If UltimasVentanasAbiertas(i) = Me.nombreFichero Then
+                If UltimasVentanasAbiertas(i) = Me.NombreFichero Then
                     UltimasVentanasAbiertas.RemoveAt(i)
                     Exit For
                 End If
@@ -242,20 +230,6 @@ Public Class Form1
 
         ' Asignar cuál es el Form1 activo
         Form1Activo = Me
-
-        ' No asignar el nombre del fichero al Text                  (30/Oct/20)
-        ' ya que se hará en TextoModificado
-        'If Not String.IsNullOrWhiteSpace(nombreFichero) Then
-        '    ' Aquí se asignaba el path completo!!!                  (20/Oct/20)
-        '    Me.Text = Path.GetFileName(nombreFichero)
-        'End If
-
-        ' esto está en el evento menuVentana.DropDownOpening del MDI
-        ' ya que si no, solo se pondrá si se activa la ventana
-        '' si está modificado, añadir un asterisco                   (30/Oct/20)
-        'If TextoModificado Then
-        '    Me.Text &= " *"
-        'End If
 
         If Me.WindowState = FormWindowState.Normal Then
             CurrentMDI.Text = $"{MDIPrincipal.TituloMDI} [{Me.Text}]"
@@ -271,14 +245,9 @@ Public Class Form1
     Private Sub Form1_Resize() Handles Me.Resize
         If inicializando Then Return
 
-        'If Me.WindowState = FormWindowState.Normal Then
-        '    tamForm = (Me.Left, Me.Top, Me.Height, Me.Width)
-        'Else
-        '    tamForm = (Me.RestoreBounds.Left, Me.RestoreBounds.Top,
-        '               Me.RestoreBounds.Height, Me.RestoreBounds.Width)
-        'End If
+        ' El tamaño y posición se asigna en MDIPrincipal_Resize
 
-        UtilFormEditor.labelInfo.Text = $"MDIPrincipal: Ancho: {CurrentMDI.Width}, Alto: {CurrentMDI.Height} / ClientSize: Ancho: {CurrentMDI.ClientSize.Width}, Alto: {CurrentMDI.ClientSize.Height} - Form1: Ancho: {Me.Width}, Alto: {Me.Height}"
+        UtilFormEditor.LabelInfo.Text = $"MDIPrincipal: Ancho: {CurrentMDI.Width}, Alto: {CurrentMDI.Height} / ClientSize: Ancho: {CurrentMDI.ClientSize.Width}, Alto: {CurrentMDI.ClientSize.Height} - Form1: Ancho: {Me.Width}, Alto: {Me.Height}"
     End Sub
 
     ' Para doble pulsación de teclas
@@ -291,12 +260,11 @@ Public Class Form1
 
     Public Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.Control AndAlso e.Shift Then
-            'If e.KeyCode = Keys.V Then
-            '    e.Handled = True
-            '    MostrarRecortes()
-            'End If
+            ' si se pulsa Shift y Control
+
         ElseIf e.Shift AndAlso e.Alt Then
-            ' si se ha pulsado Shit y Alt
+            ' si se pulsa Shit y Alt
+
             If e.KeyCode = Keys.L Then
                 ShiftAltL += 1
             ElseIf e.KeyCode = Keys.S Then
@@ -307,6 +275,7 @@ Public Class Form1
             End If
         ElseIf e.Control AndAlso Not e.Shift AndAlso Not e.Alt Then
             ' Solo se ha pulsado la tecla Ctrl
+
             ' comprobar el resto de combinaciones
             If e.KeyCode = Keys.K Then
                 CtrlK += 1
@@ -317,6 +286,7 @@ Public Class Form1
             ElseIf e.KeyCode = Keys.L Then
                 CtrlL += 1
             End If
+
             If CtrlK = 1 AndAlso CtrlC = 1 Then
                 ' Ctrl+K, Ctrl+C
                 CtrlK = 0
@@ -384,13 +354,11 @@ Public Class Form1
             ShiftAltL = 0
             ShiftAltS = 0
 
-            ' Otras pulsaciones
-            ' seguramente captura los TAB del editor
-            'richTextBoxCodigo_KeyUp(sender, e)
         End If
     End Sub
 
-    Public Sub Form1_DragEnter(sender As Object, e As DragEventArgs) Handles Me.DragEnter, richTextBoxCodigo.DragEnter
+    Public Sub Form1_DragEnter(sender As Object,
+                               e As DragEventArgs) Handles Me.DragEnter, richTextBoxCodigo.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) OrElse
                 e.Data.GetDataPresent(DataFormats.Text) OrElse
                 e.Data.GetDataPresent("System.String") Then
@@ -398,7 +366,8 @@ Public Class Form1
         End If
     End Sub
 
-    Public Sub Form1_DragDrop(sender As Object, e As DragEventArgs) Handles Me.DragDrop, richTextBoxCodigo.DragDrop
+    Public Sub Form1_DragDrop(sender As Object,
+                              e As DragEventArgs) Handles Me.DragDrop, richTextBoxCodigo.DragDrop
         If e.Data.GetDataPresent("System.String") Then
             Dim fic As String = CType(e.Data.GetData("System.String"), String)
             ' Comprobar que sea una URL o un fichero
@@ -415,36 +384,22 @@ Public Class Form1
                 Dim fic = files(0)
                 Abrir(fic)
             Else
-                MostrarProcesando("Cargando ficheros con Drag & Drop", $"Cargando {files.Length} ficheros...{vbCrLf}", files.Length * 2)
+                MostrarProcesando("Cargando ficheros con Drag & Drop",
+                                  $"Cargando {files.Length} ficheros...{vbCrLf}",
+                                  files.Length * 2)
                 Dim fic As String
                 ' Al tener una ventana abierta y hacer DragDrop
                 ' se quedaba modificado el primer fichero
                 ' así que... si hay una ventana abierta, se deja como estaba
-                ' y los ficheros soltados se abren en neuvas ventanas
+                ' y los ficheros soltados se abren en nuevas ventanas
                 ' así también vale por si ya tenía texto
 
-                'Dim origen = TryCast(sender, Form)
-                'Dim j As Integer = 0
-                '' si el dragdrop no se manda desde el MDI
-                'If origen IsNot MDIPrincipal Then
-                '    j = 1
-                '    fic = files(0)
-                '    Abrir(fic)
-                '    TextoModificado = False
-                'End If
                 For i = 0 To files.Length - 1
                     fic = files(i)
                     Nuevo()
                     Form1Activo.Abrir(fic)
                     Form1Activo.TextoModificado = False
                 Next
-                'If origen IsNot MDIPrincipal Then
-                '    TextoModificado = False
-                '    'Me.Close()
-                '    If Me.Text = "" Then
-                '        Me.Close()
-                '    End If
-                'End If
             End If
             m_fProcesando.Close()
         ElseIf e.Data.GetDataPresent(DataFormats.Text) Then
@@ -510,7 +465,7 @@ Public Class Form1
     ' Métodos de evento de lstSyntax
     '
 
-    Public Sub lstSyntax_MouseClick(sender As Object, e As MouseEventArgs) Handles lstSyntax.MouseClick
+    Public Sub LstSyntax_MouseClick(sender As Object, e As MouseEventArgs) Handles lstSyntax.MouseClick
         Dim i = lstSyntax.SelectedIndex
         If i = -1 Then Return
         Dim lst = TryCast(sender, ListBox)
@@ -536,7 +491,7 @@ Public Class Form1
 
     End Sub
 
-    Public Sub lstSyntax_MouseMove(sender As Object, e As MouseEventArgs) Handles lstSyntax.MouseMove
+    Public Sub LstSyntax_MouseMove(sender As Object, e As MouseEventArgs) Handles lstSyntax.MouseMove
         If lstSyntax.Items.Count = 0 Then Return
 
         Dim point = New Point(e.X, e.Y)
@@ -555,7 +510,7 @@ Public Class Form1
 
     End Sub
 
-    Public Sub lstSyntax_DrawItem(sender As Object, e As DrawItemEventArgs) Handles lstSyntax.DrawItem
+    Public Sub LstSyntax_DrawItem(sender As Object, e As DrawItemEventArgs) Handles lstSyntax.DrawItem
         If inicializando OrElse e.Index < 0 Then Return
 
         Dim lst = TryCast(sender, ListBox)
@@ -596,33 +551,22 @@ Public Class Form1
             End If
 
             ' Usar siempre este color
-            ' ya que el DrawMode solo lo pngo al llenar el listbox
-            'bc = Color.FromArgb(250, 250, 250) ' Color.AliceBlue
+            ' ya que el DrawMode solo lo pongo al llenar el listbox
             g.FillRectangle(New SolidBrush(bc), e.Bounds)
 
-            'If e.State = DrawItemState.Selected Then
-            '    bc = fc
-            '    g.FillRectangle(New SolidBrush(bc), e.Bounds)
-            '    fc = Color.Yellow
-            'ElseIf e.State = DrawItemState.Focus Then
-            '    bc = Color.Azure
-            '    g.FillRectangle(New SolidBrush(bc), e.Bounds)
-            'Else 'If e.State = DrawItemState.Default Then
-            '    bc = Color.FromArgb(250, 250, 250) ' Color.AliceBlue
-            '    g.FillRectangle(New SolidBrush(bc), e.Bounds)
-            'End If
             Using textBrush As New SolidBrush(fc)
                 e.Graphics.DrawString(sItem, laFuente, textBrush, e.Bounds.Location, StringFormat.GenericDefault)
             End Using
             e.DrawFocusRectangle()
 
         Catch ex As Exception
-            Dim diag As New DiagInfo()
-            diag.Message = ex.Message
-            diag.Severity = DiagnosticSeverity.Info
-            diag.StartLinePosition = New LinePosition(0, 0)
-            diag.EndLinePosition = New LinePosition(0, 0)
-            diag.Id = "ERROR"
+            Dim diag As New DiagInfo With {
+                .Message = ex.Message,
+                .Severity = DiagnosticSeverity.Info,
+                .StartLinePosition = New LinePosition(0, 0),
+                .EndLinePosition = New LinePosition(0, 0),
+                .Id = "ERROR"
+            }
             lstSyntax.Items.Add(diag)
         End Try
 
@@ -637,7 +581,7 @@ Public Class Form1
     ''' </summary>
     Public splitPanel2 As Integer
 
-    Public Sub splitContainer1_Resize() Handles splitContainer1.Resize
+    Public Sub SplitContainer1_Resize() Handles splitContainer1.Resize
         If CurrentMDI.WindowState = FormWindowState.Minimized Then Return
 
         If splitContainer1.Panel2.Visible Then
@@ -662,7 +606,10 @@ Public Class Form1
     ''' <summary>
     ''' Sincroniza los scrollbar de richTextBoxCodigo y richTextBoxLineas.
     ''' </summary>
-    Public Sub richTextBoxCodigo_VScroll() Handles richTextBoxCodigo.VScroll
+    <CodeAnalysis.SuppressMessage("Performance",
+                                  "CA1806:Do not ignore method results",
+                                  Justification:="No es necesario el valor devuelto")>
+    Public Sub RichTextBoxCodigo_VScroll() Handles richTextBoxCodigo.VScroll
         If inicializando Then Return
         If String.IsNullOrEmpty(richTextBoxCodigo.Text) Then Return
 
@@ -672,90 +619,78 @@ Public Class Form1
         SendMessage(richTextBoxLineas.Handle, Message.WM_VSCROLL, wParam, 0)
     End Sub
 
-    Public Sub richTextBoxCodigo_KeyUp(sender As Object,
+    Public Sub RichTextBoxCodigo_KeyUp(sender As Object,
                                        e As KeyEventArgs) Handles richTextBoxCodigo.KeyUp
-        ' Se ve que KeyDown falla                                   (28/Sep/20)
+        ' Se ve que KeyDown falla en el richTextBox                 (28/Sep/20)
 
         ' TODO: Pasar este código al evento Form1_KeyDown           (06/Oct/20)
         '       ya que se produce antes.
 
-        ' si se pulsa la tecla TAB
-        ' insertar 4 espacios en vez de un tabulador
-
-        ' Hay que detectar antes el Shist, Control y Alt
+        ' Hay que detectar antes el Shift, Control y Alt
         ' ya que se producen antes que el resto de teclas
-        If e.Shift = True AndAlso
-            e.Alt = False AndAlso e.Control = False Then
-            If e.KeyCode = Keys.Tab Then
-                ' Atrás
-                e.Handled = True
-                e.SuppressKeyPress = True
-                QuitarIndentacion(richTextBoxCodigo)
-                MostrarPosicion(e)
-            End If
-        ElseIf e.Alt = False AndAlso e.Control = False Then
-            If e.KeyCode = Keys.Tab Then
-                ' Adelante
-                e.Handled = True
-                e.SuppressKeyPress = True
-                PonerIndentacion(richTextBoxCodigo)
-                MostrarPosicion(e)
-            ElseIf e.KeyCode = Keys.Enter Then
-                e.Handled = True
-                e.SuppressKeyPress = True
 
-                ' Entra dos veces y no sé porqué...
-
-                Dim selStart = richTextBoxCodigo.SelectionStart
-                Dim ln = richTextBoxCodigo.GetLineFromCharIndex(richTextBoxCodigo.SelectionStart)
-                If richTextBoxCodigo.Lines.Length < 1 Then Return
-                Dim col As Integer
-
-                ' ln es el número de línea actual
-                ' Si la línea actual (que es la anterior al intro) no está vacía.
-                ' Si ln es menor que 1, salir,
-                ' seguramente el intro ha llegado por otro lado...
-
-                If ln < 1 Then Return
-                'If e.KeyCode = Keys.Enter Then
-                If richTextBoxCodigo.Lines(ln - 1) <> "" Then
-                    inicializando = True
-                    ' Si al quitarle los espacios es una cadena vacía,
-                    ' es que solo hay espacios.
-                    If richTextBoxCodigo.Lines(ln - 1).TrimStart() = "" Then
-                        col = richTextBoxCodigo.Lines(ln - 1).Length
-                    Else
-                        ' Averiguar la posición del primer carácter,
-                        ' aunque puede que haya TABs
-                        col = richTextBoxCodigo.Lines(ln - 1).IndexOf(richTextBoxCodigo.Lines(ln - 1).TrimStart().Substring(0, 1))
-                    End If
-                    richTextBoxCodigo.SelectionStart = selStart
-                    ' Ahora tiene vbLf en vez de vbCr               (23/Oct/20)
-                    ' Esto es lo que añadía una línea de más        (30/Oct/20)
-                    ' cuando se pulsaba ENTER desde el final de la línea anterior
-                    'richTextBoxCodigo.SelectedText = vbLf & New String(" "c, col)
-                    richTextBoxCodigo.SelectedText = New String(" "c, col)
-                    inicializando = False
-
-                    '' Si se da esta condición, (creo que siempre se da),
-                    '' ir al inicio, borrar e ir al final
-                    '' Esta condición se da cuando se pulsa INTRO    (30/Oct/20)
-                    '' cuando no está al principio de la línea
-                    'If richTextBoxCodigo.GetLineFromCharIndex(richTextBoxCodigo.SelectionStart) > ln Then
-                    '    'Debug.Assert(rtEditor.Lines(ln + 1) = "")
-                    '    SendKeys.Send("{HOME}{BS}{END}")
-                    'End If
+        ' No tener en cuenta si se pulsa Alt o Control
+        If e.Alt = False AndAlso e.Control = False Then
+            If e.Shift = True Then
+                If e.KeyCode = Keys.Tab Then
+                    ' Atrás
+                    e.Handled = True
+                    e.SuppressKeyPress = True
+                    QuitarIndentacion(richTextBoxCodigo)
+                    MostrarPosicion(e)
                 End If
-                'End If
-                MostrarPosicion(e)
+            Else
+                If e.KeyCode = Keys.Tab Then
+                    ' Adelante
+                    e.Handled = True
+                    e.SuppressKeyPress = True
+                    PonerIndentacion(richTextBoxCodigo)
+                    MostrarPosicion(e)
+                ElseIf e.KeyCode = Keys.Enter Then
+                    e.Handled = True
+                    e.SuppressKeyPress = True
+
+                    ' Entra dos veces y no sé porqué...
+
+                    Dim selStart = richTextBoxCodigo.SelectionStart
+                    Dim ln = richTextBoxCodigo.GetLineFromCharIndex(richTextBoxCodigo.SelectionStart)
+                    If richTextBoxCodigo.Lines.Length < 1 Then Return
+                    Dim col As Integer
+
+                    ' ln es el número de línea actual
+                    ' Si la línea actual (que es la anterior al intro) no está vacía.
+                    ' Si ln es menor que 1, salir,
+                    ' seguramente el intro ha llegado por otro lado...
+
+                    If ln < 1 Then Return
+                    If richTextBoxCodigo.Lines(ln - 1) <> "" Then
+                        inicializando = True
+                        ' Si al quitarle los espacios es una cadena vacía,
+                        ' es que solo hay espacios.
+                        If richTextBoxCodigo.Lines(ln - 1).TrimStart() = "" Then
+                            col = richTextBoxCodigo.Lines(ln - 1).Length
+                        Else
+                            ' Averiguar la posición del primer carácter,
+                            ' aunque puede que haya TABs
+                            col = richTextBoxCodigo.Lines(ln - 1).IndexOf(richTextBoxCodigo.Lines(ln - 1).TrimStart().Substring(0, 1))
+                        End If
+                        richTextBoxCodigo.SelectionStart = selStart
+                        richTextBoxCodigo.SelectedText = New String(" "c, col)
+                        inicializando = False
+
+                    End If
+                    MostrarPosicion(e)
+                End If
             End If
         End If
-
     End Sub
 
-    Public Sub richTextBoxCodigo_TextChanged() Handles richTextBoxCodigo.TextChanged
+    Public Sub RichTextBoxCodigo_TextChanged() Handles richTextBoxCodigo.TextChanged
         If inicializando Then Return
 
+        ' TODO:
+        ' Si se quiere acelerar la carga en múltiples ficheros      (06/Nov/20)
+        ' no contar las palabras
         labelTamaño.Text = $"{richTextBoxCodigo.Text.Length:#,##0} car. ({richTextBoxCodigo.Text.CuantasPalabras:#,##0} palab.)"
 
         codigoNuevo = richTextBoxCodigo.Text
@@ -775,12 +710,10 @@ Public Class Form1
             Return
         End If
 
-        ' En realidad no hace falta quitar los vbCr (18/Sep/20)
-        'TextoModificado = (codigoAnterior.Replace(vbCr, "").Replace(vbLf, "") <> codigoNuevo.Replace(vbLf, ""))
         TextoModificado = (codigoAnterior <> codigoNuevo)
     End Sub
 
-    Private Sub richTextBoxCodigo_SelectionChanged() Handles richTextBoxCodigo.SelectionChanged, richTextBoxCodigo.MouseClick
+    Private Sub RichTextBoxCodigo_SelectionChanged() Handles richTextBoxCodigo.SelectionChanged, richTextBoxCodigo.MouseClick
         If cargando Then Return
 
         ' Guardar la posición para usar en Navegar...               (21/Oct/20)
@@ -790,7 +723,7 @@ Public Class Form1
         MostrarPosicion(Nothing)
     End Sub
 
-    Private Sub richTextBoxCodigo_FontChanged() Handles richTextBoxCodigo.FontChanged
+    Private Sub RichTextBoxCodigo_FontChanged() Handles richTextBoxCodigo.FontChanged
         richTextBoxLineas.Font = New Font(richTextBoxCodigo.Font.FontFamily, richTextBoxCodigo.Font.Size)
     End Sub
 
@@ -849,9 +782,8 @@ Public Class Form1
             Dim fcol = richTextBoxLineas.GetFirstCharIndexFromLine(posActual.Linea)
             richTextBoxLineas.SelectionStart = fcol
             richTextBoxLineas.SelectionLength = 5
-            'richTextBoxLineas.SelectionBullet = False
             ' así es como se pone en AñadirNumerosDeLinea
-            richTextBoxLineas.SelectedText = $" {(posActual.Linea + 1).ToString("0").PadLeft(4)}"
+            richTextBoxLineas.SelectedText = $" {(posActual.Linea + 1),4:0}"
         Else
             Bookmarks.Add(posActual.Inicio, posActual.SelStart)
             totalBookmarks += 1
@@ -863,7 +795,7 @@ Public Class Form1
 
             ' Poner delante la imagen del marcador
             ' Usando la imagen bookmark_003_8x10.png
-            richTextBoxLineas.SelectedRtf = $"{picBookmark}{(posActual.Linea + 1).ToString("0").PadLeft(4)}" & "}"
+            richTextBoxLineas.SelectedRtf = $"{picBookmark}{(posActual.Linea + 1),4:0}" & "}"
 
             richTextBoxCodigo.SelectionStart = posActual.SelStart
             richTextBoxCodigo.SelectionLength = 0
@@ -874,7 +806,7 @@ Public Class Form1
     ''' <summary>
     ''' La imagen a usar cuando se muestra un marcador en richTextBoxLineas.
     ''' </summary>
-    Private picBookmark As String = "{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil Consolas;}}
+    Private ReadOnly picBookmark As String = "{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil Consolas;}}
 {\colortbl ;\red0\green128\blue128;}
 \uc1 
 \pard\cf1\f0\fs22\lang9{\pict{\*\picprop}\wmetafile8\picw212\pich265\picwgoal120\pichgoal150 
@@ -897,17 +829,18 @@ Public Class Form1
 
         Dim posActual = PosicionActual0()
         Dim res = Bookmarks.Where(Function(x) x < posActual.Inicio)
-        If res.Count > 0 Then
+        ' Usar .Any en lugar de .Count > 0
+        If res.Any Then
             Dim pos = Bookmarks.GetSelectionStart(res.Last)
             richTextBoxCodigo.SelectionStart = pos
             Return True
         Else
             ' si no hay más marcadores, ir al último
             Dim fcol As Integer
-            If richTextBoxCodigo.Lines.Count < 2 Then
+            If richTextBoxCodigo.Lines.Length < 2 Then
                 fcol = richTextBoxCodigo.TextLength
             Else
-                fcol = richTextBoxCodigo.GetFirstCharIndexFromLine(richTextBoxCodigo.Lines.Count - 2)
+                fcol = richTextBoxCodigo.GetFirstCharIndexFromLine(richTextBoxCodigo.Lines.Length - 2)
             End If
             richTextBoxCodigo.SelectionStart = fcol
             richTextBoxCodigo.SelectionLength = 0
@@ -927,7 +860,8 @@ Public Class Form1
 
         Dim posActual = PosicionActual0()
         Dim res = Bookmarks.Where(Function(x) x > posActual.Inicio)
-        If res.Count > 0 Then
+        ' Usar .Any en lugar de .Count > 0                          (06/Nov/20)
+        If res.Any Then
             Dim pos = Bookmarks.GetSelectionStart(res.First)
             richTextBoxCodigo.SelectionStart = pos
 
@@ -963,10 +897,11 @@ Public Class Form1
         Dim lineas = richTextBoxCodigo.Lines.Length
         richTextBoxLineas.Text = ""
         For i = 1 To lineas
-            richTextBoxLineas.Text &= $" {i.ToString("0").PadLeft(4)}{finlinea}"
+            'richTextBoxLineas.Text &= $" {i.ToString("0").PadLeft(4)}{finlinea}"
+            richTextBoxLineas.Text &= $" {i,4:0}{finlinea}"
         Next
         ' Sincronizar los scrolls
-        Form1Activo.richTextBoxCodigo_VScroll()
+        Form1Activo.RichTextBoxCodigo_VScroll()
 
         PonerLosMarcadores()
     End Sub
@@ -980,7 +915,7 @@ Public Class Form1
     ''' desechando los datos realizados
     ''' </summary>
     Friend Sub Recargar()
-        Abrir(nombreFichero)
+        Abrir(NombreFichero)
     End Sub
 
     ''' <summary>
@@ -1049,7 +984,7 @@ Public Class Form1
         ' El nombre del fichero con el path completo                (17/Oct/20)
         ' Ya no se usa NombreUltimoFichero a nivel global           (23/Oct/20)
         ' Siempre se hará referencia a Form1Activo.nombreFichero
-        nombreFichero = fic
+        NombreFichero = fic
 
         ' En la ventana mostrar solo el nombre del fichero          (19/Oct/20)
         ' independientemente del path
@@ -1105,20 +1040,10 @@ Public Class Form1
         Else
             splitContainer1.Panel2.Visible = False
         End If
-        splitContainer1_Resize()
-
-        '
-        ' Todo esto debe estar después de LeerConfigLocal:
-        ' PonerLosMarcadores y la selección del texto anterior
-        '
-
-        ' Poner los marcadores de este fichero                      (23/Oct/20)
-        ' Antes estaba en Inicializar de MDIPrincipal
-        'PonerLosMarcadores()
+        SplitContainer1_Resize()
 
         ' En AñadirNumerosDeLinea se llama a PonerLosMarcadores
         AñadirNumerosDeLinea()
-
 
         ' Marcar el texto que antes estaba seleccionado             (23/Oct/20)
         ' Antes estaba en Inicializar de MDIPrincipal
@@ -1131,10 +1056,6 @@ Public Class Form1
 
         labelTamaño.Text = $"{richTextBoxCodigo.Text.Length:#,##0} car. ({richTextBoxCodigo.Text.CuantasPalabras:#,##0} palab.)"
 
-        ' Si es texto, deshabilitar los botones que correspondan    (08/Oct/20)
-        'If sLenguaje = ExtensionTexto Then
-        '    CurrentMDI.HabilitarBotones()
-        'End If
         ' Llamar siempre a este método para habilitar los botones   (26/Oct/20)
         CurrentMDI.HabilitarBotones()
 
@@ -1182,7 +1103,7 @@ Public Class Form1
         codigoAnterior = sCodigo
 
         labelInfo.Text = $"{Path.GetFileName(fic)} ({Path.GetDirectoryName(fic)})"
-        nombreFichero = fic
+        NombreFichero = fic
 
         ' En la ventana mostrar solo el nombre del fichero          (19/Oct/20)
         ' independientemente del path
@@ -1233,7 +1154,7 @@ Public Class Form1
     ''' Muestra el cuadro de diálogo de Guardar como.
     ''' </summary>
     Friend Sub GuardarComo()
-        Dim fichero = nombreFichero
+        Dim fichero = NombreFichero
 
         Using sFD As New SaveFileDialog
             sFD.Title = "Seleccionar fichero para guardar el código"
@@ -1245,39 +1166,39 @@ Public Class Form1
                 Return
             End If
             fichero = sFD.FileName
-            nombreFichero = sFD.FileName
+            NombreFichero = sFD.FileName
             ' Guardarlo
             Guardar(fichero)
         End Using
     End Sub
 
     ''' <summary>
-    ''' Guarda el fichero actual (<see cref="nombreFichero"/>).
+    ''' Guarda el fichero actual (<see cref="NombreFichero"/>).
     ''' Si no tiene nombre muestra el diálogo de guardar como
     ''' </summary>
     Friend Sub Guardar()
-        If String.IsNullOrEmpty(nombreFichero) Then
+        If String.IsNullOrEmpty(NombreFichero) Then
             GuardarComo()
             Return
         End If
-        Guardar(nombreFichero)
+        Guardar(NombreFichero)
     End Sub
 
-    Private Sub buttonLenguaje_DropDownItemClicked(sender As Object,
+    Private Sub ButtonLenguaje_DropDownItemClicked(sender As Object,
                                                    e As ToolStripItemClickedEventArgs) Handles buttonLenguaje.DropDownItemClicked
         Dim it = e.ClickedItem
         buttonLenguaje.Text = it.Text
         buttonLenguaje.Image = it.Image
     End Sub
 
-    Private Sub menuCopiarPath_Click(sender As Object, e As EventArgs) Handles menuCopiarPath.Click
+    Private Sub MenuCopiarPath_Click(sender As Object, e As EventArgs) Handles menuCopiarPath.Click
         Try
-            Clipboard.SetText(Form1Activo.nombreFichero)
+            Clipboard.SetText(Form1Activo.NombreFichero)
         Catch ex As Exception
         End Try
     End Sub
 
-    Private Sub menuRecargarFichero_Click(sender As Object, e As EventArgs) Handles menuRecargarFichero.Click
+    Private Sub MenuRecargarFichero_Click(sender As Object, e As EventArgs) Handles menuRecargarFichero.Click
         Recargar()
     End Sub
 
@@ -1288,16 +1209,19 @@ Public Class Form1
     ''' <remarks>Usando la extensión Clonar: 27/Sep/20</remarks>
     Public Sub CrearContextMenuCodigo()
         rtbCodigoContext.Items.Clear()
-        rtbCodigoContext.Items.AddRange({CurrentMDI.menuEditDeshacer.Clonar(lambdaUndo),
-                                        CurrentMDI.menuEditRehacer.Clonar(lambdaRedo), CurrentMDI.tsSepEdit1,
-                                        CurrentMDI.menuEditCortar.Clonar(lambdaCut), CurrentMDI.menuEditCopiar.Clonar(lambdaCopy),
-                                        CurrentMDI.menuEditPegar.Clonar(lambdaPaste), CurrentMDI.tsSepEdit2,
-                                        CurrentMDI.menuEditSeleccionarTodo.Clonar(lambdaSelectAll)})
+        rtbCodigoContext.Items.AddRange({CurrentMDI.menuEditDeshacer.Clonar(AddressOf CurrentMDI.menuEditDeshacer_Click),
+                                        CurrentMDI.menuEditRehacer.Clonar(AddressOf CurrentMDI.menuEditRehacer_Click),
+                                        CurrentMDI.tsSepEdit1,
+                                        CurrentMDI.menuEditCortar.Clonar(AddressOf CurrentMDI.menuEditCortar_Click),
+                                        CurrentMDI.menuEditCopiar.Clonar(AddressOf CurrentMDI.menuEditCopiar_Click),
+                                        CurrentMDI.menuEditPegar.Clonar(AddressOf CurrentMDI.menuEditPegar_Click),
+                                        CurrentMDI.tsSepEdit2,
+                                        CurrentMDI.menuEditSeleccionarTodo.Clonar(AddressOf CurrentMDI.menuEditSeleccionarTodo_Click)})
 
         richTextBoxCodigo.ContextMenuStrip = rtbCodigoContext
     End Sub
 
-    Private Sub rtbCodigoContext_Opening() Handles rtbCodigoContext.Opening
+    Private Sub RtbCodigoContext_Opening() Handles rtbCodigoContext.Opening
         CurrentMDI.menuEditDropDownOpening()
     End Sub
 End Class

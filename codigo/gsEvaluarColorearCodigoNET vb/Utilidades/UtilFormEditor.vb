@@ -15,7 +15,6 @@ Option Infer On
 Imports Microsoft.VisualBasic
 Imports vb = Microsoft.VisualBasic
 Imports System
-'Imports System.Data
 Imports System.Collections.Generic
 Imports System.Text
 Imports System.Linq
@@ -23,7 +22,6 @@ Imports System.IO
 Imports System.Reflection
 '
 Imports Microsoft.CodeAnalysis
-'Imports Microsoft.CodeAnalysis.Text
 Imports Microsoft.CodeAnalysis.Emit
 Imports Microsoft.CodeAnalysis.CSharp
 Imports Microsoft.CodeAnalysis.VisualBasic
@@ -46,29 +44,6 @@ Friend Module UtilFormEditor
     ''' </summary>
     ''' <returns></returns>
     Public Property Form1Activo As Form1
-
-#End Region
-
-#Region " Los RichTextBox y los eventos relacionados "
-
-    ''' <summary>
-    ''' El richTextBoxCodigo del Form1 activo
-    ''' </summary>
-    Public ReadOnly Property richTextBoxCodigo As RichTextBox
-        Get
-            Return Form1Activo.richTextBoxCodigo
-        End Get
-    End Property
-
-    ''' <summary>
-    ''' El richTextBoxLineas del Form1 activo
-    ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property richTextBoxLineas As RichTextBox
-        Get
-            Return Form1Activo.richTextBoxLineas
-        End Get
-    End Property
 
 #End Region
 
@@ -110,7 +85,7 @@ Friend Module UtilFormEditor
     ''' El LabelInfo del MDIPrincipal
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property labelInfo As ToolStripStatusLabel
+    Public ReadOnly Property LabelInfo As ToolStripStatusLabel
         Get
             Return Form1Activo.labelInfo
         End Get
@@ -120,7 +95,7 @@ Friend Module UtilFormEditor
     ''' El LabelFuente del MDIPrincipal
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property labelFuente As ToolStripStatusLabel
+    Public ReadOnly Property LabelFuente As ToolStripStatusLabel
         Get
             Return Form1Activo.labelFuente
         End Get
@@ -130,7 +105,7 @@ Friend Module UtilFormEditor
     ''' El LabelModificado del MDIPrincipal
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property labelModificado As ToolStripStatusLabel
+    Public ReadOnly Property LabelModificado As ToolStripStatusLabel
         Get
             Return Form1Activo.labelModificado
         End Get
@@ -140,7 +115,7 @@ Friend Module UtilFormEditor
     ''' El LabelPos del MDIPrincipal
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property labelPos As ToolStripStatusLabel
+    Public ReadOnly Property LabelPos As ToolStripStatusLabel
         Get
             Return Form1Activo.labelPos
         End Get
@@ -150,7 +125,7 @@ Friend Module UtilFormEditor
     ''' El LabelTamaño del MDIPrincipal
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property labelTamaño As ToolStripStatusLabel
+    Public ReadOnly Property LabelTamaño As ToolStripStatusLabel
         Get
             Return Form1Activo.labelTamaño
         End Get
@@ -160,7 +135,7 @@ Friend Module UtilFormEditor
     ''' El ButtonLenguaje del MDIPrincipal
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property buttonLenguaje As ToolStripSplitButton
+    Public ReadOnly Property ButtonLenguaje As ToolStripSplitButton
         Get
             Return Form1Activo.buttonLenguaje
         End Get
@@ -205,7 +180,7 @@ Friend Module UtilFormEditor
     ''' Si se están cerrando varias ventanas o guardando todo
     ''' </summary>
     ''' <remarks>31/Oct/2020</remarks>
-    Public CerrandoVarios As Boolean = False
+    Public CerrandoVarios As Boolean '= False
 
     ''' <summary>
     ''' Si se debe mostrar el diálogo de que no hay más coincidencias en la búsqueda
@@ -333,7 +308,7 @@ Friend Module UtilFormEditor
     ''' <summary>
     ''' Si se debe colorear el código al evaluar
     ''' </summary>
-    Public Property colorearAlEvaluar As Boolean
+    Public Property ColorearAlEvaluar As Boolean
         Get
             Return CurrentMDI.buttonColorearAlEvaluar.Checked
         End Get
@@ -346,7 +321,7 @@ Friend Module UtilFormEditor
     ''' Si se deben comprobar los errores al evaluar.
     ''' Si es True se pre-compila el código.
     ''' </summary>
-    Public Property compilarAlEvaluar As Boolean
+    Public Property CompilarAlEvaluar As Boolean
         Get
             Return CurrentMDI.buttonCompilarAlEvaluar.Checked
         End Get
@@ -364,7 +339,7 @@ Friend Module UtilFormEditor
     ''' </summary>
     Public Sub GuardarConfig()
         Dim cfg = New Config(FicheroConfiguracion)
-        Dim cuantos = 0
+        Dim cuantos As Integer '= 0
 
         ' Si cargarUltimo es falso no guardar el último fichero     (16/Sep/20)
         cfg.SetValue("Ficheros", "CargarUltimo", cargarUltimo)
@@ -387,12 +362,12 @@ Friend Module UtilFormEditor
             cfg.SetValue("Ventanas", "Cuantas", cuantos + 1)
         End If
 
-        cfg.SetValue("Herramientas", "Lenguaje", buttonLenguaje.Text)
+        cfg.SetValue("Herramientas", "Lenguaje", ButtonLenguaje.Text)
         cfg.SetValue("Herramientas", "Colorear", colorearAlCargar)
-        cfg.SetValue("Herramientas", "Mostrar Líneas HTML", chkMostrarLineasHTML.Checked)
+        cfg.SetValue("Herramientas", "Mostrar Líneas HTML", ChkMostrarLineasHTML.Checked)
 
-        cfg.SetValue("Herramientas", "ColorearEvaluar", colorearAlEvaluar)
-        cfg.SetValue("Herramientas", "CompilarEvaluar", compilarAlEvaluar)
+        cfg.SetValue("Herramientas", "ColorearEvaluar", ColorearAlEvaluar)
+        cfg.SetValue("Herramientas", "CompilarEvaluar", CompilarAlEvaluar)
 
         ' Para la forma de clasificar                               (02/Oct/20)
         cfg.SetValue("Clasificar", "IgnoreCase", CompararString.IgnoreCase)
@@ -427,24 +402,24 @@ Friend Module UtilFormEditor
 
         cfg.SetValue("Buscar", "MatchCase", buscarMatchCase)
         cfg.SetValue("Buscar", "WholeWord", buscarWholeWord)
-        cfg.SetValue("Buscar", "Buscar-Items-Count", comboBoxBuscar.Items.Count)
-        cfg.SetValue("Reemplazar", "Reemplazar-Items-Count", comboBoxReemplazar.Items.Count)
+        cfg.SetValue("Buscar", "Buscar-Items-Count", ComboBoxBuscar.Items.Count)
+        cfg.SetValue("Reemplazar", "Reemplazar-Items-Count", ComboBoxReemplazar.Items.Count)
         j = 0
-        For i = 0 To comboBoxBuscar.Items.Count - 1
-            cfg.SetKeyValue("Buscar", $"Buscar-Items{j}", comboBoxBuscar.Items(i).ToString)
+        For i = 0 To ComboBoxBuscar.Items.Count - 1
+            cfg.SetKeyValue("Buscar", $"Buscar-Items{j}", ComboBoxBuscar.Items(i).ToString)
             j += 1
             If j = BuscarMaxItems Then Exit For
         Next
         j = 0
-        For i = 0 To comboBoxReemplazar.Items.Count - 1
-            cfg.SetKeyValue("Reemplazar", $"Reemplazar-Items{j}", comboBoxReemplazar.Items(i).ToString)
+        For i = 0 To ComboBoxReemplazar.Items.Count - 1
+            cfg.SetKeyValue("Reemplazar", $"Reemplazar-Items{j}", ComboBoxReemplazar.Items(i).ToString)
             j += 1
             If j = BuscarMaxItems Then Exit For
         Next
 
         ' El estado de los ToolStrip                                (29/Sep/20)
         ' No guardar la visibilidad de buscar
-        cfg.SetValue("Herramientas", "Barra-Ficheros", toolStripFicheros.Visible)
+        cfg.SetValue("Herramientas", "Barra-Ficheros", ToolStripFicheros.Visible)
         cfg.SetValue("Herramientas", "Barra-Edicion", toolStripEdicion.Visible)
         cfg.GetValue("Herramientas", "Barra-Compilar", toolStripCompilar.Visible)
         cfg.GetValue("Herramientas", "Barra-Editor", toolStripEditor.Visible)
@@ -479,6 +454,9 @@ Friend Module UtilFormEditor
             cfg.SetValue("Macros", $"Macro{j}", s)
         Next
         cfg.SetValue("Macros", "Cuantos", j + 1)
+
+        ' si está habilitada la ejecución de la macro               (06/Nov/20)
+        cfg.SetValue("Macros", "HabilitarEjecutarMacro", CurrentMDI.HabilitarEjecutarMacro)
 
         cfg.Save()
     End Sub
@@ -524,19 +502,19 @@ Friend Module UtilFormEditor
         ' Si cargarUltimo es falso no asignar el último fichero     (16/Sep/20)
         cargarUltimo = cfg.GetValue("Ficheros", "CargarUltimo", True)
 
-        buttonLenguaje.Text = cfg.GetValue("Herramientas", "Lenguaje", Compilar.LenguajeVisualBasic)
-        If buttonLenguaje.Text = Compilar.LenguajeVisualBasic Then
-            buttonLenguaje.Image = buttonLenguaje.DropDownItems(0).Image
-        ElseIf buttonLenguaje.Text = Compilar.LenguajeCSharp Then
-            buttonLenguaje.Image = buttonLenguaje.DropDownItems(1).Image
+        ButtonLenguaje.Text = cfg.GetValue("Herramientas", "Lenguaje", Compilar.LenguajeVisualBasic)
+        If ButtonLenguaje.Text = Compilar.LenguajeVisualBasic Then
+            ButtonLenguaje.Image = ButtonLenguaje.DropDownItems(0).Image
+        ElseIf ButtonLenguaje.Text = Compilar.LenguajeCSharp Then
+            ButtonLenguaje.Image = ButtonLenguaje.DropDownItems(1).Image
         Else
-            buttonLenguaje.Image = buttonLenguaje.DropDownItems(2).Image
+            ButtonLenguaje.Image = ButtonLenguaje.DropDownItems(2).Image
         End If
         colorearAlCargar = cfg.GetValue("Herramientas", "Colorear", True)
-        chkMostrarLineasHTML.Checked = cfg.GetValue("Herramientas", "Mostrar Líneas HTML", True)
+        ChkMostrarLineasHTML.Checked = cfg.GetValue("Herramientas", "Mostrar Líneas HTML", True)
 
-        colorearAlEvaluar = cfg.GetValue("Herramientas", "ColorearEvaluar", False)
-        compilarAlEvaluar = cfg.GetValue("Herramientas", "CompilarEvaluar", True)
+        ColorearAlEvaluar = cfg.GetValue("Herramientas", "ColorearEvaluar", False)
+        CompilarAlEvaluar = cfg.GetValue("Herramientas", "CompilarEvaluar", True)
 
         ' Para la forma de clasificar                               (02/Oct/20)
         CompararString.IgnoreCase = cfg.GetValue("Clasificar", "IgnoreCase", False)
@@ -561,12 +539,12 @@ Friend Module UtilFormEditor
         ' El nombre y tamaño de la fuente                           (11/Sep/20)
         fuenteNombre = cfg.GetValue("Fuente", "Nombre", "Consolas")
         fuenteTamaño = cfg.GetValue("Fuente", "Tamaño", "11")
-        labelFuente.Text = $"{fuenteNombre}; {fuenteTamaño}"
+        LabelFuente.Text = $"{fuenteNombre}; {fuenteTamaño}"
 
         ' Solo asignar si son diferentes                            (02/Oct/20)
 
-        richTextBoxCodigo.Font = New Font(fuenteNombre, CSng(fuenteTamaño))
-        richTextBoxLineas.Font = New Font(fuenteNombre, CSng(fuenteTamaño))
+        Form1Activo.richTextBoxCodigo.Font = New Font(fuenteNombre, CSng(fuenteTamaño))
+        Form1Activo.richTextBoxLineas.Font = New Font(fuenteNombre, CSng(fuenteTamaño))
 
         ' Si se debe avisar cuando no haya más coincidencias        (31/Oct/20)
         avisarFinBusqueda = cfg.GetValue("Buscar", "Avisar Buscar", True)
@@ -583,47 +561,47 @@ Friend Module UtilFormEditor
         MDIPrincipal.buttonWholeWord.Checked = buscarWholeWord
 
         cuantos = cfg.GetValue("Buscar", "Buscar-Items-Count", 0)
-        comboBoxBuscar.Items.Clear()
+        ComboBoxBuscar.Items.Clear()
         For i = 0 To BuscarMaxItems - 1
             If i >= cuantos Then Exit For
             Dim s = cfg.GetValue("Buscar", $"Buscar-Items{i}", "-1")
             If s = "-1" Then Exit For
-            comboBoxBuscar.Items.Add(s)
+            ComboBoxBuscar.Items.Add(s)
         Next
         ' Si buscarQueBuscar está vacío, usar lo último buscado     (31/Oct/20)
-        If comboBoxBuscar.Items.Count > 0 AndAlso String.IsNullOrEmpty(buscarQueBuscar) Then
-            buscarQueBuscar = comboBoxBuscar.Items(comboBoxBuscar.Items.Count - 1).ToString
+        If ComboBoxBuscar.Items.Count > 0 AndAlso String.IsNullOrEmpty(buscarQueBuscar) Then
+            buscarQueBuscar = ComboBoxBuscar.Items(ComboBoxBuscar.Items.Count - 1).ToString
         End If
         cuantos = cfg.GetValue("Reemplazar", "Reemplazar-Items-Count", 0)
-        comboBoxReemplazar.Items.Clear()
+        ComboBoxReemplazar.Items.Clear()
         For i = 0 To BuscarMaxItems - 1
             If i >= cuantos Then Exit For
             Dim s = cfg.GetValue("Reemplazar", $"Reemplazar-Items{i}", "-1")
             If s = "-1" Then Exit For
-            comboBoxReemplazar.Items.Add(s)
+            ComboBoxReemplazar.Items.Add(s)
         Next
         ' Si buscarQueReemplazar está vacío, usar lo último reemplazado
-        If comboBoxReemplazar.Items.Count > 0 AndAlso String.IsNullOrEmpty(buscarQueReemplazar) Then
-            buscarQueReemplazar = comboBoxReemplazar.Items(comboBoxReemplazar.Items.Count - 1).ToString
+        If ComboBoxReemplazar.Items.Count > 0 AndAlso String.IsNullOrEmpty(buscarQueReemplazar) Then
+            buscarQueReemplazar = ComboBoxReemplazar.Items(ComboBoxReemplazar.Items.Count - 1).ToString
         End If
-        comboBoxBuscar.Text = If(String.IsNullOrWhiteSpace(buscarQueBuscar), BuscarVacio, buscarQueBuscar)
-        If comboBoxBuscar.Text = BuscarVacio Then
-            comboBoxBuscar.ForeColor = SystemColors.GrayText
+        ComboBoxBuscar.Text = If(String.IsNullOrWhiteSpace(buscarQueBuscar), BuscarVacio, buscarQueBuscar)
+        If ComboBoxBuscar.Text = BuscarVacio Then
+            ComboBoxBuscar.ForeColor = SystemColors.GrayText
         Else
-            comboBoxBuscar.ForeColor = SystemColors.ControlText
+            ComboBoxBuscar.ForeColor = SystemColors.ControlText
         End If
-        comboBoxReemplazar.Text = If(String.IsNullOrWhiteSpace(buscarQueReemplazar), ReemplazarVacio, buscarQueReemplazar)
-        If comboBoxReemplazar.Text = ReemplazarVacio Then
-            comboBoxReemplazar.ForeColor = SystemColors.GrayText
+        ComboBoxReemplazar.Text = If(String.IsNullOrWhiteSpace(buscarQueReemplazar), ReemplazarVacio, buscarQueReemplazar)
+        If ComboBoxReemplazar.Text = ReemplazarVacio Then
+            ComboBoxReemplazar.ForeColor = SystemColors.GrayText
         Else
-            comboBoxReemplazar.ForeColor = SystemColors.ControlText
+            ComboBoxReemplazar.ForeColor = SystemColors.ControlText
         End If
 
-        Dim j = 0
+        Dim j As Integer '= 0
 
         ' El estado de los ToolStrip                                (29/Sep/20)
         ' La de buscar no se muestra al iniciar el programa
-        toolStripFicheros.Visible = cfg.GetValue("Herramientas", "Barra-Ficheros", True)
+        ToolStripFicheros.Visible = cfg.GetValue("Herramientas", "Barra-Ficheros", True)
         toolStripEdicion.Visible = cfg.GetValue("Herramientas", "Barra-Edicion", True)
         toolStripCompilar.Visible = cfg.GetValue("Herramientas", "Barra-Compilar", True)
         toolStripEditor.Visible = cfg.GetValue("Herramientas", "Barra-Editor", True)
@@ -678,13 +656,6 @@ Friend Module UtilFormEditor
             m_fProcesando.Close()
             cargando = False
 
-            '
-            ' Esto ya no hace falta...                              (26/Oct/20)
-            '
-            ' Activar el último formulario cargado                  (24/Oct/20)
-            ' para que se actualicen los botones, etc.
-            ' Llamo directamente al evento Activated                (26/Oct/20)
-            'Form1Activo.Form1_Activated() 'BringToFront()
         End If
 
         ' Para las macros                                           (31/Oct/20)
@@ -705,6 +676,9 @@ Friend Module UtilFormEditor
             CurrentMDI.MacroActual = "{F3} {END} {ENTER} ^v ^{F6}"
         End If
 
+        ' si está habilitada la ejecución de la macro               (06/Nov/20)
+        CurrentMDI.HabilitarEjecutarMacro = cfg.GetValue("Macros", "HabilitarEjecutarMacro", True)
+
     End Sub
 
 #End Region
@@ -721,13 +695,14 @@ Friend Module UtilFormEditor
     ''' <param name="max">El valor máximo de la barra de progreso.</param>
     ''' <remarks>16/Oct/2020</remarks>
     Public Sub MostrarProcesando(titulo As String, msg As String, max As Integer)
-        m_fProcesando = New fProcesando
-        m_fProcesando.Texto = titulo
-        m_fProcesando.Mensaje = msg
-        m_fProcesando.Mensaje1 = m_fProcesando.Mensaje
-        m_fProcesando.Maximo = max
-        m_fProcesando.ValorActual = 0
-        m_fProcesando.ShowInTaskbar = False
+        m_fProcesando = New fProcesando With {
+            .Texto = titulo,
+            .Mensaje = msg,
+            .Mensaje1 = msg,
+            .Maximo = max,
+            .ValorActual = 0,
+            .ShowInTaskbar = False
+        }
         m_fProcesando.Show()
         m_fProcesando.BringToFront()
         ' Que siempre esté encima del resto.
@@ -761,9 +736,9 @@ Friend Module UtilFormEditor
     ''' <returns>Una tupla con la Fila, SelStart y la primera posición de la línea (Inicio)</returns>
     ''' <remarks>En esta implementación no se le añade +1 a la posición ni a la línea.</remarks>
     Public Function PosicionActual0() As (Linea As Integer, SelStart As Integer, Inicio As Integer)
-        Dim pos As Integer = richTextBoxCodigo.SelectionStart
-        Dim lin As Integer = richTextBoxCodigo.GetLineFromCharIndex(pos)
-        Dim fcol = richTextBoxCodigo.GetFirstCharIndexFromLine(lin)
+        Dim pos As Integer = Form1Activo.richTextBoxCodigo.SelectionStart
+        Dim lin As Integer = Form1Activo.richTextBoxCodigo.GetLineFromCharIndex(pos)
+        Dim fcol = Form1Activo.richTextBoxCodigo.GetFirstCharIndexFromLine(lin)
 
         Return (lin, pos, fcol)
     End Function
@@ -775,10 +750,10 @@ Friend Module UtilFormEditor
     ''' <remarks>Esta implementación le añade 1 a la posición y a la línea.
     ''' Usarla para mostrar la fila y columna</remarks>
     Public Function PosicionActual() As (Linea As Integer, Columna As Integer, Inicio As Integer)
-        Dim pos As Integer = richTextBoxCodigo.SelectionStart + 1
-        Dim lin As Integer = richTextBoxCodigo.GetLineFromCharIndex(pos) + 1
-        Dim col As Integer = pos - richTextBoxCodigo.GetFirstCharIndexOfCurrentLine()
-        Dim fcol = richTextBoxCodigo.GetFirstCharIndexFromLine(lin - 1)
+        Dim pos As Integer = Form1Activo.richTextBoxCodigo.SelectionStart + 1
+        Dim lin As Integer = Form1Activo.richTextBoxCodigo.GetLineFromCharIndex(pos) + 1
+        Dim col As Integer = pos - Form1Activo.richTextBoxCodigo.GetFirstCharIndexOfCurrentLine()
+        Dim fcol = Form1Activo.richTextBoxCodigo.GetFirstCharIndexFromLine(lin - 1)
         If fcol = pos Then lin -= 1
 
         Return (lin, col, fcol)
@@ -800,7 +775,7 @@ Friend Module UtilFormEditor
             End If
         End If
 
-        labelPos.Text = $"Lín: {lin}  Car: {col}"
+        LabelPos.Text = $"Lín: {lin}  Car: {col}"
     End Sub
 
 
@@ -837,8 +812,6 @@ Friend Module UtilFormEditor
                     k += EspaciosIndentar
                 End If
                 If i = j Then
-                    'If lineas(i).Length = 0 Then
-                    'End If
                     sb.AppendFormat("{0}{1}", sIndent, lineas(i))
                 Else
                     sb.AppendFormat("{0}{1}{2}", sIndent, lineas(i), finlinea)
@@ -857,7 +830,7 @@ Friend Module UtilFormEditor
 
             ' para que se mantenga seleccionado                     (28/Sep/20)
             rtEditor.SelectionStart = selStart
-            rtEditor.SelectionLength = sb.Length - EspaciosIndentar 'lenAnt + k
+            rtEditor.SelectionLength = sb.Length - EspaciosIndentar
         Else
             Dim selStart As Integer = rtEditor.SelectionStart
             Dim sIndent As String = New String(" "c, EspaciosIndentar)
@@ -971,7 +944,7 @@ Friend Module UtilFormEditor
         ' Se usará según el lenguaje seleccionado
 
         Dim sSep As String = "'"
-        If buttonLenguaje.Text = Compilar.LenguajeCSharp Then
+        If ButtonLenguaje.Text = Compilar.LenguajeCSharp Then
             sSep = "//"
         End If
 
@@ -1044,7 +1017,7 @@ Friend Module UtilFormEditor
     Public Sub QuitarComentarios(rtEditor As RichTextBox)
         ' Se usará según el lenguaje seleccionado
         Dim sSep As String = "'"
-        If buttonLenguaje.Text = Compilar.LenguajeCSharp Then
+        If ButtonLenguaje.Text = Compilar.LenguajeCSharp Then
             sSep = "//"
         End If
 
@@ -1116,27 +1089,18 @@ Friend Module UtilFormEditor
 
 #Region " Colorear: Los botones, menús y métodos "
 
-    'Friend buttonColorear As ToolStripButton = CurrentMDI.buttonColorear
-    'Friend buttonColorearHTML As ToolStripButton = CurrentMDI.buttonColorearHTML
-    'Friend buttonNoColorear As ToolStripButton = CurrentMDI.buttonNoColorear
-
-    'Friend menuColorear As ToolStripMenuItem = CurrentMDI.menuColorear
-    'Friend menuColorearHTML As ToolStripMenuItem = CurrentMDI.menuColorearHTML
-    'Friend menuNoColorear As ToolStripMenuItem = CurrentMDI.menuNoColorear
-
-
     ''' <summary>
     ''' Colorear la selección actual del código
     ''' </summary>
     Public Sub ColorearSeleccion()
         If inicializando Then Return
         ' No colorear si no es vb o c#                              (08/Oct/20)
-        If buttonLenguaje.Text = ExtensionTexto Then Return
+        If ButtonLenguaje.Text = ExtensionTexto Then Return
 
         inicializando = True
         ' si se debe colorear                                       (03/Oct/20)
-        If colorearAlCargar OrElse colorearAlEvaluar Then
-            Compilar.ColoreaSeleccionRichTextBox(richTextBoxCodigo, buttonLenguaje.Text)
+        If colorearAlCargar OrElse ColorearAlEvaluar Then
+            Compilar.ColoreaSeleccionRichTextBox(Form1Activo.richTextBoxCodigo, ButtonLenguaje.Text)
         End If
         inicializando = False
     End Sub
@@ -1145,13 +1109,13 @@ Friend Module UtilFormEditor
     ''' Mostrar el código sin colorear
     ''' </summary>
     Public Sub NoColorear()
-        Dim modifTemp = richTextBoxCodigo.Modified
+        Dim modifTemp = Form1Activo.richTextBoxCodigo.Modified
 
-        Dim codigo = richTextBoxCodigo.Text
-        richTextBoxCodigo.Rtf = ""
-        richTextBoxCodigo.Text = codigo
+        Dim codigo = Form1Activo.richTextBoxCodigo.Text
+        Form1Activo.richTextBoxCodigo.Rtf = ""
+        Form1Activo.richTextBoxCodigo.Text = codigo
 
-        richTextBoxCodigo.Modified = modifTemp
+        Form1Activo.richTextBoxCodigo.Modified = modifTemp
     End Sub
 
     ''' <summary>
@@ -1159,32 +1123,32 @@ Friend Module UtilFormEditor
     ''' Los lenguajes usados son Visual Basic y C#, se usará el indicado en buttonLenguaje.Text.
     ''' </summary>
     Public Sub ColorearCodigo()
-        If richTextBoxCodigo.TextLength = 0 Then Return
+        If Form1Activo.richTextBoxCodigo.TextLength = 0 Then Return
 
         ' Si buttonLenguaje.Text es Texto, no colorear              (08/Oct/20)
-        If buttonLenguaje.Text = ExtensionTexto Then Return
+        If ButtonLenguaje.Text = ExtensionTexto Then Return
 
-        labelInfo.Text = $"Coloreando el código de {buttonLenguaje.Text}..."
+        LabelInfo.Text = $"Coloreando el código de {ButtonLenguaje.Text}..."
         CurrentMDI.Refresh()
         If m_fProcesando Is Nothing Then
-            MostrarProcesando(labelInfo.Text, labelInfo.Text, 2)
+            MostrarProcesando(LabelInfo.Text, LabelInfo.Text, 2)
         End If
-        OnProgreso(labelInfo.Text)
+        OnProgreso(LabelInfo.Text)
 
-        Dim modif = richTextBoxCodigo.Modified
+        Dim modif = Form1Activo.richTextBoxCodigo.Modified
         inicializando = True
 
-        Dim colCodigo = Compilar.ColoreaRichTextBox(richTextBoxCodigo, buttonLenguaje.Text)
+        Dim colCodigo = Compilar.ColoreaRichTextBox(Form1Activo.richTextBoxCodigo, ButtonLenguaje.Text)
 
         MostrarResultadoEvaluar(colCodigo, False)
 
         inicializando = False
-        richTextBoxCodigo.SelectionStart = 0
-        richTextBoxCodigo.SelectionLength = 0
-        richTextBoxCodigo.Modified = modif
+        Form1Activo.richTextBoxCodigo.SelectionStart = 0
+        Form1Activo.richTextBoxCodigo.SelectionLength = 0
+        Form1Activo.richTextBoxCodigo.Modified = modif
 
-        labelInfo.Text = $"Código coloreado para {buttonLenguaje.Text}."
-        OnProgreso(labelInfo.Text)
+        LabelInfo.Text = $"Código coloreado para {ButtonLenguaje.Text}."
+        OnProgreso(LabelInfo.Text)
         CurrentMDI.Refresh()
     End Sub
 
@@ -1192,38 +1156,27 @@ Friend Module UtilFormEditor
     ''' Colorear el código en formato HTML y mostrarlo en ventana aparte
     ''' </summary>
     Public Sub ColorearHTML()
-        If richTextBoxCodigo.TextLength = 0 Then Return
+        If Form1Activo.richTextBoxCodigo.TextLength = 0 Then Return
 
-        labelInfo.Text = $"Coloreando en HTML para {buttonLenguaje.Text}..."
+        LabelInfo.Text = $"Coloreando en HTML para {ButtonLenguaje.Text}..."
         CurrentMDI.Refresh()
 
-        Dim sHTML = Compilar.ColoreaHTML(richTextBoxCodigo.Text,
-                                         buttonLenguaje.Text,
-                                         mostrarLineas:=chkMostrarLineasHTML.Checked)
+        Dim sHTML = Compilar.ColoreaHTML(Form1Activo.richTextBoxCodigo.Text,
+                                         ButtonLenguaje.Text,
+                                         mostrarLineas:=ChkMostrarLineasHTML.Checked)
 
-        labelInfo.Text = "Mostrando el visor de HTML..."
+        LabelInfo.Text = "Mostrando el visor de HTML..."
         CurrentMDI.Refresh()
 
-        Dim fHTML As New FormVisorHTML(Form1Activo.nombreFichero, sHTML)
+        Dim fHTML As New FormVisorHTML(Form1Activo.NombreFichero, sHTML)
         fHTML.Show()
 
-        labelInfo.Text = ""
+        LabelInfo.Text = ""
     End Sub
 
 #End Region
 
 #Region " Compilar, evaluar: Los botones, menús y métodos "
-
-    'Friend buttonCompilar As ToolStripButton = CurrentMDI.buttonCompilar
-    'Friend buttonEjecutar As ToolStripButton = CurrentMDI.buttonEjecutar
-    'Friend buttonEvaluar As ToolStripButton = CurrentMDI.buttonEvaluar
-
-    'Friend menuEvaluar As ToolStripMenuItem = CurrentMDI.menuEvaluar
-    'Friend menuEjecutar As ToolStripMenuItem = CurrentMDI.menuEjecutar
-    'Friend menuCompilar As ToolStripMenuItem = CurrentMDI.menuCompilar
-
-    'Friend menuOcultarEvaluar As ToolStripMenuItem = CurrentMDI.menuOcultarEvaluar
-
 
     '
     ' Los métodos de compilar, ejecutar, evaluar
@@ -1234,10 +1187,10 @@ Friend Module UtilFormEditor
     ''' Si se producen errores muestra la información con los errores.
     ''' </summary>
     Public Sub CompilarEjecutar()
-        If richTextBoxCodigo.TextLength = 0 Then Return
+        If Form1Activo.richTextBoxCodigo.TextLength = 0 Then Return
 
         ' guardar el código antes de compilar y ejecutar
-        labelInfo.Text = "Compilando el código..."
+        LabelInfo.Text = "Compilando el código..."
         CurrentMDI.Refresh()
 
         ' Guardar (con el nombre del formulario activo)             (16/Oct/20)
@@ -1245,7 +1198,7 @@ Friend Module UtilFormEditor
             Form1Activo.Guardar()
         End If
 
-        Dim fichero = Form1Activo.nombreFichero
+        Dim fichero = Form1Activo.NombreFichero
 
         ' Si no tiene el path, añadirlo                             (27/Sep/20)
         If String.IsNullOrEmpty(Path.GetDirectoryName(fichero)) Then
@@ -1257,18 +1210,18 @@ Friend Module UtilFormEditor
             Form1Activo.lstSyntax.Items.Clear()
             Dim s = "Error al compilar, seguramente el fichero está siendo usado por otro proceso."
             Form1Activo.lstSyntax.Items.Add(s)
-            labelInfo.Text = s
+            LabelInfo.Text = s
             Form1Activo.splitContainer1.Panel2.Visible = True
-            Form1Activo.splitContainer1_Resize()
+            Form1Activo.SplitContainer1_Resize()
 
             Return
         End If
         If res.Result.Success Then
-            labelInfo.Text = $"Se ha compilado y ejecutado satisfactoriamente."
+            LabelInfo.Text = $"Se ha compilado y ejecutado satisfactoriamente."
 
             Form1Activo.lstSyntax.Items.Clear()
             Form1Activo.splitContainer1.Panel2.Visible = False
-            Form1Activo.splitContainer1_Resize()
+            Form1Activo.SplitContainer1_Resize()
         Else
             ' Mostrar los errores
             MostrarErrores(res.Result)
@@ -1280,14 +1233,14 @@ Friend Module UtilFormEditor
     ''' Compilar el código sin ejecutar
     ''' </summary>
     Public Sub Build()
-        If richTextBoxCodigo.TextLength = 0 Then Return
+        If Form1Activo.richTextBoxCodigo.TextLength = 0 Then Return
 
         If Form1Activo.TextoModificado Then
             Form1Activo.Guardar()
         End If
 
-        Dim filepath = Form1Activo.nombreFichero
-        labelInfo.Text = $"Compilando para {buttonLenguaje.Text}..."
+        Dim filepath = Form1Activo.NombreFichero
+        LabelInfo.Text = $"Compilando para {ButtonLenguaje.Text}..."
         CurrentMDI.Refresh()
 
         ' Si no tiene el path, añadirlo                             (27/Sep/20)
@@ -1302,9 +1255,9 @@ Friend Module UtilFormEditor
         If res.Result Is Nothing Then
             Dim s = "Error al compilar, seguramente el fichero está siendo usado por otro proceso."
             Form1Activo.lstSyntax.Items.Add(s)
-            labelInfo.Text = s
+            LabelInfo.Text = s
             Form1Activo.splitContainer1.Panel2.Visible = True
-            Form1Activo.splitContainer1_Resize()
+            Form1Activo.SplitContainer1_Resize()
 
             Return
         End If
@@ -1313,7 +1266,7 @@ Friend Module UtilFormEditor
             MostrarErrores(res.Result)
             Return
         End If
-        labelInfo.Text = res.OutputPath
+        LabelInfo.Text = res.OutputPath
     End Sub
 
     ''' <summary>
@@ -1324,7 +1277,7 @@ Friend Module UtilFormEditor
     ''' clases, métodos, palabras claves, etc.
     ''' </summary>
     Public Sub Evaluar()
-        If richTextBoxCodigo.TextLength = 0 Then Return
+        If Form1Activo.richTextBoxCodigo.TextLength = 0 Then Return
 
         If Form1Activo.TextoModificado Then
             Form1Activo.Guardar()
@@ -1333,43 +1286,40 @@ Friend Module UtilFormEditor
         Dim res As EmitResult
         Form1Activo.lstSyntax.Items.Clear()
 
-        If compilarAlEvaluar Then
+        If CompilarAlEvaluar Then
             Form1Activo.splitContainer1.Panel2.Visible = False
-            Form1Activo.splitContainer1_Resize()
+            Form1Activo.SplitContainer1_Resize()
             Form1Activo.lstSyntax.Items.Clear()
 
-            labelInfo.Text = $"Compilando para {buttonLenguaje.Text}..."
+            LabelInfo.Text = $"Compilando para {ButtonLenguaje.Text}..."
             CurrentMDI.Refresh()
 
-            res = Compilar.ComprobarCodigo(richTextBoxCodigo.Text, buttonLenguaje.Text)
+            res = Compilar.ComprobarCodigo(Form1Activo.richTextBoxCodigo.Text, ButtonLenguaje.Text)
             If res.Success = False Then
                 MostrarErrores(res)
                 Return
             End If
-            labelInfo.Text = "Compilado sin error."
+            LabelInfo.Text = "Compilado sin error."
         End If
 
         Dim colCodigo As Dictionary(Of String, Dictionary(Of String, ClassifSpanInfo))
 
-        If colorearAlEvaluar Then
-            labelInfo.Text = "Coloreando el código..."
+        If ColorearAlEvaluar Then
+            LabelInfo.Text = "Coloreando el código..."
             CurrentMDI.Refresh()
 
-            Dim modif = richTextBoxCodigo.Modified
+            Dim modif = Form1Activo.richTextBoxCodigo.Modified
             inicializando = True
-            'richTextBoxCodigo.Visible = False
 
-            colCodigo = Compilar.ColoreaRichTextBox(richTextBoxCodigo, buttonLenguaje.Text)
-
-            'richTextBoxCodigo.Visible = True
+            colCodigo = Compilar.ColoreaRichTextBox(Form1Activo.richTextBoxCodigo, ButtonLenguaje.Text)
 
             inicializando = False
-            richTextBoxCodigo.SelectionStart = 0
-            richTextBoxCodigo.SelectionLength = 0
-            richTextBoxCodigo.Modified = modif
+            Form1Activo.richTextBoxCodigo.SelectionStart = 0
+            Form1Activo.richTextBoxCodigo.SelectionLength = 0
+            Form1Activo.richTextBoxCodigo.Modified = modif
 
         Else
-            colCodigo = Compilar.EvaluaCodigo(richTextBoxCodigo.Text, buttonLenguaje.Text)
+            colCodigo = Compilar.EvaluaCodigo(Form1Activo.richTextBoxCodigo.Text, ButtonLenguaje.Text)
         End If
 
         MostrarResultadoEvaluar(colCodigo, True)
@@ -1398,10 +1348,10 @@ Friend Module UtilFormEditor
             End If
         Next
 
-        labelInfo.Text = $"Compilado con {errors} error{If(errors = 1, "", "es")} y {warnings} advertencia{If(warnings = 1, "", "s")}."
+        LabelInfo.Text = $"Compilado con {errors} error{If(errors = 1, "", "es")} y {warnings} advertencia{If(warnings = 1, "", "s")}."
 
         Form1Activo.splitContainer1.Panel2.Visible = True
-        Form1Activo.splitContainer1_Resize()
+        Form1Activo.SplitContainer1_Resize()
     End Sub
 
     ''' <summary>
@@ -1417,7 +1367,7 @@ Friend Module UtilFormEditor
         codTiposCount.Metodos = If(colCodigo.Keys.Contains("method name"), colCodigo("method name").Count, 0)
         codTiposCount.Keywords = If(colCodigo.Keys.Contains("keyword"), colCodigo("keyword").Count, 0) + If(colCodigo.Keys.Contains("keyword - control"), colCodigo("keyword - control").Count, 0)
 
-        labelInfo.Text = $"Código con {codTiposCount.Clases} clase{If(codTiposCount.Clases = 1, "", "s")}, {codTiposCount.Metodos} método{If(codTiposCount.Metodos = 1, "", "s")} y {codTiposCount.Keywords} palabra{If(codTiposCount.Keywords = 1, "", "s")} clave."
+        LabelInfo.Text = $"Código con {codTiposCount.Clases} clase{If(codTiposCount.Clases = 1, "", "s")}, {codTiposCount.Metodos} método{If(codTiposCount.Metodos = 1, "", "s")} y {codTiposCount.Keywords} palabra{If(codTiposCount.Keywords = 1, "", "s")} clave."
 
         Form1Activo.lstSyntax.Items.Clear()
         ' Ponerlo en ownerdraw para que coloree
@@ -1444,7 +1394,7 @@ Friend Module UtilFormEditor
 
         If mostrarSyntax Then
             Form1Activo.splitContainer1.Panel2.Visible = True
-            Form1Activo.splitContainer1_Resize()
+            Form1Activo.SplitContainer1_Resize()
         End If
     End Sub
 
@@ -1460,11 +1410,11 @@ Friend Module UtilFormEditor
     ''' Clasificar el texto seleccionado
     ''' </summary>
     Public Sub ClasificarSeleccion()
-        If richTextBoxCodigo.SelectionLength = 0 Then Return
+        If Form1Activo.richTextBoxCodigo.SelectionLength = 0 Then Return
 
-        Dim selStart = richTextBoxCodigo.SelectionStart
-        Dim finlinea = richTextBoxCodigo.SelectedText.ComprobarFinLinea
-        Dim lineas() As String = richTextBoxCodigo.SelectedText.Split(finlinea.ToCharArray)
+        Dim selStart = Form1Activo.richTextBoxCodigo.SelectionStart
+        Dim finlinea = Form1Activo.richTextBoxCodigo.SelectedText.ComprobarFinLinea
+        Dim lineas() As String = Form1Activo.richTextBoxCodigo.SelectedText.Split(finlinea.ToCharArray)
         Dim sb As New System.Text.StringBuilder
         Dim j = lineas.Length - 1
         If String.IsNullOrWhiteSpace(lineas(j)) Then j -= 1
@@ -1479,24 +1429,18 @@ Friend Module UtilFormEditor
         Next
 
         ' Poner el nuevo texto
-        richTextBoxCodigo.SelectedText = sb.ToString()
-        richTextBoxCodigo.SelectionStart = selStart
-        richTextBoxCodigo.SelectionLength = sb.ToString().Length
+        Form1Activo.richTextBoxCodigo.SelectedText = sb.ToString()
+        Form1Activo.richTextBoxCodigo.SelectionStart = selStart
+        Form1Activo.richTextBoxCodigo.SelectionLength = sb.ToString().Length
         ColorearSeleccion()
-        richTextBoxCodigo.SelectionStart = selStart
-        richTextBoxCodigo.SelectionLength = sb.ToString().Length
+        Form1Activo.richTextBoxCodigo.SelectionStart = selStart
+        Form1Activo.richTextBoxCodigo.SelectionLength = sb.ToString().Length
 
     End Sub
 
 #End Region
 
 #Region " Cambiar las mayúsculas y minúsculas "
-
-    'Friend menuMayúsculas As ToolStripMenuItem = CurrentMDI.menuMayúsculas
-    'Friend menuMinúsculas As ToolStripMenuItem = CurrentMDI.menuMinúsculas
-    'Friend menuTitulo As ToolStripMenuItem = CurrentMDI.menuTitulo
-
-    'Friend menuPrimeraMinúsculas As ToolStripMenuItem = CurrentMDI.menuPrimeraMinúsculas
 
     '
     ' Cambiar las mayúsculas y minúsculas
@@ -1508,41 +1452,41 @@ Friend Module UtilFormEditor
     ''' <param name="queCase"></param>
     Public Sub CambiarMayúsculasMinúsculas(queCase As CasingValues)
         ' convertir el texto seleccionado a mayúsculas
-        If richTextBoxCodigo.SelectionLength = 0 Then Return
+        If Form1Activo.richTextBoxCodigo.SelectionLength = 0 Then Return
 
-        Dim selStart = richTextBoxCodigo.SelectionStart
-        Dim selLength = richTextBoxCodigo.SelectionLength
+        Dim selStart = Form1Activo.richTextBoxCodigo.SelectionStart
+        Dim selLength = Form1Activo.richTextBoxCodigo.SelectionLength
 
         If queCase = CasingValues.FirstToLower Then
-            richTextBoxCodigo.SelectedText = richTextBoxCodigo.SelectedText.ToLowerFirst
+            Form1Activo.richTextBoxCodigo.SelectedText = Form1Activo.richTextBoxCodigo.SelectedText.ToLowerFirst
         ElseIf queCase = CasingValues.Title OrElse queCase = CasingValues.FirstToUpper Then
             ' si está todo en mayúsculas preguntar              (02/Oct/20)
             ' si no, va a parecer que no hace bien la conversión a título ;-)
-            If richTextBoxCodigo.SelectedText = richTextBoxCodigo.SelectedText.ToUpper Then
+            If Form1Activo.richTextBoxCodigo.SelectedText = Form1Activo.richTextBoxCodigo.SelectedText.ToUpper Then
                 If MessageBox.Show("¡El texto está todo en mayúsculas!" & vbCrLf &
                                        "¿Quieres cambiarlo a Título?",
                                        "Cambiar selección a Título",
                                        MessageBoxButtons.YesNo,
                                        MessageBoxIcon.Question) = DialogResult.Yes Then
 
-                    richTextBoxCodigo.SelectedText = richTextBoxCodigo.SelectedText.ToLower().ToTitle
+                    Form1Activo.richTextBoxCodigo.SelectedText = Form1Activo.richTextBoxCodigo.SelectedText.ToLower().ToTitle
                 Else
                     Return
                 End If
             Else
-                richTextBoxCodigo.SelectedText = richTextBoxCodigo.SelectedText.ToTitle
+                Form1Activo.richTextBoxCodigo.SelectedText = Form1Activo.richTextBoxCodigo.SelectedText.ToTitle
             End If
 
         ElseIf queCase = CasingValues.Lower Then
-            richTextBoxCodigo.SelectedText = richTextBoxCodigo.SelectedText.ToLower
+            Form1Activo.richTextBoxCodigo.SelectedText = Form1Activo.richTextBoxCodigo.SelectedText.ToLower
         ElseIf queCase = CasingValues.Upper Then
-            richTextBoxCodigo.SelectedText = richTextBoxCodigo.SelectedText.ToUpper
+            Form1Activo.richTextBoxCodigo.SelectedText = Form1Activo.richTextBoxCodigo.SelectedText.ToUpper
         Else
             ' nada que hacer
         End If
         ' Solo si se debe colorear                              (03/Oct/20)
-        richTextBoxCodigo.SelectionStart = selStart
-        richTextBoxCodigo.SelectionLength = selLength
+        Form1Activo.richTextBoxCodigo.SelectionStart = selStart
+        Form1Activo.richTextBoxCodigo.SelectionLength = selLength
         ColorearSeleccion()
 
     End Sub
@@ -1550,12 +1494,6 @@ Friend Module UtilFormEditor
 #End Region
 
 #Region " Quitar espacios de delante y destrás "
-
-    'Friend menuQuitarEspaciosTodos As ToolStripMenuItem = CurrentMDI.menuQuitarEspaciosTodos
-    'Friend menuQuitarEspaciosTrim As ToolStripMenuItem = CurrentMDI.menuQuitarEspaciosTrim
-    'Friend menuQuitarEspaciosTrimEnd As ToolStripMenuItem = CurrentMDI.menuQuitarEspaciosTrimEnd
-    'Friend menuQuitarEspaciosTrimStart As ToolStripMenuItem = CurrentMDI.menuQuitarEspaciosTrimStart
-
 
     '
     ' Quitar los espacios
@@ -1571,11 +1509,11 @@ Friend Module UtilFormEditor
                                Optional todos As Boolean = False)
 
         ' Quitar los espacios, delante, detrás y ambos              (02/Oct/20)
-        If richTextBoxCodigo.SelectionLength = 0 Then Return
+        If Form1Activo.richTextBoxCodigo.SelectionLength = 0 Then Return
 
-        Dim selStart As Integer = richTextBoxCodigo.SelectionStart
-        Dim finlinea = richTextBoxCodigo.SelectedText.ComprobarFinLinea
-        Dim lineas() As String = richTextBoxCodigo.SelectedText.Split(finlinea.ToCharArray)
+        Dim selStart As Integer = Form1Activo.richTextBoxCodigo.SelectionStart
+        Dim finlinea = Form1Activo.richTextBoxCodigo.SelectedText.ComprobarFinLinea
+        Dim lineas() As String = Form1Activo.richTextBoxCodigo.SelectedText.Split(finlinea.ToCharArray)
         Dim sb As New System.Text.StringBuilder
         Dim j As Integer = lineas.Length - 1
         'If vb.Len(lineas(j)) = 0 Then j -= 1
@@ -1600,15 +1538,15 @@ Friend Module UtilFormEditor
                 sb.AppendFormat("{0}{1}", lineas(i), finlinea)
             End If
         Next
-        richTextBoxCodigo.SelectedText = sb.ToString().TrimEnd(ChrW(13))
+        Form1Activo.richTextBoxCodigo.SelectedText = sb.ToString().TrimEnd(ChrW(13))
 
-        richTextBoxCodigo.SelectionStart = selStart
-        richTextBoxCodigo.SelectionLength = sb.ToString().Length
+        Form1Activo.richTextBoxCodigo.SelectionStart = selStart
+        Form1Activo.richTextBoxCodigo.SelectionLength = sb.ToString().Length
         ColorearSeleccion()
 
         ' Que se mantenga seleccionado
-        richTextBoxCodigo.SelectionStart = selStart
-        richTextBoxCodigo.SelectionLength = sb.ToString().Length
+        Form1Activo.richTextBoxCodigo.SelectionStart = selStart
+        Form1Activo.richTextBoxCodigo.SelectionLength = sb.ToString().Length
     End Sub
 
 #End Region
@@ -1621,48 +1559,47 @@ Friend Module UtilFormEditor
     Public Sub PonerTextoAlFinal()
         If String.IsNullOrEmpty(txtPonerTexto.Text) Then Return
         ' Si no hay texto, salir
-        If richTextBoxCodigo.Text.Length = 0 Then Return
+        If Form1Activo.richTextBoxCodigo.Text.Length = 0 Then Return
 
         ' Poner el texto al final de cada línea seleccionada o de la actual
         Dim sPoner As String = txtPonerTexto.Text
 
-        If richTextBoxCodigo.SelectionLength > 0 Then
-            Dim selStart As Integer = richTextBoxCodigo.SelectionStart
-            Dim finlinea = richTextBoxCodigo.SelectedText.ComprobarFinLinea
-            Dim lineas() As String = richTextBoxCodigo.SelectedText.TrimEnd(ChrW(13)).Split(finlinea.ToCharArray)
+        If Form1Activo.richTextBoxCodigo.SelectionLength > 0 Then
+            Dim selStart As Integer = Form1Activo.richTextBoxCodigo.SelectionStart
+            Dim finlinea = Form1Activo.richTextBoxCodigo.SelectedText.ComprobarFinLinea
+            Dim lineas() As String = Form1Activo.richTextBoxCodigo.SelectedText.TrimEnd(ChrW(13)).Split(finlinea.ToCharArray)
             Dim sb As New System.Text.StringBuilder
             Dim j As Integer = lineas.Length - 1
 
             For i As Integer = 0 To j
-                'If i = j AndAlso String.IsNullOrEmpty(lineas(i)) Then Exit For
                 sb.AppendFormat("{0}{1}{2}", lineas(i), sPoner, finlinea)
             Next
             Dim sbT = sb.ToString()
 
-            richTextBoxCodigo.SelectedText = sbT
-            richTextBoxCodigo.SelectionStart = selStart
-            richTextBoxCodigo.SelectionLength = sbT.Length
+            Form1Activo.richTextBoxCodigo.SelectedText = sbT
+            Form1Activo.richTextBoxCodigo.SelectionStart = selStart
+            Form1Activo.richTextBoxCodigo.SelectionLength = sbT.Length
             ' si se debe colorear                                   (03/Oct/20)
             ColorearSeleccion()
 
             ' dejar la selección de lo comentado                    (03/Oct/20)
-            richTextBoxCodigo.SelectionStart = selStart
-            richTextBoxCodigo.SelectionLength = sbT.Length
+            Form1Activo.richTextBoxCodigo.SelectionStart = selStart
+            Form1Activo.richTextBoxCodigo.SelectionLength = sbT.Length
         Else
             ' Pierde el valor de SelectionStart al asignar el texto
-            Dim selStart As Integer = richTextBoxCodigo.SelectionStart
-            Dim lin = richTextBoxCodigo.GetLineFromCharIndex(selStart)
-            selStart = richTextBoxCodigo.GetFirstCharIndexFromLine(lin)
-            Dim len = richTextBoxCodigo.Lines(lin).Length
-            richTextBoxCodigo.SelectionStart = selStart + len
-            richTextBoxCodigo.SelectedText = sPoner
+            Dim selStart As Integer = Form1Activo.richTextBoxCodigo.SelectionStart
+            Dim lin = Form1Activo.richTextBoxCodigo.GetLineFromCharIndex(selStart)
+            selStart = Form1Activo.richTextBoxCodigo.GetFirstCharIndexFromLine(lin)
+            Dim len = Form1Activo.richTextBoxCodigo.Lines(lin).Length
+            Form1Activo.richTextBoxCodigo.SelectionStart = selStart + len
+            Form1Activo.richTextBoxCodigo.SelectedText = sPoner
             ' si se debe colorear                           (03/Oct/20)
-            richTextBoxCodigo.SelectionStart = selStart
-            richTextBoxCodigo.SelectionLength = richTextBoxCodigo.Lines(lin).Length
+            Form1Activo.richTextBoxCodigo.SelectionStart = selStart
+            Form1Activo.richTextBoxCodigo.SelectionLength = Form1Activo.richTextBoxCodigo.Lines(lin).Length
             ColorearSeleccion()
 
-            richTextBoxCodigo.SelectionStart = selStart
-            richTextBoxCodigo.SelectionLength = 0
+            Form1Activo.richTextBoxCodigo.SelectionStart = selStart
+            Form1Activo.richTextBoxCodigo.SelectionLength = 0
         End If
 
     End Sub
@@ -1673,15 +1610,15 @@ Friend Module UtilFormEditor
     Public Sub QuitarTextoDelFinal()
         If String.IsNullOrEmpty(txtPonerTexto.Text) Then Return
         ' Si no hay texto, salir
-        If richTextBoxCodigo.Text.Length = 0 Then Return
+        If Form1Activo.richTextBoxCodigo.Text.Length = 0 Then Return
 
         ' Quitar el texto al final de cada línea seleccionada o de la actual
         Dim sQuitar As String = txtPonerTexto.Text
 
-        If richTextBoxCodigo.SelectionLength > 0 Then
-            Dim selStart As Integer = richTextBoxCodigo.SelectionStart
-            Dim finlinea = richTextBoxCodigo.SelectedText.ComprobarFinLinea
-            Dim lineas() As String = richTextBoxCodigo.SelectedText.TrimEnd(ChrW(13)).Split(finlinea.ToCharArray)
+        If Form1Activo.richTextBoxCodigo.SelectionLength > 0 Then
+            Dim selStart As Integer = Form1Activo.richTextBoxCodigo.SelectionStart
+            Dim finlinea = Form1Activo.richTextBoxCodigo.SelectedText.ComprobarFinLinea
+            Dim lineas() As String = Form1Activo.richTextBoxCodigo.SelectedText.TrimEnd(ChrW(13)).Split(finlinea.ToCharArray)
             Dim sb As New System.Text.StringBuilder
             Dim j As Integer = lineas.Length - 1
 
@@ -1696,38 +1633,35 @@ Friend Module UtilFormEditor
                 End If
             Next
             Dim sbT = sb.ToString
-            'If j = 1 Then
-            '    sbT = sbT.TrimEnd(ChrW(13))
-            'End If
 
-            richTextBoxCodigo.SelectedText = sbT
-            richTextBoxCodigo.SelectionStart = selStart
-            richTextBoxCodigo.SelectionLength = sbT.Length
+            Form1Activo.richTextBoxCodigo.SelectedText = sbT
+            Form1Activo.richTextBoxCodigo.SelectionStart = selStart
+            Form1Activo.richTextBoxCodigo.SelectionLength = sbT.Length
             ' si se debe colorear                                   (03/Oct/20)
             ColorearSeleccion()
 
             ' dejar la selección de lo comentado                    (03/Oct/20)
-            richTextBoxCodigo.SelectionStart = selStart
-            richTextBoxCodigo.SelectionLength = sbT.Length
+            Form1Activo.richTextBoxCodigo.SelectionStart = selStart
+            Form1Activo.richTextBoxCodigo.SelectionLength = sbT.Length
         Else
 
             ' Pierde el valor de SelectionStart al asignar el texto
-            Dim selStart As Integer = richTextBoxCodigo.SelectionStart
-            Dim lin = richTextBoxCodigo.GetLineFromCharIndex(selStart)
-            selStart = richTextBoxCodigo.GetFirstCharIndexFromLine(lin)
-            If richTextBoxCodigo.Lines(lin).TrimEnd.EndsWith(sQuitar, StringComparison.OrdinalIgnoreCase) = False Then Return
+            Dim selStart As Integer = Form1Activo.richTextBoxCodigo.SelectionStart
+            Dim lin = Form1Activo.richTextBoxCodigo.GetLineFromCharIndex(selStart)
+            selStart = Form1Activo.richTextBoxCodigo.GetFirstCharIndexFromLine(lin)
+            If Form1Activo.richTextBoxCodigo.Lines(lin).TrimEnd.EndsWith(sQuitar, StringComparison.OrdinalIgnoreCase) = False Then Return
 
-            Dim k = richTextBoxCodigo.Lines(lin).LastIndexOf(sQuitar)
-            richTextBoxCodigo.SelectionStart = selStart + k
-            richTextBoxCodigo.SelectionLength = sQuitar.Length
-            richTextBoxCodigo.SelectedText = ""
+            Dim k = Form1Activo.richTextBoxCodigo.Lines(lin).LastIndexOf(sQuitar)
+            Form1Activo.richTextBoxCodigo.SelectionStart = selStart + k
+            Form1Activo.richTextBoxCodigo.SelectionLength = sQuitar.Length
+            Form1Activo.richTextBoxCodigo.SelectedText = ""
             ' si se debe colorear                           (03/Oct/20)
-            richTextBoxCodigo.SelectionStart = selStart
-            richTextBoxCodigo.SelectionLength = richTextBoxCodigo.Lines(lin).Length
+            Form1Activo.richTextBoxCodigo.SelectionStart = selStart
+            Form1Activo.richTextBoxCodigo.SelectionLength = Form1Activo.richTextBoxCodigo.Lines(lin).Length
             ColorearSeleccion()
 
-            richTextBoxCodigo.SelectionStart = selStart
-            richTextBoxCodigo.SelectionLength = 0
+            Form1Activo.richTextBoxCodigo.SelectionStart = selStart
+            Form1Activo.richTextBoxCodigo.SelectionLength = 0
         End If
     End Sub
 
@@ -1756,10 +1690,10 @@ Friend Module UtilFormEditor
     ''' <param name="str">La cadena a añadir.</param>
     Public Sub AñadirRecorte(str As String)
         ' Añadirlo al principio y dejar solo MaxRecortes
-        Dim col As New List(Of String)
-
         ' Añadirlo al principio
-        col.Add(str)
+        Dim col As New List(Of String) From {
+            str
+        }
         col.AddRange(ColRecortes.Take(MaxRecortes - 1))
 
         ColRecortes.Clear()
@@ -1775,34 +1709,34 @@ Friend Module UtilFormEditor
         ' al seleccionar uno de ellos se pegará como si usase Paste.
         If ColRecortes.Count = 0 Then Return
 
-        Dim posRtb = richTextBoxCodigo.GetPositionFromCharIndex(richTextBoxCodigo.SelectionStart)
-        posRtb.X += richTextBoxCodigo.Left
-        posRtb.Y += richTextBoxCodigo.Top
-        Dim posScr = richTextBoxCodigo.PointToScreen(posRtb)
+        Dim posRtb = Form1Activo.richTextBoxCodigo.GetPositionFromCharIndex(Form1Activo.richTextBoxCodigo.SelectionStart)
+        posRtb.X += Form1Activo.richTextBoxCodigo.Left
+        posRtb.Y += Form1Activo.richTextBoxCodigo.Top
+        Dim posScr = Form1Activo.richTextBoxCodigo.PointToScreen(posRtb)
         Dim fClip As New FormRecortes(posScr, ColRecortes, MaxRecortes)
         If fClip.ShowDialog() = DialogResult.OK Then
             Dim s = fClip.TextoSeleccionado
 
-            Dim selStart = richTextBoxCodigo.SelectionStart
+            Dim selStart = Form1Activo.richTextBoxCodigo.SelectionStart
 
             ' pegarlo
-            richTextBoxCodigo.SelectedText = s
+            Form1Activo.richTextBoxCodigo.SelectedText = s
 
-            Dim lin = richTextBoxCodigo.GetLineFromCharIndex(selStart)
-            Dim pos = richTextBoxCodigo.GetFirstCharIndexFromLine(lin)
+            Dim lin = Form1Activo.richTextBoxCodigo.GetLineFromCharIndex(selStart)
+            Dim pos = Form1Activo.richTextBoxCodigo.GetFirstCharIndexFromLine(lin)
 
             ' obligar a poner las líneas
             Form1Activo.AñadirNumerosDeLinea()
 
             ' Seleccionar el texto después de pegar                 (04/Oct/20)
             ' Si es texto, no seleccionar                           (30/Oct/20)
-            If buttonLenguaje.Text <> ExtensionTexto Then
-                richTextBoxCodigo.SelectionStart = pos
-                richTextBoxCodigo.SelectionLength = s.Length + (selStart - pos)
+            If ButtonLenguaje.Text <> ExtensionTexto Then
+                Form1Activo.richTextBoxCodigo.SelectionStart = pos
+                Form1Activo.richTextBoxCodigo.SelectionLength = s.Length + (selStart - pos)
                 ' y colorearlo si procede
                 ColorearSeleccion()
             End If
-            richTextBoxCodigo.SelectionStart = selStart 'pos
+            Form1Activo.richTextBoxCodigo.SelectionStart = selStart 'pos
         End If
     End Sub
 
@@ -1882,10 +1816,9 @@ Friend Module UtilFormEditor
             sDir = DirDocumentos
             ficT = Path.Combine(sDir, ficT)
         End If
-        Form1Activo.nombreFichero = ficT
-        Form1Activo.Abrir(Form1Activo.nombreFichero)
+        Form1Activo.NombreFichero = ficT
+        Form1Activo.Abrir(Form1Activo.NombreFichero)
         Form1Activo.BringToFront()
-        'Form1Activo.Activate()
         m_fProcesando.Close()
     End Sub
 
@@ -1896,9 +1829,9 @@ Friend Module UtilFormEditor
     Public Sub Abrir()
         Using oFD As New OpenFileDialog
             oFD.Title = "Seleccionar fichero de código a abrir"
-            Dim sFN = Form1Activo.nombreFichero
+            Dim sFN = Form1Activo.NombreFichero
             sFN = If(String.IsNullOrEmpty(sFN),
-                Path.Combine(DirDocumentos, $"prueba.{If(buttonLenguaje.Text = Compilar.LenguajeVisualBasic, ".vb", ".cs")}"),
+                Path.Combine(DirDocumentos, $"prueba.{If(ButtonLenguaje.Text = Compilar.LenguajeVisualBasic, ".vb", ".cs")}"),
                 sFN)
             oFD.FileName = sFN
             oFD.Filter = "Código de Visual Basic y CSharp (*.vb;*.cs)|*.vb;*.cs|Textos (*.txt;*.log;*.md)|*.txt;*.log;*.md|Todos los ficheros (*.*)|*.*"
@@ -1921,7 +1854,7 @@ Friend Module UtilFormEditor
         Dim cargandoTmp = cargando
         cargando = True
         Nuevo()
-        Form1Activo.nombreFichero = fic
+        Form1Activo.NombreFichero = fic
         Form1Activo.Abrir(fic)
         cargando = cargandoTmp
     End Sub
@@ -1957,10 +1890,10 @@ Friend Module UtilFormEditor
         inicializando = True
 
 
-        Dim col As New List(Of String)
-
         ' Añadirlo al principio                                     (28/Sep/20)
-        col.Add(fic)
+        Dim col As New List(Of String) From {
+            fic
+        }
 
         ' Usando el método de extensión                             (26/Sep/20)
         col.AddRange(UltimosFicherosAbiertos)
@@ -1976,65 +1909,6 @@ Friend Module UtilFormEditor
         inicializando = False
     End Sub
 
-
-#End Region
-
-#Region " Edición: Los menús, botones y métodos "
-
-    ' Las expresiones lambda para asignar con AddHandler en el menú editar
-    Public lambdaUndo As EventHandler = Sub(sender As Object, e As EventArgs)
-                                            If richTextBoxCodigo.CanUndo Then richTextBoxCodigo.Undo()
-                                        End Sub
-    Public lambdaRedo As EventHandler = Sub(sender As Object, e As EventArgs)
-                                            If richTextBoxCodigo.CanRedo Then richTextBoxCodigo.Redo()
-                                        End Sub
-    Public lambdaPaste As EventHandler = Sub(sender As Object, e As EventArgs) Pegar()
-    Public lambdaCopy As EventHandler = Sub(sender As Object, e As EventArgs)
-                                            AñadirRecorte(richTextBoxCodigo.SelectedText)
-                                            richTextBoxCodigo.Copy()
-                                        End Sub
-    Public lambdaCut As EventHandler = Sub(sender As Object, e As EventArgs)
-                                           AñadirRecorte(richTextBoxCodigo.SelectedText)
-                                           richTextBoxCodigo.Cut()
-                                       End Sub
-    Public lambdaSelectAll As EventHandler = Sub(sender As Object, e As EventArgs) richTextBoxCodigo.SelectAll()
-
-    '
-    ' Los métodos de edición
-    '
-
-    ''' <summary>
-    ''' Pega el texto del portapapeles en el editor
-    ''' </summary>
-    Public Sub Pegar()
-        If richTextBoxCodigo.CanPaste(DataFormats.GetFormat("Text")) Then
-            richTextBoxCodigo.Paste(DataFormats.GetFormat("Text"))
-            ' El texto pegado                                       (26/Oct/20)
-            Dim sTexto = Clipboard.GetText()
-
-            Dim selStart = richTextBoxCodigo.SelectionStart - sTexto.Length
-            Dim lin = richTextBoxCodigo.GetLineFromCharIndex(selStart)
-            Dim pos = richTextBoxCodigo.GetFirstCharIndexFromLine(lin + 1)
-            ' Esta es la primera línea del texto pegado             (26/Oct/20)
-            'Dim sLinea = richTextBoxCodigo.Lines(lin + 1)
-
-            ' obligar a poner las líneas                            (18/Sep/20)
-            Form1Activo.AñadirNumerosDeLinea()
-
-            ' Seleccionar el texto después de pegar                 (04/Oct/20)
-            ' A ver si al no colorear cambia la posición            (30/Oct/20)
-            ' ¡Efectivamente!
-            If buttonLenguaje.Text = ExtensionTexto Then
-                richTextBoxCodigo.SelectionStart = If(selStart < 0, 0, selStart)
-                richTextBoxCodigo.SelectionLength = sTexto.Length
-            Else
-                richTextBoxCodigo.SelectionStart = If(pos < 0, 0, pos)
-                richTextBoxCodigo.SelectionLength = sTexto.Length
-                ' y colorearlo si procede
-                ColorearSeleccion()
-            End If
-        End If
-    End Sub
 
 #End Region
 
@@ -2104,13 +1978,13 @@ Friend Module UtilFormEditor
         MostrarPanelBuscar(True, esReemplazar:=Not esBuscar)
         esCtrlF = True
         ' Si hay texto seleccionado, usarlo                         (30/Sep/20)
-        If richTextBoxCodigo.SelectionLength > 0 Then
-            comboBoxBuscar.Text = richTextBoxCodigo.SelectedText
+        If Form1Activo.richTextBoxCodigo.SelectionLength > 0 Then
+            ComboBoxBuscar.Text = Form1Activo.richTextBoxCodigo.SelectedText
         End If
         If esBuscar Then
-            comboBoxBuscar.Focus()
+            ComboBoxBuscar.Focus()
         Else
-            comboBoxReemplazar.Focus()
+            ComboBoxReemplazar.Focus()
         End If
     End Sub
 
@@ -2138,7 +2012,7 @@ Friend Module UtilFormEditor
         ' Buscar en el texto lo indicado
         ' Se empieza desde la posición actual del texto
 
-        buscarQueBuscar = comboBoxBuscar.Text
+        buscarQueBuscar = ComboBoxBuscar.Text
         ' Cambiar los \t por tabs y los \n por vbCr                 (29/Sep/20)
         buscarQueBuscar = buscarQueBuscar.Replace("\n", vbCr).Replace("\t", vbTab)
 
@@ -2150,7 +2024,7 @@ Friend Module UtilFormEditor
         End If
 
         If esCtrlF Then
-            buscarPosIni = richTextBoxCodigo.SelectionStart
+            buscarPosIni = Form1Activo.richTextBoxCodigo.SelectionStart
             buscarPos = buscarPosIni
             buscarPrimeraCoincidencia = True
             esCtrlF = False
@@ -2161,20 +2035,13 @@ Friend Module UtilFormEditor
         If buscarWholeWord Then rtbFinds = rtbFinds Or RichTextBoxFinds.WholeWord
 
         Dim buscarPosAnt = buscarPos
-        If buscarPos >= richTextBoxCodigo.Text.Length Then
+        If buscarPos >= Form1Activo.richTextBoxCodigo.Text.Length Then
             buscarPos = 0
         ElseIf buscarPos < 0 Then
             buscarPos = 0
         End If
 
-        ' Se ve que en la versión de .NET 5.0 RC2 han modificado 
-        ' la forma de usar Find
-        ' y ahora si se busca algo que está más de na vez, devuelve -1
-        ' como si no estuviera... 
-        ' NO ES ASÍ, fue fallo mío y buscaba algo que no estaba...  (30/Oct/20)
-        ' lo que indica la documentación sobre FIND es que la cadena de búsqueda
-        ' no puede contener varias líneas, si las tiene, no lo encuentra.
-        buscarPos = richTextBoxCodigo.Find(buscarQueBuscar, buscarPos, rtbFinds)
+        buscarPos = Form1Activo.richTextBoxCodigo.Find(buscarQueBuscar, buscarPos, rtbFinds)
         If buscarPos = -1 Then
             If esReemplazar Then
                 If paraReemplazarSiguiente = False Then
@@ -2198,7 +2065,7 @@ Friend Module UtilFormEditor
                 End If
                 Return False
             Else
-                If buscarPosAnt = 0 OrElse buscarPosAnt >= richTextBoxCodigo.Text.Length Then
+                If buscarPosAnt = 0 OrElse buscarPosAnt >= Form1Activo.richTextBoxCodigo.Text.Length Then
                     If avisarFinBusqueda Then
                         MessageBox.Show($"No se ha encontrado el texto buscado: {buscarQueBuscar}.",
                                         "Buscar siguiente",
@@ -2215,8 +2082,8 @@ Friend Module UtilFormEditor
                 buscarPrimeraCoincidencia = False
                 buscarPosIni = buscarPos
             Else
-                richTextBoxCodigo.SelectionStart = buscarPos
-                richTextBoxCodigo.SelectionLength = buscarQueBuscar.Length
+                Form1Activo.richTextBoxCodigo.SelectionStart = buscarPos
+                Form1Activo.richTextBoxCodigo.SelectionLength = buscarQueBuscar.Length
 
                 If buscarPos = buscarPosIni Then
                     If avisarFinBusqueda Then
@@ -2240,26 +2107,24 @@ Friend Module UtilFormEditor
     ''' </summary>
     Public Sub ReemplazarSiguiente()
         ' Cambiar los \t por tabs y los \n por vbCr                 (29/Sep/20)
-        buscarQueReemplazar = comboBoxReemplazar.Text
+        buscarQueReemplazar = ComboBoxReemplazar.Text
         buscarQueReemplazar = buscarQueReemplazar.Replace("\n", vbCr).Replace("\t", vbTab)
-        buscarQueBuscar = comboBoxBuscar.Text
+        buscarQueBuscar = ComboBoxBuscar.Text
         buscarQueBuscar = buscarQueBuscar.Replace("\n", vbCr).Replace("\t", vbTab)
 
         If buscarPos < 0 Then
             buscarPos = 0
         Else
-            buscarPos = richTextBoxCodigo.SelectionStart + 1
+            buscarPos = Form1Activo.richTextBoxCodigo.SelectionStart + 1
         End If
         ' si hay texto seleccionado y es lo que se busca
-        If richTextBoxCodigo.SelectedText = buscarQueBuscar Then
+        If Form1Activo.richTextBoxCodigo.SelectedText = buscarQueBuscar Then
             ' reemplazar la actual
-            richTextBoxCodigo.SelectedText = buscarQueReemplazar
+            Form1Activo.richTextBoxCodigo.SelectedText = buscarQueReemplazar
             buscarPos += buscarQueReemplazar.Length
         End If
         ' y buscar la siguiente
-        'buscarPrimeraCoincidencia = True
-        'esCtrlF = True
-        paraReemplazarSiguiente = False '0
+        paraReemplazarSiguiente = False
         If Not BuscarSiguiente(esReemplazar:=True) Then
             Return
         End If
@@ -2274,9 +2139,9 @@ Friend Module UtilFormEditor
     ''' <remarks>Se empieza buscando desde el principio del texto</remarks>
     Public Sub ReemplazarTodo()
         ' Cambiar los \t por tabs y los \n por vbCr                 (29/Sep/20)
-        buscarQueReemplazar = comboBoxReemplazar.Text
+        buscarQueReemplazar = ComboBoxReemplazar.Text
         buscarQueReemplazar = buscarQueReemplazar.Replace("\n", vbCr).Replace("\t", vbTab)
-        buscarQueBuscar = comboBoxBuscar.Text
+        buscarQueBuscar = ComboBoxBuscar.Text
         buscarQueBuscar = buscarQueBuscar.Replace("\n", vbCr).Replace("\t", vbTab)
 
         Dim rtbFinds = RichTextBoxFinds.None
@@ -2286,11 +2151,11 @@ Friend Module UtilFormEditor
         Dim t = 0
         buscarPos = 0
         Do While buscarPos > -1
-            buscarPos = richTextBoxCodigo.Find(buscarQueBuscar, buscarPos, rtbFinds)
+            buscarPos = Form1Activo.richTextBoxCodigo.Find(buscarQueBuscar, buscarPos, rtbFinds)
             If buscarPos > -1 Then
                 t += 1
-                If richTextBoxCodigo.SelectionLength > 0 Then
-                    richTextBoxCodigo.SelectedText = buscarQueReemplazar
+                If Form1Activo.richTextBoxCodigo.SelectionLength > 0 Then
+                    Form1Activo.richTextBoxCodigo.SelectedText = buscarQueReemplazar
                     buscarPos += buscarQueReemplazar.Length
                 Else
                     Exit Do
@@ -2318,21 +2183,21 @@ Friend Module UtilFormEditor
     ''' Se produce cuando cambia el texto o se selecciona
     ''' del combo de reemplazar
     ''' </summary>
-    Public Sub comboBoxReemplazar_Validating()
+    Public Sub ComboBoxReemplazar_Validating()
         If inicializando Then Return
         inicializando = True
         ' En reemplazar aceptar cadenas vacías
         ' FindStringExact no diferencia las mayúsculas y minúsculas
-        Dim i = comboBoxReemplazar.FindStringExact(comboBoxReemplazar.Text)
+        Dim i = ComboBoxReemplazar.FindStringExact(ComboBoxReemplazar.Text)
         If i = -1 Then
-            comboBoxReemplazar.Items.Add(comboBoxReemplazar.Text)
+            ComboBoxReemplazar.Items.Add(ComboBoxReemplazar.Text)
         End If
         inicializando = False
 
-        If comboBoxReemplazar.Text <> ReemplazarVacio Then
-            comboBoxReemplazar.ForeColor = SystemColors.ControlText
+        If ComboBoxReemplazar.Text <> ReemplazarVacio Then
+            ComboBoxReemplazar.ForeColor = SystemColors.ControlText
         Else
-            comboBoxReemplazar.ForeColor = SystemColors.GrayText
+            ComboBoxReemplazar.ForeColor = SystemColors.GrayText
         End If
 
     End Sub
@@ -2341,27 +2206,27 @@ Friend Module UtilFormEditor
     ''' Se produce cuando cambia el texto o se selecciona
     ''' del combo de buscar
     ''' </summary>
-    Public Sub comboBoxBuscar_Validating()
+    Public Sub ComboBoxBuscar_Validating()
         If inicializando Then Return
         inicializando = True
         ' En buscar no aceptar cadenas vacías
         ' FindStringExact no diferencia las mayúsculas y minúsculas
-        Dim i = If(String.IsNullOrEmpty(comboBoxBuscar.Text), -1, comboBoxBuscar.FindStringExact(comboBoxBuscar.Text))
+        Dim i = If(String.IsNullOrEmpty(ComboBoxBuscar.Text), -1, ComboBoxBuscar.FindStringExact(ComboBoxBuscar.Text))
         If i = -1 Then
-            comboBoxBuscar.Items.Add(comboBoxBuscar.Text)
+            ComboBoxBuscar.Items.Add(ComboBoxBuscar.Text)
         End If
         inicializando = False
 
         ' Si ha cambiado el texto a buscar                          (18/Sep/20)
         ' será como si se pulsase CtrlF
-        If buscarQueBuscar <> comboBoxBuscar.Text Then
+        If buscarQueBuscar <> ComboBoxBuscar.Text Then
             esCtrlF = True
         End If
 
-        If comboBoxBuscar.Text <> BuscarVacio Then
-            comboBoxBuscar.ForeColor = SystemColors.ControlText
+        If ComboBoxBuscar.Text <> BuscarVacio Then
+            ComboBoxBuscar.ForeColor = SystemColors.ControlText
         Else
-            comboBoxBuscar.ForeColor = SystemColors.GrayText
+            ComboBoxBuscar.ForeColor = SystemColors.GrayText
         End If
     End Sub
 
@@ -2369,73 +2234,49 @@ Friend Module UtilFormEditor
 
 #Region " Herramientas: Los paneles, menús y contextual del panel herramientas "
 
-    Public ReadOnly Property comboBoxBuscar As ToolStripComboBox
+    Public ReadOnly Property ComboBoxBuscar As ToolStripComboBox
         Get
             Return CurrentMDI.comboBoxBuscar
         End Get
     End Property
 
-    Public ReadOnly Property comboBoxReemplazar As ToolStripComboBox
+    Public ReadOnly Property ComboBoxReemplazar As ToolStripComboBox
         Get
             Return CurrentMDI.comboBoxReemplazar
         End Get
     End Property
 
-    'Public ReadOnly Property buttonColorearAlEvaluar As ToolStripButton
-    '    Get
-    '        Return CurrentMDI.buttonColorearAlEvaluar
-    '    End Get
-    'End Property
-
-    'Public ReadOnly Property buttonCompilarAlEvaluar As ToolStripButton
-    '    Get
-    '        Return CurrentMDI.buttonCompilarAlEvaluar
-    '    End Get
-    'End Property
-
-    Public ReadOnly Property chkMostrarLineasHTML As ToolStripButton
+    Public ReadOnly Property ChkMostrarLineasHTML As ToolStripButton
         Get
             Return CurrentMDI.chkMostrarLineasHTML
         End Get
     End Property
 
-    'Public ReadOnly Property buttonMatchCase As ToolStripButton
-    '    Get
-    '        Return CurrentMDI.buttonMatchCase
-    '    End Get
-    'End Property
-
-    'Public ReadOnly Property buttonWholeWord As ToolStripButton
-    '    Get
-    '        Return CurrentMDI.buttonWholeWord
-    '    End Get
-    'End Property
-
-    Public ReadOnly Property toolStripFicheros As ToolStrip
+    Public ReadOnly Property ToolStripFicheros As ToolStrip
         Get
             Return CurrentMDI.toolStripFicheros
         End Get
     End Property
 
-    Public ReadOnly Property toolStripEdicion As ToolStrip
+    Public ReadOnly Property ToolStripEdicion As ToolStrip
         Get
             Return CurrentMDI.toolStripEdicion
         End Get
     End Property
 
-    Public ReadOnly Property toolStripCompilar As ToolStrip
+    Public ReadOnly Property ToolStripCompilar As ToolStrip
         Get
             Return CurrentMDI.toolStripCompilar
         End Get
     End Property
 
-    Public ReadOnly Property toolStripEditor As ToolStrip
+    Public ReadOnly Property ToolStripEditor As ToolStrip
         Get
             Return CurrentMDI.toolStripEditor
         End Get
     End Property
 
-    Public ReadOnly Property txtPonerTexto As ToolStripTextBox
+    Public ReadOnly Property TxtPonerTexto As ToolStripTextBox
         Get
             Return CurrentMDI.txtPonerTexto
         End Get
@@ -2446,15 +2287,10 @@ Friend Module UtilFormEditor
     ' Cambio de tamaño del panel de herramientas
     '
 
-    Public Sub panelHerramientas_SizeChanged(sender As Object, e As EventArgs)
+    Public Sub PanelHerramientas_SizeChanged(sender As Object, e As EventArgs)
         Dim iant = inicializando
 
         inicializando = True
-        'Dim tAnt = splitContainer1.Top
-        'splitContainer1.Top = panelHerramientas.Top + panelHerramientas.Height + 10
-        'splitContainer1.Height += (tAnt - splitContainer1.Top)
-
-        'Dim tAnt = Form1Activo.Top
 
         AjustarAltoPanelHerramientas()
 
@@ -2482,8 +2318,6 @@ Friend Module UtilFormEditor
     ''' en la segunda línea.
     ''' </summary>
     Public Sub AjustarAltoPanelHerramientas()
-        'If inicializando Then Return
-
         ' Ajustar el alto del FlowPanel (01/Oct/20)
         ' Comprobar si las barras de herramientas el Top es mayor de 10
         ' en ese caso, el FlowPanel ponerlo a 63, si no será 28

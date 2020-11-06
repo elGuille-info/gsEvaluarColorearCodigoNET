@@ -80,6 +80,7 @@ Partial Class FormOpciones
         Me.btnAceptar = New System.Windows.Forms.Button()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.toolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.chkHabilitarEjecutarMacro = New System.Windows.Forms.CheckBox()
         Me.tabControl1.SuspendLayout()
         Me.tabPage1.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -741,6 +742,7 @@ Partial Class FormOpciones
         Me.grbMacros.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grbMacros.Controls.Add(Me.chkHabilitarEjecutarMacro)
         Me.grbMacros.Controls.Add(Me.Label6)
         Me.grbMacros.Controls.Add(Me.cboMacros)
         Me.grbMacros.Controls.Add(Me.Label5)
@@ -761,7 +763,7 @@ Partial Class FormOpciones
         Me.Label6.Margin = New System.Windows.Forms.Padding(4)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(587, 100)
-        Me.Label6.TabIndex = 6
+        Me.Label6.TabIndex = 2
         Me.Label6.Text = resources.GetString("Label6.Text")
         '
         'cboMacros
@@ -772,7 +774,7 @@ Partial Class FormOpciones
         Me.cboMacros.Location = New System.Drawing.Point(7, 49)
         Me.cboMacros.Name = "cboMacros"
         Me.cboMacros.Size = New System.Drawing.Size(588, 23)
-        Me.cboMacros.TabIndex = 5
+        Me.cboMacros.TabIndex = 1
         '
         'Label5
         '
@@ -806,6 +808,18 @@ Partial Class FormOpciones
         Me.btnCancelar.TabIndex = 2
         Me.btnCancelar.Text = "Cancelar"
         Me.btnCancelar.UseVisualStyleBackColor = True
+        '
+        'chkHabilitarEjecutarMacro
+        '
+        Me.chkHabilitarEjecutarMacro.AutoSize = True
+        Me.chkHabilitarEjecutarMacro.Checked = True
+        Me.chkHabilitarEjecutarMacro.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkHabilitarEjecutarMacro.Location = New System.Drawing.Point(7, 186)
+        Me.chkHabilitarEjecutarMacro.Name = "chkHabilitarEjecutarMacro"
+        Me.chkHabilitarEjecutarMacro.Size = New System.Drawing.Size(165, 19)
+        Me.chkHabilitarEjecutarMacro.TabIndex = 3
+        Me.chkHabilitarEjecutarMacro.Text = "Habilitar ejecutar la macro"
+        Me.chkHabilitarEjecutarMacro.UseVisualStyleBackColor = True
         '
         'FormOpciones
         '
@@ -850,6 +864,7 @@ Partial Class FormOpciones
         Me.GroupBox3.PerformLayout()
         Me.TabPage6.ResumeLayout(False)
         Me.grbMacros.ResumeLayout(False)
+        Me.grbMacros.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -911,4 +926,5 @@ Partial Class FormOpciones
     Private Label6 As Label
     Friend WithEvents cboMacros As ComboBox
     Private Label5 As Label
+    Friend WithEvents chkHabilitarEjecutarMacro As CheckBox
 End Class

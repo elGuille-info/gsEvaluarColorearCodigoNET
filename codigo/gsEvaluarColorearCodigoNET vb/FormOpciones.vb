@@ -14,23 +14,6 @@ Imports System.Diagnostics.Tracing
 
 Public Class FormOpciones
 
-
-    '''' <summary>
-    '''' Si se deben cambiar de línea si el texto sobrepasa el borde derecho
-    '''' </summary>
-    '''' <returns></returns>
-    '''' <remarks>Por ahora siempre será false (17/Sep/20)</remarks>
-    'Private Property WordWrap As Boolean
-    '    Get
-    '        Return False 'chkWordWrap.Checked
-    '    End Get
-    '    Set(value As Boolean)
-    '        chkWordWrap.Checked = False ' value
-    '    End Set
-    'End Property
-
-    'Private elForm As Form1
-
     ''' <summary>
     ''' Crear una nueva instancia usando los valores de <see cref="Form1"/>
     ''' </summary>
@@ -40,15 +23,13 @@ Public Class FormOpciones
         ' This call is required by the designer.
         InitializeComponent()
 
-        'Me.elForm = elForm
-
         ' Add any initialization after the InitializeComponent() call.
         lstFics.Items.Clear()
         lstFics.Items.AddRange(UltimosFicherosAbiertos.ToArray)
         lstBuscar.Items.Clear()
-        lstBuscar.Items.AddRange(comboBoxBuscar.ToList().ToArray)
+        lstBuscar.Items.AddRange(ComboBoxBuscar.ToList().ToArray)
         lstReemplazar.Items.Clear()
-        lstReemplazar.Items.AddRange(comboBoxReemplazar.ToList().ToArray)
+        lstReemplazar.Items.AddRange(ComboBoxReemplazar.ToList().ToArray)
 
         chkCargarUltimo.Checked = cargarUltimo
         chkColorearCargar.Checked = colorearAlCargar
@@ -70,17 +51,14 @@ Public Class FormOpciones
         cboMacros.Items.Clear()
         cboMacros.Items.AddRange(CurrentMDI.colMacros.ToArray)
         cboMacros.Text = CurrentMDI.MacroActual
+        chkHabilitarEjecutarMacro.Checked = CurrentMDI.HabilitarEjecutarMacro
 
     End Sub
 
 
     Private Sub FormOpciones_Load(sender As Object, e As EventArgs) Handles Me.Load
-        'chkCargarUltimo.Checked = CargarUltimo
-        'chkColorearCargar.Checked = ColorearAlCargar
-        'chkWordWrap.Checked = WordWrap
 
-        'AñadirEventos()
-        'AsignarItems()
+        Me.CenterToScreen()
 
     End Sub
 
@@ -94,7 +72,7 @@ Public Class FormOpciones
         End If
     End Sub
 
-    Private Sub lstFics_KeyDown(sender As Object,
+    Private Sub LstFics_KeyDown(sender As Object,
                                 e As KeyEventArgs) Handles lstFics.KeyDown, lstBuscar.KeyDown, lstReemplazar.KeyDown, lstRecortes.KeyDown
         If e.KeyCode = Keys.Delete Then
             e.Handled = True
@@ -102,7 +80,7 @@ Public Class FormOpciones
         End If
     End Sub
 
-    Private Sub lstFics_SelectedIndexChanged(sender As Object,
+    Private Sub LstFics_SelectedIndexChanged(sender As Object,
                                              e As EventArgs) Handles lstFics.SelectedIndexChanged
         txtFic.Text = If(lstFics.SelectedItem Is Nothing,
                             txtFic.Text,
@@ -116,14 +94,14 @@ Public Class FormOpciones
     ''' </summary>
     Private Sub BorrarLosSeleccionados(sender As Object,
                                        e As EventArgs) Handles btnQuitar.Click, btnQuitarBuscar.Click, btnQuitarReemplazar.Click, btnQuitarRecortes.Click
-        Dim lista As ListBox = Nothing
+        Dim lista As ListBox '= Nothing
         If sender Is btnQuitar Then
             lista = lstFics
         ElseIf sender Is btnQuitarBuscar Then
             lista = lstBuscar
         ElseIf sender Is btnQuitarRecortes Then
             lista = lstRecortes
-        ElseIf sender Is btnquitarReemplazar Then
+        ElseIf sender Is btnQuitarReemplazar Then
             lista = lstReemplazar
         Else
             lista = TryCast(sender, ListBox)
@@ -142,7 +120,7 @@ Public Class FormOpciones
     ''' En realidad el parámetro es del botón que se ha pulsado
     ''' </summary>
     Private Sub OrdenarLosSeleccionados(sender As Object, e As EventArgs) Handles btnOrdenar.Click, btnOrdenarBuscar.Click, btnOrdenarReemplazar.Click, btnOrdenarRecortes.Click
-        Dim lista As ListBox = Nothing
+        Dim lista As ListBox '= Nothing
         If sender Is btnOrdenar Then
             lista = lstFics
         ElseIf sender Is btnOrdenarBuscar Then
@@ -163,21 +141,21 @@ Public Class FormOpciones
         lista.Items.AddRange(col.ToArray)
     End Sub
 
-    Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
+    Private Sub BtnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
         Me.DialogResult = DialogResult.Cancel
     End Sub
 
-    Private Sub btnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
+    Private Sub BtnAceptar_Click(sender As Object, e As EventArgs) Handles btnAceptar.Click
         cargarUltimo = chkCargarUltimo.Checked
         colorearAlCargar = chkColorearCargar.Checked
         buscarMatchCase = chkMatchCase.Checked
         buscarWholeWord = chkWholeWord.Checked
         UltimosFicherosAbiertos.Clear()
         UltimosFicherosAbiertos.AddRange(lstFics.ToList().ToArray)
-        comboBoxBuscar.Items.Clear()
-        comboBoxBuscar.Items.AddRange(lstBuscar.ToList().ToArray)
-        comboBoxReemplazar.Items.Clear()
-        comboBoxReemplazar.Items.AddRange(lstReemplazar.ToList().ToArray)
+        ComboBoxBuscar.Items.Clear()
+        ComboBoxBuscar.Items.AddRange(lstBuscar.ToList().ToArray)
+        ComboBoxReemplazar.Items.Clear()
+        ComboBoxReemplazar.Items.AddRange(lstReemplazar.ToList().ToArray)
         MostrarLineasHTML = chkMostrarLineasHTML.Checked
         EspaciosIndentar = txtIndentar.AsInteger
         fuenteNombre = comboFuenteNombre.Text
@@ -192,11 +170,13 @@ Public Class FormOpciones
         CurrentMDI.MacroActual = cboMacros.Text
         CurrentMDI.colMacros.AddRange(cboMacros.ToList)
 
+        CurrentMDI.HabilitarEjecutarMacro = chkHabilitarEjecutarMacro.Checked
+
         Me.DialogResult = DialogResult.OK
 
     End Sub
 
-    Private Sub cboMacros_Validating(sender As Object, e As ComponentModel.CancelEventArgs) Handles cboMacros.Validating
+    Private Sub CboMacros_Validating(sender As Object, e As ComponentModel.CancelEventArgs) Handles cboMacros.Validating
         Dim s = cboMacros.Text
         ' Comprobar si tiene CTRL o SHIFT o ALT
         Dim j = s.IndexOf("CTRL", StringComparison.OrdinalIgnoreCase)

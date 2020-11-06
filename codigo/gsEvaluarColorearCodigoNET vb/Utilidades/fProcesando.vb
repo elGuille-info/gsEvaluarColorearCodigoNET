@@ -14,7 +14,7 @@ Imports System.Windows.Forms
 
 Public Class fProcesando
 
-    Private inicializando As Boolean = True
+    Private ReadOnly inicializando As Boolean = True
     Public Sub New()
 
         ' This call is required by the designer.
@@ -121,9 +121,9 @@ Public Class fProcesando
     ''' Si se ha pulsado en el botón Cancelar.
     ''' </summary>
     ''' <returns></returns>
-    Public Property Cancelar() As Boolean = False
+    Public Property Cancelar() As Boolean '= False
 
-    Private Sub btnCancelar_Click(ByVal sender As Object, _
+    Private Sub BtnCancelar_Click(ByVal sender As Object,
                                   ByVal e As EventArgs) _
                                   Handles btnCancelar.Click
         Cancelar = True

@@ -27,12 +27,12 @@ Public Class Marcadores
     ''' </summary>
     ''' <param name="frm"></param>
     Public Sub New(frm As Form1)
-        Me.New(frm.richTextBoxCodigo.SelectionStart, frm.nombreFichero)
+        Me.New(frm.richTextBoxCodigo.SelectionStart, frm.NombreFichero)
     End Sub
 
     ''' <summary>
     ''' Inicializa la instancia con la posición de richTextBox.SelectionStart y
-    ''' el <see cref="Form1.nombreFichero"/> del formulario con el path completo,
+    ''' el <see cref="Form1.NombreFichero"/> del formulario con el path completo,
     ''' que después se dejará en el nombre del fichero sin el path.
     ''' </summary>
     ''' <param name="selStart">El valor de richTextBox.SelectionStart</param>
