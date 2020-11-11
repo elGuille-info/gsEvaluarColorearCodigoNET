@@ -500,6 +500,8 @@
 'v1.0.0.303             Quito algunas definciones de UtilFormEditor y las pongo en el form que corresponde
 'v1.0.0.304             Pongo nueva opción para indicar si se debe o no habilitar la ejecución de la macro
 'v1.0.0.305             Reviso los mensajes de aviso y solo dejo los que indican hacer métodos compartidos
+'v1.0.0.306 11/Nov/20   Usando .NET 5.0 final en VS2019 v18.8.0 (no Preview)
+'v1.0.0.307             Indico en Compilar las versiones de los directorios de .NET 5.0 final
 '
 '
 '

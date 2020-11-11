@@ -496,7 +496,8 @@ Public Class Compilar
 
         If j = -1 Then
             'mayor = "5.0.0-rc.1.20452.2"
-            mayor = "5.0.0-rc.2.20475.6"
+            'mayor = "5.0.0-rc.2.20475.6"
+            mayor = "5.0.0"
             dirWinDesk = $"C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\{mayor}"
         Else
             j += ($"dotnet{dirSep}shared{dirSep}").Length
@@ -523,7 +524,8 @@ Public Class Compilar
 
         If j = -1 Then
             'mayor = "5.0.0-rc.1.20451.14"
-            mayor = "5.0.0-rc.2.20475.5"
+            'mayor = "5.0.0-rc.2.20475.5"
+            mayor = "5.0.0"
         Else
             j += ("Microsoft.NETCore.App").Length
             Dim dirCoreApp = dirCore.Substring(0, j)
