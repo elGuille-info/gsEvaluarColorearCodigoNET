@@ -1,0 +1,138 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net5.0-windows</TargetFramework>
+        <UseWindowsForms>true</UseWindowsForms>
+
+        <RootNamespace>gsEvaluarColorearCodigoNET</RootNamespace>
+        <StartupObject>gsEvaluarColorearCodigoNET.MDIPrincipal</StartupObject>
+        <UseWindowsForms>true</UseWindowsForms>
+        
+        <Description>Abrir múltiples ficheros de Visual Basic o C# para:
+Evaluar si tiene fallos, Compilar, Ejecutar y Colorear (el código y para HTML)
+Añado las características que tenía en gsCompilarEjecutar (27/Sep/20)
+(para .NET 5.0 revisión del 27-nov-2020, iniciado el 20-sep)
+
+v1.0.1.1 (27/Nov/20) Comprobación de si está dotnet instalado, si no está no se puede compilar, evaluar ni colorear</Description>
+        <Copyright>Copyright Guillermo Som (elGuille), 2020</Copyright>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Company>elGuille</Company>
+        <Authors>Guillermo Som (elGuille)</Authors>
+        <Version>1.0.1.0</Version>
+        <NeutralLanguage>es-ES</NeutralLanguage>
+        <FileVersion>1.0.1.1</FileVersion>
+        <ApplicationIcon>VSProject_genericproject.Office_Deve.ico</ApplicationIcon>
+        <MyType>WindowsForms</MyType>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/elGuille-info/gsEvaluarColorearCodigoNET</RepositoryUrl>
+        <PackageIcon>gsCompilarEjecutarNET.jpg</PackageIcon>
+        <PackageTags>visual-basic vb c# dotnet net-core net-5 compilar colorear visual-studio</PackageTags>
+        <PackageReleaseNotes>v1.0.1.1 (27/Nov/20) Comprobación de si está dotnet instalado, si no está no se puede compilar, evaluar ni colorear
+v1.0.1.0 (27/Nov/20) Utilizo una referencia a gsUtilidadesNET que define las clases que estaban en la carpeta Utilidades
+v1.0.0.310 (27/Nov/20) Quito los ficheros con link de Utilidades y añado los ficheros localmente
+v1.0.0.309 (27/Nov/20)  Lo compilo con preferencia para 32bits-AnyCPU
+v1.0.0.307 (11/Nov/20) Indico en Compilar las versiones de los directorios de .NET 5.0 final</PackageReleaseNotes>
+        <OptionStrict>On</OptionStrict>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>elGuille.snk</AssemblyOriginatorKeyFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <Prefer32Bit>true</Prefer32Bit>
+      <PlatformTarget>AnyCPU</PlatformTarget>
+      <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+      <OutputPath>bin\Debug\</OutputPath>
+      <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+      <OutputPath>bin\Release\</OutputPath>
+      <Prefer32Bit>true</Prefer32Bit>
+      <PlatformTarget>x86</PlatformTarget>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Utilidades\CompararString.vb" />
+      <Compile Remove="Utilidades\Compilar.Partial.vb" />
+      <Compile Remove="Utilidades\Compilar.vb" />
+      <Compile Remove="Utilidades\Config.vb" />
+      <Compile Remove="Utilidades\DiagClassifSpanInfo.vb" />
+      <Compile Remove="Utilidades\Extensiones.vb" />
+      <Compile Remove="Utilidades\FormProcesando.Designer.vb" />
+      <Compile Remove="Utilidades\FormProcesando.vb" />
+      <Compile Remove="Utilidades\FormRecortes.Designer.vb" />
+      <Compile Remove="Utilidades\FormRecortes.vb" />
+      <Compile Remove="Utilidades\Marcadores.vb" />
+      <Compile Remove="Utilidades\Utilidades.vb" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Utilidades\FormProcesando.resx" />
+      <EmbeddedResource Remove="Utilidades\FormRecortes.resx" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Import Include="System.Data" />
+        <Import Include="System.Drawing" />
+        <Import Include="System.Windows.Forms" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="gsCompilarEjecutarNET.jpg">
+          <Pack>True</Pack>
+          <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis" Version="3.8.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\gsUtilidadesNET\gsUtilidadesNET.vbproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="app.Designer.vb">
+          <DesignTimeSharedInput>True</DesignTimeSharedInput>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>app.config</DependentUpon>
+        </Compile>
+        <Compile Update="My Project\Application.Designer.vb">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>Application.myapp</DependentUpon>
+        </Compile>
+        <Compile Update="My Project\Resources.Designer.vb">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="My Project\Resources.resx">
+            <CustomToolNamespace>My.Resources</CustomToolNamespace>
+            <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="app.config">
+        <Generator>SettingsSingleFileGenerator</Generator>
+        <LastGenOutput>app.Designer.vb</LastGenOutput>
+      </None>
+      <None Update="My Project\Application.myapp">
+        <Generator>MyApplicationCodeGenerator</Generator>
+        <LastGenOutput>Application.Designer.vb</LastGenOutput>
+      </None>
+    </ItemGroup>
+
+</Project>

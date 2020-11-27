@@ -1,0 +1,77 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <RootNamespace>gsUtilidadesNET</RootNamespace>
+    <StartupObject>Sub Main</StartupObject>
+    <UseWindowsForms>true</UseWindowsForms>
+    <MyType>WindowsForms</MyType>
+
+    <OptionStrict>On</OptionStrict>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>elGuille.snk</AssemblyOriginatorKeyFile>
+    <Company>elGuille</Company>
+    <Authors>Guillermo Som (elGuille)</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>visual-basic vb c# dotnet net-core net-5 class-library colorize colorize-html compile utils colorear colorear-html compilar utilidades</PackageTags>
+    <Version>1.0.0.0</Version>
+    <Description>Utilidades para colorear, evaluar y compilar con dotnet
+Evaluar si tiene fallos, Compilar, Ejecutar y Colorear el código y para HTML
+
+(para .NET 5.0 revisión del 27-nov-2020)
+
+v1.0.0.3 (27/Nov/20) Se comprueba si está la carpeta de dotnet, se avisa mediante el evento Compilar.TieneDotnetEvent</Description>
+    <Copyright>Copyright Guillermo Som (elGuille), 2020</Copyright>
+    <NeutralLanguage>es-ES</NeutralLanguage>
+    <ApplicationIcon>VSProject_genericproject.Office_Deve.ico</ApplicationIcon>
+    <FileVersion>1.0.0.3</FileVersion>
+    <PackageReleaseNotes>v1.0.0.3 (27/Nov/20) Se comprueba si está la carpeta de dotnet, se avisa mediante el evento Compilar.TieneDotnetEvent
+</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <OutputPath>bin\Debug\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <OutputPath>bin\Release\</OutputPath>
+    <Prefer32Bit>true</Prefer32Bit>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="3.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="My Project\Application.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>
