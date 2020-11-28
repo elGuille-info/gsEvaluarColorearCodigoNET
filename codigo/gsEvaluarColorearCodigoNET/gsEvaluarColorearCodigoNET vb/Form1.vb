@@ -53,7 +53,11 @@ Imports System.Reflection
 Imports Microsoft.CodeAnalysis.Text
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports System.ComponentModel
+#If ESX86 Then
+Imports gsUtilidadesNETx86
+#Else
 Imports gsUtilidadesNET
+#End If
 
 Public Class Form1
 
@@ -1224,7 +1228,7 @@ Public Class Form1
         richTextBoxCodigo.ContextMenuStrip = rtbCodigoContext
     End Sub
 
-    Private Sub RtbCodigoContext_Opening() Handles rtbCodigoContext.Opening
+    Private Shared Sub RtbCodigoContext_Opening() Handles rtbCodigoContext.Opening
         CurrentMDI.MenuEditDropDownOpening()
     End Sub
 End Class

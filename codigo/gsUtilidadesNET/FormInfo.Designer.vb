@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Form1
+Partial Class FormInfo
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,7 +22,7 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormInfo))
         Me.TxtVersion = New System.Windows.Forms.TextBox()
         Me.BtnAceptar = New System.Windows.Forms.Button()
         Me.SuspendLayout()
@@ -38,31 +38,31 @@ Partial Class Form1
         Me.TxtVersion.Multiline = True
         Me.TxtVersion.Name = "TxtVersion"
         Me.TxtVersion.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TxtVersion.Size = New System.Drawing.Size(950, 486)
+        Me.TxtVersion.Size = New System.Drawing.Size(950, 513)
         Me.TxtVersion.TabIndex = 0
         Me.TxtVersion.TabStop = False
         '
         'BtnAceptar
         '
         Me.BtnAceptar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BtnAceptar.Location = New System.Drawing.Point(887, 517)
+        Me.BtnAceptar.Location = New System.Drawing.Point(887, 544)
         Me.BtnAceptar.Name = "BtnAceptar"
         Me.BtnAceptar.Size = New System.Drawing.Size(75, 23)
         Me.BtnAceptar.TabIndex = 2
         Me.BtnAceptar.Text = "Aceptar"
         Me.BtnAceptar.UseVisualStyleBackColor = True
         '
-        'Form1
+        'FormInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(974, 552)
+        Me.ClientSize = New System.Drawing.Size(974, 579)
         Me.Controls.Add(Me.BtnAceptar)
         Me.Controls.Add(Me.TxtVersion)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "Form1"
+        Me.Name = "FormInfo"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Información de gsUtilidadesNET"
         Me.ResumeLayout(False)

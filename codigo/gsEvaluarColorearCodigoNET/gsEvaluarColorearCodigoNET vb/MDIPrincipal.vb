@@ -18,11 +18,14 @@ Imports vb = Microsoft.VisualBasic
 Imports System.Windows.Forms
 Imports System.IO
 Imports System.ComponentModel
+#If ESX86 Then
+Imports gsUtilidadesNETx86
+#Else
 Imports gsUtilidadesNET
+#End If
+
 
 Public Class MDIPrincipal
-
-
 
     ''' <summary>
     ''' El último texto del portapapeles asignado.
@@ -36,7 +39,7 @@ Public Class MDIPrincipal
         ' This call is required by the designer.
         InitializeComponent()
 
-        AddHandler gsUtilidadesNET.Compilar.TieneDotNetEvent, AddressOf compilarClass_TieneDotNetEvent
+        'AddHandler Compilar.TieneDotNetEvent, AddressOf compilarClass_TieneDotNetEvent
 
         ' Add any initialization after the InitializeComponent() call.
         CurrentMDI = Me
@@ -52,6 +55,9 @@ Public Class MDIPrincipal
 
         Me.CenterToScreen()
 
+        ' Para que se cargue la clase y se ejecute el código compartido
+        Dim compil = New Compilar
+
         ' Activar el temporizador para copia del portapapeles       (11/Oct/20)
         ' cada 15 segundos
         timerClipBoard.Interval = 15 * 1000
@@ -66,7 +72,12 @@ Public Class MDIPrincipal
 
         timerInicio.Stop()
 
-
+        If Not Compilar.TieneDotnet Then
+            MessageBox.Show($"¡ATENCIÓN!{vbCrLf}{vbCrLf}{Compilar.TieneDotNetMsg}{vbCrLf}{vbCrLf}" &
+                            "No podrás usar las opciones de compilar y colorear.",
+                            "No se encuentra dotnet",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
 
         AsignaMetodosDeEventos()
 
@@ -95,7 +106,6 @@ Public Class MDIPrincipal
         Next
     End Sub
 
-
     Private Sub MDIPrincipal_FormClosing(sender As Object,
                                          e As FormClosingEventArgs) Handles Me.FormClosing
         ' Este evento se produce después de los Form1_Closing       (30/Oct/20)
@@ -108,7 +118,7 @@ Public Class MDIPrincipal
         ' Antes estaba en el Form1                                  (18/Oct/20)
         GuardarConfig()
 
-        RemoveHandler gsUtilidadesNET.Compilar.TieneDotNetEvent, AddressOf compilarClass_TieneDotNetEvent
+        'RemoveHandler Compilar.TieneDotNetEvent, AddressOf compilarClass_TieneDotNetEvent
     End Sub
 
     Private Sub MDIPrincipal_Resize() Handles Me.Resize
@@ -345,16 +355,16 @@ Public Class MDIPrincipal
         Dim prodAttr = ensamblado.GetCustomAttributes(GetType(System.Reflection.AssemblyProductAttribute), False)
         Dim producto = If(prodAttr.Length > 0,
                                 (TryCast(prodAttr(0), System.Reflection.AssemblyProductAttribute)).Product,
-                                "gsEvaluarColorearNET")
+                                "gsEvaluarColorearCodigoNET")
         Dim descAttr = ensamblado.GetCustomAttributes(GetType(System.Reflection.AssemblyDescriptionAttribute), False)
         Dim desc = If(descAttr.Length > 0,
                                 (TryCast(descAttr(0), System.Reflection.AssemblyDescriptionAttribute)).Description,
-                                "(para .NET 5.0 RC2 revisión del 31/Oct/2020)")
+                                "(para .NET 5.0 revisión del 27/Nov/2020)")
 
         Dim k = desc.IndexOf("(para .NET")
         Dim desc1 = desc.Substring(k)
         Dim descL = desc.Substring(0, k - 1)
-        Dim versionUtil = gsUtilidadesNET.UtilidadesCompilarColorear.Version
+        Dim versionUtil = UtilidadesCompilarColorear.Version
 
         MessageBox.Show($"{producto} v{vers} ({fvi.FileVersion}){vbCrLf}{vbCrLf}" &
                         $"{descL}{vbCrLf}" &
@@ -494,11 +504,12 @@ Public Class MDIPrincipal
 
         ' Si el Lenguaje no es vb/cs no:                            (08/Oct/20)
         '   compilar, ejecutar, colorear, etc.
-        Dim b2 = b
+        Dim b2 As Boolean
+
         If ButtonLenguaje.Text = ExtensionTexto Then
             b2 = False
         Else
-            b2 = gsUtilidadesNET.Compilar.TieneDotnet
+            b2 = Compilar.TieneDotnet
         End If
 
         buttonCompilar.Enabled = b2
@@ -1099,7 +1110,7 @@ Public Class MDIPrincipal
 
     End Sub
 
-    Private Sub ButtonEditorMarcador_Click() Handles buttonEditorMarcador.Click, menuEditorMarcador.Click
+    Private Shared Sub ButtonEditorMarcador_Click() Handles buttonEditorMarcador.Click, menuEditorMarcador.Click
         Form1Activo.MarcadorPonerQuitar()
     End Sub
 
@@ -1135,7 +1146,7 @@ Public Class MDIPrincipal
         End If
     End Sub
 
-    Private Sub ButtonEditorMarcadorAnteriorLocal_Click() Handles buttonEditorMarcadorAnteriorLocal.Click
+    Private Shared Sub ButtonEditorMarcadorAnteriorLocal_Click() Handles buttonEditorMarcadorAnteriorLocal.Click
         Form1Activo.MarcadorAnterior()
     End Sub
 
@@ -1184,7 +1195,7 @@ Public Class MDIPrincipal
         End If
     End Sub
 
-    Private Sub ButtonEditorMarcadorSiguienteLocal_Click() Handles buttonEditorMarcadorSiguienteLocal.Click
+    Private Shared Sub ButtonEditorMarcadorSiguienteLocal_Click() Handles buttonEditorMarcadorSiguienteLocal.Click
         Form1Activo.MarcadorSiguiente()
     End Sub
 
@@ -1291,19 +1302,16 @@ Public Class MDIPrincipal
     End Sub
 
     Private Sub menuUtilInfo_Click(sender As Object, e As EventArgs) Handles menuUtilInfo.Click
-        Dim fInfo As New gsUtilidadesNET.Form1
+        Dim fInfo As New FormInfo
         fInfo.ShowDialog()
     End Sub
 
-    Private Sub compilarClass_TieneDotNetEvent(msg As String, estaDotnet As Boolean) 'Handles compilarClass.TieneDotNetEvent
-        If Not estaDotnet Then
-            MessageBox.Show($"¡ATENCIÓN!{vbCrLf}{vbCrLf}{msg}{vbCrLf}{vbCrLf}No podrás usar las opciones de compilar y colorear.",
-                            "No se encuentra dotnet",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
-    End Sub
-
-    'Private WithEvents compilarClass As gsUtilidadesNET.Compilar
-
+    'Private Sub compilarClass_TieneDotNetEvent(msg As String, estaDotnet As Boolean)
+    '    If Not estaDotnet Then
+    '        MessageBox.Show($"¡ATENCIÓN!{vbCrLf}{vbCrLf}{msg}{vbCrLf}{vbCrLf}No podrás usar las opciones de compilar y colorear.",
+    '                        "No se encuentra dotnet",
+    '                        MessageBoxButtons.OK, MessageBoxIcon.Warning)
+    '    End If
+    'End Sub
 
 End Class

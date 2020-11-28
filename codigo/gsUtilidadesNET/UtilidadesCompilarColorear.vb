@@ -5,6 +5,11 @@
 'v1.0.0.0   27/Nov/20   Primera versión ;-)
 'v1.0.0.2               comprobaciones de error al obtener el directorio de dotnet
 'v1.0.0.3               Se comprueba si está la carpeta de dotnet, se avisa mediante el evento Compilar.TieneDotnetEvent
+'v1.0.0.4               Versión específica para plataformas de x86
+'v1.0.0.5               Versión específica para AnyCPU sin preferencia de 32 bits
+'                       Usar la misma versión para x86 y AnyCPU
+'v1.0.0.6               Quito el evento compartido de Compilar en el programa cliente comprobar el valor de TieneDotnet.
+'                       Las versiones x86 y AnyCPU tendrán la misma versión
 '
 ' (c) Guillermo (elGuille) Som, 2020
 '------------------------------------------------------------------------------
@@ -23,6 +28,14 @@ Imports Microsoft.VisualBasic
 ''' Clase con definición de la versión y las clases expuestas.
 ''' </summary>
 Public Class UtilidadesCompilarColorear
+
+    <STAThread>
+    Public Shared Sub Main()
+        Application.EnableVisualStyles()
+        Application.SetCompatibleTextRenderingDefault(False)
+        Application.Run(New FormInfo())
+    End Sub
+
 
     ''' <summary>
     ''' Devuelve la versión de esta biblioteca de clases.
@@ -72,22 +85,22 @@ Public Class UtilidadesCompilarColorear
     ''' </summary>
     ''' <returns></returns>
     Public Shared Function ClasesExpuestas() As HashSet(Of String)
-        Dim col = New HashSet(Of String)
-
         ' Usar reflection para mostrar las clases definidas
-
-        col.Add("CompararString - Clase para hacer las comparaciones de cadenas que implementa IComparer(Of String) y IEqualityComparer(Of String).")
-        col.Add("Compilar - Clase para evaluar, compilar y colorear código de VB y C#.")
-        col.Add("Config - Clase para manejar ficheros de configuración.")
-        col.Add("DiagClassifSpanInfo.ClassifSpanInfo - Clase para manejar información del tipo ClassifiedSpan.")
-        col.Add("DiagClassifSpanInfo.DiagInfo - Clase para manejar información del tipo Diagnostic.")
-        col.Add("Extensiones - Módulo con extensiones para varias clases y tipos de datos.")
-        col.Add("Form1 - Formulario para mostrar la información de esta utilidad y las clases que la componen.")
-        col.Add("FormRecortes - Formulario para mostrar recortes (texto) y pegarlos.")
-        col.Add("FormProcesando - Formulario para mostrar un diálogo cuando se está procesando (acciones largas).")
-        col.Add("Marcadores - Clase para manejar marcadores (Bookmarks).")
-        col.Add("UtilEnum - Clase con la definición de la enumeración FormatosEncoding y utilidades para manejar enumeraciones.")
-        col.Add("UtilidadesCompilarColorear - Clase con definición de la versión y las clases expuestas.")
+        Dim col = New HashSet(Of String) From {
+            "CompararString - Clase para hacer las comparaciones de cadenas que implementa IComparer(Of String) y IEqualityComparer(Of String).",
+            "Compilar - Clase para evaluar, compilar y colorear código de VB y C#.",
+            "Config - Clase para manejar ficheros de configuración.",
+            "DiagClassifSpanInfo.ClassifSpanInfo - Clase para manejar información del tipo ClassifiedSpan.",
+            "DiagClassifSpanInfo.DiagInfo - Clase para manejar información del tipo Diagnostic.",
+            "Extensiones - Módulo con extensiones para varias clases y tipos de datos.",
+            "FormInfo - Formulario para mostrar la información de esta utilidad y las clases que la componen.",
+            "FormVisorHTML - Formulario visor de páginas HTML.",
+            "FormRecortes - Formulario para mostrar recortes (texto) y pegarlos.",
+            "FormProcesando - Formulario para mostrar un diálogo cuando se está procesando (acciones largas).",
+            "Marcadores - Clase para manejar marcadores (Bookmarks).",
+            "UtilEnum - Clase con la definición de la enumeración FormatosEncoding y utilidades para manejar enumeraciones.",
+            "UtilidadesCompilarColorear - Clase con definición de la versión y las clases expuestas."
+        }
 
         Return col
     End Function

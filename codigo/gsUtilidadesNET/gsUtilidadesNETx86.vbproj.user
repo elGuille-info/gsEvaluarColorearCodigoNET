@@ -1,17 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <_LastSelectedProfileId>E:\gsCodigo_00\Visual Studio\net core\gsUtilidadesNET\My Project\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
-    <ShowAllFiles>false</ShowAllFiles>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Compile Update="FormInfo.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="FormRecortes.vb">
+    <Compile Update="FormProcesando.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="FormProcesando.vb">
+    <Compile Update="FormRecortes.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="FormVisorHTML.vb">

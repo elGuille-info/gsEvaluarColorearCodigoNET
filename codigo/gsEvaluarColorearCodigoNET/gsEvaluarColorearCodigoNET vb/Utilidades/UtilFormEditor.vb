@@ -27,7 +27,12 @@ Imports Microsoft.CodeAnalysis.CSharp
 Imports Microsoft.CodeAnalysis.VisualBasic
 Imports Microsoft.VisualBasic.CompilerServices
 Imports Microsoft.CodeAnalysis.Text
+#If ESX86 Then
+Imports gsUtilidadesNETx86
+#Else
 Imports gsUtilidadesNET
+#End If
+
 
 Friend Module UtilFormEditor
 
@@ -82,7 +87,7 @@ Friend Module UtilFormEditor
 #Region " statusBar: Los controles y menú contextual "
 
     ''' <summary>
-    ''' El LabelInfo del MDIPrincipal
+    ''' El LabelInfo del Form1Activo
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property LabelInfo As ToolStripStatusLabel
@@ -92,7 +97,7 @@ Friend Module UtilFormEditor
     End Property
 
     ''' <summary>
-    ''' El LabelFuente del MDIPrincipal
+    ''' El LabelFuente del Form1Activo
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property LabelFuente As ToolStripStatusLabel
@@ -102,7 +107,7 @@ Friend Module UtilFormEditor
     End Property
 
     ''' <summary>
-    ''' El LabelModificado del MDIPrincipal
+    ''' El LabelModificado del Form1Activo
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property LabelModificado As ToolStripStatusLabel
@@ -112,7 +117,7 @@ Friend Module UtilFormEditor
     End Property
 
     ''' <summary>
-    ''' El LabelPos del MDIPrincipal
+    ''' El LabelPos del Form1Activo
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property LabelPos As ToolStripStatusLabel
@@ -122,7 +127,7 @@ Friend Module UtilFormEditor
     End Property
 
     ''' <summary>
-    ''' El LabelTamaño del MDIPrincipal
+    ''' El LabelTamaño del Form1Activo
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property LabelTamaño As ToolStripStatusLabel
@@ -132,7 +137,7 @@ Friend Module UtilFormEditor
     End Property
 
     ''' <summary>
-    ''' El ButtonLenguaje del MDIPrincipal
+    ''' El ButtonLenguaje del Form1Activo
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property ButtonLenguaje As ToolStripSplitButton
@@ -524,10 +529,10 @@ Friend Module UtilFormEditor
         buscarQueReemplazar = cfg.GetValue("Reemplazar", "Reemplazar", "")
 
         buscarMatchCase = cfg.GetValue("Buscar", "MatchCase", False)
-        MDIPrincipal.buttonMatchCase.Checked = buscarMatchCase
+        CurrentMDI.buttonMatchCase.Checked = buscarMatchCase
 
         buscarWholeWord = cfg.GetValue("Buscar", "WholeWord", False)
-        MDIPrincipal.buttonWholeWord.Checked = buscarWholeWord
+        CurrentMDI.buttonWholeWord.Checked = buscarWholeWord
 
         cuantos = cfg.GetValue("Buscar", "Buscar-Items-Count", 0)
         ComboBoxBuscar.Items.Clear()
@@ -1062,7 +1067,12 @@ Friend Module UtilFormEditor
     ''' Colorear la selección actual del código
     ''' </summary>
     Public Sub ColorearSeleccion()
+#If ESX86 Then
+        If Not gsUtilidadesNETx86.Compilar.TieneDotnet Then Return
+#Else
         If Not gsUtilidadesNET.Compilar.TieneDotnet Then Return
+#End If
+
 
         If inicializando Then Return
         ' No colorear si no es vb o c#                              (08/Oct/20)
@@ -1094,7 +1104,12 @@ Friend Module UtilFormEditor
     ''' Los lenguajes usados son Visual Basic y C#, se usará el indicado en buttonLenguaje.Text.
     ''' </summary>
     Public Sub ColorearCodigo()
+#If ESX86 Then
+        If Not gsUtilidadesNETx86.Compilar.TieneDotnet Then Return
+#Else
         If Not gsUtilidadesNET.Compilar.TieneDotnet Then Return
+#End If
+
 
         If Form1Activo.richTextBoxCodigo.TextLength = 0 Then Return
 
@@ -1129,7 +1144,12 @@ Friend Module UtilFormEditor
     ''' Colorear el código en formato HTML y mostrarlo en ventana aparte
     ''' </summary>
     Public Sub ColorearHTML()
+#If ESX86 Then
+        If Not gsUtilidadesNETx86.Compilar.TieneDotnet Then Return
+#Else
         If Not gsUtilidadesNET.Compilar.TieneDotnet Then Return
+#End If
+
 
         If Form1Activo.richTextBoxCodigo.TextLength = 0 Then Return
 
@@ -1162,7 +1182,12 @@ Friend Module UtilFormEditor
     ''' Si se producen errores muestra la información con los errores.
     ''' </summary>
     Public Sub CompilarEjecutar()
+#If ESX86 Then
+        If Not gsUtilidadesNETx86.Compilar.TieneDotnet Then Return
+#Else
         If Not gsUtilidadesNET.Compilar.TieneDotnet Then Return
+#End If
+
 
         If Form1Activo.richTextBoxCodigo.TextLength = 0 Then Return
 
@@ -1254,7 +1279,12 @@ Friend Module UtilFormEditor
     ''' clases, métodos, palabras claves, etc.
     ''' </summary>
     Public Sub Evaluar()
+#If ESX86 Then
+        If Not gsUtilidadesNETx86.Compilar.TieneDotnet Then Return
+#Else
         If Not gsUtilidadesNET.Compilar.TieneDotnet Then Return
+#End If
+
 
         If Form1Activo.richTextBoxCodigo.TextLength = 0 Then Return
 
@@ -1309,7 +1339,11 @@ Friend Module UtilFormEditor
     ''' </summary>
     ''' <param name="res">Un objeto del tipo <see cref="EmitResult"/> con los errores y advertencias.</param>
     Public Sub MostrarErrores(res As EmitResult)
+#If ESX86 Then
+        If Not gsUtilidadesNETx86.Compilar.TieneDotnet Then Return
+#Else
         If Not gsUtilidadesNET.Compilar.TieneDotnet Then Return
+#End If
 
         Dim errors = 0
         Dim warnings = 0
@@ -1343,7 +1377,11 @@ Friend Module UtilFormEditor
     ''' con la lista con los valores sacados de <see cref="ClassifiedSpan"/> </param>
     Public Sub MostrarResultadoEvaluar(colCodigo As Dictionary(Of String, Dictionary(Of String, ClassifSpanInfo)),
                                        mostrarSyntax As Boolean)
+#If ESX86 Then
+        If Not gsUtilidadesNETx86.Compilar.TieneDotnet Then Return
+#Else
         If Not gsUtilidadesNET.Compilar.TieneDotnet Then Return
+#End If
 
         Dim codTiposCount As (Clases As Integer, Metodos As Integer, Keywords As Integer)
         codTiposCount.Clases = If(colCodigo.Keys.Contains("class name"), colCodigo("class name").Count, 0) + If(colCodigo.Keys.Contains("module name"), colCodigo("module name").Count, 0)

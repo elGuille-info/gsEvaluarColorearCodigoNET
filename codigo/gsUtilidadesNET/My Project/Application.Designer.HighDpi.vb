@@ -2,7 +2,15 @@
 Option Explicit On
 
 'This constant indicates whether the Application Framework is in use.
-#Const APPLICATION_FRAMEWORK = True
+'#Const APPLICATION_FRAMEWORK = True
+
+' IMPORTANT:
+' If this method (Protected Overrides Function OnInitialize) causes an compilation error
+' after you've unchecked 'Application Framework' 
+' in the project properties, go to the top of this file and change the value to 'False' in this line:
+' #Const APPLICATION_FRAMEWORK = False
+
+#Const APPLICATION_FRAMEWORK = False
 
 #If APPLICATION_FRAMEWORK Then
 

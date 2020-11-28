@@ -1,0 +1,7 @@
+*.snk
+*.lnk
+*.zip
+*.exe
+*.obj
+*.cab
+*.msi

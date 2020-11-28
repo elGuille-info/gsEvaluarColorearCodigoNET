@@ -67,9 +67,11 @@ Public Class FormRecortes
         lstRecortes.Items.Add($"{_48Espacios} ")
         For i = 0 To maxRecortes - 1
             If i < colRecortes.Count Then
-                lstRecortes.Items.Add($"{(i + 1).ToString("0").PadLeft(6)}: {colRecortes(i).PadRight(40)} ")
+                'lstRecortes.Items.Add($"{(i + 1).ToString("0").PadLeft(6)}: {colRecortes(i).PadRight(40)} ")
+                lstRecortes.Items.Add($"{(i + 1),6:0}: {colRecortes(i),-40} ")
             Else
-                lstRecortes.Items.Add($"{(i + 1).ToString("0").PadLeft(6)}: {_40Espacios} ")
+                'lstRecortes.Items.Add($"{(i + 1).ToString("0").PadLeft(6)}: {_40Espacios} ")
+                lstRecortes.Items.Add($"{(i + 1),6:0}: {_40Espacios} ")
             End If
         Next
         lstRecortes.Items.Add($"{_48Espacios} ")

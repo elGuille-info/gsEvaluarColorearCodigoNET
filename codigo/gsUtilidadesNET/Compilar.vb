@@ -47,16 +47,16 @@ Public Class Compilar
     ''' <returns></returns>
     Public Shared ReadOnly Property TieneDotNetMsg As String
 
-    ''' <summary>
-    ''' Evento para comprobar si tiene o no instalado dotnet
-    ''' </summary>
-    ''' <param name="msg">El mensaje que indica si existe el directorio de dotnet</param>
-    ''' <param name="estaDotnet">True si el directorio de dotnet existe o False si no existe</param>
-    Public Shared Event TieneDotNetEvent(msg As String, estaDotnet As Boolean)
+    '''' <summary>
+    '''' Evento para comprobar si tiene o no instalado dotnet
+    '''' </summary>
+    '''' <param name="msg">El mensaje que indica si existe el directorio de dotnet</param>
+    '''' <param name="estaDotnet">True si el directorio de dotnet existe o False si no existe</param>
+    'Public Shared Event TieneDotNetEvent(msg As String, estaDotnet As Boolean)
 
-    'Private Shared Sub OnTieneDotNetEvent(msg As String, estaDotnet As Boolean)
-    '    RaiseEvent TieneDotNetEvent(msg, estaDotnet)
-    'End Sub
+    ''Private Shared Sub OnTieneDotNetEvent(msg As String, estaDotnet As Boolean)
+    ''    RaiseEvent TieneDotNetEvent(msg, estaDotnet)
+    ''End Sub
 
     Shared Sub New()
         Try
@@ -75,7 +75,7 @@ Public Class Compilar
             TieneDotnet = False
             TieneDotNetMsg = ex.Message
         End Try
-        RaiseEvent TieneDotNetEvent(TieneDotNetMsg, TieneDotnet)
+        'RaiseEvent TieneDotNetEvent(TieneDotNetMsg, TieneDotnet)
     End Sub
 
     ''' <summary>
@@ -216,7 +216,7 @@ Public Class Compilar
 
         Dim jsonFile = Path.ChangeExtension(res.OutputPath, "runtimeconfig.json")
 
-        Dim jsonText = ""
+        Dim jsonText As String
 
         If res.EsWinForm Then
             Dim version = WindowsDesktopApp().Version
@@ -667,9 +667,9 @@ Public Class Compilar
                 ' Si está en property name cambiarlo al color de property name
 
                 ' Comprobaciones por si no existe en la colección
-                Dim esClassName = If(colCodigo.Keys.Contains("class name"), colCodigo("class name").Keys.Contains(word), False)
-                Dim esStaticSymbol = If(colCodigo.Keys.Contains("static symbol"), colCodigo("static symbol").Keys.Contains(word), False)
-                Dim esPropertyName = If(colCodigo.Keys.Contains("property name"), colCodigo("property name").Keys.Contains(word), False)
+                Dim esClassName = colCodigo.Keys.Contains("class name") AndAlso colCodigo("class name").Keys.Contains(word)
+                Dim esStaticSymbol = colCodigo.Keys.Contains("static symbol") AndAlso colCodigo("static symbol").Keys.Contains(word)
+                Dim esPropertyName = colCodigo.Keys.Contains("property name") AndAlso colCodigo("property name").Keys.Contains(word)
                 If esClassName Then
                     ' En C# poner las clases en negrita
                     If lenguaje = "C#" Then
@@ -715,7 +715,7 @@ Public Class Compilar
         For i = 0 To htmlL.Length - 1
             If htmlL(i) = "<BoRrAr EstO>" Then Continue For
             If mostrarLineas Then
-                codigoHTML &= $"{tagSpanColor}{cNum}; background:{cFondoNum}'>{(l1).ToString("0").PadLeft(4)} {tagSpanEnd}{htmlL(i)}{elCambioLinea}"
+                codigoHTML &= $"{tagSpanColor}{cNum}; background:{cFondoNum}'>{(l1),4:0} {tagSpanEnd}{htmlL(i)}{elCambioLinea}"
                 l1 += 1
             Else
                 'Debug.Assert(htmlL(i).Contains("Extension") = False)
@@ -780,9 +780,9 @@ Public Class Compilar
                     ' solo se pone en negrita si ses C#
 
                     ' Comprobaciones por si no existe en la colección
-                    Dim esClassName = If(colCodigo.Keys.Contains("class name"), colCodigo("class name").Keys.Contains(word), False)
-                    Dim esStaticSymbol = If(colCodigo.Keys.Contains("static symbol"), colCodigo("static symbol").Keys.Contains(word), False)
-                    Dim esPropertyName = If(colCodigo.Keys.Contains("property name"), colCodigo("property name").Keys.Contains(word), False)
+                    Dim esClassName = colCodigo.Keys.Contains("class name") AndAlso colCodigo("class name").Keys.Contains(word)
+                    Dim esStaticSymbol = colCodigo.Keys.Contains("static symbol") AndAlso colCodigo("static symbol").Keys.Contains(word)
+                    Dim esPropertyName = colCodigo.Keys.Contains("property name") AndAlso colCodigo("property name").Keys.Contains(word)
                     If esClassName Then
                         .SelectionColor = GetColorFromName("class name")
                         ' En C# poner las clases en negrita
@@ -859,9 +859,9 @@ Public Class Compilar
                     ' solo se pone en negrita si ses C#
 
                     ' Comprobaciones por si no existe en la colección
-                    Dim esClassName = If(colCodigo.Keys.Contains("class name"), colCodigo("class name").Keys.Contains(word), False)
-                    Dim esStaticSymbol = If(colCodigo.Keys.Contains("static symbol"), colCodigo("static symbol").Keys.Contains(word), False)
-                    Dim esPropertyName = If(colCodigo.Keys.Contains("property name"), colCodigo("property name").Keys.Contains(word), False)
+                    Dim esClassName = colCodigo.Keys.Contains("class name") AndAlso colCodigo("class name").Keys.Contains(word)
+                    Dim esStaticSymbol = colCodigo.Keys.Contains("static symbol") AndAlso colCodigo("static symbol").Keys.Contains(word)
+                    Dim esPropertyName = colCodigo.Keys.Contains("property name") AndAlso colCodigo("property name").Keys.Contains(word)
                     If esClassName Then
                         .SelectionColor = GetColorFromName("class name")
                         ' En C# poner las clases en negrita

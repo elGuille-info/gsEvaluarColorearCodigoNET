@@ -6,8 +6,11 @@
 '------------------------------------------------------------------------------
 Option Strict On
 Option Infer On
-
+#If ESX86 Then
+Imports gsUtilidadesNETx86
+#Else
 Imports gsUtilidadesNET
+#End If
 
 Imports Microsoft.VisualBasic
 

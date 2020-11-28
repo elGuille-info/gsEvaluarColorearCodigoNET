@@ -132,7 +132,7 @@ Partial Public Class Compilar
     ''' <param name="co">El <see cref="Color"/> a convertir en cadena</param>
     ''' <returns>Una cadena (en formato hexadecimal) con los colores al estilo #RRGGBB</returns>
     Private Shared Function stringForColor(co As Color) As String
-        Return $"#{co.R.ToString("X2")}{co.G.ToString("X2")}{co.B.ToString("X2")}"
+        Return $"#{co.R:X2}{co.G:X2}{co.B:X2}"
     End Function
 
     Private Shared ReadOnly colorDictionaryPath As String = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ColorDictionary.csv")

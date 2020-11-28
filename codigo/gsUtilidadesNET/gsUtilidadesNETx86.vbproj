@@ -5,12 +5,12 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
 
-    <!--<PlatformTarget>x86</PlatformTarget>-->
+    <PlatformTarget>x86</PlatformTarget>
     <Version>1.0.0.6</Version>
     <FileVersion>1.0.0.6</FileVersion>
-    <ProductName>gsUtilidadesNET</ProductName>
-    <RootNamespace>gsUtilidadesNET</RootNamespace>
-    <AssemblyName>gsUtilidadesNET</AssemblyName>
+    <ProductName>gsUtilidadesNETx86</ProductName>
+    <RootNamespace>gsUtilidadesNETx86</RootNamespace>
+    <AssemblyName>gsUtilidadesNETx86</AssemblyName>
 
     <StartupObject>Sub Main</StartupObject>
 
@@ -27,12 +27,12 @@ Evaluar si tiene fallos, Compilar, Ejecutar y Colorear el código y para HTML
 
 (para .NET 5.0 revisión del 27-nov-2020)
 
-v1.0.0.6 (27-nov-20) Quito el evento compartido de Compilar en el programa cliente comprobar el valor de TieneDotnet. Las versiones x86 y AnyCPU tendrá la misma versión</Description>
+v1.0.0.6 (27-nov-20) Quito el evento compartido de Compilar, en el programa cliente comprobar el valor de TieneDotnet. Las versiones x86 y AnyCPU tendrá la misma versión</Description>
 
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>visual-basic vb c# dotnet net-core net-5 class-library colorize colorize-html compile utils colorear colorear-html compilar utilidades</PackageTags>
-    <PackageReleaseNotes>v1.0.0.6 (27-nov-20) Quito el evento compartido de Compilar en el programa cliente comprobar el valor de TieneDotnet. Las versiones x86 y AnyCPU tendrá la misma versión
-v1.0.0.5 (27/Nov/20) v1.0.0.5 (27/Nov/20) Versión específica para AnyCPU sin preferencia de 32 bits</PackageReleaseNotes>
+    <PackageReleaseNotes>v1.0.0.6 (27-nov-20) Quito el evento compartido de Compilar, en el programa cliente comprobar el valor de TieneDotnet. Las versiones x86 y AnyCPU tendrá la misma versión
+v1.0.0.4 (27/Nov/20) Versión específica para plataformas de x86 (32 bits)</PackageReleaseNotes>
     <PackageIcon>gsCompilarEjecutarNET.jpg</PackageIcon>
 
     <NeutralLanguage>es-ES</NeutralLanguage>
@@ -40,21 +40,22 @@ v1.0.0.5 (27/Nov/20) v1.0.0.5 (27/Nov/20) Versión específica para AnyCPU sin p
 
     <RepositoryUrl>https://github.com/elGuille-info/gsUtilidadesNET</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <Platforms>x86</Platforms>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <OutputPath>bin\Debug\</OutputPath>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DefineConstants></DefineConstants>
+    <OutputPath>bin\Debug\x86</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>true</Prefer32Bit>
+    <DefineConstants />
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
-    <OutputPath>bin\Release\</OutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\Release\x86</OutputPath>
+    <Prefer32Bit>true</Prefer32Bit>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
   </PropertyGroup>
 

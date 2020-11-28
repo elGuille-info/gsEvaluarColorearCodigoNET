@@ -17,8 +17,10 @@ Imports System.Collections.Generic
 Imports System.IO
 Imports System.Text
 Imports System.Linq
-Imports gsUtilidadesNET.UtilEnum
 
+''' <summary>
+''' Formulario visor de páginas HTML
+''' </summary>
 Public Class FormVisorHTML
 
     ''' <summary>
