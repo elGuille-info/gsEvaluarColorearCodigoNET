@@ -39,7 +39,8 @@ Public Module Extensiones
     ''' </summary>
     ''' <param name="rtb">El control RichTextBox al que aplicaremos la búsqueda.</param>
     ''' <param name="search">La cadena a buscar.</param>
-    ''' <param name="opciones">Opciones de la búsqueda, solo se usarán MathCase, None y WholeWord</param>
+    ''' <param name="start">Posición donde se empezará la búsqueda.</param>
+    ''' <param name="rtbFinds">Opciones de la búsqueda, solo se usarán MathCase, None y WholeWord</param>
     ''' <returns>La posición dentro del texto o -1 si no se ha encontrado.</returns>
     ''' <remarks>Este método de extensión es porque el método Find de RichTextBox que acepta string
     ''' como el primer parámetro ahora no encuentra una cadena si está en varias líneas.</remarks>
@@ -369,6 +370,32 @@ Public Module Extensiones
             Return ""
         End If
         Return txtInfo.ToTitleCase(text)
+    End Function
+
+    ''' <summary>
+    ''' Devuelve la cadena indicada con el primer carácter en mayúsculas.
+    ''' Si tiene espacios delante, pone en mayúscula el primer carácter que no sea espacio.
+    ''' </summary>
+    ''' <param name="text"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function ToUpperFirstChar(text As String) As String
+        If String.IsNullOrWhiteSpace(text) Then
+            Return text
+        End If
+
+        Dim sb As New StringBuilder
+        Dim b = False
+        For i = 0 To text.Length - 1
+            If Not b AndAlso Not Char.IsWhiteSpace(text(i)) Then
+                sb.Append(text(i).ToString.ToUpper)
+                b = True
+            Else
+                sb.Append(text(i))
+            End If
+        Next
+
+        Return sb.ToString
     End Function
 
     ''' <summary>

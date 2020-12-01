@@ -220,7 +220,7 @@ Partial Class MDIPrincipal
         Me.menuStrip1.MdiWindowListItem = Me.menuVentana
         Me.menuStrip1.Name = "menuStrip1"
         Me.menuStrip1.Padding = New System.Windows.Forms.Padding(8, 2, 0, 2)
-        Me.menuStrip1.Size = New System.Drawing.Size(1428, 24)
+        Me.menuStrip1.Size = New System.Drawing.Size(1256, 24)
         Me.menuStrip1.TabIndex = 0
         Me.menuStrip1.Text = "MenuStrip1"
         '
@@ -1387,7 +1387,7 @@ Partial Class MDIPrincipal
         Me.panelHerramientas.Margin = New System.Windows.Forms.Padding(0)
         Me.panelHerramientas.Name = "panelHerramientas"
         Me.panelHerramientas.Padding = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.panelHerramientas.Size = New System.Drawing.Size(1428, 73)
+        Me.panelHerramientas.Size = New System.Drawing.Size(1256, 73)
         Me.panelHerramientas.TabIndex = 1
         '
         'toolStripNavegar
@@ -1595,7 +1595,7 @@ Partial Class MDIPrincipal
         Me.AllowDrop = True
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1428, 763)
+        Me.ClientSize = New System.Drawing.Size(1256, 688)
         Me.ContextMenuStrip = Me.barraHerramientasContext
         Me.Controls.Add(Me.panelHerramientas)
         Me.Controls.Add(Me.menuStrip1)
@@ -1603,7 +1603,6 @@ Partial Class MDIPrincipal
         Me.IsMdiContainer = True
         Me.MainMenuStrip = Me.menuStrip1
         Me.Margin = New System.Windows.Forms.Padding(5, 3, 5, 3)
-        Me.MinimumSize = New System.Drawing.Size(1444, 802)
         Me.Name = "MDIPrincipal"
         Me.Text = "Editor de código"
         Me.menuStrip1.ResumeLayout(False)

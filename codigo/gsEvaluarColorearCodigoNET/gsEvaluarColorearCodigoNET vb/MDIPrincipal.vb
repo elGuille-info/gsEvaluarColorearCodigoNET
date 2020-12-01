@@ -53,6 +53,10 @@ Public Class MDIPrincipal
         Width = CInt(Screen.PrimaryScreen.Bounds.Width * 0.75)
         Height = CInt(Screen.PrimaryScreen.Bounds.Height * 0.85)
 
+        '1272; 727
+        Me.MinimumSize = New Size(1272, 727)
+
+
         Me.CenterToScreen()
 
         ' Para que se cargue la clase y se ejecute el código compartido

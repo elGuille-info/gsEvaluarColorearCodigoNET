@@ -6,8 +6,8 @@
     <UseWindowsForms>true</UseWindowsForms>
 
     <PlatformTarget>x86</PlatformTarget>
-    <Version>1.0.0.6</Version>
-    <FileVersion>1.0.0.6</FileVersion>
+    <Version>1.0.0.7</Version>
+    <FileVersion>1.0.0.7</FileVersion>
     <ProductName>gsUtilidadesNETx86</ProductName>
     <RootNamespace>gsUtilidadesNETx86</RootNamespace>
     <AssemblyName>gsUtilidadesNETx86</AssemblyName>
@@ -25,13 +25,14 @@
     <Description>Utilidades para colorear, evaluar y compilar con dotnet
 Evaluar si tiene fallos, Compilar, Ejecutar y Colorear el código y para HTML
 
-(para .NET 5.0 revisión del 27-nov-2020)
+(para .NET 5.0 revisión del 30-nov-2020)
 
-v1.0.0.6 (27-nov-20) Quito el evento compartido de Compilar, en el programa cliente comprobar el valor de TieneDotnet. Las versiones x86 y AnyCPU tendrá la misma versión</Description>
+v1.0.0.7 (30-nov-20) Añado la extensión ToUpperFirstChar</Description>
 
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>visual-basic vb c# dotnet net-core net-5 class-library colorize colorize-html compile utils colorear colorear-html compilar utilidades</PackageTags>
-    <PackageReleaseNotes>v1.0.0.6 (27-nov-20) Quito el evento compartido de Compilar, en el programa cliente comprobar el valor de TieneDotnet. Las versiones x86 y AnyCPU tendrá la misma versión
+    <PackageReleaseNotes>v1.0.0.7 (30-nov-20) Añado la extensión ToUpperFirstChar
+v1.0.0.6 (27-nov-20) Quito el evento compartido de Compilar, en el programa cliente comprobar el valor de TieneDotnet. Las versiones x86 y AnyCPU tendrá la misma versión
 v1.0.0.4 (27/Nov/20) Versión específica para plataformas de x86 (32 bits)</PackageReleaseNotes>
     <PackageIcon>gsCompilarEjecutarNET.jpg</PackageIcon>
 
@@ -54,9 +55,9 @@ v1.0.0.4 (27/Nov/20) Versión específica para plataformas de x86 (32 bits)</Pac
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <OutputPath>bin\Release\x86</OutputPath>
     <Prefer32Bit>true</Prefer32Bit>
-    <RemoveIntegerChecks>true</RemoveIntegerChecks>
   </PropertyGroup>
 
   <ItemGroup>
