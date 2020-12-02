@@ -6,8 +6,8 @@
     <UseWindowsForms>true</UseWindowsForms>
 
     <PlatformTarget>x86</PlatformTarget>
-    <Version>1.0.0.7</Version>
-    <FileVersion>1.0.0.7</FileVersion>
+    <Version>1.0.0.10</Version>
+    <FileVersion>1.0.0.10</FileVersion>
     <ProductName>gsUtilidadesNETx86</ProductName>
     <RootNamespace>gsUtilidadesNETx86</RootNamespace>
     <AssemblyName>gsUtilidadesNETx86</AssemblyName>
@@ -25,13 +25,16 @@
     <Description>Utilidades para colorear, evaluar y compilar con dotnet
 Evaluar si tiene fallos, Compilar, Ejecutar y Colorear el código y para HTML
 
-(para .NET 5.0 revisión del 30-nov-2020)
+(para .NET 5.0 revisión del 02-dic-2020)
 
-v1.0.0.7 (30-nov-20) Añado la extensión ToUpperFirstChar</Description>
+v1.0.0.10 (02-dic-20) Añado una clase como la de InfoEnsamblado para acceder a ese ensamblado</Description>
 
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>visual-basic vb c# dotnet net-core net-5 class-library colorize colorize-html compile utils colorear colorear-html compilar utilidades</PackageTags>
-    <PackageReleaseNotes>v1.0.0.7 (30-nov-20) Añado la extensión ToUpperFirstChar
+    <PackageReleaseNotes>v1.0.0.10 (02-dic-20) Añado una clase como la de InfoEnsamblado para acceder a ese ensamblado
+v1.0.0.9 (01-dic-20) NuGet dice que la referencia (en la versión x64) es el paquete de x86
+v1.0.0.8 (01-dic-20) Añado el proyecto Mostrar contenido ensamblado (x86)
+v1.0.0.7 (30-nov-20) Añado la extensión ToUpperFirstChar
 v1.0.0.6 (27-nov-20) Quito el evento compartido de Compilar, en el programa cliente comprobar el valor de TieneDotnet. Las versiones x86 y AnyCPU tendrá la misma versión
 v1.0.0.4 (27/Nov/20) Versión específica para plataformas de x86 (32 bits)</PackageReleaseNotes>
     <PackageIcon>gsCompilarEjecutarNET.jpg</PackageIcon>
@@ -42,6 +45,8 @@ v1.0.0.4 (27/Nov/20) Versión específica para plataformas de x86 (32 bits)</Pac
     <RepositoryUrl>https://github.com/elGuille-info/gsUtilidadesNET</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Platforms>x86</Platforms>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>1.0.0.10</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
@@ -58,6 +63,8 @@ v1.0.0.4 (27/Nov/20) Versión específica para plataformas de x86 (32 bits)</Pac
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <OutputPath>bin\Release\x86</OutputPath>
     <Prefer32Bit>true</Prefer32Bit>
+    <DefineConstants>ESX86</DefineConstants>
+    <Optimize>false</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
@@ -91,6 +98,10 @@ v1.0.0.4 (27/Nov/20) Versión específica para plataformas de x86 (32 bits)</Pac
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mostrar contenido ensamblado usando reflection\Mostrar contenido ensamblado\Mostrar contenido ensamblado x86.csproj" />
   </ItemGroup>
 
 </Project>

@@ -606,30 +606,32 @@ Friend Module UtilFormEditor
         ' Si se indica algún fichero en la línea de comandos        (30/Oct/20)
         ' No abrir los anteriores (uso la variable variosLineaComandos)
         If cargarUltimo AndAlso variosLineaComandos < 2 Then
-            cargando = True
+
             cuantos = UltimasVentanasAbiertas.Count
             j = cuantos
-            ' En Abrir se llama a OnProgreso una vez, en ColorearCodigo 2 veces
-            If colorearAlCargar Then cuantos *= 3
-            MostrarProcesando($"Cargando {j} ficheros", "Cargando los ficheros...", cuantos)
-            For i = 0 To j - 1
-                m_fProcesando.Text = $"Cargando {i + 1} de {j} ficheros"
+            If cuantos > 0 Then
+                cargando = True
+                ' En Abrir se llama a OnProgreso una vez, en ColorearCodigo 2 veces
+                If colorearAlCargar Then cuantos *= 3
+                MostrarProcesando($"Cargando {j} ficheros", "Cargando los ficheros...", cuantos)
+                For i = 0 To j - 1
+                    m_fProcesando.Text = $"Cargando {i + 1} de {j} ficheros"
 
-                ' Esto se supone que no se dará...                  (17/Oct/20)
-                If String.IsNullOrWhiteSpace(UltimasVentanasAbiertas(i)) Then Continue For
+                    ' Esto se supone que no se dará...                  (17/Oct/20)
+                    If String.IsNullOrWhiteSpace(UltimasVentanasAbiertas(i)) Then Continue For
 
-                m_fProcesando.Mensaje1 = $"Cargando {UltimasVentanasAbiertas(i)}...{vbCrLf}"
-                Application.DoEvents()
-                If m_fProcesando.Cancelar Then Exit For
-                If i = UltimasVentanasAbiertas.Count - 1 Then
-                    m_fProcesando.ValorActual = m_fProcesando.Maximo - 1
-                End If
-                AbrirEnNuevaVentana(UltimasVentanasAbiertas(i))
-                Application.DoEvents()
-            Next
-            m_fProcesando.Close()
-            cargando = False
-
+                    m_fProcesando.Mensaje1 = $"Cargando {UltimasVentanasAbiertas(i)}...{vbCrLf}"
+                    Application.DoEvents()
+                    If m_fProcesando.Cancelar Then Exit For
+                    If i = UltimasVentanasAbiertas.Count - 1 Then
+                        m_fProcesando.ValorActual = m_fProcesando.Maximo - 1
+                    End If
+                    AbrirEnNuevaVentana(UltimasVentanasAbiertas(i))
+                    Application.DoEvents()
+                Next
+                m_fProcesando.Close()
+                cargando = False
+            End If
         End If
 
         ' Para las macros                                           (31/Oct/20)

@@ -65,6 +65,8 @@ Partial Class MDIPrincipal
         Me.tsSepTools1 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuEvaluar = New System.Windows.Forms.ToolStripMenuItem()
         Me.tsSepTools2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.menuInfoEnsamblado = New System.Windows.Forms.ToolStripMenuItem()
+        Me.tsSepTools6 = New System.Windows.Forms.ToolStripSeparator()
         Me.menuNoColorear = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuColorear = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuColorearHTML = New System.Windows.Forms.ToolStripMenuItem()
@@ -494,7 +496,7 @@ Partial Class MDIPrincipal
         '
         'menuTools
         '
-        Me.menuTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEjecutar, Me.menuCompilar, Me.tsSepTools1, Me.menuEvaluar, Me.tsSepTools2, Me.menuNoColorear, Me.menuColorear, Me.menuColorearHTML, Me.tsSepTools3, Me.menuOcultarEvaluar, Me.tsSepTools4, Me.menuToolsMacro, Me.tsSepTools5, Me.menuOpciones})
+        Me.menuTools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuEjecutar, Me.menuCompilar, Me.tsSepTools1, Me.menuEvaluar, Me.tsSepTools2, Me.menuInfoEnsamblado, Me.tsSepTools6, Me.menuNoColorear, Me.menuColorear, Me.menuColorearHTML, Me.tsSepTools3, Me.menuOcultarEvaluar, Me.tsSepTools4, Me.menuToolsMacro, Me.tsSepTools5, Me.menuOpciones})
         Me.menuTools.Name = "menuTools"
         Me.menuTools.Size = New System.Drawing.Size(90, 20)
         Me.menuTools.Text = "&Herramientas"
@@ -505,7 +507,7 @@ Partial Class MDIPrincipal
         Me.menuEjecutar.Name = "menuEjecutar"
         Me.menuEjecutar.ShortcutKeyDisplayString = "F5"
         Me.menuEjecutar.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.menuEjecutar.Size = New System.Drawing.Size(243, 22)
+        Me.menuEjecutar.Size = New System.Drawing.Size(325, 22)
         Me.menuEjecutar.Text = "Ejecutar"
         '
         'menuCompilar
@@ -514,13 +516,13 @@ Partial Class MDIPrincipal
         Me.menuCompilar.Name = "menuCompilar"
         Me.menuCompilar.ShortcutKeyDisplayString = "Ctrl+B"
         Me.menuCompilar.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
-        Me.menuCompilar.Size = New System.Drawing.Size(243, 22)
+        Me.menuCompilar.Size = New System.Drawing.Size(325, 22)
         Me.menuCompilar.Text = "Compilar"
         '
         'tsSepTools1
         '
         Me.tsSepTools1.Name = "tsSepTools1"
-        Me.tsSepTools1.Size = New System.Drawing.Size(240, 6)
+        Me.tsSepTools1.Size = New System.Drawing.Size(322, 6)
         '
         'menuEvaluar
         '
@@ -529,13 +531,24 @@ Partial Class MDIPrincipal
         Me.menuEvaluar.ShortcutKeyDisplayString = "Ctrl+Shift+B"
         Me.menuEvaluar.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
-        Me.menuEvaluar.Size = New System.Drawing.Size(243, 22)
+        Me.menuEvaluar.Size = New System.Drawing.Size(325, 22)
         Me.menuEvaluar.Text = "Evaluar"
         '
         'tsSepTools2
         '
         Me.tsSepTools2.Name = "tsSepTools2"
-        Me.tsSepTools2.Size = New System.Drawing.Size(240, 6)
+        Me.tsSepTools2.Size = New System.Drawing.Size(322, 6)
+        '
+        'menuInfoEnsamblado
+        '
+        Me.menuInfoEnsamblado.Name = "menuInfoEnsamblado"
+        Me.menuInfoEnsamblado.Size = New System.Drawing.Size(325, 22)
+        Me.menuInfoEnsamblado.Text = "Mostrar info del contenido de un ensamblado..."
+        '
+        'tsSepTools6
+        '
+        Me.tsSepTools6.Name = "tsSepTools6"
+        Me.tsSepTools6.Size = New System.Drawing.Size(322, 6)
         '
         'menuNoColorear
         '
@@ -543,7 +556,7 @@ Partial Class MDIPrincipal
         Me.menuNoColorear.Name = "menuNoColorear"
         Me.menuNoColorear.ShortcutKeyDisplayString = "F7"
         Me.menuNoColorear.ShortcutKeys = System.Windows.Forms.Keys.F7
-        Me.menuNoColorear.Size = New System.Drawing.Size(243, 22)
+        Me.menuNoColorear.Size = New System.Drawing.Size(325, 22)
         Me.menuNoColorear.Text = "Mostrar sin colorear"
         '
         'menuColorear
@@ -552,7 +565,7 @@ Partial Class MDIPrincipal
         Me.menuColorear.Name = "menuColorear"
         Me.menuColorear.ShortcutKeyDisplayString = "F6"
         Me.menuColorear.ShortcutKeys = System.Windows.Forms.Keys.F6
-        Me.menuColorear.Size = New System.Drawing.Size(243, 22)
+        Me.menuColorear.Size = New System.Drawing.Size(325, 22)
         Me.menuColorear.Text = "&Colorear"
         '
         'menuColorearHTML
@@ -561,38 +574,38 @@ Partial Class MDIPrincipal
         Me.menuColorearHTML.Name = "menuColorearHTML"
         Me.menuColorearHTML.ShortcutKeyDisplayString = "Shift+F6"
         Me.menuColorearHTML.ShortcutKeys = CType((System.Windows.Forms.Keys.Shift Or System.Windows.Forms.Keys.F6), System.Windows.Forms.Keys)
-        Me.menuColorearHTML.Size = New System.Drawing.Size(243, 22)
+        Me.menuColorearHTML.Size = New System.Drawing.Size(325, 22)
         Me.menuColorearHTML.Text = "Colorear en HTML"
         '
         'tsSepTools3
         '
         Me.tsSepTools3.Name = "tsSepTools3"
-        Me.tsSepTools3.Size = New System.Drawing.Size(240, 6)
+        Me.tsSepTools3.Size = New System.Drawing.Size(322, 6)
         '
         'menuOcultarEvaluar
         '
         Me.menuOcultarEvaluar.Image = CType(resources.GetObject("menuOcultarEvaluar.Image"), System.Drawing.Image)
         Me.menuOcultarEvaluar.Name = "menuOcultarEvaluar"
-        Me.menuOcultarEvaluar.Size = New System.Drawing.Size(243, 22)
+        Me.menuOcultarEvaluar.Size = New System.Drawing.Size(325, 22)
         Me.menuOcultarEvaluar.Text = "Ocultar lista de evaluación/error"
         '
         'tsSepTools4
         '
         Me.tsSepTools4.Name = "tsSepTools4"
-        Me.tsSepTools4.Size = New System.Drawing.Size(240, 6)
+        Me.tsSepTools4.Size = New System.Drawing.Size(322, 6)
         '
         'menuToolsMacro
         '
         Me.menuToolsMacro.Name = "menuToolsMacro"
         Me.menuToolsMacro.ShortcutKeyDisplayString = ""
-        Me.menuToolsMacro.Size = New System.Drawing.Size(243, 22)
+        Me.menuToolsMacro.Size = New System.Drawing.Size(325, 22)
         Me.menuToolsMacro.Text = "Ejecutar macro"
         Me.menuToolsMacro.ToolTipText = "Simlar la pulsación de varias teclas"
         '
         'tsSepTools5
         '
         Me.tsSepTools5.Name = "tsSepTools5"
-        Me.tsSepTools5.Size = New System.Drawing.Size(240, 6)
+        Me.tsSepTools5.Size = New System.Drawing.Size(322, 6)
         '
         'menuOpciones
         '
@@ -600,7 +613,7 @@ Partial Class MDIPrincipal
         Me.menuOpciones.Name = "menuOpciones"
         Me.menuOpciones.ShortcutKeyDisplayString = "F10"
         Me.menuOpciones.ShortcutKeys = System.Windows.Forms.Keys.F10
-        Me.menuOpciones.Size = New System.Drawing.Size(243, 22)
+        Me.menuOpciones.Size = New System.Drawing.Size(325, 22)
         Me.menuOpciones.Text = "Opciones..."
         '
         'menuEditor
@@ -1811,4 +1824,6 @@ Partial Class MDIPrincipal
     Private WithEvents tsSepNavegar2 As ToolStripSeparator
     Private WithEvents menuUtilInfo As ToolStripMenuItem
     Private WithEvents menuFileAcercaDe As ToolStripMenuItem
+    Private WithEvents menuInfoEnsamblado As ToolStripMenuItem
+    Private WithEvents tsSepTools6 As ToolStripSeparator
 End Class

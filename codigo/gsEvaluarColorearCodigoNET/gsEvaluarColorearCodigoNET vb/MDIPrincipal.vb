@@ -1310,6 +1310,24 @@ Public Class MDIPrincipal
         fInfo.ShowDialog()
     End Sub
 
+    Private Sub menuInfoEnsamblado_Click(sender As Object, e As EventArgs) Handles menuInfoEnsamblado.Click
+        Dim info = gsUtilidadesNETx86.InfoEnsamblado.MostrarAyuda(False, False)
+        MessageBox.Show(info, "InfoEnsamblado.MostrarAyuda", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        'ConfirmDialog.Show(info, "InfoEnsamblado.MostrarAyuda", DialogConfirmButtons.OK, DialogConfirmIcon.Information)
+
+        '' Seleccionar un directorio
+        '' pues no... un fichero
+        'Dim ofd = New OpenFileDialog
+        'With ofd
+        '    .Filter = "Todos (*.*)|*.*|Texto (*.txt)|*.txt|VB y C# (*.vb; *.cs)|*.vb; *.cs"
+        '    .InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+        '    .RestoreDirectory = True
+        '    .Title = $"Selecciona un directorio{vbCrLf}Para que esté en la segunda línea."
+        '    .ShowDialog()
+        'End With
+
+    End Sub
+
     'Private Sub compilarClass_TieneDotNetEvent(msg As String, estaDotnet As Boolean)
     '    If Not estaDotnet Then
     '        MessageBox.Show($"¡ATENCIÓN!{vbCrLf}{vbCrLf}{msg}{vbCrLf}{vbCrLf}No podrás usar las opciones de compilar y colorear.",
@@ -1317,5 +1335,6 @@ Public Class MDIPrincipal
     '                        MessageBoxButtons.OK, MessageBoxIcon.Warning)
     '    End If
     'End Sub
+
 
 End Class

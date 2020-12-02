@@ -1231,4 +1231,41 @@ Public Class Form1
     Private Shared Sub RtbCodigoContext_Opening() Handles rtbCodigoContext.Opening
         CurrentMDI.MenuEditDropDownOpening()
     End Sub
+
+    Private Sub menuSyntaxCopiar_Click(sender As Object, e As EventArgs) Handles menuSyntaxCopiar.Click
+        ' Copiar los elementos seleccionados
+        ' en realidad solo se podrá seleccionar 1
+        Dim sb As New StringBuilder
+        For i = 0 To lstSyntax.SelectedIndices.Count - 1
+            sb.AppendLine(lstSyntax.Items(lstSyntax.SelectedIndices(i)).ToString)
+        Next
+        Try
+            Clipboard.SetText(sb.ToString)
+            MessageBox.Show($"Se han copiado {lstSyntax.SelectedIndices.Count} elementos del panel.",
+                            "Copiar seleccionados",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information)
+        Catch ex As Exception
+            If MessageBox.Show("Error al copiar en el portapapeles." & vbCrLf &
+                               "¿Quieres guardarlo en la carpeta de Documentos?",
+                               "Copiar seleccionados",
+                               MessageBoxButtons.YesNo,
+                               MessageBoxIcon.Information) = DialogResult.Yes Then
+                Dim fic = Path.Combine(DirDocumentos, "Seleccion del panel.txt")
+                Using sw As New StreamWriter(fic, True, Encoding.Latin1)
+                    sw.WriteLine(sb.ToString)
+                    sw.Flush()
+                    sw.Close()
+                End Using
+                MessageBox.Show("Se ha guardado el fichero 'Seleccion del panel.txt' en Documentos.",
+                                "Copiar seleccionados",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        End Try
+    End Sub
+
+    Private Sub lstSyntax_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstSyntax.SelectedIndexChanged
+        labelInfo.Text = $"Hay {lstSyntax.SelectedIndices.Count} elementos seleccionados de la lista del panel."
+
+    End Sub
 End Class

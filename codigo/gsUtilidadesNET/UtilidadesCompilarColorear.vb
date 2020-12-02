@@ -11,6 +11,9 @@
 'v1.0.0.6               Quito el evento compartido de Compilar en el programa cliente comprobar el valor de TieneDotnet.
 '                       Las versiones x86 y AnyCPU tendrán la misma versión
 'v1.0.0.7   30/Nov/20   Añado la extensión ToUpperFirstChar
+'v1.0.0.8   01-dic-20   Añado el proyecto Mostrar contenido ensamblado (x86 y x64)
+'v1.0.0.9               NuGet dice que la referencia (en la versión x64) es el paquete de x86
+'v1.0.0.10  02-dic-20   Añado una clase como la de InfoEnsamblado para acceder a ese ensamblado
 '
 '
 ' (c) Guillermo (elGuille) Som, 2020
@@ -99,6 +102,7 @@ Public Class UtilidadesCompilarColorear
             "FormVisorHTML - Formulario visor de páginas HTML.",
             "FormRecortes - Formulario para mostrar recortes (texto) y pegarlos.",
             "FormProcesando - Formulario para mostrar un diálogo cuando se está procesando (acciones largas).",
+            "InfoEnsambladoWrap - Esta clase accede a los métodos y propiedades compartidas de InfoEnsamblado de Mostrar contenido ensamblado.",
             "Marcadores - Clase para manejar marcadores (Bookmarks).",
             "UtilEnum - Clase con la definición de la enumeración FormatosEncoding y utilidades para manejar enumeraciones.",
             "UtilidadesCompilarColorear - Clase con definición de la versión y las clases expuestas."

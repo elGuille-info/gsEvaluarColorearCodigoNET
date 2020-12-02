@@ -42,12 +42,15 @@ Partial Class Form1
         Me.richTextBoxLineas = New System.Windows.Forms.RichTextBox()
         Me.splitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.lstSyntax = New System.Windows.Forms.ListBox()
+        Me.contextSyntax = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.menuSyntaxCopiar = New System.Windows.Forms.ToolStripMenuItem()
         Me.statusContextMenu.SuspendLayout()
         Me.statusStrip1.SuspendLayout()
         CType(Me.splitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.splitContainer1.Panel1.SuspendLayout()
         Me.splitContainer1.Panel2.SuspendLayout()
         Me.splitContainer1.SuspendLayout()
+        Me.contextSyntax.SuspendLayout()
         Me.SuspendLayout()
         '
         'statusContextMenu
@@ -228,6 +231,7 @@ Partial Class Form1
         'lstSyntax
         '
         Me.lstSyntax.BackColor = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer))
+        Me.lstSyntax.ContextMenuStrip = Me.contextSyntax
         Me.lstSyntax.Cursor = System.Windows.Forms.Cursors.Hand
         Me.lstSyntax.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lstSyntax.Font = New System.Drawing.Font("Consolas", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
@@ -240,6 +244,18 @@ Partial Class Form1
         Me.lstSyntax.Size = New System.Drawing.Size(328, 553)
         Me.lstSyntax.TabIndex = 3
         Me.lstSyntax.TabStop = False
+        '
+        'contextSyntax
+        '
+        Me.contextSyntax.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuSyntaxCopiar})
+        Me.contextSyntax.Name = "contextSyntax"
+        Me.contextSyntax.Size = New System.Drawing.Size(182, 26)
+        '
+        'menuSyntaxCopiar
+        '
+        Me.menuSyntaxCopiar.Name = "menuSyntaxCopiar"
+        Me.menuSyntaxCopiar.Size = New System.Drawing.Size(181, 22)
+        Me.menuSyntaxCopiar.Text = "Copiar seleccionado"
         '
         'Form1
         '
@@ -260,6 +276,7 @@ Partial Class Form1
         Me.splitContainer1.Panel2.ResumeLayout(False)
         CType(Me.splitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.splitContainer1.ResumeLayout(False)
+        Me.contextSyntax.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -290,4 +307,6 @@ Partial Class Form1
     Friend WithEvents lstSyntax As ListBox
     Friend WithEvents splitContainer1 As SplitContainer
     Friend WithEvents rtbCodigoContext As ContextMenuStrip
+    Private WithEvents contextSyntax As ContextMenuStrip
+    Private WithEvents menuSyntaxCopiar As ToolStripMenuItem
 End Class
