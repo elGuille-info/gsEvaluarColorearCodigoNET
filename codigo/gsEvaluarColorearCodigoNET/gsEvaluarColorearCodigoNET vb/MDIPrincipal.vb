@@ -1311,7 +1311,7 @@ Public Class MDIPrincipal
     End Sub
 
     Private Sub menuInfoEnsamblado_Click(sender As Object, e As EventArgs) Handles menuInfoEnsamblado.Click
-        Dim info = gsUtilidadesNETx86.InfoEnsamblado.MostrarAyuda(False, False)
+        Dim info = InfoEnsamblado.MostrarAyuda(False, False)
         MessageBox.Show(info, "InfoEnsamblado.MostrarAyuda", MessageBoxButtons.OK, MessageBoxIcon.Information)
         'ConfirmDialog.Show(info, "InfoEnsamblado.MostrarAyuda", DialogConfirmButtons.OK, DialogConfirmIcon.Information)
 

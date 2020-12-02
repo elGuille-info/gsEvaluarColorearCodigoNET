@@ -515,17 +515,21 @@
 'v1.0.1.4               Al iniciar la aplicación se comprueba el valor Compilar.TieneDotNet y se avisa si no lo tiene
 'v1.0.1.5   29-nov-20   Comprobación de que el panel activo al comparar sea el izquierdo
 '                       En la versión Release de x64 pongo una referencia a gsUtilidadesNET desde el paquete de Nuget v1.0.0.6
-'v1.0.0.6   30-nov-20   Cambios en gsUtilidadesNET v1.0.0.7. En la versión Release uso el paquete de Nuget
-'v1.0.0.7   02-dic-20   Copiar en el portapapeles el elemento seleccionado de la lista de syntax (solo 1)
+'v1.0.1.6   30-nov-20   Cambios en gsUtilidadesNET v1.0.0.7. En la versión Release uso el paquete de Nuget
+'v1.0.1.7   02-dic-20   Copiar en el portapapeles el elemento seleccionado de la lista de syntax (solo 1)
 '                       Al iniciarse, si no hay ficheros muestra la ventana cargando (pero sin ficheros)
 '                       Se muestra la ayuda de mostrar contenido ensamblado
 '                       En la versión x86 da error al compilar.
 '                       BC31519: 'No se puede hacer referencia a 'C:\Program Files (x86)\dotnet\shared\Microsoft.NETCore.App\5.0.0\Microsoft.DiaSymReader.Native.x86.dll' 
 '                       porque no es un ensamblado válido. (Posición: 1,0-1,0)
+'v1.0.1.8               Al guardar se quedaba abierta la ventana de progreso
+'v1.0.1.9               Poner/quitar comentarios con Ctrl+Ç (como en VS Code)
+'v1.0.1.10              Comprobar el formato del fichero a leer usando FormatoFichero
 '
 '
 '
 ' TODO:
+'   02-dic  Si la extensión es .md (marcado) mostrar en el panel de sintaxis los # en varios niveles: H1 a H6 (# = H1)
 '   27-nov  Al pulsar TAB en el editor se pasa a otro control (pero solo la primera vez???)
 '   20-oct  Colorear en segundo plano
 '           Al cargar los ficheros al iniciar mostrar el primero que se abrió

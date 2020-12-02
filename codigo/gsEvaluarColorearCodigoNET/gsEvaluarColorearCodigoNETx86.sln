@@ -4,7 +4,7 @@ VisualStudioVersion = 16.0.30509.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "gsEvaluarColorearCodigoNETx86", "gsEvaluarColorearCodigoNET vb\gsEvaluarColorearCodigoNETx86.vbproj", "{EA7C16A1-00AE-4FE2-B811-33B5DB910EFE}"
 EndProject
-Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "gsUtilidadesNETx86", "..\gsUtilidadesNET\gsUtilidadesNETx86.vbproj", "{282BDA81-82EB-4D87-97E1-42BD6C43284A}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "gsUtilidadesNETx86", "..\gsUtilidadesNET\gsUtilidadesNET\gsUtilidadesNETx86.vbproj", "{282BDA81-82EB-4D87-97E1-42BD6C43284A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mostrar contenido ensamblado x86", "..\Mostrar contenido ensamblado usando reflection\Mostrar contenido ensamblado\Mostrar contenido ensamblado x86.csproj", "{CC9E201E-95DF-469A-BBBD-4640F45F864D}"
 EndProject

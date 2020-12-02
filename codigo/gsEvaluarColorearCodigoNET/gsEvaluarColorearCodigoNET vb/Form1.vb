@@ -281,6 +281,14 @@ Public Class Form1
         ElseIf e.Control AndAlso Not e.Shift AndAlso Not e.Alt Then
             ' Solo se ha pulsado la tecla Ctrl
 
+            ' Si se pulsa Ctrl+Ç (el Key.Value de ç o Ç es 191)
+            If e.KeyValue = 191 Then
+                e.SuppressKeyPress = True
+                e.Handled = True
+                PonerQuitarComentarios(richTextBoxCodigo)
+                Return
+            End If
+
             ' comprobar el resto de combinaciones
             If e.KeyCode = Keys.K Then
                 CtrlK += 1
@@ -815,8 +823,8 @@ Public Class Form1
     ''' </summary>
     Private ReadOnly picBookmark As String = "{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil Consolas;}}
 {\colortbl ;\red0\green128\blue128;}
-\uc1 
-\pard\cf1\f0\fs22\lang9{\pict{\*\picprop}\wmetafile8\picw212\pich265\picwgoal120\pichgoal150 
+\uc1
+\pard\cf1\f0\fs22\lang9{\pict{\*\picprop}\wmetafile8\picw212\pich265\picwgoal120\pichgoal150
 0100090000037e00000000005500000000000400000003010800050000000b0200000000050000
 000c020a000800030000001e000400000007010400040000000701040055000000410b2000cc00
 0a000800000000000a0008000000000028000000080000000a0000000100040000000000000000
@@ -926,7 +934,14 @@ Public Class Form1
     End Sub
 
     ''' <summary>
-    ''' Abre el fichero indicado en el parámetro, 
+    ''' El formato del fichero abierto.
+    ''' El predeterminado para guardar será Latin1
+    ''' </summary>
+    ''' <returns></returns>
+    Private Property esteEncoding As Encoding = Nothing 'Encoding.Latin1
+
+    ''' <summary>
+    ''' Abre el fichero indicado en el parámetro,
     ''' si no está en el combo de ficheros, añadirlo al principio.
     ''' De añadirlo al princpio se encarga <see cref="AñadirAUltimosFicherosAbiertos"/>.
     ''' </summary>
@@ -964,17 +979,25 @@ Public Class Form1
 
         Dim sCodigo = ""
         ' Para el formato de lectura y escritura de los ficheros    (03/Nov/20)
-        Dim enc As Encoding
-        If FormatoEncoding = FormatosEncoding.UTF8 Then
-            enc = Encoding.UTF8
-        ElseIf FormatoEncoding = FormatosEncoding.Default Then
-            enc = Encoding.Default
-        Else
-            enc = Encoding.Latin1
-        End If
-        Using sr As New StreamReader(fic, detectEncodingFromByteOrderMarks:=True, encoding:=enc)
+        'Dim enc As Encoding
+        'If FormatoEncoding = FormatosEncoding.UTF8 Then
+        '    enc = Encoding.UTF8
+        'ElseIf FormatoEncoding = FormatosEncoding.Default Then
+        '    enc = Encoding.Default
+        'Else
+        '    enc = Encoding.Latin1
+        'End If
+
+        ' Averiguar el formato del fichero, se comprueba Unicode (big y little endian) y UTF8
+        ' y si no es ninguno de los dos, se devuelve Default
+
+        ' Asignar la codificación por si se guarda, usar la misma   (02/Dic/20)
+        esteEncoding = UtilidadesCompilarColorear.FormatoFichero(fic)
+
+        Using sr As New StreamReader(fic, encoding:=esteEncoding, detectEncodingFromByteOrderMarks:=True)
             sCodigo = sr.ReadToEnd()
         End Using
+
 
         ' Si se deben cambiar los TAB por 8 espacios                (05/Oct/20)
         ' cambiarlos por los indicados en EspaciosIndentar          (23/Oct/20)
@@ -1096,15 +1119,21 @@ Public Class Form1
         End If
 
         ' Para el formato de lectura y escritura de los ficheros    (03/Nov/20)
-        Dim enc As Encoding
-        If FormatoEncoding = FormatosEncoding.UTF8 Then
-            enc = Encoding.UTF8
-        ElseIf FormatoEncoding = FormatosEncoding.Default Then
-            enc = Encoding.Default
-        Else
-            enc = Encoding.Latin1
+        'Dim enc As Encoding
+        'If FormatoEncoding = FormatosEncoding.UTF8 Then
+        '    enc = Encoding.UTF8
+        'ElseIf FormatoEncoding = FormatosEncoding.Default Then
+        '    enc = Encoding.Default
+        'Else
+        '    enc = Encoding.Latin1
+        'End If
+
+        ' Si no está asignado, usar Latin1                          (02/Dic/20)
+        If esteEncoding Is Nothing Then
+            esteEncoding = Encoding.Latin1
         End If
-        Using sw As New StreamWriter(fic, append:=False, encoding:=enc)
+
+        Using sw As New StreamWriter(fic, append:=False, encoding:=esteEncoding)
             sw.WriteLine(sCodigo)
         End Using
         codigoAnterior = sCodigo
@@ -1153,7 +1182,7 @@ Public Class Form1
 
         Me.TextoModificado = False
         labelInfo.Text = "Fichero guardado con " & labelTamaño.Text
-        OnProgreso(labelInfo.Text)
+        'OnProgreso(labelInfo.Text)
 
     End Sub
 

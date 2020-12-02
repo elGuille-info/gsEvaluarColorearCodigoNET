@@ -51,7 +51,7 @@ Public Module UtilEnum
     ''' El formato a usar al leer/guardar los ficheros.
     ''' </summary>
     ''' <remarks>03/Nov/2020</remarks>
-    Public ReadOnly Property FormatoEncoding As FormatosEncoding = FormatosEncoding.Latin1
+    Public Property FormatoEncoding As FormatosEncoding = FormatosEncoding.UTF8 ' FormatosEncoding.Latin1
 
     ''' <summary>
     ''' Comprueba si el nombre corresponde con un valor de la enumeración.

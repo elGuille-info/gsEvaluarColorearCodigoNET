@@ -14,6 +14,7 @@
 'v1.0.0.8   01-dic-20   Añado el proyecto Mostrar contenido ensamblado (x86 y x64)
 'v1.0.0.9               NuGet dice que la referencia (en la versión x64) es el paquete de x86
 'v1.0.0.10  02-dic-20   Añado una clase como la de InfoEnsamblado para acceder a ese ensamblado
+'v1.0.0.11              Añado la función FormatoFichero para averiguar el Encoding
 '
 '
 ' (c) Guillermo (elGuille) Som, 2020
@@ -105,10 +106,81 @@ Public Class UtilidadesCompilarColorear
             "InfoEnsambladoWrap - Esta clase accede a los métodos y propiedades compartidas de InfoEnsamblado de Mostrar contenido ensamblado.",
             "Marcadores - Clase para manejar marcadores (Bookmarks).",
             "UtilEnum - Clase con la definición de la enumeración FormatosEncoding y utilidades para manejar enumeraciones.",
-            "UtilidadesCompilarColorear - Clase con definición de la versión y las clases expuestas."
+            "UtilidadesCompilarColorear - Clase con definición de la versión, las clases expuestas Y FormatoFichero."
         }
 
         Return col
+    End Function
+
+    '''<summary>
+    ''' Averigua el formato del fichero indicado
+    ''' Sólo se comprueban los formatos Unicode, UTF-8 y UTF-7 (manualmente)
+    ''' si el formato no se puede averiguar, se devolverá ANSI (predeterminado de Windows)
+    '''</summary>
+    '''<remarks>
+    ''' Originalmente en Utilidades (clases de VS2005) 21/Dic/03 y 16/Nov/05
+    ''' NOTA
+    ''' Con .NET (Core) es recomendable usar Latin1, ya que Default en realidad devuelve UT8
+    ''' (lo comprobaré con .NET Framework 4.8, pero creo que ahí el Default va bien)
+    ''' Por tanto, el valor predeterminado lo cambio a Latin1.
+    ''' </remarks>
+    Public Shared Function FormatoFichero(fichero As String) As System.Text.Encoding
+        ' por defecto devolver ANSI
+        ' Los ficheros Unicode tienen estos dos bytes: FF FE (normal o little-endian) o FE FF (big-endian)
+        ' Los ficheros UTF-8 tienen estos tres bytes: EF BB BF
+        Dim f As System.Text.Encoding
+        Dim fs As System.IO.FileStream = Nothing
+        ' Con .NET (Core) parece que Default no va igual que con .NET Framework
+        f = System.Text.Encoding.Latin1 ' .Default
+        Try
+            ' Abrir el fichero y averiguar el formato
+            fs = New System.IO.FileStream(fichero, System.IO.FileMode.Open)
+            Dim c1 As Integer = fs.ReadByte
+            Dim c2 As Integer = fs.ReadByte
+            Dim c3 As Integer = fs.ReadByte
+            '
+            If (c1 = &HFF AndAlso c2 = &HFE) OrElse (c1 = &HFE AndAlso c2 = &HFF) Then
+                f = System.Text.Encoding.Unicode
+            ElseIf c1 = &HEF AndAlso c2 = &HBB AndAlso c3 = &HBF Then
+                f = System.Text.Encoding.UTF8
+
+                ' El formato UTF-7 está obsoleto,                   (02/Dic/20)
+                ' así que no se comprueba, pero dejo el código
+                'Else
+                '    ' comprobación del formato UTF-7                    (05/May/04)
+                '    ' En el formato UTF-7 si tiene caracteres no ASCII contendrá: 2B 41 (+A)
+                '    '
+                '    ' cerramos el fichero anterior, para poder abrirlo de nuevo
+                '    fs.Close()
+                '    Dim sr As New System.IO.StreamReader(fichero) ', System.Text.Encoding.Default)
+                '    Dim s As String
+                '    ' El problema será cuando el fichero sea demasiado grande
+                '    ' Nos arriesgamos a leer sólo una cantidad de caracteres, por ejemplo 100KB,
+                '    ' sería mala suerte que en los primeros 100KB no hubiese caracteres "especiales"
+                '    Const count As Integer = (100 * 1024)
+                '    If sr.BaseStream.Length > count Then
+                '        Dim charBuffer(count - 1) As Char
+                '        sr.ReadBlock(charBuffer, 0, count)
+                '        s = charBuffer
+                '    Else
+                '        s = sr.ReadToEnd()
+                '    End If
+                '    If s.IndexOf("+A") > -1 Then
+                '        f = System.Text.Encoding.UTF7
+                '    End If
+                '    sr.Close()
+            End If
+        Catch ex As Exception
+            ' si se produce algún error, asumimos que es ANSI
+            f = System.Text.Encoding.Default
+        Finally
+            ' Comprobar si es nulo, si no, dará error
+            If Not fs Is Nothing Then
+                fs.Close()
+            End If
+        End Try
+
+        Return f
     End Function
 
 End Class

@@ -2,7 +2,7 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_LastSelectedProfileId>E:\gsCodigo_00\Visual Studio\net core\gsUtilidadesNET\My Project\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
-    <ShowAllFiles>false</ShowAllFiles>
+    <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="FormInfo.vb">

@@ -101,7 +101,7 @@ v1.0.0.4 (27/Nov/20) Versión específica para plataformas de x86 (32 bits)</Pac
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mostrar contenido ensamblado usando reflection\Mostrar contenido ensamblado\Mostrar contenido ensamblado x86.csproj" />
+    <ProjectReference Include="..\..\Mostrar contenido ensamblado usando reflection\Mostrar contenido ensamblado\Mostrar contenido ensamblado x86.csproj" />
   </ItemGroup>
 
 </Project>
